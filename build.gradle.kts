@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val kgraphql_version: String by project
 
 plugins {
     application
@@ -26,6 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("com.apurebase:kgraphql:$KGraphQLVersion")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
 }
 
