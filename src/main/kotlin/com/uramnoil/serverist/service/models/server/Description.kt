@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.service.model.server
+package com.uramnoil.serverist.service.models.server
 
-data class Address(val value: String) {
+data class Description(val value: String) {
     init {
         if(value == "") {
             throw IllegalArgumentException("空文字は代入できません。")
