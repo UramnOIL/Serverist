@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.model.user
+package com.uramnoil.serverist.service.model.user
 
 data class Name(val value: String) {
     init {

@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.repository
+package com.uramnoil.serverist.service.repository
 
-import com.uramnoil.serverist.model.user.Id
-import com.uramnoil.serverist.model.user.User
+import com.uramnoil.serverist.service.model.user.Id
+import com.uramnoil.serverist.service.model.user.User
 
 
 interface UserRepository {

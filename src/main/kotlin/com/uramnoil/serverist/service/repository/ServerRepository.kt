@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.repository
+package com.uramnoil.serverist.service.repository
 
-import com.uramnoil.serverist.model.server.Id
-import com.uramnoil.serverist.model.server.Server
+import com.uramnoil.serverist.service.model.server.Id
+import com.uramnoil.serverist.service.model.server.Server
 
 interface ServerRepository {
     suspend fun findById(id: Id): Server
