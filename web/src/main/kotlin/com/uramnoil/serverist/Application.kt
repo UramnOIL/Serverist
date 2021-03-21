@@ -1,4 +1,4 @@
-package com.uramnoil
+package com.uramnoil.serverist
 
 import io.ktor.application.*
 import io.ktor.response.*

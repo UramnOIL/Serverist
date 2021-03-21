@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.service.models.server
+package com.uramnoil.serverist.domain.service.models.server
 
 data class Port(val value: Int) {
     init {

@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.service.models.user
+package com.uramnoil.serverist.domain.service.models.user
 
 data class Id(val value: String) {
 }
