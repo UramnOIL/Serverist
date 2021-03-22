@@ -7,6 +7,13 @@ application {
     mainClassName = "io.ktor.server.netty.EngineMain"
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+}
+
 repositories {
     mavenCentral()
 }
