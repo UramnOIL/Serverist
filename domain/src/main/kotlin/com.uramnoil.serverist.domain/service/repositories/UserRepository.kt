@@ -2,11 +2,12 @@ package com.uramnoil.serverist.domain.service.repositories
 
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.models.user.User
+import kotlinx.coroutines.Deferred
 
 
 interface UserRepository {
-    suspend fun findById(id: Id): User
-    suspend fun getNextId(): Id
-    suspend fun store(user: User)
-    suspend fun remove(user: User)
+    fun findById(id: Id): Deferred<User>
+    fun getNextId(): Deferred<Id>
+    fun store(user: User): Deferred<Unit>
+    fun remove(user: User): Deferred<Unit>
 }
