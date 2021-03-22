@@ -9,5 +9,5 @@ data class CreateServerDto(
     val name: String,
     val address: String?,
     val port: Int?,
-    val description: String?
+    val description: String
 )
