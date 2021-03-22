@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.usecases.server.queries
 
-interface FindServerByIdQuery {
+fun interface FindServerByIdQuery {
     fun execute(dto: FindServerByIdDto)
 }
 

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.usecases.server.commands
 
-interface CreateServerCommand {
+fun interface CreateServerCommand {
     fun execute(dto: CreateServerDto)
 }
 

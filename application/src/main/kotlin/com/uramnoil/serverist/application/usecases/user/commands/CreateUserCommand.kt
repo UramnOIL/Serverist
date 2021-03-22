@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.usecases.user.commands
 
-interface CreateUserCommand {
+fun interface CreateUserCommand {
     fun execute(dto: CreateUserDto)
 }
 

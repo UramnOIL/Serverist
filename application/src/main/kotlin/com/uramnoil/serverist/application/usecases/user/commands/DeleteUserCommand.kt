@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.usecases.user.commands
 
-interface DeleteUserCommand {
+fun interface DeleteUserCommand {
     fun execute(dto: DeleteUserCommand)
 }
 
-data class DeleteUserCommand(val id: String)
+data class DeleteUserCommandDto(val id: String)

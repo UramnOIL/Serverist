@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.usecases.server.commands
 
-interface DeleteServerCommand {
+fun interface DeleteServerCommand {
     fun execute(dto: DeleteServerDto)
 }
 

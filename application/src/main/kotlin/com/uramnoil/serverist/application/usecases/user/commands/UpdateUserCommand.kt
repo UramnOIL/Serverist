@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.usecases.user.commands
 
-interface UpdateUserCommand {
+fun interface UpdateUserCommand {
     fun execute(dto: UpdateUserDto)
 }
 
