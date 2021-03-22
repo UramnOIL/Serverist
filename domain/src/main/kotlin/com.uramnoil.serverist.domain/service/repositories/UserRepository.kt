@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.service.repositories
+package com.uramnoil.serverist.domain.service.repositories
 
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.models.user.User
