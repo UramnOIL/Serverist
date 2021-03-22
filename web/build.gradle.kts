@@ -13,7 +13,7 @@ dependencies {
     val logback_version: String by project
     val kgraphql_version: String by project
 
-    implementation(":application")
+    implementation(project(":application"))
     implementation(kotlin("stdlib", kotlin_version))
     implementation("io.ktor", "ktor-server-netty", ktor_version)
     implementation("ch.qos.logback", "logback-classic", logback_version)
