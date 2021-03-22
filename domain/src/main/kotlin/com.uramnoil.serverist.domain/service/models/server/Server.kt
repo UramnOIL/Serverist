@@ -1,6 +1,5 @@
-package com.uramnoil.serverist.service.models.server
+package com.uramnoil.serverist.domain.service.models.server
 
-import com.uramnoil.serverist.domain.service.models.server.*
 import com.uramnoil.serverist.domain.service.models.user.Id as UserId
 
 class Server internal constructor(
