@@ -13,6 +13,7 @@ interface FindServerByIdOutputPort {
 
 data class FindServerByIdOutputPortDto(
     val id: String,
+    val ownerId: String,
     val name: String,
     val address: String?,
     val port: Int?,
