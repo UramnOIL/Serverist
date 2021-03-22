@@ -5,8 +5,9 @@ import com.uramnoil.serverist.service.repositories.UserRepository
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
+import kotlin.coroutines.CoroutineContext
 
-fun buildDomain() = DI {
+fun buildDomain(context: CoroutineContext) = DI {
     bind<ServerRepository>() with singleton {
         TODO()
     }
