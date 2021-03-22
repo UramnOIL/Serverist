@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.domain.service.repositories
 
 import com.uramnoil.serverist.domain.service.models.server.Id
-import com.uramnoil.serverist.service.models.server.Server
+import com.uramnoil.serverist.domain.service.models.server.Server
 import kotlinx.coroutines.Deferred
 
 interface ServerRepository {
