@@ -9,5 +9,4 @@ class Server internal constructor(
     var address: Address,
     var port: Port,
     var description: Description
-) {
-}
+)
