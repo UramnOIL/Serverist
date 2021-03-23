@@ -25,6 +25,7 @@ dependencies {
     val exposedVersion: String by project
 
     implementation(project(":application"))
+    implementation(project(":domain"))
     implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
     implementation("io.ktor", "ktor-server-netty", ktorVersion)

@@ -7,12 +7,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 dependencies {
-    val kotlin_version: String by project
-    val kodein_version: String by project
-    val coroutines_version: String by project
+    val kotlinVersion: String by project
+    val kodeinVersion: String by project
+    val coroutinesVersion: String by project
 
     implementation(project(":domain"))
-    implementation(kotlin("stdlib", version = kotlin_version))
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutines_version)
-    implementation("org.kodein.di", "kodein-di-jvm", kodein_version)
+    implementation(kotlin("stdlib", version = kotlinVersion))
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
+    implementation("org.kodein.di", "kodein-di-jvm", kodeinVersion)
 }
