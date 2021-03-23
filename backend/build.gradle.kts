@@ -16,19 +16,24 @@ repositories {
 }
 
 dependencies {
-    val kotlin_version: String by project
-    val coroutines_version: String by project
-    val ktor_version: String by project
-    val logback_version: String by project
-    val kgraphql_version: String by project
-    val kodein_version: String by project
+    val kotlinVersion: String by project
+    val coroutinesVersion: String by project
+    val ktorVersion: String by project
+    val logbackVersion: String by project
+    val kgraphqlVersion: String by project
+    val kodeinVersion: String by project
+    val exposedVersion: String by project
 
     implementation(project(":application"))
-    implementation(kotlin("stdlib", kotlin_version))
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutines_version)
-    implementation("io.ktor", "ktor-server-netty", ktor_version)
-    implementation("ch.qos.logback", "logback-classic", logback_version)
-    implementation("com.apurebase", "kgraphql", kgraphql_version)
-    implementation("org.kodein.di", "kodein-di-jvm", kodein_version)
-    testImplementation("io.ktor", "ktor-server-tests", ktor_version)
+    implementation(kotlin("stdlib", kotlinVersion))
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
+    implementation("io.ktor", "ktor-server-netty", ktorVersion)
+    implementation("ch.qos.logback", "logback-classic", logbackVersion)
+    implementation("com.apurebase", "kgraphql", kgraphqlVersion)
+    implementation("org.kodein.di", "kodein-di-jvm", kodeinVersion)
+    implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
+    implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
+    implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
+
+    testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
 }
