@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.domain.service.infrastractures
+package com.uramnoil.serverist.domain.infrastractures
 
-import com.uramnoil.serverist.service.repositories.ServerRepository
-import com.uramnoil.serverist.service.repositories.UserRepository
+import com.uramnoil.serverist.domain.service.repositories.ServerRepository
+import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
