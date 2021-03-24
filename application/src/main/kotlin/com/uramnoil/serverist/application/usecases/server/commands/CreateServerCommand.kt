@@ -1,11 +1,13 @@
 package com.uramnoil.serverist.application.usecases.server.commands
 
+import java.util.*
+
 fun interface CreateServerCommand {
     fun execute(dto: CreateServerDto)
 }
 
 data class CreateServerDto(
-    val ownerId: String,
+    val ownerId: UUID,
     val name: String,
     val address: String?,
     val port: Int?,
