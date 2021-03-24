@@ -4,6 +4,7 @@ import com.uramnoil.serverist.application.usecases.server.commands.CreateServerC
 import com.uramnoil.serverist.application.usecases.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.usecases.server.commands.UpdateServerCommand
 import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdOutputPort
+import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdOutputPortDto
 import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
@@ -96,7 +97,24 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
         FindServerByIdQuery {
-            TODO()
+            val serverRepository: ServerRepository = instance()
+
+            scope.launch {
+                newSuspendedTransaction {
+                    outputPort.handle(it.let {
+                        serverRepository.findByIdAsync(ServerId(it.id)).await()?.run {
+                            FindServerByIdOutputPortDto(
+                                id.value,
+                                owner.value,
+                                name.value,
+                                address.value,
+                                port.value,
+                                description.value
+                            )
+                        }
+                    })
+                }
+            }
         }
     }
 
