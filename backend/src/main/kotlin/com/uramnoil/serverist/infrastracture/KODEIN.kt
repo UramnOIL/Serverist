@@ -8,20 +8,14 @@ import com.uramnoil.serverist.application.usecases.server.queries.FindServerById
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
-import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
 import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import com.uramnoil.serverist.domain.service.services.server.CreateServerService
 import com.uramnoil.serverist.domain.service.services.user.CreateUserService
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
-import com.uramnoil.serverist.domain.service.models.user.Description as UserDescription
-import com.uramnoil.serverist.domain.service.models.user.Id as UserId
-import com.uramnoil.serverist.domain.service.models.user.Name as UserName
 
 fun buildDi(database: Database, context: CoroutineContext) = DI {
     val scope = CoroutineScope(context)
@@ -69,19 +63,6 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<UpdateUserCommand>() with singleton {
-        UpdateUserCommand {
-            val repository: UserRepository = instance()
-
-            scope.launch {
-                newSuspendedTransaction(db = database) {
-                    repository.findByIdAsync(UserId(it.id)).await()?.apply {
-                        name = UserName(it.name)
-                        description = UserDescription(it.description)
-
-                        repository.storeAsync(this).await()
-                    } ?: throw NotFoundException("UpdateUserCommand#execute: ユーザー(ID: ${it.id})が見つかりませんでした。")
-                }
-            }
-        }
+        ExposedUpdateUserCommand(database, instance(), context)
     }
 }
