@@ -6,7 +6,6 @@ import com.uramnoil.serverist.domain.service.models.user.Name
 import com.uramnoil.serverist.domain.service.models.user.User
 import java.util.*
 
-interface UserFactory {
+object UserFactory {
     fun create(id: UUID, name: String, description: String) = User(Id(id), Name(name), Description(description))
-
 }
