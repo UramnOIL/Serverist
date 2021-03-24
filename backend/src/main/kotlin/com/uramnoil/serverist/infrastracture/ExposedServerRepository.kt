@@ -41,12 +41,14 @@ class ExposedServerRepository(private val database: Database, private val contex
                 it[port] = server.port.value
                 it[description] = server.description.value
             }
+            commit()
         }
     }
 
     override fun deleteAsync(server: Server): Deferred<Unit> = async {
         transaction {
             Servers.deleteWhere { Servers.id eq server.id.value }
+            commit()
         }
     }
 }

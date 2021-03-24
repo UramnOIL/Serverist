@@ -42,6 +42,7 @@ class ExposedUserRepository(private val database: Database, private val context:
                 it[name] = user.name.value
                 it[description] = user.description.value
             }
+            commit()
         }
     }
 
@@ -51,6 +52,7 @@ class ExposedUserRepository(private val database: Database, private val context:
             SchemaUtils.create(Users)
 
             Users.deleteWhere { Users.id eq user.id.value }
+            commit()
         }
     }
 }
