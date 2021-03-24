@@ -61,7 +61,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     // <--- User --->
 
     bind<CreateUserCommand>() with singleton {
-        CreateUserCommand(instance(), context)
+        ExposedCreateUserCommand(instance(), context)
     }
 
     bind<DeleteUserCommand>() with singleton {
