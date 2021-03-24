@@ -5,7 +5,7 @@ import com.uramnoil.serverist.domain.service.models.server.Server
 import kotlinx.coroutines.Deferred
 
 interface ServerRepository {
-    fun findByIdAsync(id: Id): Deferred<Server>
+    fun findByIdAsync(id: Id): Deferred<Server?>
     fun storeAsync(server: Server): Deferred<Unit>
     fun deleteAsync(server: Server): Deferred<Unit>
 }
