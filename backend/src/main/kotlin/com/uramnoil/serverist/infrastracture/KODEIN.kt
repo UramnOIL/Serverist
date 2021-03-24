@@ -137,7 +137,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
             scope.launch {
                 userRepository.findByIdAsync(UserId(it.id)).await()?.let {
                     userRepository.deleteAsync(it)
-                }
+                } ?: throw NotFoundException("DeleteUserCommand#execute: ユーザー(ID: ${it.id})が見つかりませんでした。")
             }
         }
     }
