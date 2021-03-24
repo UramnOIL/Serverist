@@ -61,13 +61,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     // <--- User --->
 
     bind<CreateUserCommand>() with singleton {
-        CreateUserCommand {
-            val createUserService: CreateUserService = instance()
-
-            scope.launch {
-                createUserService.newAsync(it.name, it.description).await()
-            }
-        }
+        CreateUserCommand(instance(), context)
     }
 
     bind<DeleteUserCommand>() with singleton {
