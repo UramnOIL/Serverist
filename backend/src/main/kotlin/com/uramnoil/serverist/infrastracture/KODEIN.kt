@@ -10,8 +10,6 @@ import com.uramnoil.serverist.application.usecases.user.commands.CreateUserComma
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
 import com.uramnoil.serverist.domain.service.models.server.Address
-import com.uramnoil.serverist.domain.service.models.server.Description
-import com.uramnoil.serverist.domain.service.models.server.Name
 import com.uramnoil.serverist.domain.service.models.server.Port
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
@@ -24,8 +22,12 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
+import com.uramnoil.serverist.domain.service.models.server.Description as ServerDescription
 import com.uramnoil.serverist.domain.service.models.server.Id as ServerId
+import com.uramnoil.serverist.domain.service.models.server.Name as ServerName
+import com.uramnoil.serverist.domain.service.models.user.Description as UserDescription
 import com.uramnoil.serverist.domain.service.models.user.Id as UserId
+import com.uramnoil.serverist.domain.service.models.user.Name as UserName
 
 fun buildDi(database: Database, context: CoroutineContext) = DI {
     val scope = CoroutineScope(context)
@@ -84,10 +86,10 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
                     val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
                         ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${it.id})が見つかりませんでした。")
                     server.apply {
-                        name = Name(it.name)
+                        name = ServerName(it.name)
                         address = Address(it.address)
                         port = Port(it.port)
-                        description = Description(it.description)
+                        description = ServerDescription(it.description)
                     }
                     serverRepository.storeAsync(server)
                 }
@@ -142,7 +144,18 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     bind<UpdateUserCommand>() with singleton {
         UpdateUserCommand {
-            TODO()
+            val repository: UserRepository = instance()
+
+            scope.launch {
+                newSuspendedTransaction(db = database) {
+                    repository.findByIdAsync(UserId(it.id)).await()?.apply {
+                        name = UserName(it.name)
+                        description = UserDescription(it.description)
+
+                        repository.storeAsync(this)
+                    } ?: throw NotFoundException("UpdateUserCommand#execute: ユーザー(ID: ${it.id})が見つかりませんでした。")
+                }
+            }
         }
     }
 }
