@@ -10,7 +10,7 @@ class FindServerByIdDto(val id: UUID)
 
 
 fun interface FindServerByIdOutputPort {
-    fun handle(dto: FindServerByIdOutputPortDto)
+    fun handle(dto: FindServerByIdOutputPortDto?)
 }
 
 data class FindServerByIdOutputPortDto(
