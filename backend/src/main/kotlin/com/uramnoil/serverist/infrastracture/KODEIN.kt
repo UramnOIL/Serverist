@@ -100,20 +100,18 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
             val serverRepository: ServerRepository = instance()
 
             scope.launch {
-                newSuspendedTransaction {
-                    outputPort.handle(it.let {
-                        serverRepository.findByIdAsync(ServerId(it.id)).await()?.run {
-                            FindServerByIdOutputPortDto(
-                                id.value,
-                                owner.value,
-                                name.value,
-                                address.value,
-                                port.value,
-                                description.value
-                            )
-                        }
-                    })
-                }
+                outputPort.handle(it.let {
+                    serverRepository.findByIdAsync(ServerId(it.id)).await()?.run {
+                        FindServerByIdOutputPortDto(
+                            id.value,
+                            owner.value,
+                            name.value,
+                            address.value,
+                            port.value,
+                            description.value
+                        )
+                    }
+                })
             }
         }
     }
