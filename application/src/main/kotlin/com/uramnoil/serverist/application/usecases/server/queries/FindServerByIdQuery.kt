@@ -15,7 +15,7 @@ fun interface FindServerByIdOutputPort {
 
 data class FindServerByIdOutputPortDto(
     val id: UUID,
-    val ownerId: String,
+    val ownerId: UUID,
     val name: String,
     val address: String?,
     val port: Int?,
