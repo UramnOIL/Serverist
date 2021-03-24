@@ -111,7 +111,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
                         name = UserName(it.name)
                         description = UserDescription(it.description)
 
-                        repository.storeAsync(this)
+                        repository.storeAsync(this).await()
                     } ?: throw NotFoundException("UpdateUserCommand#execute: ユーザー(ID: ${it.id})が見つかりませんでした。")
                 }
             }
