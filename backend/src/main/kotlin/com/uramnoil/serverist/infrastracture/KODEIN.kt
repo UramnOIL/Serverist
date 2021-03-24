@@ -120,7 +120,11 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     bind<CreateUserCommand>() with singleton {
         CreateUserCommand {
-            TODO()
+            val createUserService: CreateUserService = instance()
+
+            scope.launch {
+                createUserService.newAsync(it.name, it.description)
+            }
         }
     }
 
