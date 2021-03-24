@@ -2,8 +2,8 @@ package com.uramnoil.serverist.application.usecases.user.queries
 
 import java.util.*
 
-fun interface FindServerByIdQuery {
-    fun execute(dto: FindServerByIdQuery)
+fun interface FindUserByIdQuery {
+    fun execute(dto: FindUserByIdDto)
 }
 
 data class FindUserByIdDto(val id: UUID)
