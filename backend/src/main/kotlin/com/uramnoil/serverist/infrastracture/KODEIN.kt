@@ -130,7 +130,13 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     bind<DeleteUserCommand>() with singleton {
         DeleteUserCommand {
-            TODO()
+            val userRepository: UserRepository = instance()
+
+            scope.launch {
+                userRepository.findByIdAsync(UserId(it.id)).await()?.let {
+                    userRepository.deleteAsync(it)
+                }
+            }
         }
     }
 
