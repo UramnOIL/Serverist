@@ -53,18 +53,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<DeleteServerCommand>() with singleton {
-        DeleteServerCommand {
-            val serverRepository: ServerRepository = instance()
-
-            scope.launch {
-                newSuspendedTransaction {
-                    val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
-                        ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${it.id})が見つかりませんでした。")
-                    serverRepository.deleteAsync(server).await()
-                    commit()
-                }
-            }
-        }
+        ExposedDeleteServerCommand(database, instance(), context)
     }
 
     bind<UpdateServerCommand>() with singleton {
