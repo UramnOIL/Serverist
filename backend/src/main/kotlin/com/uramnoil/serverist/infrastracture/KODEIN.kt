@@ -49,18 +49,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<CreateServerCommand>() with singleton {
-        CreateServerCommand {
-            val userRepository: UserRepository = instance()
-            val createServerService: CreateServerService = instance()
-
-            scope.launch {
-                newSuspendedTransaction(db = database) {
-                    val user = userRepository.findByIdAsync(UserId(it.ownerId)).await()
-                        ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${it.ownerId})が見つかりませんでした。")
-                    createServerService.newAsync(it.name, user, it.address, it.port, it.description).await()
-                }
-            }
-        }
+        ExposedCreateServerCommand(database, instance(), instance(), context)
     }
 
     bind<DeleteServerCommand>() with singleton {
@@ -71,7 +60,8 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
                 newSuspendedTransaction {
                     val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
                         ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${it.id})が見つかりませんでした。")
-                    serverRepository.deleteAsync(server)
+                    serverRepository.deleteAsync(server).await()
+                    commit()
                 }
             }
         }
@@ -91,7 +81,8 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
                         port = Port(it.port)
                         description = ServerDescription(it.description)
                     }
-                    serverRepository.storeAsync(server)
+                    serverRepository.storeAsync(server).await()
+                    commit()
                 }
             }
         }
@@ -125,7 +116,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
             val createUserService: CreateUserService = instance()
 
             scope.launch {
-                createUserService.newAsync(it.name, it.description)
+                createUserService.newAsync(it.name, it.description).await()
             }
         }
     }
