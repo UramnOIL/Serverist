@@ -1,4 +1,4 @@
 package com.uramnoil.serverist.domain.service.models.user
 
-data class Id(val value: String) {
+data class Id(val value: UUID) {
 }

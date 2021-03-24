@@ -1,7 +1,9 @@
 package com.uramnoil.serverist.application.usecases.user.commands
 
+import java.util.*
+
 fun interface UpdateUserCommand {
     fun execute(dto: UpdateUserDto)
 }
 
-data class UpdateUserDto(val id: String, val name: String, val description: String)
+data class UpdateUserDto(val id: UUID, val name: String, val description: String)
