@@ -35,6 +35,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
+    implementation("com.h2database", "h2", "1.4.200")
 
     testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
 }
