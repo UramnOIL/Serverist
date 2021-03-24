@@ -4,7 +4,6 @@ import com.uramnoil.serverist.application.usecases.server.commands.CreateServerC
 import com.uramnoil.serverist.application.usecases.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.usecases.server.commands.UpdateServerCommand
 import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdOutputPort
-import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdOutputPortDto
 import com.uramnoil.serverist.application.usecases.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
@@ -20,7 +19,6 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
-import com.uramnoil.serverist.domain.service.models.server.Id as ServerId
 import com.uramnoil.serverist.domain.service.models.user.Description as UserDescription
 import com.uramnoil.serverist.domain.service.models.user.Id as UserId
 import com.uramnoil.serverist.domain.service.models.user.Name as UserName
@@ -57,24 +55,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
-        FindServerByIdQuery {
-            val serverRepository: ServerRepository = instance()
-
-            scope.launch {
-                outputPort.handle(it.let {
-                    serverRepository.findByIdAsync(ServerId(it.id)).await()?.run {
-                        FindServerByIdOutputPortDto(
-                            id.value,
-                            owner.value,
-                            name.value,
-                            address.value,
-                            port.value,
-                            description.value
-                        )
-                    }
-                })
-            }
-        }
+        ExposedFindServerByIdQuery(database, instance(), outputPort, context)
     }
 
     // <--- User --->
