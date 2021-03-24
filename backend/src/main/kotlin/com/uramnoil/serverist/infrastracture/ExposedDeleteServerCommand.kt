@@ -13,15 +13,15 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposedDeleteServerCommand(
     private val database: Database,
-    private val serverRepository: ServerRepository,
-    private val context: CoroutineContext
+    private val repository: ServerRepository,
+    context: CoroutineContext
 ) : DeleteServerCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: DeleteServerDto) {
         launch {
-            newSuspendedTransaction {
-                val server = serverRepository.findByIdAsync(Id(dto.id)).await()
+            newSuspendedTransaction(db = database) {
+                val server = repository.findByIdAsync(Id(dto.id)).await()
                     ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${dto.id})が見つかりませんでした。")
-                serverRepository.deleteAsync(server).await()
+                repository.deleteAsync(server).await()
                 commit()
             }
         }

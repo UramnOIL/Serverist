@@ -13,14 +13,14 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposedFindServerByIdQuery(
     private val database: Database,
-    private val serverRepository: ServerRepository,
+    private val repository: ServerRepository,
     private val outputPort: FindServerByIdOutputPort,
     context: CoroutineContext
 ) : FindServerByIdQuery, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: FindServerByIdDto) {
         launch {
             outputPort.handle(dto.let {
-                serverRepository.findByIdAsync(Id(dto.id)).await()?.run {
+                repository.findByIdAsync(Id(dto.id)).await()?.run {
                     FindServerByIdOutputPortDto(
                         id.value,
                         owner.value,

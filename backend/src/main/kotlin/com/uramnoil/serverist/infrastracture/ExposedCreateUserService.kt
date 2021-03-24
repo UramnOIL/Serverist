@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.coroutines.CoroutineContext
 
-class ExposedCreateUserService(private val database: Database, private val context: CoroutineContext) :
+class ExposedCreateUserService(private val database: Database, val context: CoroutineContext) :
     CreateUserService, CoroutineScope by CoroutineScope(context) {
     override fun newAsync(name: String, description: String): Deferred<Id> = async {
         transaction(database) {

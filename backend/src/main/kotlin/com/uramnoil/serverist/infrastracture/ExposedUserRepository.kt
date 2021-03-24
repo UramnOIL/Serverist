@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class ExposedUserRepository(private val database: Database, private val context: CoroutineContext) : UserRepository,
+class ExposedUserRepository(private val database: Database, context: CoroutineContext) : UserRepository,
     CoroutineScope by CoroutineScope(context) {
     private val logger = StdOutSqlLogger
 

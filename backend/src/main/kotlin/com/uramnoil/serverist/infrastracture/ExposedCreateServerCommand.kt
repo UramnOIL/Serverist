@@ -14,16 +14,16 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposedCreateServerCommand(
     private val database: Database,
-    private val userRepository: UserRepository,
-    private val createServerService: CreateServerService,
-    private val context: CoroutineContext
+    private val repository: UserRepository,
+    private val service: CreateServerService,
+    context: CoroutineContext
 ) : CreateServerCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: CreateServerDto) {
         launch {
             newSuspendedTransaction(db = database) {
-                val user = userRepository.findByIdAsync(Id(dto.ownerId)).await()
+                val user = repository.findByIdAsync(Id(dto.ownerId)).await()
                     ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${dto.ownerId})が見つかりませんでした。")
-                createServerService.newAsync(dto.name, user, dto.address, dto.port, dto.description).await()
+                service.newAsync(dto.name, user, dto.address, dto.port, dto.description).await()
                 commit()
             }
         }

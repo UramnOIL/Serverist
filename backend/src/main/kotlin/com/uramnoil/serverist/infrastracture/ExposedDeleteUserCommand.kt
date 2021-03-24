@@ -9,12 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class ExposedDeleteUserCommand(private val userRepository: UserRepository, context: CoroutineContext) :
+class ExposedDeleteUserCommand(private val repository: UserRepository, context: CoroutineContext) :
     DeleteUserCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: DeleteUserCommandDto) {
         launch {
-            userRepository.findByIdAsync(Id(dto.id)).await()?.let {
-                userRepository.deleteAsync(it)
+            repository.findByIdAsync(Id(dto.id)).await()?.let {
+                repository.deleteAsync(it)
             } ?: throw NotFoundException("DeleteUserCommand#execute: ユーザー(ID: ${dto.id})が見つかりませんでした。")
         }
     }

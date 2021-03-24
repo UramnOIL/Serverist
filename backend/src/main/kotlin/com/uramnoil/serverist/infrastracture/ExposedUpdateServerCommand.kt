@@ -13,13 +13,13 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposedUpdateServerCommand(
     private val database: Database,
-    private val serverRepository: ServerRepository,
+    private val sepository: ServerRepository,
     context: CoroutineContext
 ) : UpdateServerCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: UpdateServerDto) {
         launch {
             newSuspendedTransaction(db = database) {
-                val server = serverRepository.findByIdAsync(Id(dto.id)).await()
+                val server = sepository.findByIdAsync(Id(dto.id)).await()
                     ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${dto.id})が見つかりませんでした。")
                 server.apply {
                     name = Name(dto.name)
@@ -27,7 +27,7 @@ class ExposedUpdateServerCommand(
                     port = Port(dto.port)
                     description = Description(dto.description)
                 }
-                serverRepository.storeAsync(server).await()
+                sepository.storeAsync(server).await()
                 commit()
             }
         }

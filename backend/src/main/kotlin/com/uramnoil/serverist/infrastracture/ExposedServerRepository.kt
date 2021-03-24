@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import kotlin.coroutines.CoroutineContext
 
-class ExposedServerRepository(private val database: Database, private val context: CoroutineContext) : ServerRepository,
+class ExposedServerRepository(private val database: Database, context: CoroutineContext) : ServerRepository,
     CoroutineScope by CoroutineScope(context) {
     override fun findByIdAsync(id: Id): Deferred<Server?> = async {
         transaction(database) {
