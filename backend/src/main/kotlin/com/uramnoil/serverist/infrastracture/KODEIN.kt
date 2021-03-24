@@ -9,8 +9,6 @@ import com.uramnoil.serverist.application.usecases.server.queries.FindServerById
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
-import com.uramnoil.serverist.domain.service.models.server.Address
-import com.uramnoil.serverist.domain.service.models.server.Port
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
 import com.uramnoil.serverist.domain.service.repositories.UserRepository
@@ -22,9 +20,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
-import com.uramnoil.serverist.domain.service.models.server.Description as ServerDescription
 import com.uramnoil.serverist.domain.service.models.server.Id as ServerId
-import com.uramnoil.serverist.domain.service.models.server.Name as ServerName
 import com.uramnoil.serverist.domain.service.models.user.Description as UserDescription
 import com.uramnoil.serverist.domain.service.models.user.Id as UserId
 import com.uramnoil.serverist.domain.service.models.user.Name as UserName
@@ -57,24 +53,7 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<UpdateServerCommand>() with singleton {
-        UpdateServerCommand {
-            val serverRepository: ServerRepository = instance()
-
-            scope.launch {
-                newSuspendedTransaction {
-                    val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
-                        ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${it.id})が見つかりませんでした。")
-                    server.apply {
-                        name = ServerName(it.name)
-                        address = Address(it.address)
-                        port = Port(it.port)
-                        description = ServerDescription(it.description)
-                    }
-                    serverRepository.storeAsync(server).await()
-                    commit()
-                }
-            }
-        }
+        ExposedUpdateServerCommand(database, instance(), context)
     }
 
     bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
