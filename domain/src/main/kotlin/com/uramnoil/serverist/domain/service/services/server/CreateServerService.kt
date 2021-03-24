@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.service.services.server
 
-import com.uramnoil.serverist.domain.service.models.user.Id
+import com.uramnoil.serverist.domain.service.models.server.Id
 import com.uramnoil.serverist.domain.service.models.user.User
 import kotlinx.coroutines.Deferred
 
