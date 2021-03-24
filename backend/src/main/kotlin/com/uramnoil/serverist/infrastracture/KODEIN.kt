@@ -8,44 +8,89 @@ import com.uramnoil.serverist.application.usecases.server.queries.FindServerById
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
-import com.uramnoil.serverist.domain.service.models.user.Id
+import com.uramnoil.serverist.domain.service.models.server.Address
+import com.uramnoil.serverist.domain.service.models.server.Description
+import com.uramnoil.serverist.domain.service.models.server.Name
+import com.uramnoil.serverist.domain.service.models.server.Port
+import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
 import com.uramnoil.serverist.domain.service.repositories.UserRepository
-import kotlinx.coroutines.GlobalScope
+import com.uramnoil.serverist.domain.service.services.server.CreateServerService
+import com.uramnoil.serverist.domain.service.services.user.CreateUserService
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
+import com.uramnoil.serverist.domain.service.models.server.Id as ServerId
+import com.uramnoil.serverist.domain.service.models.user.Id as UserId
 
-fun buildDi(context: CoroutineContext) = DI {
+fun buildDi(database: Database, context: CoroutineContext) = DI {
+    val scope = CoroutineScope(context)
+
     bind<ServerRepository>() with singleton {
-        TODO()
+        ExposedServerRepository(database, context)
     }
 
     bind<UserRepository>() with singleton {
-        TODO()
+        ExposedUserRepository(database, context)
+    }
+
+    bind<CreateServerService>() with singleton {
+        ExposedCreateServerService(database, context)
+    }
+
+    bind<CreateUserService>() with singleton {
+        ExposedCreateUserService(database, context)
     }
 
     bind<CreateServerCommand>() with singleton {
         CreateServerCommand {
             val userRepository: UserRepository = instance()
-            val serverRepository: ServerRepository = instance()
+            val createServerService: CreateServerService = instance()
 
-            GlobalScope.launch(context) {
-                val user = userRepository.findById(Id(it.ownerId))
-                serverRepository.store()
+            scope.launch {
+                newSuspendedTransaction(db = database) {
+                    val user = userRepository.findByIdAsync(UserId(it.ownerId)).await()
+                        ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${it.ownerId})が見つかりませんでした。")
+                    createServerService.newAsync(it.name, user, it.address, it.port, it.description).await()
+                }
             }
         }
     }
 
     bind<DeleteServerCommand>() with singleton {
         DeleteServerCommand {
-            TODO()
+            val serverRepository: ServerRepository = instance()
+
+            scope.launch {
+                newSuspendedTransaction {
+                    val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
+                        ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${it.id})が見つかりませんでした。")
+                    serverRepository.deleteAsync(server)
+                }
+            }
         }
     }
 
     bind<UpdateServerCommand>() with singleton {
         UpdateServerCommand {
-            TODO()
+            val serverRepository: ServerRepository = instance()
+
+            scope.launch {
+                newSuspendedTransaction {
+                    val server = serverRepository.findByIdAsync(ServerId(it.id)).await()
+                        ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${it.id})が見つかりませんでした。")
+                    server.apply {
+                        name = Name(it.name)
+                        address = Address(it.address)
+                        port = Port(it.port)
+                        description = Description(it.description)
+                    }
+                    serverRepository.storeAsync(server)
+                }
+            }
         }
     }
 
