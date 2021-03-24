@@ -6,8 +6,8 @@ import kotlinx.coroutines.Deferred
 
 
 interface UserRepository {
-    fun findById(id: Id): Deferred<User>
+    fun findByIdAsync(id: Id): Deferred<User>
     fun getNextId(): Id
-    fun store(user: User): Deferred<Unit>
-    fun remove(user: User): Deferred<Unit>
+    fun storeAsync(user: User): Deferred<Unit>
+    fun removeAsync(user: User): Deferred<Unit>
 }
