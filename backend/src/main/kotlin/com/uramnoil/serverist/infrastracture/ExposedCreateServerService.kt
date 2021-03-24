@@ -16,13 +16,15 @@ class ExposedCreateServerService(private val database: Database, private val con
     override fun newAsync(name: String, owner: User, address: String?, port: Int?, description: String): Deferred<Id> =
         async {
             transaction(database) {
-                Id(Servers.insertAndGetId {
+                val id = Id(Servers.insertAndGetId {
                     it[Servers.name] = name
                     it[Servers.owner] = owner.id.value
                     it[Servers.address] = address
                     it[Servers.port] = port
                     it[Servers.description] = description
                 }.value)
+                commit()
+                id
             }
         }
 }

@@ -14,10 +14,12 @@ class ExposedCreateUserService(private val database: Database, private val conte
     CreateUserService, CoroutineScope by CoroutineScope(context) {
     override fun newAsync(name: String, description: String): Deferred<Id> = async {
         transaction(database) {
-            Id(Users.insertAndGetId {
+            val id = Id(Users.insertAndGetId {
                 it[Users.name] = name
                 it[Users.description] = description
             }.value)
+            commit()
+            id
         }
     }
 }
