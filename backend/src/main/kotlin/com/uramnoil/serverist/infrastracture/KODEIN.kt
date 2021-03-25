@@ -36,15 +36,15 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
         ExposedCreateUserService(database, context)
     }
 
-    bind<CreateServerCommand>() with singleton {
+    bind<CreateServerCommand>() with factory {
         ExposedCreateServerCommand(database, instance(), instance(), context)
     }
 
-    bind<DeleteServerCommand>() with singleton {
+    bind<DeleteServerCommand>() with factory {
         ExposedDeleteServerCommand(database, instance(), context)
     }
 
-    bind<UpdateServerCommand>() with singleton {
+    bind<UpdateServerCommand>() with factory {
         ExposedUpdateServerCommand(database, instance(), context)
     }
 
@@ -54,15 +54,15 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     // <--- User --->
 
-    bind<CreateUserCommand>() with singleton {
+    bind<CreateUserCommand>() with factory {
         ExposedCreateUserCommand(instance(), context)
     }
 
-    bind<DeleteUserCommand>() with singleton {
+    bind<DeleteUserCommand>() with factory {
         ExposedDeleteUserCommand(instance(), context)
     }
 
-    bind<UpdateUserCommand>() with singleton {
+    bind<UpdateUserCommand>() with factory {
         ExposedUpdateUserCommand(database, instance(), context)
     }
 }
