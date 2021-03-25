@@ -31,7 +31,7 @@ dependencies {
     implementation("io.ktor", "ktor-server-netty", ktorVersion)
     implementation("ch.qos.logback", "logback-classic", logbackVersion)
     implementation("com.apurebase", "kgraphql", kgraphqlVersion)
-    implementation("com.aqurebase", "kgraphql-ktor", kgraphqlVersion)
+    implementation("com.apurebase", "kgraphql-ktor", kgraphqlVersion)
     implementation("org.kodein.di", "kodein-di-jvm", kodeinVersion)
     implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
