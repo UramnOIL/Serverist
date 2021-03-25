@@ -8,6 +8,8 @@ import com.uramnoil.serverist.application.usecases.server.queries.FindServerById
 import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
+import com.uramnoil.serverist.application.usecases.user.queries.FindAllUsersOutputPort
+import com.uramnoil.serverist.application.usecases.user.queries.FindAllUsersQuery
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
 import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import com.uramnoil.serverist.domain.service.services.server.CreateServerService
@@ -64,5 +66,9 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
 
     bind<UpdateUserCommand>() with factory {
         ExposedUpdateUserCommand(database, instance(), context)
+    }
+
+    bind<FindAllUsersQuery>() with factory { outputPort: FindAllUsersOutputPort ->
+        ExposedFindAllUsersQuery(database, outputPort, context)
     }
 }
