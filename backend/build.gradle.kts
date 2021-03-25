@@ -29,6 +29,8 @@ dependencies {
     implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
     implementation("io.ktor", "ktor-server-netty", ktorVersion)
+    implementation("io.ktor", "ktor-auth", ktorVersion)
+    implementation("io.ktor", "ktor-auth-jwt", ktorVersion)
     implementation("ch.qos.logback", "logback-classic", logbackVersion)
     implementation("com.apurebase", "kgraphql", kgraphqlVersion)
     implementation("com.apurebase", "kgraphql-ktor", kgraphqlVersion)
@@ -36,7 +38,8 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
-    implementation("com.h2database", "h2", "1.4.200")
+    implementation("mysql", "mysql-connector-java", "8.0.20")
 
     testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
+    testImplementation("com.h2database", "h2", "1.4.200")
 }
