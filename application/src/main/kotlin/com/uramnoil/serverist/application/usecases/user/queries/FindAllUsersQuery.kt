@@ -2,11 +2,11 @@ package com.uramnoil.serverist.application.usecases.user.queries
 
 import java.util.*
 
-interface FindAllUsersQuery {
+fun interface FindAllUsersQuery {
     fun execute()
 }
 
-interface FindAllUsersOutputPort {
+fun interface FindAllUsersOutputPort {
     fun handle(dto: FindAllUsersOutputPortDto)
 }
 
