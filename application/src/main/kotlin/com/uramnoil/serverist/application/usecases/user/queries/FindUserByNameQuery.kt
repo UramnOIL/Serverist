@@ -9,7 +9,7 @@ fun interface FindUserByNameQuery {
 data class FindUserByNameDto(val name: String)
 
 fun interface FindUserByNameOutputPort {
-    fun handle(dto: FindUserByNameDto?)
+    fun handle(dto: FindUserByNameOutputPortDto?)
 }
 
-data class FinUserByNameOutputPortDto(val id: UUID, val name: String, val description: String)
+data class FindUserByNameOutputPortDto(val id: UUID, val name: String, val description: String)
