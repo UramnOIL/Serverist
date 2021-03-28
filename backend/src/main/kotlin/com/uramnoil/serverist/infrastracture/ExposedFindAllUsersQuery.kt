@@ -20,7 +20,7 @@ class ExposedFindAllUsersQuery(
         launch {
             newSuspendedTransaction(db = database) {
                 outputPort.handle(FindAllUsersOutputPortDto(Users.selectAll().map {
-                    UserDto(it[Users.id].value, it[Users.name], it[Users.description])
+                    UserDto(it[Users.id].value.toString(), it[Users.name], it[Users.description])
                 }))
             }
         }
