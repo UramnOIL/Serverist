@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.server.commands.CreateServerCommand
-import com.uramnoil.serverist.application.usecases.server.commands.CreateServerDto
+import com.uramnoil.serverist.application.service.usecases.server.commands.CreateServerCommand
+import com.uramnoil.serverist.application.service.usecases.server.commands.CreateServerDto
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.UserRepository

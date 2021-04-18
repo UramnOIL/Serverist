@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.usecases.user.commands
+package com.uramnoil.serverist.application.service.usecases.user.commands
 
 import java.util.*
 

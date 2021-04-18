@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.usecases.user.queries
+package com.uramnoil.serverist.application.service.usecases.user.queries
 
 import java.util.*
 

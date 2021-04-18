@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.user.commands.CreateUserCommand
-import com.uramnoil.serverist.application.usecases.user.commands.CreateUserDto
+import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserCommand
+import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserDto
 import com.uramnoil.serverist.domain.service.services.user.CreateUserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.server.commands.DeleteServerCommand
-import com.uramnoil.serverist.application.usecases.server.commands.DeleteServerDto
+import com.uramnoil.serverist.application.service.usecases.server.commands.DeleteServerCommand
+import com.uramnoil.serverist.application.service.usecases.server.commands.DeleteServerDto
 import com.uramnoil.serverist.domain.service.models.server.Id
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository

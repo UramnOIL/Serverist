@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserCommand
-import com.uramnoil.serverist.application.usecases.user.commands.UpdateUserDto
+import com.uramnoil.serverist.application.service.usecases.user.commands.UpdateUserCommand
+import com.uramnoil.serverist.application.service.usecases.user.commands.UpdateUserDto
 import com.uramnoil.serverist.domain.service.models.user.Description
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.models.user.Name

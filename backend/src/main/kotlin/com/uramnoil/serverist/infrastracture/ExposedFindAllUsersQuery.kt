@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.user.queries.FindAllUsersOutputPort
-import com.uramnoil.serverist.application.usecases.user.queries.FindAllUsersOutputPortDto
-import com.uramnoil.serverist.application.usecases.user.queries.FindAllUsersQuery
-import com.uramnoil.serverist.application.usecases.user.queries.UserDto
+import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllUsersOutputPort
+import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllUsersOutputPortDto
+import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllUsersQuery
+import com.uramnoil.serverist.application.service.usecases.user.queries.UserDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database

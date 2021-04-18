@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.server.commands.UpdateServerCommand
-import com.uramnoil.serverist.application.usecases.server.commands.UpdateServerDto
+import com.uramnoil.serverist.application.service.usecases.server.commands.UpdateServerCommand
+import com.uramnoil.serverist.application.service.usecases.server.commands.UpdateServerDto
 import com.uramnoil.serverist.domain.service.models.server.*
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository

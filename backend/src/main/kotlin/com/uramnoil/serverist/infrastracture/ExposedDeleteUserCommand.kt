@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommand
-import com.uramnoil.serverist.application.usecases.user.commands.DeleteUserCommandDto
+import com.uramnoil.serverist.application.service.usecases.user.commands.DeleteUserCommand
+import com.uramnoil.serverist.application.service.usecases.user.commands.DeleteUserCommandDto
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
 import com.uramnoil.serverist.domain.service.repositories.UserRepository
