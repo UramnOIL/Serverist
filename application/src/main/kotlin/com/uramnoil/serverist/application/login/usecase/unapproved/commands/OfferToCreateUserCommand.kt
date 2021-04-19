@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.login.usecase.user.commands
+package com.uramnoil.serverist.application.login.usecase.unapproved.commands
 
 data class OfferToCreateUserCommandDto(val id: String, val email: String, val password: String, val name: String)
 
