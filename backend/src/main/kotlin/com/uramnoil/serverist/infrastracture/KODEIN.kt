@@ -13,7 +13,6 @@ import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllU
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPort
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.domain.service.repositories.ServerRepository
-import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import com.uramnoil.serverist.domain.service.services.server.CreateServerService
 import com.uramnoil.serverist.domain.service.services.user.CreateUserService
 import kotlinx.coroutines.CoroutineScope

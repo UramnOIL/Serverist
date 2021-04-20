@@ -4,7 +4,6 @@ import com.uramnoil.serverist.application.service.usecases.user.commands.DeleteU
 import com.uramnoil.serverist.application.service.usecases.user.commands.DeleteUserCommandDto
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
-import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext

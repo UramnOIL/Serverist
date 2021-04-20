@@ -2,7 +2,6 @@ package com.uramnoil.serverist.infrastracture
 
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.models.user.User
-import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import com.uramnoil.serverist.domain.service.services.user.UserFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred

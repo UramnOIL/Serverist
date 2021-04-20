@@ -2,11 +2,9 @@ package com.uramnoil.serverist.infrastracture
 
 import com.uramnoil.serverist.application.service.usecases.user.commands.UpdateUserCommand
 import com.uramnoil.serverist.application.service.usecases.user.commands.UpdateUserDto
-import com.uramnoil.serverist.domain.service.models.user.Description
 import com.uramnoil.serverist.domain.service.models.user.Id
-import com.uramnoil.serverist.domain.service.models.user.Name
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
-import com.uramnoil.serverist.domain.service.repositories.UserRepository
+import com.uramnoil.serverist.domain.user.models.user.Description
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
