@@ -5,7 +5,4 @@ class User(
     var userId: UserId,
     var email: Email,
     var password: HashPassword,
-    var name: String,
-    var description: Description,
-) {
-}
+)
