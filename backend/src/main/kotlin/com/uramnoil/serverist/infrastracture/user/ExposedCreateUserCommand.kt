@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.login
+package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserDto

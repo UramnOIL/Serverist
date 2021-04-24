@@ -1,8 +1,7 @@
-package com.uramnoil.serverist.infrastracture.login
+package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.domain.models.user.*
 import com.uramnoil.serverist.domain.services.user.CreateUserService
-import com.uramnoil.serverist.infrastracture.user.Users
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
