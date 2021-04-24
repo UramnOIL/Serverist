@@ -12,17 +12,19 @@ import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllU
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindAllUsersQuery
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPort
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.domain.service.repositories.ServerRepository
-import com.uramnoil.serverist.domain.service.services.server.CreateServerService
-import com.uramnoil.serverist.domain.service.services.user.CreateUserService
-import kotlinx.coroutines.CoroutineScope
+import com.uramnoil.serverist.domain.repositories.ServerRepository
+import com.uramnoil.serverist.domain.repositories.UserRepository
+import com.uramnoil.serverist.domain.services.server.CreateServerService
+import com.uramnoil.serverist.domain.services.user.CreateUserService
+import com.uramnoil.serverist.infrastracture.login.ExposedCreateUserCommand
+import com.uramnoil.serverist.infrastracture.login.ExposedCreateUserService
+import com.uramnoil.serverist.infrastracture.service.*
+import com.uramnoil.serverist.infrastracture.user.*
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.*
 import kotlin.coroutines.CoroutineContext
 
 fun buildDi(database: Database, context: CoroutineContext) = DI {
-    val scope = CoroutineScope(context)
-
     bind<ServerRepository>() with singleton {
         ExposedServerRepository(database, context)
     }
@@ -52,13 +54,13 @@ fun buildDi(database: Database, context: CoroutineContext) = DI {
     }
 
     bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
-        ExposedFindServerByIdQuery(database, instance(), outputPort, context)
+        ExposedFindServerByIdQuery(instance(), outputPort, context)
     }
 
     // <--- User --->
 
     bind<CreateUserCommand>() with factory {
-        ExposedCreateUserCommand(instance(), context)
+        ExposedCreateUserCommand(instance(), instance(), context)
     }
 
     bind<DeleteUserCommand>() with factory {

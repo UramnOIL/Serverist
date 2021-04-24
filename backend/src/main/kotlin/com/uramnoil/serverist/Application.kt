@@ -1,13 +1,12 @@
 package com.uramnoil.serverist
 
-import com.auth0.jwt.algorithms.Algorithm
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameDto
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPort
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPortDto
 import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.infrastracture.Servers
-import com.uramnoil.serverist.infrastracture.Users
 import com.uramnoil.serverist.infrastracture.buildDi
+import com.uramnoil.serverist.infrastracture.service.Servers
+import com.uramnoil.serverist.infrastracture.user.Users
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
@@ -28,11 +27,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    val secret = System.getenv("SERVERIST_JWT_SECRET")
-    val issuer = environment.config.property("jwt.issuer").getString()
-    val audiences = environment.config.property("jwt.audiences").getList()
-    val algorithm = Algorithm.HMAC256(secret)
-
     val database = Database.connect(
         "jdbc:mysql://localhost:3306/develop",
         driver = "com.mysql.cj.jdbc.Driver",
