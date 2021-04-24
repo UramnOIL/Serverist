@@ -4,6 +4,7 @@ import com.uramnoil.serverist.application.service.usecases.server.commands.Creat
 import com.uramnoil.serverist.application.service.usecases.server.commands.CreateServerDto
 import com.uramnoil.serverist.domain.service.models.user.Id
 import com.uramnoil.serverist.domain.service.repositories.NotFoundException
+import com.uramnoil.serverist.domain.service.repositories.UserRepository
 import com.uramnoil.serverist.domain.service.services.server.CreateServerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
