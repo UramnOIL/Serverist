@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.service.repositories
 
-import com.uramnoil.serverist.domain.user.models.user.User
+import com.uramnoil.serverist.domain.login.models.user.User
 import kotlinx.coroutines.Deferred
 
 interface UserRepository {
