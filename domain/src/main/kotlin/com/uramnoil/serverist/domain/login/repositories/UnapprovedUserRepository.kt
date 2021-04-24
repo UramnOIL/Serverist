@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.login.repositories
 
-import com.uramnoil.serverist.domain.login.model.unapproveduser.User
+import com.uramnoil.serverist.domain.login.models.unapproveduser.User
 import kotlinx.coroutines.Deferred
 
 interface UnapprovedUserRepository {
