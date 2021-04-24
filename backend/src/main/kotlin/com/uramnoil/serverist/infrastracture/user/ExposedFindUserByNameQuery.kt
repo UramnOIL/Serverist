@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameDto
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPort
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPortDto
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameQuery
+import com.uramnoil.serverist.application.user.queries.FindUserByNameDto
+import com.uramnoil.serverist.application.user.queries.FindUserByNameOutputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByNameOutputPortDto
+import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.domain.services.user.UserFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

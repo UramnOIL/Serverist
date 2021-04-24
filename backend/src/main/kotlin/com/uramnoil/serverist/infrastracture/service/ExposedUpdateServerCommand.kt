@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.service
 
-import com.uramnoil.serverist.application.service.usecases.server.commands.UpdateServerCommand
-import com.uramnoil.serverist.application.service.usecases.server.commands.UpdateServerDto
+import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
+import com.uramnoil.serverist.application.server.commands.UpdateServerDto
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.ServerRepository
 import kotlinx.coroutines.CoroutineScope

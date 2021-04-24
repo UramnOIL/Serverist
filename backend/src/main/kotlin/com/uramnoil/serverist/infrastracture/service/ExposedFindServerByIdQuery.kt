@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.infrastracture.service
 
-import com.uramnoil.serverist.application.service.usecases.server.queries.FindServerByIdDto
-import com.uramnoil.serverist.application.service.usecases.server.queries.FindServerByIdOutputPort
-import com.uramnoil.serverist.application.service.usecases.server.queries.FindServerByIdOutputPortDto
-import com.uramnoil.serverist.application.service.usecases.server.queries.FindServerByIdQuery
+import com.uramnoil.serverist.application.server.queries.FindServerByIdDto
+import com.uramnoil.serverist.application.server.queries.FindServerByIdOutputPort
+import com.uramnoil.serverist.application.server.queries.FindServerByIdOutputPortDto
+import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.domain.repositories.ServerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

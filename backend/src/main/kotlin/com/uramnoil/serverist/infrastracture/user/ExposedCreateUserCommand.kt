@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserCommand
-import com.uramnoil.serverist.application.service.usecases.user.commands.CreateUserDto
+import com.uramnoil.serverist.application.user.commands.CreateUserCommand
+import com.uramnoil.serverist.application.user.commands.CreateUserDto
 import com.uramnoil.serverist.domain.models.user.AccountId
 import com.uramnoil.serverist.domain.models.user.Description
 import com.uramnoil.serverist.domain.models.user.Email
