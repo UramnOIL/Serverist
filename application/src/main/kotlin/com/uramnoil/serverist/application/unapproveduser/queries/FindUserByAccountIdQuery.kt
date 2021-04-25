@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.application.unapproved.queries
+package com.uramnoil.serverist.application.unapproveduser.queries
 
-import com.uramnoil.serverist.application.unapproved.User
+import com.uramnoil.serverist.application.unapproveduser.User
 
 data class FindUserByAccountIdQueryDto(val id: String)
 

@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.application.unapproved.commands
+package com.uramnoil.serverist.application.unapproveduser.commands
 
-import com.uramnoil.serverist.application.unapproved.User
+import com.uramnoil.serverist.application.unapproveduser.User
 
 data class OfferToCreateUserCommandDto(val accountId: String, val email: String, val password: String, val name: String)
 

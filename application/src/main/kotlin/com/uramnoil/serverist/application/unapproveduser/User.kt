@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.unapproved
+package com.uramnoil.serverist.application.unapproveduser
 
 data class User(
     val accountId: String,
