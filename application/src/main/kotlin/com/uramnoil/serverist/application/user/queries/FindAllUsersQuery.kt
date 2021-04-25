@@ -8,6 +8,4 @@ fun interface FindAllUsersOutputPort {
     fun handle(dto: FindAllUsersOutputPortDto)
 }
 
-data class UserDto(val id: String, val name: String, val description: String)
-
-data class FindAllUsersOutputPortDto(val users: List<UserDto>)
+data class FindAllUsersOutputPortDto(val users: List<User>)

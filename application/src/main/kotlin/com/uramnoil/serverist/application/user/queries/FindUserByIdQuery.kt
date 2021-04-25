@@ -12,4 +12,4 @@ fun interface FindUserByIdOutputPort {
     fun handle(dto: FindUserByIdOutputPortDto?)
 }
 
-data class FindUserByIdOutputPortDto(val id: UUID, val name: String, val description: String)
+data class FindUserByIdOutputPortDto(val user: User?)

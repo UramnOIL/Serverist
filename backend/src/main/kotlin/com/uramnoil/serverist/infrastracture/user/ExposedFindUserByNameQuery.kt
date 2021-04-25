@@ -1,9 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.user.queries.FindUserByNameDto
-import com.uramnoil.serverist.application.user.queries.FindUserByNameOutputPort
-import com.uramnoil.serverist.application.user.queries.FindUserByNameOutputPortDto
-import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
+import com.uramnoil.serverist.application.user.queries.*
 import com.uramnoil.serverist.domain.services.user.UserFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -18,7 +15,7 @@ class ExposedFindUserByNameQuery(
     private val outputPort: FindUserByNameOutputPort,
     context: CoroutineContext
 ) : FindUserByNameQuery, CoroutineScope by CoroutineScope(context) {
-    override fun excecute(dto: FindUserByNameDto) {
+    override fun execute(dto: FindUserByNameDto) {
         launch {
             outputPort.handle(newSuspendedTransaction(db = database) {
                 val result = Users.select { Users.name.lowerCase() eq dto.name.toLowerCase() }.firstOrNull()
@@ -36,9 +33,14 @@ class ExposedFindUserByNameQuery(
                 }
             }?.let {
                 FindUserByNameOutputPortDto(
-                    id = it.id.value,
-                    name = it.name.value,
-                    description = it.description.value
+                    User(
+                        id = it.id.value.toString(),
+                        accountId = it.accountId.value,
+                        email = it.email.value,
+                        hashedPassword = it.password.value.toString(),
+                        name = it.name.value,
+                        description = it.description.value
+                    )
                 )
             })
         }
