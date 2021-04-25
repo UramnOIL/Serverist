@@ -37,7 +37,7 @@ class ExposedFindUserByNameQuery(
                         id = it.id.value.toString(),
                         accountId = it.accountId.value,
                         email = it.email.value,
-                        hashedPassword = it.password.value.toString(),
+                        hashedPassword = it.hashedPassword.value.toString(),
                         name = it.name.value,
                         description = it.description.value
                     )

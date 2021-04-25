@@ -4,7 +4,7 @@ class User(
     val id: Id,
     var accountId: AccountId,
     var email: Email,
-    var password: HashedPassword,
+    var hashedPassword: HashedPassword,
     var name: Name,
     var description: Description
 )
