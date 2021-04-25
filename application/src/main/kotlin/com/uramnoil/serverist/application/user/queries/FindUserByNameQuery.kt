@@ -1,5 +1,7 @@
 package com.uramnoil.serverist.application.user.queries
 
+import com.uramnoil.serverist.application.user.User
+
 fun interface FindUserByNameQuery {
     fun execute(dto: FindUserByNameDto)
 }

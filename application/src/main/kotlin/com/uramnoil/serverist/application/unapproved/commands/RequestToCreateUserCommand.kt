@@ -1,15 +1,18 @@
 package com.uramnoil.serverist.application.unapproved.commands
 
-data class OfferToCreateUserCommandDto(val id: String, val email: String, val password: String, val name: String)
+import com.uramnoil.serverist.application.unapproved.User
+
+data class OfferToCreateUserCommandDto(val accountId: String, val email: String, val password: String, val name: String)
 
 fun interface OfferToCreateUserCommand {
     fun execute(dto: OfferToCreateUserCommandDto)
 }
 
-data class OfferToCreateUserCommandOutputPortDto(val jwt: String)
+data class OfferToCreateUserCommandOutputPortDto(val user: User)
 
 enum class OfferToCreateUserCommandError {
-    AlreadyCreated,
+    ApprovedUserExists,
+    AlreadyRequested,
 }
 
 data class OfferToCreateUserCommandOutputPortErrorDto(val error: OfferToCreateUserCommandError)

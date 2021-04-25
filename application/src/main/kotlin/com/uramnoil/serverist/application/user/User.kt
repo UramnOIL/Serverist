@@ -1,6 +1,7 @@
-package com.uramnoil.serverist.application.unapproved.queries
+package com.uramnoil.serverist.application.user
 
 data class User(
+    val id: String,
     val accountId: String,
     val email: String,
     val hashedPassword: String,
