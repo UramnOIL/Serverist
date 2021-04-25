@@ -1,22 +1,15 @@
 package com.uramnoil.serverist.application.server.queries
 
-import java.util.*
+import com.uramnoil.serverist.application.server.Server
+
+data class FindServerByIdDto(val id: String)
 
 fun interface FindServerByIdQuery {
     fun execute(dto: FindServerByIdDto)
 }
 
-class FindServerByIdDto(val id: UUID)
+data class FindServerByIdOutputPortDto(val server: Server)
 
 fun interface FindServerByIdOutputPort {
     fun handle(dto: FindServerByIdOutputPortDto?)
 }
-
-data class FindServerByIdOutputPortDto(
-    val id: UUID,
-    val ownerId: UUID,
-    val name: String,
-    val address: String?,
-    val port: Int?,
-    val description: String
-)
