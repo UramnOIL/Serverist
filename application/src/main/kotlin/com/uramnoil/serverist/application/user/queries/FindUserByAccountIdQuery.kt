@@ -2,14 +2,14 @@ package com.uramnoil.serverist.application.user.queries
 
 import com.uramnoil.serverist.application.user.User
 
-fun interface FindUserByIdQuery {
-    fun execute(dto: FindUserByIdDto)
+data class FindUserByAccountIdDto(val id: String)
+
+fun interface FindUserByAccountIdQuery {
+    fun execute(dto: FindUserByAccountIdDto)
 }
 
-data class FindUserByIdDto(val id: String)
+data class FindUserByAccountIdOutputPortDto(val user: User?)
 
-fun interface FindUserByIdOutputPort {
-    fun handle(dto: FindUserByIdOutputPortDto?)
+fun interface FindUserByAccountIdOutputPort {
+    fun handle(dto: FindUserByAccountIdOutputPortDto?)
 }
-
-data class FindUserByIdOutputPortDto(val user: User?)
