@@ -21,9 +21,9 @@ class ExposedServerRepository(private val database: Database, context: Coroutine
 
             result.let {
                 ServerFactory.create(
-                    it[Servers.id].value,
+                    it[Servers.id].value.toString(),
                     it[Servers.name],
-                    it[Servers.owner],
+                    it[Servers.owner].toString(),
                     it[Servers.address],
                     it[Servers.port],
                     it[Servers.description]
