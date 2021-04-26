@@ -34,7 +34,7 @@ class ExposedFindUserByAccountIdQuery(
                 )
             }
 
-            FindUserByAccountIdQueryOutputPortDto(
+            outputPort.handle(FindUserByAccountIdQueryOutputPortDto(
                 user?.let {
                     User(
                         id = it.id.value.toString(),
@@ -45,7 +45,7 @@ class ExposedFindUserByAccountIdQuery(
                         description = it.description.value
                     )
                 }
-            )
+            ))
         }
     }
 }
