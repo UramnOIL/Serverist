@@ -6,6 +6,6 @@ import kotlinx.coroutines.Deferred
 
 interface UnapprovedUserRepository {
     fun storeAsync(user: User): Deferred<Unit>
-    fun deleteAsync(remove: User): Deferred<Unit>
+    fun deleteAsync(user: User): Deferred<Unit>
     fun findByAccountIdAsync(id: AccountId): Deferred<User?>
 }
