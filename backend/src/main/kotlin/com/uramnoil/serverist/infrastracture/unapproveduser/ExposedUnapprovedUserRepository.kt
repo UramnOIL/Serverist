@@ -14,7 +14,8 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.update
 import kotlin.coroutines.CoroutineContext
 
-class ExposedUnapprovedRepository(private val database: Database, context: CoroutineContext) : UnapprovedUserRepository,
+class ExposedUnapprovedUserRepository(private val database: Database, context: CoroutineContext) :
+    UnapprovedUserRepository,
     CoroutineScope by CoroutineScope(context) {
 
     override fun storeAsync(user: User): Deferred<Unit> = async {
