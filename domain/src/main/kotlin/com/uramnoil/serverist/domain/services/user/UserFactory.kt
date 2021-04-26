@@ -5,7 +5,7 @@ import java.util.*
 
 object UserFactory {
     fun create(
-        id: UUID,
+        id: String,
         accountId: String,
         email: String,
         hashedPassword: ByteArray,
@@ -13,7 +13,7 @@ object UserFactory {
         description: String
     ) =
         User(
-            Id(id),
+            Id(UUID.fromString(id)),
             AccountId(accountId),
             Email(email),
             HashedPassword(hashedPassword),

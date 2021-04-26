@@ -5,11 +5,11 @@ import java.util.*
 import com.uramnoil.serverist.domain.models.user.Id as UserId
 
 object ServerFactory {
-    fun create(id: UUID, name: String, ownerId: UUID, address: String?, port: Int?, description: String) =
+    fun create(id: String, name: String, ownerId: String, address: String?, port: Int?, description: String) =
         Server(
-            Id(id),
+            Id(UUID.fromString(id)),
             Name(name),
-            UserId(ownerId),
+            UserId(UUID.fromString(ownerId)),
             Address(address),
             Port(port),
             Description(description)
