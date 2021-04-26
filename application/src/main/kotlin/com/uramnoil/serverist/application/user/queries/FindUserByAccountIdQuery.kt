@@ -11,5 +11,5 @@ fun interface FindUserByAccountIdQuery {
 data class FindUserByAccountIdOutputPortDto(val user: User?)
 
 fun interface FindUserByAccountIdOutputPort {
-    fun handle(dto: FindUserByAccountIdOutputPortDto?)
+    fun handle(dto: FindUserByAccountIdOutputPortDto)
 }
