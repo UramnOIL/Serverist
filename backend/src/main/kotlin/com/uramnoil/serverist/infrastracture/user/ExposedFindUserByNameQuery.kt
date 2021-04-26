@@ -27,7 +27,7 @@ class ExposedFindUserByNameQuery(
 
                 result.let {
                     UserFactory.create(
-                        it[Users.id].value,
+                        it[Users.id].value.toString(),
                         it[Users.accountId],
                         it[Users.email],
                         it[Users.hashedPassword],
@@ -35,16 +35,18 @@ class ExposedFindUserByNameQuery(
                         it[Users.description],
                     )
                 }
-            }?.let {
+            }.let {
                 FindUserByNameOutputPortDto(
-                    User(
-                        id = it.id.value.toString(),
-                        accountId = it.accountId.value,
-                        email = it.email.value,
-                        hashedPassword = it.hashedPassword.value.toString(),
-                        name = it.name.value,
-                        description = it.description.value
-                    )
+                    it?.let {
+                        User(
+                            id = it.id.value.toString(),
+                            accountId = it.accountId.value,
+                            email = it.email.value,
+                            hashedPassword = it.hashedPassword.value.toString(),
+                            name = it.name.value,
+                            description = it.description.value
+                        )
+                    }
                 )
             })
         }
