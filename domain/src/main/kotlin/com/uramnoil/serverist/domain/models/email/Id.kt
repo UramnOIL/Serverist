@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.models.user
+package com.uramnoil.serverist.domain.models.email
 
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.models.user
+package com.uramnoil.serverist.domain.models.email
 
 data class Email(val value: String) {
     init {
