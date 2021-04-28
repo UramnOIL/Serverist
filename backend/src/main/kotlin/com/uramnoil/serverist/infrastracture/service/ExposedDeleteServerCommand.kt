@@ -8,7 +8,6 @@ import com.uramnoil.serverist.domain.repositories.ServerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlin.coroutines.CoroutineContext
 
 class ExposedDeleteServerCommand(
@@ -18,12 +17,9 @@ class ExposedDeleteServerCommand(
 ) : DeleteServerCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: DeleteServerDto) {
         launch {
-            newSuspendedTransaction(db = database) {
-                val server = repository.findByIdAsync(Id(dto.id)).await()
-                    ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${dto.id})が見つかりませんでした。")
-                repository.deleteAsync(server).await()
-                commit()
-            }
+            val server = repository.findById(Id(dto.id))
+                ?: throw NotFoundException("DeleteServerCommand#Execute: サーバー(Id: ${dto.id})が見つかりませんでした。")
+            repository.delete(server)
         }
     }
 }

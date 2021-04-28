@@ -2,12 +2,14 @@ package com.uramnoil.serverist.infrastracture.service
 
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
 import com.uramnoil.serverist.application.server.commands.UpdateServerDto
+import com.uramnoil.serverist.domain.models.server.Id
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.ServerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class ExposedUpdateServerCommand(
@@ -18,7 +20,7 @@ class ExposedUpdateServerCommand(
     override fun execute(dto: UpdateServerDto) {
         launch {
             newSuspendedTransaction(db = database) {
-                val server = repository.findByIdAsync(com.uramnoil.serverist.domain.models.server.Id(dto.id)).await()
+                val server = repository.findById(Id(UUID.fromString(dto.id)))
                     ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${dto.id})が見つかりませんでした。")
                 server.apply {
                     name = com.uramnoil.serverist.domain.models.server.Name(dto.name)
@@ -26,7 +28,7 @@ class ExposedUpdateServerCommand(
                     port = com.uramnoil.serverist.domain.models.server.Port(dto.port)
                     description = com.uramnoil.serverist.domain.models.server.Description(dto.description)
                 }
-                repository.storeAsync(server).await()
+                repository.store(server)
                 commit()
             }
         }

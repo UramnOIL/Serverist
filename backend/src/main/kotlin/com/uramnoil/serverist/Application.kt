@@ -1,10 +1,10 @@
 package com.uramnoil.serverist
 
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameDto
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPort
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameOutputPortDto
-import com.uramnoil.serverist.application.service.usecases.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.infrastracture.buildDi
+import com.apurebase.kgraphql.GraphQL
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByAccountIdQuery
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByAccountIdQueryOutputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByNameDto
+import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.infrastracture.service.Servers
 import com.uramnoil.serverist.infrastracture.user.Users
 import io.ktor.application.*
@@ -14,7 +14,6 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -33,9 +32,10 @@ fun Application.module(testing: Boolean = false) {
         user = "develop",
         password = "develop"
     )
+
     val context = Dispatchers.Default
 
-    val di = buildDi(database, context)
+    val di = buildApplicationDi(buildDomainDi(database, context), database, context)
 
     if (testing) {
         transaction(database) {
@@ -50,7 +50,7 @@ fun Application.module(testing: Boolean = false) {
     data class AuthSession(val id: String)
 
     install(Sessions) {
-        cookie<AuthSession>("SESSION", SessionStorageMemory()) {
+        cookie<AuthSession>("SESSION", if (testing) TODO("Redis用Storageを作成") else SessionStorageMemory()) {
             cookie.path = "/"
             cookie.maxAgeInSeconds = 1000
         }
@@ -64,23 +64,37 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+
+
+    install(GraphQL) {
+        playground = true
+
+        schema {
+            query("findUserByAccountId") {
+                resolver { ->
+                    val query: FindUnauthenticatedUserByAccountIdQuery by di.instance()
+                }
+            }
+        }
+    }
+
     data class UserPasswordPrincipal(val user: String, val password: String) : Principal
 
     routing {
         post("login") {
             data class IdEmailPassword(val idOrEmail: String, val password: String)
-            call.receive<IdEmailPassword>().let {
-                val channel = Channel<FindUserByNameOutputPortDto?>()
+            call.receive<IdEmailPassword>().let { idEmailPassword ->
+                val output = FindUnauthenticatedUserByAccountIdQueryOutputPort { dto ->
+                    dto.let {
 
-                val query: FindUserByNameQuery by di.instance(arg = FindUserByNameOutputPort { dto ->
-                    channel.offer(dto)
-                    channel.close()
-                })
-
-                query.excecute(FindUserByNameDto(it.idOrEmail))
-
-                channel.receive()?.let {
+                    } ?: let {
+                        TODO("Emailで検索")
+                    }
                 }
+
+                val query: FindUserByNameQuery by di.instance(arg = output)
+
+                query.execute(FindUserByNameDto(idEmailPassword.idOrEmail))
             }
         }
 

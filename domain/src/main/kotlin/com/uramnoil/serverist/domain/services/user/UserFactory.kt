@@ -5,18 +5,14 @@ import java.util.*
 
 object UserFactory {
     fun create(
-        id: String,
+        id: UUID,
         accountId: String,
-        email: String,
-        hashedPassword: ByteArray,
         name: String,
         description: String
     ) =
         User(
-            Id(UUID.fromString(id)),
+            Id(id),
             AccountId(accountId),
-            Email(email),
-            HashedPassword(hashedPassword),
             Name(name),
             Description(description)
         )

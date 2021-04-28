@@ -7,7 +7,7 @@ fun interface CreateUserCommand {
 data class CreateUserDto(
     val accountId: String,
     val email: String,
-    val password: String,
+    val hashedPassword: String,
     val name: String,
     val description: String
 )

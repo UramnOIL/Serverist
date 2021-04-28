@@ -5,56 +5,46 @@ import com.uramnoil.serverist.domain.models.user.User
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import com.uramnoil.serverist.domain.services.user.UserFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlin.coroutines.CoroutineContext
 
 class ExposedUserRepository(private val database: Database, context: CoroutineContext) : UserRepository,
     CoroutineScope by CoroutineScope(context) {
     private val logger = StdOutSqlLogger
 
-    override fun findByIdAsync(id: Id): Deferred<User?> = async {
-        transaction(database) {
-            addLogger(logger)
-            SchemaUtils.create(Users)
+    override suspend fun store(user: User) = newSuspendedTransaction(db = database) {
+        addLogger(logger)
+        SchemaUtils.create(Users)
 
-            val query = Users.select { Users.id eq id.value }.firstOrNull() ?: return@transaction null
-
-            query.let {
-                UserFactory.create(
-                    id = it[Users.id].value,
-                    accountId = it[Users.accountId],
-                    email = it[Users.email],
-                    hashedPassword = it[Users.hashedPassword],
-                    name = it[Users.name],
-                    description = it[Users.description]
-                )
-            }
+        Users.update({ Users.id eq user.id.value }) {
+            it[name] = user.name.value
+            it[description] = user.description.value
         }
+        commit()
     }
 
-    override fun storeAsync(user: User): Deferred<Unit> = async {
-        transaction {
-            addLogger(logger)
-            SchemaUtils.create(Users)
+    override suspend fun delete(user: User) = newSuspendedTransaction(db = database) {
+        addLogger(logger)
+        SchemaUtils.create(Users)
 
-            Users.update({ Users.id eq user.id.value }) {
-                it[name] = user.name.value
-                it[description] = user.description.value
-            }
-            commit()
-        }
+        Users.deleteWhere { Users.id eq user.id.value }
+        commit()
     }
 
-    override fun deleteAsync(user: User): Deferred<Unit> = async {
-        transaction {
-            addLogger(logger)
-            SchemaUtils.create(Users)
+    override suspend fun findById(id: Id): User? = newSuspendedTransaction(db = database) {
+        addLogger(logger)
+        SchemaUtils.create(Users)
 
-            Users.deleteWhere { Users.id eq user.id.value }
-            commit()
+        val query = Users.select { Users.id eq id.value }.firstOrNull() ?: return@newSuspendedTransaction null
+
+        query.let {
+            UserFactory.create(
+                id = it[Users.id].value,
+                accountId = it[Users.accountId],
+                name = it[Users.name],
+                description = it[Users.description]
+            )
         }
     }
 }

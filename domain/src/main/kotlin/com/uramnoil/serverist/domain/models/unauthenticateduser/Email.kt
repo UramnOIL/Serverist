@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.models.unapproveduser
+package com.uramnoil.serverist.domain.models.unauthenticateduser
 
 data class Email(val value: String) {
     init {

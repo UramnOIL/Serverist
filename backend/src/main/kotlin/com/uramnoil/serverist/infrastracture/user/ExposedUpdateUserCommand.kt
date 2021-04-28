@@ -22,12 +22,12 @@ class ExposedUpdateUserCommand(
     override fun execute(dto: UpdateUserDto) {
         launch {
             newSuspendedTransaction(db = database) {
-                repository.findByIdAsync(Id(dto.id)).await()?.apply {
+                val user = repository.findById(Id(dto.id))?.apply {
                     name = Name(dto.name)
                     description = Description(dto.description)
-
-                    repository.storeAsync(this).await()
                 } ?: throw NotFoundException("UpdateUserCommand#execute: ユーザー(ID: ${dto.id})が見つかりませんでした。")
+
+                repository.store(user)
             }
         }
     }

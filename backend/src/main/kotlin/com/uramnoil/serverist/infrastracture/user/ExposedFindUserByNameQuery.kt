@@ -21,34 +21,32 @@ class ExposedFindUserByNameQuery(
 ) : FindUserByNameQuery, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: FindUserByNameDto) {
         launch {
-            outputPort.handle(newSuspendedTransaction(db = database) {
+            val user = newSuspendedTransaction(db = database) {
                 val result = Users.select { Users.name.lowerCase() eq dto.name.toLowerCase() }.firstOrNull()
                     ?: return@newSuspendedTransaction null
 
                 result.let {
                     UserFactory.create(
-                        it[Users.id].value.toString(),
+                        it[Users.id].value,
                         it[Users.accountId],
-                        it[Users.email],
-                        it[Users.hashedPassword],
                         it[Users.name],
                         it[Users.description],
                     )
                 }
-            }.let {
-                FindUserByNameOutputPortDto(
-                    it?.let {
-                        User(
-                            id = it.id.value.toString(),
-                            accountId = it.accountId.value,
-                            email = it.email.value,
-                            hashedPassword = it.hashedPassword.value.toString(),
-                            name = it.name.value,
-                            description = it.description.value
-                        )
-                    }
-                )
-            })
+            }
+
+            val outputPortDto = FindUserByNameOutputPortDto(
+                user?.let {
+                    User(
+                        id = it.id.value.toString(),
+                        accountId = it.accountId.value,
+                        name = it.name.value,
+                        description = it.description.value
+                    )
+                }
+            )
+
+            outputPort.handle(outputPortDto)
         }
     }
 }

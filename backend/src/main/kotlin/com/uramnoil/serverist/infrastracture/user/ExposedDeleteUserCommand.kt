@@ -13,8 +13,8 @@ class ExposedDeleteUserCommand(private val repository: UserRepository, context: 
     DeleteUserCommand, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: DeleteUserCommandDto) {
         launch {
-            repository.findByIdAsync(Id(dto.id)).await()?.let {
-                repository.deleteAsync(it)
+            repository.findById(Id(dto.id))?.let {
+                repository.delete(it)
             } ?: throw NotFoundException("DeleteUserCommand#execute: ユーザー(ID: ${dto.id})が見つかりませんでした。")
         }
     }
