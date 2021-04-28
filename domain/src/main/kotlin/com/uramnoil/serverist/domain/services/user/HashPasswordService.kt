@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.services.password
+package com.uramnoil.serverist.domain.services.user
 
 interface HashPasswordService {
     fun hash(password: String): String

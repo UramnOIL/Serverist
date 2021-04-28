@@ -1,6 +1,4 @@
-package com.uramnoil.serverist.domain.models.unauthenticateduser
-
-import com.uramnoil.serverist.domain.services.password.PasswordSpec
+package com.uramnoil.serverist.domain.services
 
 data class Password(val value: String) {
     init {
