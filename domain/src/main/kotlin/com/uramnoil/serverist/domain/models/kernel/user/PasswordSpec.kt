@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.services
+package com.uramnoil.serverist.domain.models.kernel.user
 
 object PasswordSpec {
     fun isSatisfiedBy(password: String) =

@@ -20,17 +20,16 @@ class ExposedFindUserByAccountIdQuery(
 ) : FindUserByAccountIdQuery, CoroutineScope by CoroutineScope(context) {
     override fun execute(dto: FindUserByAccountIdQueryDto) {
         launch {
-            val user = newSuspendedTransaction(db = database) {
-                val result = Users.select { Users.accountId eq dto.accountId }.firstOrNull()
-                    ?: return@newSuspendedTransaction null
+            val result = newSuspendedTransaction(db = database) {
+                Users.select { Users.accountId eq dto.accountId }.firstOrNull()
+            }
 
+            val user = result?.let {
                 UserFactory.create(
-                    result[Users.id].value.toString(),
-                    result[Users.accountId],
-                    result[Users.email],
-                    result[Users.hashedPassword],
-                    result[Users.name],
-                    result[Users.description]
+                    it[Users.id].value,
+                    it[Users.accountId],
+                    it[Users.name],
+                    it[Users.description]
                 )
             }
 
@@ -39,8 +38,6 @@ class ExposedFindUserByAccountIdQuery(
                     User(
                         id = it.id.value.toString(),
                         accountId = it.accountId.value,
-                        email = it.email.value,
-                        hashedPassword = it.hashedPassword.value.toString(),
                         name = it.name.value,
                         description = it.description.value
                     )

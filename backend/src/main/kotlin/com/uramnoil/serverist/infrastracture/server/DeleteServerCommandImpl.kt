@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.service
+package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.server.commands.DeleteServerDto
@@ -7,11 +7,9 @@ import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.ServerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.Database
 import kotlin.coroutines.CoroutineContext
 
-class ExposedDeleteServerCommand(
-    private val database: Database,
+class DeleteServerCommandImpl(
     private val repository: ServerRepository,
     context: CoroutineContext
 ) : DeleteServerCommand, CoroutineScope by CoroutineScope(context) {

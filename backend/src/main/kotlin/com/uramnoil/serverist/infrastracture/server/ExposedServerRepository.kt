@@ -1,20 +1,17 @@
-package com.uramnoil.serverist.infrastracture.service
+package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.domain.models.server.Id
 import com.uramnoil.serverist.domain.models.server.Server
 import com.uramnoil.serverist.domain.repositories.ServerRepository
 import com.uramnoil.serverist.domain.services.server.ServerFactory
-import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
-import kotlin.coroutines.CoroutineContext
 
-class ExposedServerRepository(private val database: Database, context: CoroutineContext) : ServerRepository,
-    CoroutineScope by CoroutineScope(context) {
+class ExposedServerRepository(private val database: Database) : ServerRepository {
     override suspend fun findById(id: Id): Server? = newSuspendedTransaction(db = database) {
         val result = Servers.select { Servers.id eq id.value }.firstOrNull() ?: return@newSuspendedTransaction null
 

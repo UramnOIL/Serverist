@@ -5,7 +5,7 @@ import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauth
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByAccountIdQueryOutputPort
 import com.uramnoil.serverist.application.user.queries.FindUserByNameDto
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.infrastracture.service.Servers
+import com.uramnoil.serverist.infrastracture.server.Servers
 import com.uramnoil.serverist.infrastracture.user.Users
 import io.ktor.application.*
 import io.ktor.auth.*

@@ -9,10 +9,10 @@ import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
 import com.uramnoil.serverist.application.user.queries.*
-import com.uramnoil.serverist.infrastracture.service.ExposedCreateServerCommand
-import com.uramnoil.serverist.infrastracture.service.ExposedDeleteServerCommand
-import com.uramnoil.serverist.infrastracture.service.ExposedFindServerByIdQuery
-import com.uramnoil.serverist.infrastracture.service.ExposedUpdateServerCommand
+import com.uramnoil.serverist.infrastracture.server.CreateServerCommandImpl
+import com.uramnoil.serverist.infrastracture.server.DeleteServerCommandImpl
+import com.uramnoil.serverist.infrastracture.server.FindServerByIdQueryImpl
+import com.uramnoil.serverist.infrastracture.server.UpdateServerCommmandImpl
 import com.uramnoil.serverist.infrastracture.user.*
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
@@ -26,33 +26,33 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
 
     // <-- Server -->
     bind<CreateServerCommand>() with factory {
-        ExposedCreateServerCommand(database, instance(), instance(), context)
+        CreateServerCommandImpl(instance(), instance(), context)
     }
 
     bind<DeleteServerCommand>() with factory {
-        ExposedDeleteServerCommand(database, instance(), context)
+        DeleteServerCommandImpl(instance(), context)
     }
 
     bind<UpdateServerCommand>() with factory {
-        ExposedUpdateServerCommand(database, instance(), context)
+        UpdateServerCommmandImpl(database, instance(), context)
     }
 
     bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
-        ExposedFindServerByIdQuery(instance(), outputPort, context)
+        FindServerByIdQueryImpl(instance(), outputPort, context)
     }
 
     // <-- User -->
 
     bind<CreateUserCommand>() with factory {
-        ExposedCreateUserCommand(instance(), context)
+        CreateUserCommandImpl(instance(), context)
     }
 
     bind<DeleteUserCommand>() with factory {
-        ExposedDeleteUserCommand(instance(), context)
+        DeleteUserCommandImpl(instance(), context)
     }
 
     bind<UpdateUserCommand>() with factory {
-        ExposedUpdateUserCommand(database, instance(), context)
+        UpdateUserCommandImpl(instance(), context)
     }
 
     bind<FindAllUsersQuery>() with factory { outputPort: FindAllUsersOutputPort ->

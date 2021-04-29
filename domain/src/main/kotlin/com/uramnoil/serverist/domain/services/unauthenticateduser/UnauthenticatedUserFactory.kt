@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.domain.services.unauthenticateduser
 
+import com.uramnoil.serverist.domain.models.kernel.user.HashedPassword
 import com.uramnoil.serverist.domain.models.unauthenticateduser.AccountId
 import com.uramnoil.serverist.domain.models.unauthenticateduser.Email
-import com.uramnoil.serverist.domain.models.unauthenticateduser.HashedPassword
 import com.uramnoil.serverist.domain.models.unauthenticateduser.UnauthenticatedUser
 
 object UnauthenticatedUserFactory {

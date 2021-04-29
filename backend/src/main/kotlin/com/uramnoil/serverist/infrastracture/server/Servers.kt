@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.service
+package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.infrastracture.user.Users
 import org.jetbrains.exposed.dao.id.UUIDTable

@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.services
+package com.uramnoil.serverist.domain.models.kernel.user
 
 data class Password(val value: String) {
     init {
