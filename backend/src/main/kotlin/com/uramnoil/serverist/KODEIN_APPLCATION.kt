@@ -3,12 +3,13 @@ package com.uramnoil.serverist
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
 import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
-import com.uramnoil.serverist.application.server.queries.FindServerByIdOutputPort
 import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
-import com.uramnoil.serverist.application.user.queries.*
+import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
+import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
+import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.infrastracture.server.CreateServerCommandImpl
 import com.uramnoil.serverist.infrastracture.server.DeleteServerCommandImpl
 import com.uramnoil.serverist.infrastracture.server.FindServerByIdQueryImpl
@@ -37,8 +38,8 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
         UpdateServerCommmandImpl(database, instance(), context)
     }
 
-    bind<FindServerByIdQuery>() with factory { outputPort: FindServerByIdOutputPort ->
-        FindServerByIdQueryImpl(instance(), outputPort, context)
+    bind<FindServerByIdQuery>() with factory {
+        FindServerByIdQueryImpl(instance())
     }
 
     // <-- User -->
@@ -55,16 +56,16 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
         UpdateUserCommandImpl(instance(), context)
     }
 
-    bind<FindAllUsersQuery>() with factory { outputPort: FindAllUsersOutputPort ->
-        ExposedFindAllUsersQuery(database, outputPort, context)
+    bind<FindAllUsersQuery>() with factory {
+        ExposedFindAllUsersQuery(database)
     }
 
-    bind<FindUserByAccountIdQuery>() with factory { outputPort: FindUserByAccountIdQueryOutputPort ->
-        ExposedFindUserByAccountIdQuery(database, outputPort, context)
+    bind<FindUserByAccountIdQuery>() with factory {
+        ExposedFindUserByAccountIdQuery(database)
     }
 
-    bind<FindUserByNameQuery>() with factory { outputPort: FindUserByNameOutputPort ->
-        ExposedFindUserByNameQuery(database, outputPort, context)
+    bind<FindUserByNameQuery>() with factory {
+        ExposedFindUserByNameQuery(database)
     }
 
     // <-- UnapprovedUser -->
