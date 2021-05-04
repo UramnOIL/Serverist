@@ -8,7 +8,7 @@ fun interface FindServerByIdQuery {
     fun execute(dto: FindServerByIdDto)
 }
 
-data class FindServerByIdOutputPortDto(val server: Server?)
+data class FindServerByIdOutputPortDto(val server: Server)
 
 fun interface FindServerByIdOutputPort {
     fun handle(dto: FindServerByIdOutputPortDto?)
