@@ -7,12 +7,16 @@ object UserFactory {
     fun create(
         id: UUID,
         accountId: String,
+        email: String,
+        hashedPassword: String,
         name: String,
         description: String
     ) =
         User(
             Id(id),
             AccountId(accountId),
+            Email(email),
+            HashedPassword(hashedPassword),
             Name(name),
             Description(description)
         )
