@@ -2,10 +2,11 @@ package com.uramnoil.serverist.application.user.queries
 
 import com.uramnoil.serverist.application.user.User
 
-interface FindUserByAccountIdOrEmailQuery {
-    data class FindUserByAccountIdQueryDto(val accountIdOrEmail: String)
+data class FindUserByAccountIdOrEmailQueryDto(val accountIdOrEmail: String)
 
-    interface FindUserByAccountIdQuery {
-        suspend fun execute(dto: FindUserByAccountIdQueryDto): User?
+interface FindUserByAccountIdOrEmailQuery {
+
+    interface FindUserByAccountIdOrEmailQuery {
+        suspend fun execute(dto: FindUserByAccountIdOrEmailQueryDto): User?
     }
 }
