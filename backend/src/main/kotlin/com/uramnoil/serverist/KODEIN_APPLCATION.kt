@@ -10,6 +10,7 @@ import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
+import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.CreateServerCommandImpl
 import com.uramnoil.serverist.infrastracture.server.DeleteServerCommandImpl
 import com.uramnoil.serverist.infrastracture.server.FindServerByIdQueryImpl
@@ -66,6 +67,10 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
 
     bind<FindUserByNameQuery>() with factory {
         ExposedFindUserByNameQuery(database)
+    }
+
+    bind<ValidateLoginService>() with factory {
+        ExposedValidateLoginService(database, instance())
     }
 
     // <-- UnapprovedUser -->
