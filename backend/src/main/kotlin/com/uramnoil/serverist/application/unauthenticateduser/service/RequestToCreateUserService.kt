@@ -5,8 +5,7 @@ import com.uramnoil.serverist.application.unauthenticateduser.User
 data class RequestToCreateUserServiceDto(
     val accountId: String,
     val email: String,
-    val password: String,
-    val name: String
+    val password: String
 )
 
 interface RequestToCreateUserService {
