@@ -2,8 +2,8 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserDto
-import com.uramnoil.serverist.domain.models.kernel.user.Id
 import com.uramnoil.serverist.domain.models.user.Description
+import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.models.user.Name
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.UserRepository

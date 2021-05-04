@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.models.kernel.user.Id
+import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.models.user.User
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import com.uramnoil.serverist.domain.services.user.UserFactory

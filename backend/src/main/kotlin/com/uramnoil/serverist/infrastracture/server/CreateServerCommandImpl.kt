@@ -2,11 +2,11 @@ package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
 import com.uramnoil.serverist.application.server.commands.CreateServerDto
-import com.uramnoil.serverist.domain.models.kernel.user.Id
 import com.uramnoil.serverist.domain.models.server.Address
 import com.uramnoil.serverist.domain.models.server.Description
 import com.uramnoil.serverist.domain.models.server.Name
 import com.uramnoil.serverist.domain.models.server.Port
+import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import com.uramnoil.serverist.domain.services.server.CreateServerService

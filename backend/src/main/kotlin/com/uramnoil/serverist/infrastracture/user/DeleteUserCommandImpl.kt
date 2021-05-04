@@ -2,7 +2,7 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommandDto
-import com.uramnoil.serverist.domain.models.kernel.user.Id
+import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import kotlinx.coroutines.CoroutineScope
