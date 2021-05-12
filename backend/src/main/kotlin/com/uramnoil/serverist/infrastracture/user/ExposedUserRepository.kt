@@ -36,6 +36,8 @@ class ExposedUserRepository(private val database: Database) : UserRepository {
             UserFactory.create(
                 id = it[Users.id].value,
                 accountId = it[Users.accountId],
+                email = it[Users.email],
+                hashedPassword = it[Users.hashedPassword],
                 name = it[Users.name],
                 description = it[Users.description]
             )

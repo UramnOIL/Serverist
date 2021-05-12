@@ -15,7 +15,7 @@ class ExposedFindAllUsersQuery(
         }
 
         return result.map {
-            User(it[Users.id].value.toString(), it[Users.accountId], it[Users.name], it[Users.description])
+            User(it[Users.id].value, it[Users.accountId], it[Users.name], it[Users.description])
         }
     }
 }

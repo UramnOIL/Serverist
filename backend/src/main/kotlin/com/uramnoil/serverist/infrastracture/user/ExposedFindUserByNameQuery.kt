@@ -21,6 +21,8 @@ class ExposedFindUserByNameQuery(
                 UserFactory.create(
                     it[Users.id].value,
                     it[Users.accountId],
+                    it[Users.email],
+                    it[Users.hashedPassword],
                     it[Users.name],
                     it[Users.description],
                 )
@@ -29,7 +31,7 @@ class ExposedFindUserByNameQuery(
 
         return user?.let {
             User(
-                id = it.id.value.toString(),
+                id = it.id.value,
                 accountId = it.accountId.value,
                 name = it.name.value,
                 description = it.description.value
