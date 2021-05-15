@@ -18,6 +18,7 @@ repositories {
 dependencies {
     val kotlinVersion: String by project
     val coroutinesVersion: String by project
+    val datetimeVersion: String by project
     val ktorVersion: String by project
     val logbackVersion: String by project
     val kgraphqlVersion: String by project
@@ -26,6 +27,7 @@ dependencies {
 
     implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
+    implementation("org.jetbrains.kotlinx", "kotlinx-datetime", datetimeVersion)
     implementation("io.ktor", "ktor-server-netty", ktorVersion)
     implementation("io.ktor", "ktor-auth", ktorVersion)
     implementation("io.ktor", "ktor-auth-jwt", ktorVersion)
