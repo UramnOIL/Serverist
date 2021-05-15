@@ -10,5 +10,5 @@ object Servers : UUIDTable("Servers") {
     val createdAt = datetime("created_at")
     val address = varchar("address", 253).nullable()
     val port = integer("port").nullable()
-    val description = text("description")
+    val description = varchar("description", 255)
 }
