@@ -7,8 +7,12 @@ enum class Sort {
     Asc,
 }
 
-data class FindAllServersOrderByCreatedAtQueryDto(val sort: Sort)
+enum class OrderBy {
+    CreatedAt,
+}
+
+data class FindAllServerDto(val limit: Int, val offset: Int, val sort: Sort, val orderBy: OrderBy)
 
 interface FindAllServersOrderByCreatedAtQuery {
-    fun execute(dto: FindAllServersOrderByCreatedAtQueryDto): List<Server>
+    fun execute(dto: FindAllServerDto): List<Server>
 }
