@@ -1,0 +1,3 @@
+= Serverist
+
+Kotlin + DDDで作るマイクラ用のサーバーリスト
