@@ -7,10 +7,10 @@ import com.uramnoil.serverist.domain.services.user.UserFactory
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedUserRepository(private val database: Database) : UserRepository {
+class ExposedUserRepository() : UserRepository {
     private val logger = StdOutSqlLogger
 
-    override suspend fun store(user: User) = newSuspendedTransaction(db = database) {
+    override suspend fun store(user: User) = newSuspendedTransaction {
         addLogger(logger)
 
         Users.update({ Users.id eq user.id.value }) {
@@ -20,14 +20,14 @@ class ExposedUserRepository(private val database: Database) : UserRepository {
         commit()
     }
 
-    override suspend fun delete(user: User) = newSuspendedTransaction(db = database) {
+    override suspend fun delete(user: User) = newSuspendedTransaction {
         addLogger(logger)
 
         Users.deleteWhere { Users.id eq user.id.value }
         commit()
     }
 
-    override suspend fun findById(id: Id): User? = newSuspendedTransaction(db = database) {
+    override suspend fun findById(id: Id): User? = newSuspendedTransaction {
         addLogger(logger)
 
         val query = Users.select { Users.id eq id.value }.firstOrNull() ?: return@newSuspendedTransaction null

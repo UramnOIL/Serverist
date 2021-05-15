@@ -3,14 +3,13 @@ package com.uramnoil.serverist.infrastracture.server
 import com.uramnoil.serverist.domain.models.server.*
 import com.uramnoil.serverist.domain.models.user.User
 import com.uramnoil.serverist.domain.services.server.CreateServerService
-import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-class ExposedCreateServerService(private val database: Database) :
+class ExposedCreateServerService :
     CreateServerService {
     override suspend fun new(
         name: Name,
@@ -18,7 +17,7 @@ class ExposedCreateServerService(private val database: Database) :
         address: Address,
         port: Port,
         description: Description
-    ): Id = newSuspendedTransaction(db = database) {
+    ): Id = newSuspendedTransaction {
         val id = Id(Servers.insertAndGetId {
             it[createdAt] = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC)
             it[Servers.name] = name.value

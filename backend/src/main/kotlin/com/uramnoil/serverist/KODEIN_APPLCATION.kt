@@ -14,14 +14,13 @@ import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.*
 import com.uramnoil.serverist.infrastracture.user.*
-import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.factory
 import org.kodein.di.instance
 import kotlin.coroutines.CoroutineContext
 
-fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = DI {
+fun buildApplicationDi(di: DI, context: CoroutineContext) = DI {
     this.extend(di)
 
     // <-- Server -->
@@ -34,7 +33,7 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
     }
 
     bind<UpdateServerCommand>() with factory {
-        UpdateServerCommandImpl(database, instance(), context)
+        UpdateServerCommandImpl(instance(), context)
     }
 
     bind<FindServerByIdQuery>() with factory {
@@ -60,19 +59,19 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
     }
 
     bind<FindAllUsersQuery>() with factory {
-        ExposedFindAllUsersQuery(database)
+        ExposedFindAllUsersQuery()
     }
 
     bind<FindUserByAccountIdQuery>() with factory {
-        ExposedFindUserByAccountIdQuery(database)
+        ExposedFindUserByAccountIdQuery()
     }
 
     bind<FindUserByNameQuery>() with factory {
-        ExposedFindUserByNameQuery(database)
+        ExposedFindUserByNameQuery()
     }
 
     bind<ValidateLoginService>() with factory {
-        ExposedValidateLoginService(database, instance())
+        ExposedValidateLoginService(instance())
     }
 
     // <-- UnapprovedUser -->

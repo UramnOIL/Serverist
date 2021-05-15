@@ -6,17 +6,15 @@ import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
 import com.uramnoil.serverist.domain.models.user.HashedPassword
 import com.uramnoil.serverist.domain.services.user.HashPasswordService
 import com.uramnoil.serverist.domain.services.user.UserFactory
-import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedValidateLoginService(
-    private val database: Database,
     private val hashPasswordService: HashPasswordService
 ) : ValidateLoginService {
     override suspend fun execute(dto: ValidateLoginServiceDto): User? {
-        val result = newSuspendedTransaction(db = database) {
+        val result = newSuspendedTransaction {
             Users.select { (Users.accountId eq dto.accountIdOrEmail) or (Users.email eq dto.accountIdOrEmail) }
                 .firstOrNull()
         }
