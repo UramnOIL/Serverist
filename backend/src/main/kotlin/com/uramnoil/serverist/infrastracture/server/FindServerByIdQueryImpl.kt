@@ -16,6 +16,7 @@ class FindServerByIdQueryImpl(
         return server?.run {
             Server(
                 id.value,
+                createdAt.value,
                 ownerId.value,
                 name.value,
                 address.value,
