@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class UpdateServerCommmandImpl(
+class UpdateServerCommandImpl(
     private val database: Database,
     private val repository: ServerRepository,
     context: CoroutineContext

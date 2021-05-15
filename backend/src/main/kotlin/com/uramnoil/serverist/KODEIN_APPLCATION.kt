@@ -34,7 +34,7 @@ fun buildApplicationDi(di: DI, database: Database, context: CoroutineContext) = 
     }
 
     bind<UpdateServerCommand>() with factory {
-        UpdateServerCommmandImpl(database, instance(), context)
+        UpdateServerCommandImpl(database, instance(), context)
     }
 
     bind<FindServerByIdQuery>() with factory {
