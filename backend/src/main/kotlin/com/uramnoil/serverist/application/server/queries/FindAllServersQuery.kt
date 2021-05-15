@@ -11,8 +11,8 @@ enum class OrderBy {
     CreatedAt,
 }
 
-data class FindAllServerDto(val limit: Int, val offset: Long, val sort: Sort, val orderBy: OrderBy)
+data class FindAllServerQueryDto(val limit: Int, val offset: Long, val sort: Sort, val orderBy: OrderBy)
 
 interface FindAllServersQuery {
-    suspend fun execute(dto: FindAllServerDto): List<Server>
+    suspend fun execute(dto: FindAllServerQueryDto): List<Server>
 }
