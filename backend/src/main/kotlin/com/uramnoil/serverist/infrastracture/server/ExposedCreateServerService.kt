@@ -6,6 +6,9 @@ import com.uramnoil.serverist.domain.services.server.CreateServerService
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 class ExposedCreateServerService(private val database: Database) :
     CreateServerService {
@@ -17,6 +20,7 @@ class ExposedCreateServerService(private val database: Database) :
         description: Description
     ): Id = newSuspendedTransaction(db = database) {
         val id = Id(Servers.insertAndGetId {
+            it[createdAt] = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC)
             it[Servers.name] = name.value
             it[Servers.owner] = owner.id.value
             it[Servers.address] = address.value

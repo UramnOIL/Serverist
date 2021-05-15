@@ -4,6 +4,7 @@ import com.uramnoil.serverist.domain.models.user.Id as UserId
 
 class Server internal constructor(
     val id: Id,
+    val createdAt: CreatedAt,
     var name: Name,
     val ownerId: UserId,
     var address: Address,

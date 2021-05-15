@@ -8,6 +8,7 @@ object ExposedServerFactory {
     fun create(result: ResultRow): Server {
         return ServerFactory.create(
             result[Servers.id].value,
+            result[Servers.createdAt],
             result[Servers.name],
             result[Servers.owner],
             result[Servers.address],
