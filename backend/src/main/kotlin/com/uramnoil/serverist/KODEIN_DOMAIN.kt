@@ -30,7 +30,7 @@ fun buildDomainDi(database: Database, context: CoroutineContext) = DI {
     // <-- Server -->
 
     bind<ServerRepository>() with singleton {
-        ExposedServerRepository(database)
+        ExposedServerRepository()
     }
 
     bind<CreateServerService>() with singleton {
