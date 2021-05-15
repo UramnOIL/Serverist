@@ -4,7 +4,7 @@ import com.uramnoil.serverist.infrastracture.user.Users
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.`java-time`.datetime
 
-object Servers : UUIDTable("Servers") {
+object Servers : UUIDTable("servers") {
     val name = varchar("name", 16)
     val owner = uuid("owner").references(Users.id)
     val createdAt = datetime("created_at")
