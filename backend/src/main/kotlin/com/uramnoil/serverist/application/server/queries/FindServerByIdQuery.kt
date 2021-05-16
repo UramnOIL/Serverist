@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.server.queries
 
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.application.kernel.Server
 
 data class FindServerByIdDto(val id: String)
 
