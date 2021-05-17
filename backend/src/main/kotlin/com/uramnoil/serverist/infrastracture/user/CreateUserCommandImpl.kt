@@ -4,25 +4,19 @@ import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.CreateUserCommandDto
 import com.uramnoil.serverist.domain.models.user.*
 import com.uramnoil.serverist.domain.services.user.CreateUserService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class CreateUserCommandImpl(
-    private val createUserService: CreateUserService,
-    context: CoroutineContext
-) : CreateUserCommand, CoroutineScope by CoroutineScope(context) {
-    override fun execute(dto: CreateUserCommandDto) {
-        launch {
-            dto.run {
-                createUserService.new(
-                    AccountId(accountId),
-                    Email(email),
-                    HashedPassword(hashedPassword),
-                    Name(name),
-                    Description(description)
-                )
-            }
+    private val createUserService: CreateUserService
+) : CreateUserCommand {
+    override suspend fun execute(dto: CreateUserCommandDto) {
+        dto.run {
+            createUserService.new(
+                AccountId(accountId),
+                Email(email),
+                HashedPassword(hashedPassword),
+                Name(name),
+                Description(description)
+            )
         }
     }
 }

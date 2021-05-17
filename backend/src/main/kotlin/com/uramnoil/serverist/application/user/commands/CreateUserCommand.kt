@@ -8,6 +8,6 @@ data class CreateUserCommandDto(
     val description: String
 )
 
-fun interface CreateUserCommand {
-    fun execute(dto: CreateUserCommandDto)
+interface CreateUserCommand {
+    suspend fun execute(dto: CreateUserCommandDto)
 }

@@ -25,19 +25,19 @@ fun buildApplicationDi(di: DI, context: CoroutineContext) = DI {
 
     // <-- Server -->
     bind<CreateServerCommand>() with factory {
-        CreateServerCommandImpl(instance(), instance(), context)
+        CreateServerCommandImpl(instance(), instance())
     }
 
     bind<DeleteServerCommand>() with factory {
-        DeleteServerCommandImpl(instance(), context)
+        DeleteServerCommandImpl(instance())
     }
 
     bind<UpdateServerCommand>() with factory {
-        UpdateServerCommandImpl(instance(), context)
+        UpdateServerCommandImpl(instance())
     }
 
     bind<FindServerByIdQuery>() with factory {
-        FindServerByIdQueryImpl(instance())
+        FindServerByIdQueryImpl()
     }
 
     bind<FindAllServersQuery>() with factory {
@@ -47,15 +47,15 @@ fun buildApplicationDi(di: DI, context: CoroutineContext) = DI {
     // <-- User -->
 
     bind<CreateUserCommand>() with factory {
-        CreateUserCommandImpl(instance(), context)
+        CreateUserCommandImpl(instance())
     }
 
     bind<DeleteUserCommand>() with factory {
-        DeleteUserCommandImpl(instance(), context)
+        DeleteUserCommandImpl(instance())
     }
 
     bind<UpdateUserCommand>() with factory {
-        UpdateUserCommandImpl(instance(), context)
+        UpdateUserCommandImpl(instance())
     }
 
     bind<FindAllUsersQuery>() with factory {

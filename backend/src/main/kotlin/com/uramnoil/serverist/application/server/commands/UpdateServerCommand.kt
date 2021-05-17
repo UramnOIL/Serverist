@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.server.commands
 
-fun interface UpdateServerCommand {
-    fun execute(dto: UpdateServerDto)
+interface UpdateServerCommand {
+    suspend fun execute(dto: UpdateServerDto)
 }
 
 data class UpdateServerDto(
