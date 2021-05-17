@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.user.commands
 
-data class CreateUserDto(
+data class CreateUserCommandDto(
     val accountId: String,
     val email: String,
     val hashedPassword: String,
@@ -9,5 +9,5 @@ data class CreateUserDto(
 )
 
 fun interface CreateUserCommand {
-    fun execute(dto: CreateUserDto)
+    fun execute(dto: CreateUserCommandDto)
 }

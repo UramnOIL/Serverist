@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
-import com.uramnoil.serverist.application.user.commands.CreateUserDto
+import com.uramnoil.serverist.application.user.commands.CreateUserCommandDto
 import com.uramnoil.serverist.domain.models.user.*
 import com.uramnoil.serverist.domain.services.user.CreateUserService
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +12,7 @@ class CreateUserCommandImpl(
     private val createUserService: CreateUserService,
     context: CoroutineContext
 ) : CreateUserCommand, CoroutineScope by CoroutineScope(context) {
-    override fun execute(dto: CreateUserDto) {
+    override fun execute(dto: CreateUserCommandDto) {
         launch {
             dto.run {
                 createUserService.new(
