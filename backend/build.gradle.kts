@@ -24,7 +24,7 @@ dependencies {
     val kgraphqlVersion: String by project
     val kodeinVersion: String by project
     val exposedVersion: String by project
-    val jbcryptVersion: String by project
+    val springSecurityVersion: String by project
 
     implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
@@ -41,7 +41,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-java-time", exposedVersion)
     implementation("mysql", "mysql-connector-java", "8.0.20")
-    implementation("org.mindrot", "jbcrypt", jbcryptVersion)
+    implementation("org.springframework.security", "spring-security-core", springSecurityVersion)
 
     testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
     testImplementation("com.h2database", "h2", "1.4.200")
