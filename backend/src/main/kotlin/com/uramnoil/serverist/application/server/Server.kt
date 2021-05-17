@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.application.kernel
+package com.uramnoil.serverist.application.server
 
-import com.uramnoil.serverist.application.server.User
+import com.uramnoil.serverist.application.kernel.User
 import kotlinx.datetime.Instant
 import java.util.*
 

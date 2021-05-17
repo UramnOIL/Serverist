@@ -1,10 +1,12 @@
 package com.uramnoil.serverist.infrastracture.server
 
+import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.queries.FindAllServerQueryDto
 import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
 import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.server.queries.Sort
+import com.uramnoil.serverist.infrastracture.user.Users
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -12,7 +14,18 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 class ExposedFindAllServersQuery : FindAllServersQuery {
     override suspend fun execute(dto: FindAllServerQueryDto): List<Server> {
         return newSuspendedTransaction {
-            val query = Servers.selectAll().orderBy(
+            val query = (Servers innerJoin Users).slice(
+                Servers.id,
+                Servers.createdAt,
+                Servers.name,
+                Servers.address,
+                Servers.port,
+                Servers.description,
+                Users.id,
+                Users.accountId,
+                Users.name,
+                Users.description,
+            ).selectAll().orderBy(
                 when (dto.orderBy) {
                     OrderBy.CreatedAt -> Servers.createdAt
                 },
@@ -22,17 +35,20 @@ class ExposedFindAllServersQuery : FindAllServersQuery {
                 }
             ).limit(dto.limit, offset = dto.offset)
             query.map {
-                ExposedServerFactory.create(it).let { server ->
-                    Server(
-                        id = server.id.value,
-                        createdAt = server.createdAt.value,
-                        ownerId = server.ownerId.value,
-                        name = server.name.value,
-                        address = server.address.value,
-                        port = server.port.value,
-                        description = server.description.value
-                    )
-                }
+                Server(
+                    id = it[Servers.id].value,
+                    createdAt = it[Servers.createdAt].toKotlinInstance(),
+                    owner = User(
+                        id = it[Users.id].value,
+                        accountId = it[Users.accountId],
+                        name = it[Users.name],
+                        description = it[Users.description],
+                    ),
+                    name = it[Servers.name],
+                    address = it[Servers.address],
+                    port = it[Servers.port],
+                    description = it[Servers.description]
+                )
             }
         }
     }

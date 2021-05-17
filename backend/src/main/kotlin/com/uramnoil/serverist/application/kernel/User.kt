@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.server
+package com.uramnoil.serverist.application.kernel
 
 import java.util.*
 

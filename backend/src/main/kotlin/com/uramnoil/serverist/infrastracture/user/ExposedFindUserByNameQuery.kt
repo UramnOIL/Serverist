@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.user.User
+import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.user.queries.FindUserByNameDto
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.domain.services.user.UserFactory

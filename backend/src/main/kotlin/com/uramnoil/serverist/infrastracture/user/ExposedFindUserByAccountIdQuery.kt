@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.user.User
+import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQueryDto
 import com.uramnoil.serverist.domain.services.user.UserFactory
@@ -9,11 +9,11 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 class ExposedFindUserByAccountIdQuery : FindUserByAccountIdQuery {
     override suspend fun execute(dto: FindUserByAccountIdQueryDto): User? {
-        val result = newSuspendedTransaction {
+        val userResult = newSuspendedTransaction {
             Users.select { Users.accountId eq dto.accountId }.firstOrNull()
-        }
+        } ?: return null
 
-        val user = result?.let {
+        val user = userResult.let {
             UserFactory.create(
                 it[Users.id].value,
                 it[Users.accountId],
@@ -24,7 +24,7 @@ class ExposedFindUserByAccountIdQuery : FindUserByAccountIdQuery {
             )
         }
 
-        return user?.let {
+        return user.let {
             User(
                 id = it.id.value,
                 accountId = it.accountId.value,

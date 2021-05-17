@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.user.User
+import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
 import com.uramnoil.serverist.domain.models.user.HashedPassword

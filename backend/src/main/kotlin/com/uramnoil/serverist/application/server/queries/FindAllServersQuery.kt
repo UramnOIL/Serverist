@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.server.queries
 
-import com.uramnoil.serverist.application.kernel.Server
+import com.uramnoil.serverist.application.server.Server
 
 enum class Sort {
     Desc,

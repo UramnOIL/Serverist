@@ -1,28 +1,43 @@
 package com.uramnoil.serverist.infrastracture.server
 
+import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.queries.FindServerByIdDto
 import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
-import com.uramnoil.serverist.domain.models.server.Id
-import com.uramnoil.serverist.domain.repositories.ServerRepository
-import java.util.*
+import com.uramnoil.serverist.infrastracture.user.Users
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class FindServerByIdQueryImpl(
-    private val repository: ServerRepository,
-) : FindServerByIdQuery {
+class FindServerByIdQueryImpl : FindServerByIdQuery {
     override suspend fun execute(dto: FindServerByIdDto): Server? {
-        val server = repository.findById(Id(UUID.fromString(dto.id)))
+        val result = newSuspendedTransaction {
+            (Servers innerJoin Users).slice(
+                Servers.id,
+                Servers.createdAt,
+                Servers.name,
+                Servers.address,
+                Servers.port,
+                Servers.description,
+                Users.id,
+                Users.accountId,
+                Users.name,
+                Users.description,
+            ).select { Servers.id eq dto.id }.firstOrNull()
+        } ?: return null
 
-        return server?.run {
-            Server(
-                id.value,
-                createdAt.value,
-                ownerId.value,
-                name.value,
-                address.value,
-                port.value,
-                description.value
-            )
-        }
+        return Server(
+            id = result[Servers.id].value,
+            createdAt = result[Servers.createdAt].toKotlinInstance(),
+            owner = User(
+                id = result[Users.id].value,
+                accountId = result[Users.accountId],
+                name = result[Users.name],
+                description = result[Users.description]
+            ),
+            name = result[Servers.name],
+            address = result[Servers.address],
+            port = result[Servers.port],
+            description = result[Servers.description]
+        )
     }
 }
