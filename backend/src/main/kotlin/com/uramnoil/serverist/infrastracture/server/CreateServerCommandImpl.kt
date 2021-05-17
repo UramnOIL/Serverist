@@ -10,29 +10,23 @@ import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import com.uramnoil.serverist.domain.services.server.CreateServerService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class CreateServerCommandImpl(
     private val repository: UserRepository,
     private val service: CreateServerService,
-    context: CoroutineContext
-) : CreateServerCommand, CoroutineScope by CoroutineScope(context) {
-    override fun execute(dto: CreateServerDto) {
-        launch {
-            val user = repository.findById(Id(dto.ownerId))
-                ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${dto.ownerId})が見つかりませんでした。")
+) : CreateServerCommand {
+    override suspend fun execute(dto: CreateServerDto) {
+        val user = repository.findById(Id(dto.ownerId))
+            ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${dto.ownerId})が見つかりませんでした。")
 
-            dto.run {
-                service.new(
-                    Name(name),
-                    user,
-                    Address(address),
-                    Port(port),
-                    Description(description)
-                )
-            }
+        dto.run {
+            service.new(
+                Name(name),
+                user,
+                Address(address),
+                Port(port),
+                Description(description)
+            )
         }
     }
 }

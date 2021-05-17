@@ -2,8 +2,8 @@ package com.uramnoil.serverist.application.server.commands
 
 import java.util.*
 
-fun interface CreateServerCommand {
-    fun execute(dto: CreateServerDto)
+interface CreateServerCommand {
+    suspend fun execute(dto: CreateServerDto)
 }
 
 data class CreateServerDto(
