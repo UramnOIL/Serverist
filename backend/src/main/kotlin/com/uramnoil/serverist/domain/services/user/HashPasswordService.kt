@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.domain.services.user
 
 interface HashPasswordService {
-    fun execute(password: String): String
+    fun hash(password: String): String
+    fun check(password: String, hash: String)
 }
