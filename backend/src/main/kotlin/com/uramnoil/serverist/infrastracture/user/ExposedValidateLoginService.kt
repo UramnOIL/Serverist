@@ -3,7 +3,6 @@ package com.uramnoil.serverist.infrastracture.user
 import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
-import com.uramnoil.serverist.domain.models.user.HashedPassword
 import com.uramnoil.serverist.domain.services.user.HashPasswordService
 import com.uramnoil.serverist.domain.services.user.UserFactory
 import org.jetbrains.exposed.sql.or
@@ -30,7 +29,7 @@ class ExposedValidateLoginService(
             )
         } ?: return null
 
-        return if (user.hashedPassword == HashedPassword(hashPasswordService.execute(dto.password))) {
+        return if (hashPasswordService.check(dto.password, user.hashedPassword.value)) {
             user.run {
                 User(
                     id.value,
