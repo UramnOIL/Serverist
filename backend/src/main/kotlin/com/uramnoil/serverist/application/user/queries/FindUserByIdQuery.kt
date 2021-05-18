@@ -6,5 +6,5 @@ import java.util.*
 data class FindUserByIdQueryDto(val id: UUID)
 
 interface FindUserByIdQuery {
-    suspend fun execute(dto: FindUserByIdQueryDto): User
+    suspend fun execute(dto: FindUserByIdQueryDto): User?
 }
