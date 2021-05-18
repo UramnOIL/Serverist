@@ -3,10 +3,10 @@ package com.uramnoil.serverist.application.server.commands
 import java.util.*
 
 interface CreateServerCommand {
-    suspend fun execute(dto: CreateServerDto)
+    suspend fun execute(dto: CreateServerCommandDto)
 }
 
-data class CreateServerDto(
+data class CreateServerCommandDto(
     val ownerId: UUID,
     val name: String,
     val address: String?,
