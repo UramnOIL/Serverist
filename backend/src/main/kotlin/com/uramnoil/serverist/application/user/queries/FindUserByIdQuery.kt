@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.user.queries
 
-import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.domain.models.user.User
 import java.util.*
 
 data class FindUserByIdQueryDto(val id: UUID)
