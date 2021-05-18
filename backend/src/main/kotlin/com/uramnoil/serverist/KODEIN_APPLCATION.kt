@@ -19,9 +19,8 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.factory
 import org.kodein.di.instance
-import kotlin.coroutines.CoroutineContext
 
-fun buildApplicationDi(di: DI, context: CoroutineContext) = DI {
+fun buildApplicationDi(di: DI) = DI {
     this.extend(di)
 
     // <-- Server -->
