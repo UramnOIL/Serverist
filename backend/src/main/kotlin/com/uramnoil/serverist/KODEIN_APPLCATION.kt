@@ -5,6 +5,7 @@ import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
 import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
 import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
+import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
@@ -42,6 +43,10 @@ fun buildApplicationDi(di: DI, context: CoroutineContext) = DI {
 
     bind<FindAllServersQuery>() with factory {
         ExposedFindAllServersQuery()
+    }
+
+    bind<FindServersByOwnerQuery>() with factory {
+        ExposedFindServersByOwnerQuery()
     }
 
     // <-- User -->
