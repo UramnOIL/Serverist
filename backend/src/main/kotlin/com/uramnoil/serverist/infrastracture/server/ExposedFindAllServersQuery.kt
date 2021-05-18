@@ -1,11 +1,11 @@
 package com.uramnoil.serverist.infrastracture.server
 
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.queries.FindAllServerQueryDto
 import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
 import com.uramnoil.serverist.application.server.queries.OrderBy
-import com.uramnoil.serverist.application.server.queries.Sort
 import com.uramnoil.serverist.infrastracture.user.Users
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.selectAll
