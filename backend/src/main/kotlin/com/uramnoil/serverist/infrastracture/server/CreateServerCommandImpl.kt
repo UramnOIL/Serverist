@@ -10,16 +10,17 @@ import com.uramnoil.serverist.domain.models.user.Id
 import com.uramnoil.serverist.domain.repositories.NotFoundException
 import com.uramnoil.serverist.domain.repositories.UserRepository
 import com.uramnoil.serverist.domain.services.server.CreateServerService
+import java.util.*
 
 class CreateServerCommandImpl(
     private val repository: UserRepository,
     private val service: CreateServerService,
 ) : CreateServerCommand {
-    override suspend fun execute(dto: CreateServerCommandDto) {
+    override suspend fun execute(dto: CreateServerCommandDto): UUID {
         val user = repository.findById(Id(dto.ownerId))
             ?: throw NotFoundException("CreateServerCommand#execute: ユーザー(Id: ${dto.ownerId})が見つかりませんでした。")
 
-        dto.run {
+        val id = dto.run {
             service.new(
                 Name(name),
                 user,
@@ -28,5 +29,7 @@ class CreateServerCommandImpl(
                 Description(description)
             )
         }
+
+        return id.value
     }
 }
