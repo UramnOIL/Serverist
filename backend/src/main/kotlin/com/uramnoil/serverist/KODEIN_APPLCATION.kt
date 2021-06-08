@@ -3,6 +3,7 @@ package com.uramnoil.serverist
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
 import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
+import com.uramnoil.serverist.application.server.queries.CheckServerOwnerService
 import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
 import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
@@ -46,6 +47,10 @@ fun buildApplicationDi(di: DI) = DI {
 
     bind<FindServersByOwnerQuery>() with factory {
         ExposedFindServersByOwnerQuery()
+    }
+
+    bind<CheckServerOwnerService>() with factory {
+        ExposedCheckServerOwnerService()
     }
 
     // <-- User -->
