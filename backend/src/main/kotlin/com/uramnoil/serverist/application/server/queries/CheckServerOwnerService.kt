@@ -5,5 +5,5 @@ import java.util.*
 data class CheckServerOwnerServiceDto(val serverId: UUID, val ownerId: UUID)
 
 interface CheckServerOwnerService {
-    fun execute(): Boolean
+    suspend fun execute(dto: CheckServerOwnerServiceDto): Boolean
 }
