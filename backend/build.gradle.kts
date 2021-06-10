@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.github.johnrengelman.shadow")
     application
 }
 
@@ -47,4 +48,14 @@ dependencies {
 
     testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
     testImplementation("com.h2database", "h2", "1.4.200")
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
 }
