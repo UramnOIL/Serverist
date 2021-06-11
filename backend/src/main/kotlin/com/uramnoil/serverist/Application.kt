@@ -2,6 +2,10 @@ package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
 import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
+import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandDto
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryDto
 import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserService
 import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserServiceDto
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
@@ -30,7 +34,7 @@ data class AuthSession(val id: UUID) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-@Suppress("unused") // Referenced in application.conf
+@Suppress("unused")
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     val di = buildApplicationDi(buildDomainDi(Dispatchers.Default))
@@ -92,6 +96,22 @@ fun Application.routingLogin(di: DI) = routing {
         call.receive<IdEmailPassword>().let {
             val service: RequestToCreateUserService by di.instance()
             service.execute(RequestToCreateUserServiceDto(it.accountId, it.email, it.password))
+        }
+    }
+
+    post("auth") {
+        data class AuthenticateUserId(val id: UUID)
+
+        val auth = call.receive<AuthenticateUserId>()
+        val query by di.instance<FindUnauthenticatedUserByIdQuery>()
+        val user = query.execute(FindUnauthenticatedUserByIdQueryDto(auth.id))
+
+        if (user != null) {
+            call.respond(HttpStatusCode.OK)
+            val command by di.instance<DeleteUnauthenticatedUserCommand>()
+            command.execute(DeleteUnauthenticatedUserCommandDto(user.id))
+        } else {
+            call.respond(HttpStatusCode.BadRequest, "無効なリクエスト")
         }
     }
 }
