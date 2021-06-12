@@ -11,7 +11,7 @@ dependencies {
     val kodeinVersion: String by project
     val coroutinesVersion: String by project
 
-    implementation(kotlin("stdlib", version = kotlinVersion))
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
     implementation("org.kodein.di", "kodein-di-jvm", kodeinVersion)
 }
