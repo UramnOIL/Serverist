@@ -13,9 +13,9 @@ import com.uramnoil.serverist.infrastracture.user.ExposedUserRepository
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
-import kotlin.coroutines.CoroutineContext
 
-fun buildDomainDi(context: CoroutineContext) = DI {
+fun buildDomainDi(di: DI) = DI {
+    this.extend(di)
     // <-- User -->
 
     bind<UserRepository>() with singleton {

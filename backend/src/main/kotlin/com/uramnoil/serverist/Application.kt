@@ -22,7 +22,6 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
-import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -37,7 +36,10 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused")
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    val di = buildApplicationDi(buildDomainDi(Dispatchers.Default))
+    val di = buildApplicationDi(buildDomainDi(DI {}))
+
+    routingLogin(di)
+    buildGraphql(di)
 
     createConnection()
 
@@ -51,9 +53,6 @@ fun Application.module(testing: Boolean = false) {
     install(Authentication) {
         session<AuthSession>()
     }
-
-    routingLogin(di)
-    buildGraphql(di)
 }
 
 fun Application.createConnection() {
