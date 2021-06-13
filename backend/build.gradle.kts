@@ -47,6 +47,7 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-mail", springBootVersion)
 
     testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
+    testImplementation("io.ktor", "ktor-server-test-host", ktorVersion)
     testImplementation("com.h2database", "h2", "1.4.200")
 }
 
