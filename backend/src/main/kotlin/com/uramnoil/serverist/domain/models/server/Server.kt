@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.models.server
 
-import com.uramnoil.serverist.domain.models.user.Id as UserId
+import com.uramnoil.serverist.domain.models.kernel.UserId
 
 class Server internal constructor(
     val id: Id,
