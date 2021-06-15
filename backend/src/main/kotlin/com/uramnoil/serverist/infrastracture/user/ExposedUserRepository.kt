@@ -24,7 +24,7 @@ class ExposedUserRepository : UserRepository {
     override suspend fun update(user: User) {
         newSuspendedTransaction {
             Users.update({ Users.id eq user.id.value }) {
-                it[name] = user.name.value
+                it[Users.name] = user.name.value
                 it[Users.accountId] = user.accountId.value
                 it[Users.email] = user.email.value
                 it[Users.hashedPassword] = user.hashedPassword.value
