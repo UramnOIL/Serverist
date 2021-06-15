@@ -2,8 +2,8 @@ package com.uramnoil.serverist.application.server.commands
 
 import java.util.*
 
-interface DeleteServerCommand {
-    suspend fun execute(dto: DeleteServerDto)
-}
+data class DeleteServerCommandDto(val id: UUID)
 
-data class DeleteServerDto(val id: UUID)
+interface DeleteServerCommand {
+    suspend fun execute(dto: DeleteServerCommandDto)
+}
