@@ -3,7 +3,6 @@ package com.uramnoil.serverist.infrastracture.user
 import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQueryDto
-import com.uramnoil.serverist.domain.services.user.UserFactory
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
@@ -14,7 +13,7 @@ class ExposedFindUserByAccountIdQuery : FindUserByAccountIdQuery {
         } ?: return null
 
         val user = userResult.let {
-            UserFactory.create(
+            toUser(
                 it[Users.id].value,
                 it[Users.accountId],
                 it[Users.email],
