@@ -33,6 +33,16 @@ fun ResultRow.toApplicationServer(): Server = Server(
     this[Servers.description]
 )
 
+fun ResultRow.toDomainServer() = DomainServer(
+    id = Id(this[Servers.id].value),
+    createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstance()),
+    ownerId = UserId(this[Servers.owner]),
+    name = Name(this[Servers.name]),
+    address = Address(this[Servers.address]),
+    port = Port(this[Servers.port]),
+    description = Description(this[Servers.description])
+)
+
 fun LocalDateTime.toKotlinInstance() = toInstant(ZoneOffset.UTC).toKotlinInstant()
 
 fun Instant.toJavaLocalDataTime() = LocalDateTime.ofInstant(toJavaInstant(), ZoneOffset.UTC)
