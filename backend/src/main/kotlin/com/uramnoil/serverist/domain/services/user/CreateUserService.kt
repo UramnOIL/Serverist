@@ -9,5 +9,5 @@ interface CreateUserService {
         hashedPassword: HashedPassword,
         name: Name,
         description: Description
-    ): Id
+    ): User
 }
