@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
