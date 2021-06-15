@@ -1,7 +1,9 @@
 package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandDto
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
@@ -135,6 +137,8 @@ fun Application.buildGraphql(di: DI) = install(GraphQL) {
         }
 
         type<PageRequest>()
+        enum<Sort>()
+        enum<OrderBy>()
 
         serverSchema(di)
         userSchema(di)
