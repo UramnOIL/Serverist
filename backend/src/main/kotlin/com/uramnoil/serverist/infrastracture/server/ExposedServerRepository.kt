@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.infrastracture.server
 
-import com.uramnoil.serverist.domain.models.kernel.UserId
-import com.uramnoil.serverist.domain.models.server.*
-import com.uramnoil.serverist.domain.repositories.ServerRepository
+import com.uramnoil.serverist.domain.models.kernel.models.UserId
+import com.uramnoil.serverist.domain.models.server.models.*
+import com.uramnoil.serverist.domain.models.server.repositories.ServerRepository
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.server
 
-import com.uramnoil.serverist.domain.models.server.Server
+import com.uramnoil.serverist.domain.models.server.models.Server
 import com.uramnoil.serverist.application.server.Server as ApplicationServer
 
 fun Server.toApplication() = ApplicationServer(

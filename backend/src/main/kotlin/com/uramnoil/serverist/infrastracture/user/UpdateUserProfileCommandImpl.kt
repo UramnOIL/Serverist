@@ -2,11 +2,11 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommandDto
-import com.uramnoil.serverist.domain.models.kernel.UserId
-import com.uramnoil.serverist.domain.models.user.Description
-import com.uramnoil.serverist.domain.models.user.Name
+import com.uramnoil.serverist.domain.models.kernel.models.UserId
+import com.uramnoil.serverist.domain.models.user.models.Description
+import com.uramnoil.serverist.domain.models.user.models.Name
+import com.uramnoil.serverist.domain.models.user.repositories.UserRepository
 import com.uramnoil.serverist.domain.repositories.NotFoundException
-import com.uramnoil.serverist.domain.repositories.UserRepository
 
 class UpdateUserProfileCommandImpl(
     private val repository: UserRepository,

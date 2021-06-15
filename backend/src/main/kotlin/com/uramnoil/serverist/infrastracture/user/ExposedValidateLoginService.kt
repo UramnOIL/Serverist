@@ -4,7 +4,9 @@ import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
 import com.uramnoil.serverist.application.user.toApplication
-import com.uramnoil.serverist.domain.services.user.HashPasswordService
+import com.uramnoil.serverist.domain.models.kernel.models.HashedPassword
+import com.uramnoil.serverist.domain.models.kernel.models.Password
+import com.uramnoil.serverist.domain.models.kernel.services.HashPasswordService
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
@@ -21,7 +23,7 @@ class ExposedValidateLoginService(
 
         val user = result?.let(ResultRow::toDomainUser) ?: return null
 
-        return if (hashPasswordService.check(dto.password, user.hashedPassword.value)) {
+        return if (hashPasswordService.check(Password(dto.password), HashedPassword(user.hashedPassword.value))) {
             user.toApplication()
         } else {
             null

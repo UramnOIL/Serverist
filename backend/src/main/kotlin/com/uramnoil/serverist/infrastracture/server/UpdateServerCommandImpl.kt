@@ -2,9 +2,9 @@ package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
 import com.uramnoil.serverist.application.server.commands.UpdateServerCommandDto
-import com.uramnoil.serverist.domain.models.server.*
+import com.uramnoil.serverist.domain.models.server.models.*
+import com.uramnoil.serverist.domain.models.server.repositories.ServerRepository
 import com.uramnoil.serverist.domain.repositories.NotFoundException
-import com.uramnoil.serverist.domain.repositories.ServerRepository
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UpdateServerCommandImpl(

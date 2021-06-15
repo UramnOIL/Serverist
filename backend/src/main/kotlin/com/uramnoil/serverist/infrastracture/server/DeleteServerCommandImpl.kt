@@ -2,9 +2,9 @@ package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
 import com.uramnoil.serverist.application.server.commands.DeleteServerCommandDto
-import com.uramnoil.serverist.domain.models.server.Id
+import com.uramnoil.serverist.domain.models.server.models.Id
+import com.uramnoil.serverist.domain.models.server.repositories.ServerRepository
 import com.uramnoil.serverist.domain.repositories.NotFoundException
-import com.uramnoil.serverist.domain.repositories.ServerRepository
 
 class DeleteServerCommandImpl(
     private val repository: ServerRepository,

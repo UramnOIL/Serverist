@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.models.kernel.UserId
-import com.uramnoil.serverist.domain.models.user.User
-import com.uramnoil.serverist.domain.repositories.UserRepository
+import com.uramnoil.serverist.domain.models.kernel.models.UserId
+import com.uramnoil.serverist.domain.models.user.models.User
+import com.uramnoil.serverist.domain.models.user.repositories.UserRepository
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 

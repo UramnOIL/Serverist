@@ -1,11 +1,15 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.models.kernel.UserId
-import com.uramnoil.serverist.domain.models.user.*
+import com.uramnoil.serverist.domain.models.kernel.models.HashedPassword
+import com.uramnoil.serverist.domain.models.kernel.models.UserId
+import com.uramnoil.serverist.domain.models.user.models.AccountId
+import com.uramnoil.serverist.domain.models.user.models.Description
+import com.uramnoil.serverist.domain.models.user.models.Email
+import com.uramnoil.serverist.domain.models.user.models.Name
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ResultRow
 import com.uramnoil.serverist.application.user.User as ApplicationUser
-import com.uramnoil.serverist.domain.models.user.User as DomainUser
+import com.uramnoil.serverist.domain.models.user.models.User as DomainUser
 
 object Users : UUIDTable("users") {
     val accountId = varchar("account_id", 16).uniqueIndex()
