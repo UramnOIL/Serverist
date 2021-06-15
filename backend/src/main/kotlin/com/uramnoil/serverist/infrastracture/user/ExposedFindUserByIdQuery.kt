@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.FindUserByIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryDto
 import org.jetbrains.exposed.sql.ResultRow
@@ -9,6 +9,6 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 class ExposedFindUserByIdQuery : FindUserByIdQuery {
     override suspend fun execute(dto: FindUserByIdQueryDto): User? = newSuspendedTransaction {
-        Users.select { Users.id eq dto.id }.firstOrNull()?.let(ResultRow::toUser)
+        Users.select { Users.id eq dto.id }.firstOrNull()?.let(ResultRow::toApplicationUser)
     }
 }
