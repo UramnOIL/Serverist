@@ -7,6 +7,6 @@ import java.util.*
 
 data class PageRequest(val limit: Int, val offset: Long)
 
-fun checkSession(ctx: Context): Exception? = if (ctx.get<AuthSession>() == null) Exception("権限がありません。") else null
+fun Context.checkSession(): Exception? = if (get<AuthSession>() == null) Exception("権限がありません。") else null
 
 fun Context.getIdFromSession(): UUID = get<AuthSession>()!!.id
