@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.user
 
 import java.util.*
-import com.uramnoil.serverist.domain.models.user.models.User as DomainUser
+import com.uramnoil.serverist.domain.user.models.User as DomainUser
 
 data class User(
     val id: UUID,
