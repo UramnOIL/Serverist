@@ -9,10 +9,8 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 class ExposedFindUserByAccountIdQuery : FindUserByAccountIdQuery {
     override suspend fun execute(dto: FindUserByAccountIdQueryDto): User? {
-        val userResult = newSuspendedTransaction {
+        return newSuspendedTransaction {
             Users.select { Users.accountId eq dto.accountId }.firstOrNull()
-        } ?: return null
-
-        return userResult.let(ResultRow::toApplicationUser)
+        }?.let(ResultRow::toApplicationUser)
     }
 }

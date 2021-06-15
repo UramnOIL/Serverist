@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.server.queries
 
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.user.queries.Server
+import com.uramnoil.serverist.application.server.Server
 import java.util.*
 
 data class FindServersByOwnerQueryDto(
