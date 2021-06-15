@@ -6,12 +6,13 @@ import com.uramnoil.serverist.domain.services.server.CreateServerService
 import com.uramnoil.serverist.domain.services.user.CreateUserService
 import com.uramnoil.serverist.domain.services.user.HashPasswordService
 import com.uramnoil.serverist.infrastracture.HashPasswordServiceImpl
-import com.uramnoil.serverist.infrastracture.server.ExposedCreateServerService
+import com.uramnoil.serverist.infrastracture.server.CreateServerServiceImpl
 import com.uramnoil.serverist.infrastracture.server.ExposedServerRepository
-import com.uramnoil.serverist.infrastracture.user.ExposedCreateUserService
+import com.uramnoil.serverist.infrastracture.user.CreateUserServiceImpl
 import com.uramnoil.serverist.infrastracture.user.ExposedUserRepository
 import org.kodein.di.DI
 import org.kodein.di.bind
+import org.kodein.di.instance
 import org.kodein.di.singleton
 
 fun buildDomainDi(di: DI) = DI {
@@ -23,7 +24,7 @@ fun buildDomainDi(di: DI) = DI {
     }
 
     bind<CreateUserService>() with singleton {
-        ExposedCreateUserService()
+        CreateUserServiceImpl(instance())
     }
 
     // <-- UnapprovedUser -->
@@ -35,7 +36,7 @@ fun buildDomainDi(di: DI) = DI {
     }
 
     bind<CreateServerService>() with singleton {
-        ExposedCreateServerService()
+        CreateServerServiceImpl(instance())
     }
 
     // <-- Password -->
