@@ -2,7 +2,6 @@ package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.kernel.User
 import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandDto
@@ -10,6 +9,7 @@ import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauth
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryDto
 import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserService
 import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserServiceDto
+import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
 import com.uramnoil.serverist.graphql.PageRequest
