@@ -9,7 +9,7 @@ import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommand
+import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
@@ -63,8 +63,8 @@ fun buildApplicationDi(di: DI) = DI {
         DeleteUserCommandImpl(instance())
     }
 
-    bind<UpdateUserCommand>() with factory {
-        UpdateUserCommandImpl(instance())
+    bind<UpdateUserProfileCommand>() with factory {
+        UpdateUserProfileCommandImpl(instance())
     }
 
     bind<FindAllUsersQuery>() with factory {
