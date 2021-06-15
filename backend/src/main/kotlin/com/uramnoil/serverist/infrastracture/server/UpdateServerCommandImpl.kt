@@ -20,7 +20,7 @@ class UpdateServerCommandImpl(
                 port = Port(dto.port)
                 description = Description(dto.description)
             }
-            repository.store(server)
+            repository.update(server)
             commit()
         }
     }
