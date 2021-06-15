@@ -1,15 +1,16 @@
 package com.uramnoil.serverist.infrastracture
 
-import com.uramnoil.serverist.domain.models.kernel.models.HashedPassword
-import com.uramnoil.serverist.domain.models.kernel.models.Password
-import com.uramnoil.serverist.domain.models.kernel.services.HashPasswordService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
-class HashPasswordServiceImpl : HashPasswordService {
+class HashPasswordServiceImpl : com.uramnoil.serverist.domain.kernel.services.HashPasswordService {
     private val encoder = BCryptPasswordEncoder()
 
-    override fun hash(password: Password): String = encoder.encode(password.value)
+    override fun hash(password: com.uramnoil.serverist.domain.kernel.models.Password): String =
+        encoder.encode(password.value)
 
-    override fun check(password: Password, hashedPassword: HashedPassword): Boolean =
+    override fun check(
+        password: com.uramnoil.serverist.domain.kernel.models.Password,
+        hashedPassword: com.uramnoil.serverist.domain.kernel.models.HashedPassword
+    ): Boolean =
         encoder.matches(password.value, hashedPassword.value)
 }

@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.infrastracture.server
 
-import com.uramnoil.serverist.domain.models.server.models.*
-import com.uramnoil.serverist.domain.models.server.repositories.ServerRepository
-import com.uramnoil.serverist.domain.models.server.services.CreateServerService
-import com.uramnoil.serverist.domain.models.user.models.User
+import com.uramnoil.serverist.domain.server.models.*
+import com.uramnoil.serverist.domain.server.repositories.ServerRepository
+import com.uramnoil.serverist.domain.server.services.CreateServerService
+import com.uramnoil.serverist.domain.user.models.User
 import kotlinx.datetime.Clock
 import java.util.*
 

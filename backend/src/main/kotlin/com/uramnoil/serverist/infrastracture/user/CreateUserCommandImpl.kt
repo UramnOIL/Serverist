@@ -2,12 +2,11 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.CreateUserCommandDto
-import com.uramnoil.serverist.domain.models.kernel.models.HashedPassword
-import com.uramnoil.serverist.domain.models.user.models.AccountId
-import com.uramnoil.serverist.domain.models.user.models.Description
-import com.uramnoil.serverist.domain.models.user.models.Email
-import com.uramnoil.serverist.domain.models.user.models.Name
-import com.uramnoil.serverist.domain.models.user.services.CreateUserService
+import com.uramnoil.serverist.domain.user.models.AccountId
+import com.uramnoil.serverist.domain.user.models.Description
+import com.uramnoil.serverist.domain.user.models.Email
+import com.uramnoil.serverist.domain.user.models.Name
+import com.uramnoil.serverist.domain.user.services.CreateUserService
 
 class CreateUserCommandImpl(
     private val createUserService: CreateUserService
@@ -17,7 +16,7 @@ class CreateUserCommandImpl(
             createUserService.new(
                 AccountId(accountId),
                 Email(email),
-                HashedPassword(hashedPassword),
+                com.uramnoil.serverist.domain.kernel.models.HashedPassword(hashedPassword),
                 Name(name),
                 Description(description)
             )

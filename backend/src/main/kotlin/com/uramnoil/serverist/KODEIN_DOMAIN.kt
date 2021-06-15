@@ -1,10 +1,9 @@
 package com.uramnoil.serverist
 
-import com.uramnoil.serverist.domain.models.kernel.services.HashPasswordService
-import com.uramnoil.serverist.domain.models.server.repositories.ServerRepository
-import com.uramnoil.serverist.domain.models.server.services.CreateServerService
-import com.uramnoil.serverist.domain.models.user.repositories.UserRepository
-import com.uramnoil.serverist.domain.models.user.services.CreateUserService
+import com.uramnoil.serverist.domain.server.repositories.ServerRepository
+import com.uramnoil.serverist.domain.server.services.CreateServerService
+import com.uramnoil.serverist.domain.user.repositories.UserRepository
+import com.uramnoil.serverist.domain.user.services.CreateUserService
 import com.uramnoil.serverist.infrastracture.HashPasswordServiceImpl
 import com.uramnoil.serverist.infrastracture.server.CreateServerServiceImpl
 import com.uramnoil.serverist.infrastracture.server.ExposedServerRepository
@@ -41,7 +40,7 @@ fun buildDomainDi(di: DI) = DI {
 
     // <-- Password -->
 
-    bind<HashPasswordService>() with singleton {
+    bind<com.uramnoil.serverist.domain.kernel.services.HashPasswordService>() with singleton {
         HashPasswordServiceImpl()
     }
 }
