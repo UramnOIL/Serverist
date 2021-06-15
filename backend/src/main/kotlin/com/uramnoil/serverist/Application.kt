@@ -60,8 +60,8 @@ fun Application.module(testing: Boolean = false) {
 fun Application.createConnection() {
     environment.config.apply {
         Database.connect(
-            url = property("database.url").getString(),
-            driver = property("database.driver").getString(),
+            url = "jdbc:mysql://${property("database.url").getString()}?characterEncoding=utf8&useSSL=false",
+            driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()
         )
