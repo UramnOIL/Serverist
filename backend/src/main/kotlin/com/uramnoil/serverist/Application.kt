@@ -38,9 +38,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
     val di = buildApplicationDi(buildDomainDi(DI {}))
 
-    routingLogin(di)
-    buildGraphql(di)
-
     createConnection()
 
     install(Sessions) {
@@ -53,6 +50,9 @@ fun Application.module(testing: Boolean = false) {
     install(Authentication) {
         session<AuthSession>()
     }
+
+    routingLogin(di)
+    buildGraphql(di)
 }
 
 fun Application.createConnection() {
