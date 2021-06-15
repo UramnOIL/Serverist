@@ -4,6 +4,6 @@ import java.util.*
 
 data class DeleteUserCommandDto(val id: UUID)
 
-fun interface DeleteUserCommand {
-    fun execute(dto: DeleteUserCommandDto)
+interface DeleteUserCommand {
+    suspend fun execute(dto: DeleteUserCommandDto)
 }

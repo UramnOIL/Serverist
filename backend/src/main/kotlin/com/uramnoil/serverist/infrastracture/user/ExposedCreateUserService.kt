@@ -2,18 +2,17 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.domain.models.user.*
 import com.uramnoil.serverist.domain.services.user.CreateUserService
-import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedCreateUserService(private val database: Database) : CreateUserService {
+class ExposedCreateUserService : CreateUserService {
     override suspend fun new(
         accountId: AccountId,
         email: Email,
         hashedPassword: HashedPassword,
         name: Name,
         description: Description
-    ) = newSuspendedTransaction(db = database) {
+    ) = newSuspendedTransaction {
         val id = Id(Users.insertAndGetId {
             it[Users.accountId] = accountId.value
             it[Users.email] = email.value
