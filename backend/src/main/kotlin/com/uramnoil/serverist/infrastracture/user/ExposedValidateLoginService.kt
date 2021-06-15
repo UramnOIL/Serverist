@@ -1,10 +1,11 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
+import com.uramnoil.serverist.application.user.toApplication
 import com.uramnoil.serverist.domain.services.user.HashPasswordService
-import com.uramnoil.serverist.domain.services.user.UserFactory
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -18,26 +19,10 @@ class ExposedValidateLoginService(
                 .firstOrNull()
         }
 
-        val user = result?.let {
-            UserFactory.create(
-                it[Users.id].value,
-                it[Users.accountId],
-                it[Users.email],
-                it[Users.hashedPassword],
-                it[Users.name],
-                it[Users.description]
-            )
-        } ?: return null
+        val user = result?.let(ResultRow::toDomainUser) ?: return null
 
         return if (hashPasswordService.check(dto.password, user.hashedPassword.value)) {
-            user.run {
-                User(
-                    id.value,
-                    accountId.value,
-                    name.value,
-                    description.value
-                )
-            }
+            user.toApplication()
         } else {
             null
         }
