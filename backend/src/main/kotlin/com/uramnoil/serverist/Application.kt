@@ -1,7 +1,9 @@
 package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.kernel.User
+import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandDto
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
@@ -38,9 +40,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
     val di = buildApplicationDi(buildDomainDi(DI {}))
 
-    routingLogin(di)
-    buildGraphql(di)
-
     createConnection()
 
     install(Sessions) {
@@ -53,6 +52,9 @@ fun Application.module(testing: Boolean = false) {
     install(Authentication) {
         session<AuthSession>()
     }
+
+    routingLogin(di)
+    buildGraphql(di)
 }
 
 fun Application.createConnection() {
@@ -135,6 +137,8 @@ fun Application.buildGraphql(di: DI) = install(GraphQL) {
         }
 
         type<PageRequest>()
+        enum<Sort>()
+        enum<OrderBy>()
 
         serverSchema(di)
         userSchema(di)
