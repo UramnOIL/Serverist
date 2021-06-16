@@ -1,11 +1,11 @@
 package com.uramnoil.serverist.application.unauthenticateduser.commands
 
-data class CreateUnauthenticatedUserDto(
+data class CreateUnauthenticatedUserCommandDto(
     val accountId: String,
     val email: String,
-    val hashedPassword: com.uramnoil.serverist.domain.kernel.models.Password
+    val password: String
 )
 
-interface CreateUnauthenticatedUser {
-    suspend fun execute(dto: CreateUnauthenticatedUserDto)
+interface CreateUnauthenticatedUserCommand {
+    suspend fun execute(dto: CreateUnauthenticatedUserCommandDto)
 }
