@@ -3,12 +3,13 @@ package com.uramnoil.serverist
 import com.apurebase.kgraphql.GraphQL
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.queries.OrderBy
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandDto
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandDto
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryDto
-import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserService
-import com.uramnoil.serverist.application.unauthenticateduser.service.RequestToCreateUserServiceDto
+import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
 import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.queries.ValidateLoginServiceDto
@@ -95,8 +96,10 @@ fun Application.routingLogin(di: DI) = routing {
     post("signup") {
         data class IdEmailPassword(val accountId: String, val email: String, val password: String)
         call.receive<IdEmailPassword>().let {
-            val service: RequestToCreateUserService by di.instance()
-            service.execute(RequestToCreateUserServiceDto(it.accountId, it.email, it.password))
+            val command by di.instance<CreateUnauthenticatedUserCommand>()
+            val user = command.execute(CreateUnauthenticatedUserCommandDto(it.accountId, it.email, it.password))
+            val service by di.instance<SendEmailToAuthenticateService>()
+            service.execute(user)
         }
     }
 
