@@ -28,7 +28,7 @@ class SpringBootSendEmailToAuthenticateService(
             subject = "Serveristユーザー登録"
             text = """
                 ${user.accountId}
-                $url?=${user.id}
+                $url?token=${user.id}
             """
         }
 
