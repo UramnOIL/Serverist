@@ -7,6 +7,8 @@ import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
 import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
 import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
+import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
+import com.uramnoil.serverist.application.unauthenticateduser.service.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
@@ -86,5 +88,16 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
 
     // <-- UnapprovedUser -->
 
-
+    bind<SendEmailToAuthenticateService>() with factory {
+        config.run {
+            SpringBootSendEmailToAuthenticateService(
+                property("mail.host").getString(),
+                property("mail.port").getString().toInt(),
+                property("mail.username").getString(),
+                property("mail.password").getString(),
+                property("mail.from").getString(),
+                property("mail.url").getString()
+            )
+        }
+    }
 }
