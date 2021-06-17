@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.backend
 
 import com.uramnoil.serverist.application.unauthenticateduser.User
-import com.uramnoil.serverist.application.unauthenticateduser.service.SpringBootSendEmailToAuthenticateService
+import com.uramnoil.serverist.infrastracture.unapproveduser.SpringBootSendEmailToAuthenticateService
 import java.util.*
 import kotlin.test.Test
 

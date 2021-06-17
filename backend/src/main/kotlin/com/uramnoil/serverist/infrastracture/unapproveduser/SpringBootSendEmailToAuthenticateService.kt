@@ -1,6 +1,7 @@
-package com.uramnoil.serverist.application.unauthenticateduser.service
+package com.uramnoil.serverist.infrastracture.unapproveduser
 
 import com.uramnoil.serverist.application.unauthenticateduser.User
+import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSenderImpl

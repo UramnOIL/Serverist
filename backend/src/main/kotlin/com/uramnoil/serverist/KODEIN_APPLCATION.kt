@@ -8,7 +8,6 @@ import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
 import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
 import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.unauthenticateduser.service.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
@@ -17,6 +16,7 @@ import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.*
+import com.uramnoil.serverist.infrastracture.unapproveduser.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.infrastracture.user.*
 import io.ktor.application.*
 import org.kodein.di.DI
