@@ -16,12 +16,13 @@ import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.*
 import com.uramnoil.serverist.infrastracture.user.*
+import io.ktor.application.*
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.factory
 import org.kodein.di.instance
 
-fun buildApplicationDi(di: DI) = DI {
+fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
     this.extend(di)
 
     // <-- Server -->

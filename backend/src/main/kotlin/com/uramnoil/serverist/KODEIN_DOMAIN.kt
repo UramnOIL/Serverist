@@ -9,12 +9,13 @@ import com.uramnoil.serverist.infrastracture.server.CreateServerServiceImpl
 import com.uramnoil.serverist.infrastracture.server.ExposedServerRepository
 import com.uramnoil.serverist.infrastracture.user.CreateUserServiceImpl
 import com.uramnoil.serverist.infrastracture.user.ExposedUserRepository
+import io.ktor.application.*
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.singleton
 
-fun buildDomainDi(di: DI) = DI {
+fun ApplicationEnvironment.buildDomainDi(di: DI) = DI {
     this.extend(di)
     // <-- User -->
 
