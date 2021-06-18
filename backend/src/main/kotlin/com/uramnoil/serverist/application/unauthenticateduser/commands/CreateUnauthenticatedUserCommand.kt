@@ -5,7 +5,7 @@ import com.uramnoil.serverist.application.unauthenticateduser.User
 data class CreateUnauthenticatedUserCommandDto(
     val accountId: String,
     val email: String,
-    val password: String
+    val hashedPassword: String
 )
 
 interface CreateUnauthenticatedUserCommand {
