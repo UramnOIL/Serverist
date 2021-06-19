@@ -8,7 +8,7 @@ import com.uramnoil.serverist.domain.user.services.CreateUserService
 import com.uramnoil.serverist.infrastracture.HashPasswordServiceImpl
 import com.uramnoil.serverist.infrastracture.server.CreateServerServiceImpl
 import com.uramnoil.serverist.infrastracture.server.ExposedServerRepository
-import com.uramnoil.serverist.infrastracture.unauthenticated.CreateUnauthenticatedUserServiceImpl
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.CreateUnauthenticatedUserServiceImpl
 import com.uramnoil.serverist.infrastracture.user.CreateUserServiceImpl
 import com.uramnoil.serverist.infrastracture.user.ExposedUserRepository
 import io.ktor.application.*

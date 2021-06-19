@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.unauthenticated
+package com.uramnoil.serverist.infrastracture.unauthenticateduser
 
 import com.uramnoil.serverist.domain.unauthenticateduser.models.Id
 import com.uramnoil.serverist.domain.unauthenticateduser.models.UnauthenticatedUser

@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.unauthenticated
+package com.uramnoil.serverist.infrastracture.unauthenticateduser
 
 import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService

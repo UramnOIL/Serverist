@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.unauthenticated
+package com.uramnoil.serverist.infrastracture.unauthenticateduser
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.`java-time`.datetime

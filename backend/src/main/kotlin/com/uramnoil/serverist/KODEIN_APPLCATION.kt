@@ -16,7 +16,7 @@ import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.*
-import com.uramnoil.serverist.infrastracture.unauthenticated.SpringBootSendEmailToAuthenticateService
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.infrastracture.user.*
 import io.ktor.application.*
 import org.kodein.di.DI
