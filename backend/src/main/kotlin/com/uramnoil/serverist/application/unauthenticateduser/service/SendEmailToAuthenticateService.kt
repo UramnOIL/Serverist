@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.unauthenticateduser.service
 
-import com.uramnoil.serverist.application.unauthenticateduser.User
+import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
 
 interface SendEmailToAuthenticateService {
-    fun execute(user: User)
+    fun execute(user: UnauthenticatedUser)
 }

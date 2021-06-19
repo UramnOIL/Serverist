@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.unauthenticated
 
-import com.uramnoil.serverist.application.unauthenticateduser.User
+import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
@@ -14,7 +14,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val from: String,
     private val url: String
 ) : SendEmailToAuthenticateService {
-    override fun execute(user: User) {
+    override fun execute(user: UnauthenticatedUser) {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
             host = this@SpringBootSendEmailToAuthenticateService.host
             port = this@SpringBootSendEmailToAuthenticateService.port

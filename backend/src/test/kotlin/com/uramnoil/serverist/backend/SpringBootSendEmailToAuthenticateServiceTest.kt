@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.backend
 
-import com.uramnoil.serverist.application.unauthenticateduser.User
+import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
 import com.uramnoil.serverist.infrastracture.unauthenticated.SpringBootSendEmailToAuthenticateService
 import java.util.*
 import kotlin.test.Test
@@ -18,7 +18,7 @@ class SpringBootSendEmailToAuthenticateServiceTest {
         )
 
         service.execute(
-            User(
+            UnauthenticatedUser(
                 id = UUID.randomUUID(),
                 accountId = "test",
                 email = "hoge.com",

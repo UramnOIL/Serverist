@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.unauthenticateduser.commands
 
-import com.uramnoil.serverist.application.unauthenticateduser.User
+import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
 
 data class CreateUnauthenticatedUserCommandDto(
     val accountId: String,
@@ -9,5 +9,5 @@ data class CreateUnauthenticatedUserCommandDto(
 )
 
 interface CreateUnauthenticatedUserCommand {
-    suspend fun execute(dto: CreateUnauthenticatedUserCommandDto): User
+    suspend fun execute(dto: CreateUnauthenticatedUserCommandDto): UnauthenticatedUser
 }
