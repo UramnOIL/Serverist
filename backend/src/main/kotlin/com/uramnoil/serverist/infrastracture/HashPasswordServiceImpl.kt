@@ -7,8 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class HashPasswordServiceImpl : com.uramnoil.serverist.domain.kernel.services.HashPasswordService {
     private val encoder = BCryptPasswordEncoder()
 
-    override fun hash(password: Password): String =
-        encoder.encode(password.value)
+    override fun hash(password: Password): HashedPassword = HashedPassword(encoder.encode(password.value))
 
     override fun check(
         password: Password,
