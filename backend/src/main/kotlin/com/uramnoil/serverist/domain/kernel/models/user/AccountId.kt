@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.user.models
+package com.uramnoil.serverist.domain.kernel.models.user
 
 data class AccountId(val value: String) {
     init {

@@ -2,6 +2,7 @@ package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.server.models.Address
 import com.uramnoil.serverist.domain.server.models.Description
 import com.uramnoil.serverist.domain.server.models.Name
@@ -21,7 +22,7 @@ class CreateServerCommandImpl(
         port: Int?,
         description: String
     ): Server {
-        val owner = repository.findById(com.uramnoil.serverist.domain.kernel.models.UserId(ownerId))
+        val owner = repository.findById(UserId(ownerId))
             ?: throw IllegalArgumentException("id=${ownerId}に一致するユーザは存在しません。")
 
         return service.new(

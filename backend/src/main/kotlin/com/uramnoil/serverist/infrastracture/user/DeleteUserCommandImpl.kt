@@ -2,7 +2,7 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.domain.kernel.NotFoundException
-import com.uramnoil.serverist.domain.kernel.models.UserId
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import java.util.*
 

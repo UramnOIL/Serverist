@@ -1,10 +1,15 @@
 package com.uramnoil.serverist.domain.user.models
 
+import com.uramnoil.serverist.domain.kernel.models.user.AccountId
+import com.uramnoil.serverist.domain.kernel.models.user.Email
+import com.uramnoil.serverist.domain.kernel.models.user.HashedPassword
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
+
 class User(
-    val id: com.uramnoil.serverist.domain.kernel.models.UserId,
+    val id: UserId,
     var accountId: AccountId,
     val email: Email,
-    var hashedPassword: com.uramnoil.serverist.domain.kernel.models.HashedPassword,
+    var hashedPassword: HashedPassword,
     var name: Name,
     var description: Description
 )

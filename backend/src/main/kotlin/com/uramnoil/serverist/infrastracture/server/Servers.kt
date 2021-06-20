@@ -1,6 +1,7 @@
 package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.server.models.*
 import com.uramnoil.serverist.infrastracture.user.Users
 import kotlinx.datetime.Instant
@@ -35,7 +36,7 @@ fun ResultRow.toApplicationServer(): Server = Server(
 fun ResultRow.toDomainServer() = DomainServer(
     id = Id(this[Servers.id].value),
     createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstance()),
-    ownerId = com.uramnoil.serverist.domain.kernel.models.UserId(this[Servers.owner]),
+    ownerId = UserId(this[Servers.owner]),
     name = Name(this[Servers.name]),
     address = Address(this[Servers.address]),
     port = Port(this[Servers.port]),

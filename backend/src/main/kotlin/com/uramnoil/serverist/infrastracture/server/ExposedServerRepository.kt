@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.server
 
-import com.uramnoil.serverist.domain.kernel.models.UserId
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.server.models.*
 import com.uramnoil.serverist.domain.server.repositories.ServerRepository
 import org.jetbrains.exposed.sql.deleteWhere

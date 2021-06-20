@@ -1,8 +1,10 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.user.models.AccountId
+import com.uramnoil.serverist.domain.kernel.models.user.AccountId
+import com.uramnoil.serverist.domain.kernel.models.user.Email
+import com.uramnoil.serverist.domain.kernel.models.user.HashedPassword
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.user.models.Description
-import com.uramnoil.serverist.domain.user.models.Email
 import com.uramnoil.serverist.domain.user.models.Name
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ResultRow
@@ -25,10 +27,10 @@ fun ResultRow.toApplicationUser() = ApplicationUser(
 )
 
 fun ResultRow.toDomainUser() = DomainUser(
-    com.uramnoil.serverist.domain.kernel.models.UserId(this[Users.id].value),
+    UserId(this[Users.id].value),
     AccountId(this[Users.accountId]),
     Email(this[Users.email]),
-    com.uramnoil.serverist.domain.kernel.models.HashedPassword(this[Users.hashedPassword]),
+    HashedPassword(this[Users.hashedPassword]),
     Name(this[Users.name]),
     Description(this[Users.description])
 )

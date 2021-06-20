@@ -3,8 +3,8 @@ package com.uramnoil.serverist.infrastracture.user
 import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.application.user.toApplication
-import com.uramnoil.serverist.domain.kernel.models.HashedPassword
-import com.uramnoil.serverist.domain.kernel.models.Password
+import com.uramnoil.serverist.domain.kernel.models.user.HashedPassword
+import com.uramnoil.serverist.domain.kernel.models.user.Password
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select

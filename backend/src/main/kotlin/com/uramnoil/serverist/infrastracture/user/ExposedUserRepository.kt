@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.kernel.models.UserId
+import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.user.models.User
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import org.jetbrains.exposed.sql.*
