@@ -9,6 +9,7 @@ import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
 import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
 import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
@@ -20,6 +21,7 @@ import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.infrastracture.server.*
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.CreateUnauthenticatedUserCommandImpl
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.DeleteUnauthenticatedUserCommandImpl
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.FindUnauthenticatedUserByIdQueryImpl
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.infrastracture.user.*
 import io.ktor.application.*
@@ -97,6 +99,10 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
 
     bind<DeleteUnauthenticatedUserCommand>() with factory {
         DeleteUnauthenticatedUserCommandImpl(instance())
+    }
+
+    bind<FindUnauthenticatedUserByIdQuery>() with factory {
+        FindUnauthenticatedUserByIdQueryImpl(instance())
     }
 
     bind<SendEmailToAuthenticateService>() with factory {
