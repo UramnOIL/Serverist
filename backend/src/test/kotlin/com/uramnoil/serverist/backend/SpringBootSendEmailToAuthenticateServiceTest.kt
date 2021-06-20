@@ -21,8 +21,7 @@ class SpringBootSendEmailToAuthenticateServiceTest {
             UnauthenticatedUser(
                 id = UUID.randomUUID(),
                 accountId = "test",
-                email = "hoge.com",
-                hashedPassword = "fuga"
+                email = "hoge.com"
             )
         )
     }
