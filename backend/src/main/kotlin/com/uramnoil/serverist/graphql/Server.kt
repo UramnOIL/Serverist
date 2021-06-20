@@ -3,8 +3,12 @@ package com.uramnoil.serverist.graphql
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.commands.*
-import com.uramnoil.serverist.application.server.queries.*
+import com.uramnoil.serverist.application.server.commands.CreateServerCommand
+import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
+import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
+import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
+import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
+import com.uramnoil.serverist.application.server.queries.OrderBy
 import org.kodein.di.DI
 import org.kodein.di.instance
 import java.util.*
@@ -12,7 +16,7 @@ import java.util.*
 fun SchemaBuilder.serverSchema(di: DI) {
     suspend fun checkOwner(userId: UUID, serverId: UUID) {
         val query by di.instance<IsUserOwnerOfServer>()
-        if (!query.execute(IsUserOwnerOfServerDto(serverId, userId))) {
+        if (!query.execute(serverId, userId)) {
             throw IllegalArgumentException("権限がありません。")
         }
     }
@@ -21,13 +25,11 @@ fun SchemaBuilder.serverSchema(di: DI) {
         resolver { id: UUID, page: PageRequest, sort: Sort, orderBy: OrderBy ->
             val query by di.instance<FindServersByOwnerQuery>()
             query.execute(
-                FindServersByOwnerQueryDto(
-                    ownerId = id,
-                    limit = page.limit,
-                    offset = page.offset,
-                    sort = sort,
-                    orderBy = orderBy
-                )
+                ownerId = id,
+                limit = page.limit,
+                offset = page.offset,
+                sort = sort,
+                orderBy = orderBy
             )
         }
     }
@@ -37,7 +39,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
             val ownerId = context.getIdFromSession()
 
             val command by di.instance<CreateServerCommand>()
-            command.execute(CreateServerCommandDto(ownerId, name, address, port, description))
+            command.execute(ownerId, name, address, port, description)
         }
 
         accessRule(::checkSession)
@@ -48,7 +50,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
             checkOwner(context.getIdFromSession(), id)
 
             val command by di.instance<UpdateServerCommand>()
-            command.execute(UpdateServerCommandDto(id, name, address, port, description))
+            command.execute(id, name, address, port, description)
 
             id
         }
@@ -61,7 +63,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
             checkOwner(context.getIdFromSession(), id)
 
             val command by di.instance<DeleteServerCommand>()
-            command.execute(DeleteServerCommandDto(id))
+            command.execute(id)
             id
         }
 

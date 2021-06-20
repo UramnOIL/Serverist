@@ -2,8 +2,6 @@ package com.uramnoil.serverist.application.user.commands
 
 import java.util.*
 
-data class UpdateUserProfileCommandDto(val id: UUID, val accountId: String, val name: String, val description: String)
-
 interface UpdateUserProfileCommand {
-    suspend fun execute(dto: UpdateUserProfileCommandDto)
+    suspend fun execute(id: UUID, accountId: String, name: String, description: String)
 }

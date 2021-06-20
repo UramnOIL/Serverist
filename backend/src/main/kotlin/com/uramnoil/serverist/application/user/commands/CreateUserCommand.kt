@@ -1,13 +1,11 @@
 package com.uramnoil.serverist.application.user.commands
 
-data class CreateUserCommandDto(
-    val accountId: String,
-    val email: String,
-    val hashedPassword: String,
-    val name: String,
-    val description: String
-)
-
 interface CreateUserCommand {
-    suspend fun execute(dto: CreateUserCommandDto)
+    suspend fun execute(
+        accountId: String,
+        email: String,
+        hashedPassword: String,
+        name: String,
+        description: String
+    )
 }

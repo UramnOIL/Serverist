@@ -2,14 +2,13 @@ package com.uramnoil.serverist.application.server.commands
 
 import java.util.*
 
-data class UpdateServerCommandDto(
-    val id: UUID,
-    val name: String,
-    val address: String?,
-    val port: Int?,
-    val description: String
-)
 
 interface UpdateServerCommand {
-    suspend fun execute(dto: UpdateServerCommandDto)
+    suspend fun execute(
+        id: UUID,
+        name: String,
+        address: String?,
+        port: Int?,
+        description: String
+    )
 }

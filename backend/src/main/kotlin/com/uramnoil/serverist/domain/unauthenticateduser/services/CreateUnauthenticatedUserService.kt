@@ -5,12 +5,10 @@ import com.uramnoil.serverist.domain.unauthenticateduser.models.AccountId
 import com.uramnoil.serverist.domain.unauthenticateduser.models.Email
 import com.uramnoil.serverist.domain.unauthenticateduser.models.UnauthenticatedUser
 
-data class CreateUnauthenticatedUserServiceDto(
-    val accountId: AccountId,
-    val email: Email,
-    val hashedPassword: HashedPassword
-)
-
 interface CreateUnauthenticatedUserService {
-    suspend fun execute(dto: CreateUnauthenticatedUserServiceDto): UnauthenticatedUser
+    suspend fun execute(
+        accountId: AccountId,
+        email: Email,
+        hashedPassword: HashedPassword
+    ): UnauthenticatedUser
 }
