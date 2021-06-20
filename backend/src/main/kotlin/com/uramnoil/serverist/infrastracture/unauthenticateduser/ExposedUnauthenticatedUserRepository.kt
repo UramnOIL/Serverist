@@ -3,14 +3,13 @@ package com.uramnoil.serverist.infrastracture.unauthenticateduser
 import com.uramnoil.serverist.domain.unauthenticateduser.models.Id
 import com.uramnoil.serverist.domain.unauthenticateduser.models.UnauthenticatedUser
 import com.uramnoil.serverist.domain.unauthenticateduser.repositories.UnauthenticatedUserRepository
-import com.uramnoil.serverist.infrastracture.user.Users
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
     override suspend fun insert(user: UnauthenticatedUser) {
         newSuspendedTransaction {
-            Users.insert {
+            UnauthenticatedUsers.insert {
                 it[id] = user.id.value
                 it[accountId] = user.accountId.value
                 it[email] = user.email.value
@@ -22,7 +21,7 @@ class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
 
     override suspend fun update(user: UnauthenticatedUser) {
         newSuspendedTransaction {
-            Users.update({ Users.id eq user.id.value }) {
+            UnauthenticatedUsers.update({ UnauthenticatedUsers.id eq user.id.value }) {
                 it[accountId] = user.accountId.value
                 it[email] = user.email.value
                 it[hashedPassword] = user.hashedPassword.value
@@ -33,14 +32,14 @@ class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
 
     override suspend fun delete(user: UnauthenticatedUser) {
         newSuspendedTransaction {
-            Users.deleteWhere { Users.id eq user.id.value }
+            UnauthenticatedUsers.deleteWhere { UnauthenticatedUsers.id eq user.id.value }
             commit()
         }
     }
 
     override suspend fun findById(id: Id): UnauthenticatedUser? {
         return newSuspendedTransaction {
-            Users.select { Users.id eq id.value }.firstOrNull()
+            UnauthenticatedUsers.select { UnauthenticatedUsers.id eq id.value }.firstOrNull()
         }?.let(ResultRow::toDomainUnauthenticatedUser)
     }
 }
