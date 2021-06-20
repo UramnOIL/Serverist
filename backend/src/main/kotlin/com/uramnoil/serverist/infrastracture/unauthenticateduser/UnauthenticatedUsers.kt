@@ -22,7 +22,6 @@ fun ResultRow.toApplicationUnauthenticatedUser() = DomainUnauthenticatedUser(
     this[Users.id].value,
     this[Users.accountId],
     this[Users.name],
-    this[Users.description]
 )
 
 fun ResultRow.toDomainUnauthenticatedUser() = ApplicationUnauthenticatedUser(
