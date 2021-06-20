@@ -5,6 +5,5 @@ import java.util.*
 data class UnauthenticatedUser(
     val id: UUID,
     val accountId: String,
-    val email: String,
-    val hashedPassword: String,
+    val email: String
 )
