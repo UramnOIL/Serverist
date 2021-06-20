@@ -6,6 +6,6 @@ interface CreateUnauthenticatedUserCommand {
     suspend fun execute(
         accountId: String,
         email: String,
-        hashedPassword: String
+        password: String
     ): UnauthenticatedUser
 }
