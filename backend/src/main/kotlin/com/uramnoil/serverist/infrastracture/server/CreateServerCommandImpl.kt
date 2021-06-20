@@ -1,19 +1,18 @@
 package com.uramnoil.serverist.infrastracture.server
 
-import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
 import com.uramnoil.serverist.domain.kernel.models.user.UserId
-import com.uramnoil.serverist.domain.server.models.Address
-import com.uramnoil.serverist.domain.server.models.Description
-import com.uramnoil.serverist.domain.server.models.Name
-import com.uramnoil.serverist.domain.server.models.Port
-import com.uramnoil.serverist.domain.server.services.CreateServerService
+import com.uramnoil.serverist.domain.server.models.*
+import com.uramnoil.serverist.domain.server.repositories.ServerRepository
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
+import kotlinx.datetime.Clock
 import java.util.*
+import com.uramnoil.serverist.application.server.Server as ApplicationServer
+import com.uramnoil.serverist.domain.server.models.Server as DomainServer
 
 class CreateServerCommandImpl(
-    private val repository: UserRepository,
-    private val service: CreateServerService,
+    private val userRepository: UserRepository,
+    private val serverRepository: ServerRepository,
 ) : CreateServerCommand {
     override suspend fun execute(
         ownerId: UUID,
@@ -21,16 +20,22 @@ class CreateServerCommandImpl(
         address: String?,
         port: Int?,
         description: String
-    ): Server {
-        val owner = repository.findById(UserId(ownerId))
+    ): ApplicationServer {
+        val owner = userRepository.findById(UserId(ownerId))
             ?: throw IllegalArgumentException("id=${ownerId}に一致するユーザは存在しません。")
 
-        return service.new(
+        val server = DomainServer(
+            Id(UUID.randomUUID()),
+            CreatedAt(Clock.System.now()),
             Name(name),
-            owner,
+            owner.id,
             Address(address),
             Port(port),
             Description(description)
-        ).toApplication()
+        )
+
+        serverRepository.insert(server)
+
+        return server.toApplication()
     }
 }
