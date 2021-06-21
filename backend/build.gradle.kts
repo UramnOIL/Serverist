@@ -38,7 +38,7 @@ dependencies {
 
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
-    implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
+    implementation("io.ktor:ktor-server-sessions:$ktorVersion")
     implementation("com.apurebase:kgraphql:$kgraphqlVersion")
     implementation("com.apurebase:kgraphql-ktor:$kgraphqlVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
