@@ -26,6 +26,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.DI
 import org.kodein.di.instance
+import java.io.File
 import java.util.*
 
 data class AuthSession(val id: UUID) : Principal
@@ -39,8 +40,9 @@ fun Application.module(testing: Boolean = false) {
 
     createConnection()
 
+
     install(Sessions) {
-        cookie<AuthSession>("SESSION", SessionStorageMemory()) {
+        cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
             cookie.maxAgeInSeconds = 1000
         }
