@@ -5,16 +5,27 @@ import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.serializer.StringRedisSerializer
 
-class RedisSessionStorage(private val redisTemplate: RedisTemplate<String, ByteArray>) : SessionStorage {
+class RedisSessionStorage(connectionFactory: RedisConnectionFactory) : SessionStorage {
+    private val redisTemplate = RedisTemplate<String, String>()
+
+    init {
+        redisTemplate.connectionFactory = connectionFactory
+        redisTemplate.keySerializer = StringRedisSerializer()
+        redisTemplate.valueSerializer = StringRedisSerializer()
+        redisTemplate.afterPropertiesSet()
+    }
+
     override suspend fun write(id: String, provider: suspend (ByteWriteChannel) -> Unit) {
         coroutineScope {
             val channel = writer(Dispatchers.IO, autoFlush = true) {
                 provider(channel)
             }.channel
 
-            redisTemplate.opsForValue()[id] = channel.toByteArray()
+            redisTemplate.opsForValue()[id] = channel.toByteArray().toString()
         }
     }
 
