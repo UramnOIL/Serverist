@@ -12,9 +12,9 @@ import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUse
 import com.uramnoil.serverist.domain.unauthenticateduser.models.UnauthenticatedUser as ApplicationUnauthenticatedUser
 
 object UnauthenticatedUsers : UUIDTable("users") {
-    val accountId = varchar("account_id", 16).uniqueIndex()
-    val email = varchar("email", 255).uniqueIndex()
-    val hashedPassword = varchar("hashed_password", 255)
+    val accountId = char("account_id", 16).uniqueIndex()
+    val email = char("email", 255).uniqueIndex()
+    val hashedPassword = char("hashed_password", 255)
     val expiredDateTime = datetime("expired_datetime")
 }
 

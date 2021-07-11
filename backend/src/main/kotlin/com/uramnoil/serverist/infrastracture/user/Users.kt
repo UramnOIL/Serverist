@@ -12,9 +12,9 @@ import com.uramnoil.serverist.application.user.User as ApplicationUser
 import com.uramnoil.serverist.domain.user.models.User as DomainUser
 
 object Users : UUIDTable("users") {
-    val accountId = varchar("account_id", 16).uniqueIndex()
-    val email = varchar("email", 255).uniqueIndex()
-    val hashedPassword = varchar("hashed_password", 255)
+    val accountId = char("account_id", 16).uniqueIndex()
+    val email = char("email", 255).uniqueIndex()
+    val hashedPassword = char("hashed_password", 255)
     val name = varchar("name", 32)
     val description = varchar("description", 255)
 }

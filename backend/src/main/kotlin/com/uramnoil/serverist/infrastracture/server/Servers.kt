@@ -18,7 +18,7 @@ object Servers : UUIDTable("servers") {
     val name = varchar("name", 16)
     val owner = uuid("owner").references(Users.id)
     val createdAt = datetime("created_at")
-    val address = varchar("address", 253).nullable()
+    val address = char("address", 253).nullable()
     val port = integer("port").nullable()
     val description = varchar("description", 255)
 }
