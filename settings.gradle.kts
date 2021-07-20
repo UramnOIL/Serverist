@@ -2,11 +2,14 @@ rootProject.name = "serverist"
 
 pluginManagement {
     plugins {
-        kotlin("jvm") version "1.5.10"
-        kotlin("multiplatform") version "1.5.10"
-        id("com.squareup.sqldelight") version "1.4.4"
+        val kotlinVersion: String by settings
+        val dokkaVersion: String by settings
+
+        kotlin("jvm") version kotlinVersion
+        kotlin("multiplatform") version kotlinVersion
+        id("org.jetbrains.dokka") version dokkaVersion
         id("com.github.johnrengelman.shadow") version "5.2.0"
     }
 }
 
-include(":domain", ":application", ":backend")
+include(":backend")
