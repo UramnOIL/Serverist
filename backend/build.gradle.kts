@@ -32,6 +32,9 @@ dependencies {
     val exposedVersion: String by project
     val springBootVersion: String by project
 
+    implementation(project(":application"))
+    implementation(project(":domain"))
+
     implementation(kotlin("stdlib:$kotlinVersion"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")

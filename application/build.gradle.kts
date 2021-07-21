@@ -9,7 +9,6 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-
             dependencies {
                 val kotlinVersion: String by project
                 val kodeinVersion: String by project
