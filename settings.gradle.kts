@@ -12,4 +12,4 @@ pluginManagement {
     }
 }
 
-include(":backend")
+include(":domain", ":application", ":backend")
