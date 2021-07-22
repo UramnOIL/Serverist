@@ -1,0 +1,25 @@
+name: 'Deploy Document to GitHub Pages'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - './**/src/**'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-20.04'
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: Build Dokka
+        run: ./gradlew dokkaHtmlMultiModule
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/dokkaHtmlMultiModule
