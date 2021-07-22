@@ -3,7 +3,7 @@ name: 'Deploy Document to GitHub Pages'
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - './**/src/**'
   pull_request:
