@@ -1,12 +1,12 @@
 package com.uramnoil.serverist.infrastracture.server
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.server.commands.CreateServerCommand
 import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.server.models.*
 import com.uramnoil.serverist.domain.server.repositories.ServerRepository
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import kotlinx.datetime.Clock
-import java.util.*
 import com.uramnoil.serverist.application.server.Server as ApplicationServer
 import com.uramnoil.serverist.domain.server.models.Server as DomainServer
 
@@ -15,7 +15,7 @@ class CreateServerCommandImpl(
     private val serverRepository: ServerRepository,
 ) : CreateServerCommand {
     override suspend fun execute(
-        ownerId: UUID,
+        ownerId: Uuid,
         name: String,
         address: String?,
         port: Int?,
@@ -25,7 +25,7 @@ class CreateServerCommandImpl(
             ?: throw IllegalArgumentException("id=${ownerId}に一致するユーザは存在しません。")
 
         val server = DomainServer(
-            Id(UUID.randomUUID()),
+            Id(Uuid.randomUUID()),
             CreatedAt(Clock.System.now()),
             Name(name),
             owner.id,

@@ -3,20 +3,21 @@ plugins {
 }
 
 kotlin {
-    jvm {
-
-    }
+    jvm()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                val kotlinVersion: String by project
-                val kodeinVersion: String by project
                 val coroutinesVersion: String by project
+                val datetimeVersion: String by project
+                val uuidVersion: String by project
 
-                implementation(project(":domain"))
+                api(project(":domain"))
+
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.kodein.di:kodein-di-jvm:$kodeinVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+
+                implementation("com.benasher44:uuid:${uuidVersion}")
             }
         }
     }

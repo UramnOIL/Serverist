@@ -31,6 +31,7 @@ dependencies {
     val kodeinVersion: String by project
     val exposedVersion: String by project
     val springBootVersion: String by project
+    val uuidVersion: String by project
 
     implementation(project(":application"))
     implementation(project(":domain"))
@@ -61,6 +62,8 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("com.h2database:h2:1.4.200")
+
+    implementation("com.benasher44:uuid:${uuidVersion}")
 }
 
 tasks.withType<Jar> {

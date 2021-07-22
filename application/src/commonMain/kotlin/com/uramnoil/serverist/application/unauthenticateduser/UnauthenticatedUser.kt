@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.application.unauthenticateduser
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 data class UnauthenticatedUser(
-    val id: UUID,
+    val id: Uuid,
     val accountId: String,
     val email: String
 )

@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.application.server.queries
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.server.Server
-import java.util.*
 
 interface FindServerByIdQuery {
-    suspend fun execute(id: UUID): Server?
+    suspend fun execute(id: Uuid): Server?
 }

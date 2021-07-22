@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.user.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 interface UpdateUserProfileCommand {
-    suspend fun execute(id: UUID, accountId: String, name: String, description: String)
+    suspend fun execute(id: Uuid, accountId: String, name: String, description: String)
 }

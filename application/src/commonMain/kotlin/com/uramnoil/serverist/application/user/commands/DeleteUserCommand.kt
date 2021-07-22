@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.user.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 interface DeleteUserCommand {
-    suspend fun execute(id: UUID)
+    suspend fun execute(id: Uuid)
 }

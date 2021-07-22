@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.application.user.queries
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.User
-import java.util.*
 
 interface FindUserByIdQuery {
-    suspend fun execute(id: UUID): User?
+    suspend fun execute(id: Uuid): User?
 }

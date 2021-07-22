@@ -1,11 +1,11 @@
 package com.uramnoil.serverist.application.server.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 
 interface UpdateServerCommand {
     suspend fun execute(
-        id: UUID,
+        id: Uuid,
         name: String,
         address: String?,
         port: Int?,

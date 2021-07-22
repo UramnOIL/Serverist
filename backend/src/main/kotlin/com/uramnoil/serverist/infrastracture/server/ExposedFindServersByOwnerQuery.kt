@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.infrastracture.server
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
@@ -8,10 +9,9 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.*
 
 class ExposedFindServersByOwnerQuery : FindServersByOwnerQuery {
-    override suspend fun execute(ownerId: UUID, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy): List<Server> =
+    override suspend fun execute(ownerId: Uuid, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy): List<Server> =
         newSuspendedTransaction {
             Servers.select { Servers.owner eq ownerId }.orderBy(
                 when (orderBy) {

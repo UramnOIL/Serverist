@@ -2,7 +2,7 @@ package com.uramnoil.serverist.domain.server.models
 
 import com.uramnoil.serverist.domain.kernel.models.user.UserId
 
-class Server internal constructor(
+class Server constructor(
     val id: Id,
     val createdAt: CreatedAt,
     var name: Name,

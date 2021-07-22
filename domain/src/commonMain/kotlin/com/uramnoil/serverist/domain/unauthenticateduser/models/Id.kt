@@ -1,5 +1,5 @@
 package com.uramnoil.serverist.domain.unauthenticateduser.models
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
-data class Id(val value: UUID)
+data class Id(val value: Uuid)

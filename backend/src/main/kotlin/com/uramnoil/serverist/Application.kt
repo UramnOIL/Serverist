@@ -1,6 +1,7 @@
 package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
@@ -27,9 +28,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.DI
 import org.kodein.di.instance
 import java.io.File
-import java.util.*
 
-data class AuthSession(val id: UUID) : Principal
+data class AuthSession(val id: Uuid) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -102,7 +102,7 @@ fun Application.routingLogin(di: DI) = routing {
     }
 
     post("auth") {
-        data class AuthenticateUserId(val id: UUID)
+        data class AuthenticateUserId(val id: Uuid)
 
         val auth = call.receive<AuthenticateUserId>()
         val query by di.instance<FindUnauthenticatedUserByIdQuery>()
@@ -132,9 +132,9 @@ fun Application.buildGraphql(di: DI) = install(GraphQL) {
     }
 
     schema {
-        stringScalar<UUID> {
-            deserialize = { UUID.fromString(it) }
-            serialize = UUID::toString
+        stringScalar<Uuid> {
+            deserialize = { Uuid.fromString(it) }
+            serialize = Uuid::toString
         }
 
         type<PageRequest>()

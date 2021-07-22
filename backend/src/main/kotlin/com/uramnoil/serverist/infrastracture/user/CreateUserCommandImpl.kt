@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.commands.CreateUserCommand
 import com.uramnoil.serverist.application.user.toApplication
 import com.uramnoil.serverist.domain.kernel.models.user.AccountId
@@ -9,7 +10,6 @@ import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.user.models.Description
 import com.uramnoil.serverist.domain.user.models.Name
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
-import java.util.*
 import com.uramnoil.serverist.application.user.User as ApplicationUser
 import com.uramnoil.serverist.domain.user.models.User as DomainUser
 
@@ -24,7 +24,7 @@ class CreateUserCommandImpl(
         description: String
     ): ApplicationUser {
         val user = DomainUser(
-            UserId(UUID.randomUUID()),
+            UserId(Uuid.randomUUID()),
             AccountId(accountId),
             Email(email),
             HashedPassword(hashedPassword),

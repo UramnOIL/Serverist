@@ -2,16 +2,16 @@ package com.uramnoil.serverist.graphql
 
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
 import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
 import com.uramnoil.serverist.application.user.queries.FindUserByIdQuery
 import org.kodein.di.DI
 import org.kodein.di.instance
-import java.util.*
 
 fun SchemaBuilder.userSchema(di: DI) {
     query("findUserById") {
-        resolver { id: UUID ->
+        resolver { id: Uuid ->
             val query by di.instance<FindUserByIdQuery>()
             query.execute(id)
         }
