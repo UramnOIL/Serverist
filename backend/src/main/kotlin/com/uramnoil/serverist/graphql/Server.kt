@@ -16,7 +16,7 @@ import org.kodein.di.instance
 fun SchemaBuilder.serverSchema(di: DI) {
     suspend fun checkOwner(userId: Uuid, serverId: Uuid) {
         val query by di.instance<IsUserOwnerOfServer>()
-        if (!query.execute(serverId, userId)) {
+        if (query.execute(serverId, userId).isFailure) {
             throw IllegalArgumentException("権限がありません。")
         }
     }
