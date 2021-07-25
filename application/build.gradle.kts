@@ -8,16 +8,24 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                val coroutinesVersion: String by project
-                val datetimeVersion: String by project
-                val uuidVersion: String by project
-
                 api(project(":domain"))
+            }
+        }
+        val jvmMain by getting {}
 
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+        val backendMain by creating {
+            dependsOn(jvmMain)
 
-                implementation("com.benasher44:uuid:${uuidVersion}")
+            dependencies {
+                api(project(":domain"))
+            }
+        }
+
+        val frontendMain by creating {
+            dependsOn(commonMain)
+
+            dependencies {
+                api(project(":domain"))
             }
         }
     }

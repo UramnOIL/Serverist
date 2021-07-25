@@ -1,3 +1,5 @@
 package com.uramnoil.serverist.application.server.queries
 
-expect interface FindServersByOwnerQuery
+enum class OrderBy {
+    CreatedAt,
+}
