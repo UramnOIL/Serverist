@@ -18,9 +18,9 @@ kotlin {
             dependencies {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
 
-                implementation("com.benasher44:uuid:${uuidVersion}")
+                api("com.benasher44:uuid:${uuidVersion}")
             }
         }
     }
