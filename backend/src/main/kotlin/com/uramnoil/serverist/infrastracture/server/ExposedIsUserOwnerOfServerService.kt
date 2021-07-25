@@ -7,8 +7,13 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedIsUserOwnerOfServerService : IsUserOwnerOfServer {
-    override suspend fun execute(ownerId: Uuid, serverId: Uuid): Boolean = newSuspendedTransaction {
-        val result = Servers.select { (Servers.id eq ownerId) and (Servers.owner eq ownerId) }
-        result.firstOrNull() != null
+    override suspend fun execute(
+        ownerId: Uuid,
+        serverId: Uuid
+    ): Result<Boolean> = kotlin.runCatching {
+        newSuspendedTransaction {
+            val result = Servers.select { (Servers.id eq ownerId) and (Servers.owner eq ownerId) }
+            result.firstOrNull() != null
+        }
     }
 }

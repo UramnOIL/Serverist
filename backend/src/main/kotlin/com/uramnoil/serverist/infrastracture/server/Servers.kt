@@ -23,7 +23,7 @@ object Servers : UUIDTable("servers") {
     val description = varchar("description", 255)
 }
 
-fun ResultRow.toApplicationServer(): Server = Server(
+fun ResultRow.toApplicationServer() = Server(
     this[Servers.id].value,
     this[Servers.createdAt].toKotlinInstance(),
     this[Servers.owner],

@@ -13,22 +13,26 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 class ExposedValidateLoginService(
     private val hashPasswordService: com.uramnoil.serverist.domain.kernel.services.HashPasswordService
 ) : ValidateLoginService {
-    override suspend fun execute(accountIdOrEmail: String, password: String): User? {
-        val result = newSuspendedTransaction {
-            Users.select { (Users.accountId eq accountIdOrEmail) or (Users.email eq accountIdOrEmail) }
-                .firstOrNull()
+    override suspend fun execute(accountIdOrEmail: String, password: String): Result<User?> {
+        val result = kotlin.runCatching {
+            newSuspendedTransaction {
+                Users.select { (Users.accountId eq accountIdOrEmail) or (Users.email eq accountIdOrEmail) }
+                    .firstOrNull()
+            }
+        }.map {
+            it?.let(ResultRow::toDomainUser) ?: return Result.failure(IllegalArgumentException("E-Mailとパスワードが一致しません。"))
         }
 
-        val user = result?.let(ResultRow::toDomainUser) ?: return null
-
-        return if (hashPasswordService.check(
-                Password(password),
-                HashedPassword(user.hashedPassword.value)
-            )
-        ) {
-            user.toApplication()
-        } else {
-            null
+        val user = result.getOrElse {
+            return Result.failure(it)
         }
+
+        return Result.success(
+            if (hashPasswordService.check(Password(password), HashedPassword(user.hashedPassword.value))) {
+                user.toApplication()
+            } else {
+                null
+            }
+        )
     }
 }

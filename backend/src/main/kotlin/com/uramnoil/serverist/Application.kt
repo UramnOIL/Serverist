@@ -8,7 +8,6 @@ import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUna
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.User
 import com.uramnoil.serverist.application.user.queries.ValidateLoginService
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
@@ -22,6 +21,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
+import io.ktor.util.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -81,9 +81,12 @@ fun Application.routingLogin(di: DI) = routing {
 
             val service: ValidateLoginService by di.instance()
 
-            val user: User =
-                service.execute(idEmailPassword.idOrEmail, idEmailPassword.password)
-                    ?: return@post call.respond(HttpStatusCode.Unauthorized)
+            val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
+                call.application.environment.log.error(it)
+                return@post call.respond(it)
+            }
+
+            user ?: return@post call.respond(HttpStatusCode.Unauthorized)
 
             call.sessions.set(AuthSession(user.id))
 
@@ -93,11 +96,19 @@ fun Application.routingLogin(di: DI) = routing {
 
     post("signup") {
         data class IdEmailPassword(val accountId: String, val email: String, val password: String)
-        call.receive<IdEmailPassword>().let {
+        call.receive<IdEmailPassword>().let { idEmailPassword ->
             val command by di.instance<CreateUnauthenticatedUserCommand>()
-            val user = command.execute(it.accountId, it.email, it.password)
+            val user =
+                command.execute(idEmailPassword.accountId, idEmailPassword.email, idEmailPassword.password).getOrElse {
+                    call.application.environment.log.error(it)
+                    return@post call.respond(it)
+                }
+
             val service by di.instance<SendEmailToAuthenticateService>()
-            service.execute(user)
+            service.execute(user).onFailure {
+                call.application.environment.log.error(it)
+                return@post call.respond(it)
+            }
         }
     }
 
@@ -106,7 +117,10 @@ fun Application.routingLogin(di: DI) = routing {
 
         val auth = call.receive<AuthenticateUserId>()
         val query by di.instance<FindUnauthenticatedUserByIdQuery>()
-        val user = query.execute(auth.id)
+        val user = query.execute(auth.id).getOrElse {
+            call.application.environment.log.error(it)
+            return@post call.respond(it)
+        }
 
         if (user != null) {
             call.respond(HttpStatusCode.OK)

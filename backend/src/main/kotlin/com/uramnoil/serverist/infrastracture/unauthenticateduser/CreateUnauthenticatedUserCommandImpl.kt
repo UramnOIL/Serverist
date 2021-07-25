@@ -15,7 +15,11 @@ class CreateUnauthenticatedUserCommandImpl(
     private val repository: UnauthenticatedUserRepository,
     private val service: HashPasswordService
 ) : CreateUnauthenticatedUserCommand {
-    override suspend fun execute(accountId: String, email: String, password: String): ApplicationUnauthenticatedUser {
+    override suspend fun execute(
+        accountId: String,
+        email: String,
+        password: String
+    ): Result<ApplicationUnauthenticatedUser> {
         val hashedPassword = service.hash(Password(password))
         val user = DomainUnauthenticatedUser(
             id = Id(Uuid.randomUUID()),
@@ -24,8 +28,8 @@ class CreateUnauthenticatedUserCommandImpl(
             hashedPassword = hashedPassword,
         )
 
-        repository.insert(user)
-
-        return user.toApplication()
+        return repository.insert(user).map {
+            user.toApplication()
+        }
     }
 }

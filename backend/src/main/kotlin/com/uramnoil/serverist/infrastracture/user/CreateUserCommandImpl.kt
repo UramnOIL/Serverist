@@ -22,7 +22,7 @@ class CreateUserCommandImpl(
         hashedPassword: String,
         name: String,
         description: String
-    ): ApplicationUser {
+    ): Result<ApplicationUser> {
         val user = DomainUser(
             UserId(Uuid.randomUUID()),
             AccountId(accountId),
@@ -32,8 +32,8 @@ class CreateUserCommandImpl(
             Description(description)
         )
 
-        repository.insert(user)
-
-        return user.toApplication()
+        return repository.insert(user).map {
+            user.toApplication()
+        }
     }
 }

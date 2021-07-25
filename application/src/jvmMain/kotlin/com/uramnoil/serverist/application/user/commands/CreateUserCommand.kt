@@ -9,5 +9,5 @@ actual interface CreateUserCommand {
         hashedPassword: String,
         name: String,
         description: String
-    ): User
+    ): Result<User>
 }

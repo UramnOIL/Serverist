@@ -11,7 +11,13 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedFindServersByOwnerQuery : FindServersByOwnerQuery {
-    override suspend fun execute(ownerId: Uuid, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy): List<Server> =
+    override suspend fun execute(
+        ownerId: Uuid,
+        limit: Int,
+        offset: Long,
+        sort: Sort,
+        orderBy: OrderBy
+    ): Result<List<Server>> = kotlin.runCatching {
         newSuspendedTransaction {
             Servers.select { Servers.owner eq ownerId }.orderBy(
                 when (orderBy) {
@@ -23,4 +29,5 @@ class ExposedFindServersByOwnerQuery : FindServersByOwnerQuery {
                 }
             ).limit(limit, offset = offset).map(ResultRow::toApplicationServer)
         }
+    }
 }

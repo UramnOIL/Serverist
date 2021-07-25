@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
-    override suspend fun insert(user: UnauthenticatedUser) {
+    override suspend fun insert(user: UnauthenticatedUser) = kotlin.runCatching {
         newSuspendedTransaction {
             UnauthenticatedUsers.insert {
                 it[id] = user.id.value
@@ -19,7 +19,7 @@ class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
         }
     }
 
-    override suspend fun update(user: UnauthenticatedUser) {
+    override suspend fun update(user: UnauthenticatedUser): Result<Unit> = kotlin.runCatching {
         newSuspendedTransaction {
             UnauthenticatedUsers.update({ UnauthenticatedUsers.id eq user.id.value }) {
                 it[accountId] = user.accountId.value
@@ -30,15 +30,15 @@ class ExposedUnauthenticatedUserRepository : UnauthenticatedUserRepository {
         }
     }
 
-    override suspend fun delete(user: UnauthenticatedUser) {
+    override suspend fun delete(user: UnauthenticatedUser) = kotlin.runCatching {
         newSuspendedTransaction {
             UnauthenticatedUsers.deleteWhere { UnauthenticatedUsers.id eq user.id.value }
             commit()
         }
     }
 
-    override suspend fun findById(id: Id): UnauthenticatedUser? {
-        return newSuspendedTransaction {
+    override suspend fun findById(id: Id) = kotlin.runCatching {
+        newSuspendedTransaction {
             UnauthenticatedUsers.select { UnauthenticatedUsers.id eq id.value }.firstOrNull()
         }?.let(ResultRow::toDomainUnauthenticatedUser)
     }

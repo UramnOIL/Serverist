@@ -10,5 +10,5 @@ actual interface CreateServerCommand {
         address: String?,
         port: Int?,
         description: String
-    ): Server
+    ): Result<Server>
 }

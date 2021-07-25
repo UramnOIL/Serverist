@@ -11,10 +11,8 @@ kotlin {
                 api(project(":domain"))
             }
         }
-        val jvmMain by getting {}
-
-        val backendMain by creating {
-            dependsOn(jvmMain)
+        val jvmMain by getting {
+            dependsOn(commonMain)
 
             dependencies {
                 api(project(":domain"))

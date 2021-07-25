@@ -2,16 +2,18 @@ package com.uramnoil.serverist.infrastracture.user
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
-import com.uramnoil.serverist.domain.kernel.NotFoundException
 import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 
 class DeleteUserCommandImpl(private val repository: UserRepository) :
     DeleteUserCommand {
-    override suspend fun execute(id: Uuid) {
-        val user = repository.findById(UserId(id))
-            ?: throw NotFoundException("DeleteUserCommand#execute: ユーザー(ID: ${id})が見つかりませんでした。")
+    override suspend fun execute(id: Uuid): Result<Unit> {
+        val user = repository.findById(UserId(id)).getOrElse {
+            return Result.failure(it)
+        }
 
-        repository.delete(user)
+        user ?: return Result.failure(IllegalArgumentException("id: ${id}に一致するユーザーが見つかりませんでした。"))
+
+        return repository.delete(user)
     }
 }

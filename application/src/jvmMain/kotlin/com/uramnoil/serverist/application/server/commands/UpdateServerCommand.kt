@@ -10,5 +10,5 @@ actual interface UpdateServerCommand {
         address: String?,
         port: Int?,
         description: String
-    )
+    ): Result<Unit>
 }

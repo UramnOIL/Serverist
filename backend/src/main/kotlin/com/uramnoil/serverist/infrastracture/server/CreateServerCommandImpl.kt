@@ -20,22 +20,20 @@ class CreateServerCommandImpl(
         address: String?,
         port: Int?,
         description: String
-    ): ApplicationServer {
-        val owner = userRepository.findById(UserId(ownerId))
-            ?: throw IllegalArgumentException("id=${ownerId}に一致するユーザは存在しません。")
+    ): Result<ApplicationServer> = userRepository.findById(UserId(ownerId)).map {
+        it ?: return Result.failure(IllegalArgumentException("id: ${ownerId}のユーザー見つかりませんでした。"))
 
         val server = DomainServer(
             Id(Uuid.randomUUID()),
             CreatedAt(Clock.System.now()),
             Name(name),
-            owner.id,
+            it.id,
             Address(address),
             Port(port),
             Description(description)
         )
 
         serverRepository.insert(server)
-
-        return server.toApplication()
+        server.toApplication()
     }
 }

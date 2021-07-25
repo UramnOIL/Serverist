@@ -34,7 +34,6 @@ dependencies {
     val uuidVersion: String by project
 
     implementation(project(":application"))
-    implementation(project(":domain"))
 
     implementation(kotlin("stdlib:$kotlinVersion"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")

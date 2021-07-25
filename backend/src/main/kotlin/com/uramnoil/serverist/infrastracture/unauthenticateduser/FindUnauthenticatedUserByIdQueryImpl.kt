@@ -8,7 +8,7 @@ import com.uramnoil.serverist.domain.unauthenticateduser.repositories.Unauthenti
 
 class FindUnauthenticatedUserByIdQueryImpl(private val repository: UnauthenticatedUserRepository) :
     FindUnauthenticatedUserByIdQuery {
-    override suspend fun execute(id: Uuid): UnauthenticatedUser? {
-        return repository.findById(Id(id))?.toApplication()
+    override suspend fun execute(id: Uuid): Result<UnauthenticatedUser?> = repository.findById(Id(id)).map {
+        it?.toApplication()
     }
 }

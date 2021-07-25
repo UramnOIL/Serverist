@@ -14,7 +14,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val from: String,
     private val url: String
 ) : SendEmailToAuthenticateService {
-    override fun execute(user: UnauthenticatedUser) {
+    override fun execute(user: UnauthenticatedUser) = kotlin.runCatching {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
             host = this@SpringBootSendEmailToAuthenticateService.host
             port = this@SpringBootSendEmailToAuthenticateService.port

@@ -10,8 +10,13 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ExposedFindAllServersQuery : FindAllServersQuery {
-    override suspend fun execute(limit: Int, offset: Long, sort: Sort, orderBy: OrderBy): List<Server> {
-        return newSuspendedTransaction {
+    override suspend fun execute(
+        limit: Int,
+        offset: Long,
+        sort: Sort,
+        orderBy: OrderBy
+    ): Result<List<Server>> = kotlin.runCatching {
+        newSuspendedTransaction {
             Servers.selectAll().orderBy(
                 when (orderBy) {
                     OrderBy.CreatedAt -> Servers.createdAt
