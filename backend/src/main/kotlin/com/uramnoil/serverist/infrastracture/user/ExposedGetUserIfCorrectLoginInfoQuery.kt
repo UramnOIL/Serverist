@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.user
 
 import com.uramnoil.serverist.application.user.User
-import com.uramnoil.serverist.application.user.queries.ValidateLoginService
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQuery
 import com.uramnoil.serverist.application.user.toApplication
 import com.uramnoil.serverist.domain.kernel.models.user.HashedPassword
 import com.uramnoil.serverist.domain.kernel.models.user.Password
@@ -10,9 +10,9 @@ import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedValidateLoginService(
+class ExposedGetUserIfCorrectLoginInfoQuery(
     private val hashPasswordService: com.uramnoil.serverist.domain.kernel.services.HashPasswordService
-) : ValidateLoginService {
+) : GetUserIfCorrectLoginInfoQuery {
     override suspend fun execute(accountIdOrEmail: String, password: String): Result<User?> {
         val result = kotlin.runCatching {
             newSuspendedTransaction {
@@ -27,12 +27,8 @@ class ExposedValidateLoginService(
             return Result.failure(it)
         }
 
-        return Result.success(
-            if (hashPasswordService.check(Password(password), HashedPassword(user.hashedPassword.value))) {
-                user.toApplication()
-            } else {
-                null
-            }
-        )
+        val isCorrectPassword = hashPasswordService.check(Password(password), HashedPassword(user.hashedPassword.value))
+
+        return Result.success(if (isCorrectPassword) user.toApplication() else null)
     }
 }

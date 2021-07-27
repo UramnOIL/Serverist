@@ -17,7 +17,7 @@ import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
 import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.application.user.queries.ValidateLoginService
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQuery
 import com.uramnoil.serverist.infrastracture.server.*
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.CreateUnauthenticatedUserCommandImpl
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.DeleteUnauthenticatedUserCommandImpl
@@ -88,8 +88,8 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
         ExposedFindUserByNameQuery()
     }
 
-    bind<ValidateLoginService>() with factory {
-        ExposedValidateLoginService(instance())
+    bind<GetUserIfCorrectLoginInfoQuery>() with factory {
+        ExposedGetUserIfCorrectLoginInfoQuery(instance())
     }
 
     // <-- UnauthenticatedUser -->

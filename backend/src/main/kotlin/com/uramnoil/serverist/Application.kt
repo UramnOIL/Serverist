@@ -8,7 +8,7 @@ import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUna
 import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
 import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.queries.ValidateLoginService
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQuery
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
@@ -79,14 +79,12 @@ fun Application.routingLogin(di: DI) = routing {
                 return@post
             }
 
-            val service: ValidateLoginService by di.instance()
+            val service: GetUserIfCorrectLoginInfoQuery by di.instance()
 
             val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
                 call.application.environment.log.error(it)
                 return@post call.respond(it)
-            }
-
-            user ?: return@post call.respond(HttpStatusCode.Unauthorized)
+            } ?: return@post call.respond(HttpStatusCode.Unauthorized)
 
             call.sessions.set(AuthSession(user.id))
 
