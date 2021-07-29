@@ -99,11 +99,14 @@ fun Application.routingLogin(di: DI) = routing {
         data class IdEmailPassword(val accountId: String, val email: String, val password: String)
         call.receive<IdEmailPassword>().let { idEmailPassword ->
             val command by di.instance<CreateUnauthenticatedUserCommand>()
-            val user =
-                command.execute(idEmailPassword.accountId, idEmailPassword.email, idEmailPassword.password).getOrElse {
-                    call.application.environment.log.error(it)
-                    return@post call.respond(it)
-                }
+            val user = command.execute(
+                idEmailPassword.accountId,
+                idEmailPassword.email,
+                idEmailPassword.password
+            ).getOrElse {
+                call.application.environment.log.error(it)
+                return@post call.respond(it)
+            }
 
             val service by di.instance<SendEmailToAuthenticateService>()
             service.execute(user).onFailure {
