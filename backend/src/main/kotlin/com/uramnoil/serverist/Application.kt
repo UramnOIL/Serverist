@@ -40,7 +40,6 @@ fun Application.module(testing: Boolean = false) {
 
     createConnection()
 
-
     install(Sessions) {
         cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
@@ -58,8 +57,12 @@ fun Application.module(testing: Boolean = false) {
 
 fun Application.createConnection() {
     environment.config.apply {
+        val host = property("database.host").getString()
+        val database = property("database.database").getString()
+        val port = property("database.port").getString()
+
         Database.connect(
-            url = "jdbc:mysql://${property("database.url").getString()}?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()

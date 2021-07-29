@@ -113,7 +113,7 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
                 property("mail.username").getString(),
                 property("mail.password").getString(),
                 property("mail.from").getString(),
-                property("mail.url").getString()
+                property("mail.auth_url").getString()
             )
         }
     }
