@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.server
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.server.commands.CreateServerCommand
+import com.uramnoil.serverist.application.server.commands.CreateServerCommandInputPort
 import com.uramnoil.serverist.domain.kernel.models.user.UserId
 import com.uramnoil.serverist.domain.server.models.*
 import com.uramnoil.serverist.domain.server.repositories.ServerRepository
@@ -10,10 +10,10 @@ import kotlinx.datetime.Clock
 import com.uramnoil.serverist.application.server.Server as ApplicationServer
 import com.uramnoil.serverist.domain.server.models.Server as DomainServer
 
-class CreateServerCommandImpl(
+class CreateServerCommandInteractor(
     private val userRepository: UserRepository,
     private val serverRepository: ServerRepository,
-) : CreateServerCommand {
+) : CreateServerCommandInputPort {
     override suspend fun execute(
         ownerId: Uuid,
         name: String,

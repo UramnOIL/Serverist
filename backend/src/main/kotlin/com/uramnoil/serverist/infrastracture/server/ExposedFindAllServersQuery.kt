@@ -2,14 +2,14 @@ package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.Server
-import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
+import com.uramnoil.serverist.application.server.queries.FindAllServersQueryInputPort
 import com.uramnoil.serverist.application.server.queries.OrderBy
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedFindAllServersQuery : FindAllServersQuery {
+class ExposedFindAllServersQuery : FindAllServersQueryInputPort {
     override suspend fun execute(
         limit: Int,
         offset: Long,

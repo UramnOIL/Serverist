@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.user
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.user.commands.CreateUserCommand
+import com.uramnoil.serverist.application.user.commands.CreateUserCommandInputPort
 import com.uramnoil.serverist.application.user.toApplication
 import com.uramnoil.serverist.domain.kernel.models.user.AccountId
 import com.uramnoil.serverist.domain.kernel.models.user.Email
@@ -13,9 +13,9 @@ import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import com.uramnoil.serverist.application.user.User as ApplicationUser
 import com.uramnoil.serverist.domain.user.models.User as DomainUser
 
-class CreateUserCommandImpl(
+class CreateUserCommandInteractor(
     private val repository: UserRepository
-) : CreateUserCommand {
+) : CreateUserCommandInputPort {
     override suspend fun execute(
         accountId: String,
         email: String,

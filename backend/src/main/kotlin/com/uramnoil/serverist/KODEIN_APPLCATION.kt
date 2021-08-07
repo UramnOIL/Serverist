@@ -1,27 +1,27 @@
 package com.uramnoil.serverist
 
-import com.uramnoil.serverist.application.server.commands.CreateServerCommand
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
-import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
-import com.uramnoil.serverist.application.server.queries.FindAllServersQuery
-import com.uramnoil.serverist.application.server.queries.FindServerByIdQuery
-import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
+import com.uramnoil.serverist.application.server.commands.CreateServerCommandInputPort
+import com.uramnoil.serverist.application.server.commands.DeleteServerCommandInputPort
+import com.uramnoil.serverist.application.server.commands.UpdateServerCommandInputPort
+import com.uramnoil.serverist.application.server.queries.FindAllServersQueryInputPort
+import com.uramnoil.serverist.application.server.queries.FindServerByIdQueryInputPort
+import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQueryInputPort
 import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryInputPort
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.commands.CreateUserCommand
-import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
-import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
-import com.uramnoil.serverist.application.user.queries.FindAllUsersQuery
-import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQuery
-import com.uramnoil.serverist.application.user.queries.FindUserByNameQuery
-import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQuery
+import com.uramnoil.serverist.application.user.commands.CreateUserCommandInputPort
+import com.uramnoil.serverist.application.user.commands.DeleteUserCommandInputPort
+import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommandInputPort
+import com.uramnoil.serverist.application.user.queries.FindAllUsersQueryInputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQueryInputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByNameQueryInputPort
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQueryInputPort
 import com.uramnoil.serverist.infrastracture.server.*
-import com.uramnoil.serverist.infrastracture.unauthenticateduser.CreateUnauthenticatedUserCommandImpl
-import com.uramnoil.serverist.infrastracture.unauthenticateduser.DeleteUnauthenticatedUserCommandImpl
-import com.uramnoil.serverist.infrastracture.unauthenticateduser.FindUnauthenticatedUserByIdQueryImpl
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.CreateUnauthenticatedUserCommandInteractor
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.DeleteUnauthenticatedUserCommandInteractor
+import com.uramnoil.serverist.infrastracture.unauthenticateduser.FindUnauthenticatedUserByIdQueryInteractor
 import com.uramnoil.serverist.infrastracture.unauthenticateduser.SpringBootSendEmailToAuthenticateService
 import com.uramnoil.serverist.infrastracture.user.*
 import io.ktor.application.*
@@ -34,27 +34,27 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
     this.extend(di)
 
     // <-- Server -->
-    bind<CreateServerCommand>() with factory {
-        CreateServerCommandImpl(instance(), instance())
+    bind<CreateServerCommandInputPort>() with factory {
+        CreateServerCommandInteractor(instance(), instance())
     }
 
-    bind<DeleteServerCommand>() with factory {
-        DeleteServerCommandImpl(instance())
+    bind<DeleteServerCommandInputPort>() with factory {
+        DeleteServerCommandInteractor(instance())
     }
 
-    bind<UpdateServerCommand>() with factory {
-        UpdateServerCommandImpl(instance())
+    bind<UpdateServerCommandInputPort>() with factory {
+        UpdateServerCommandInteractor(instance())
     }
 
-    bind<FindServerByIdQuery>() with factory {
-        FindServerByIdQueryImpl()
+    bind<FindServerByIdQueryInputPort>() with factory {
+        FindServerByIdQueryInteractor()
     }
 
-    bind<FindAllServersQuery>() with factory {
+    bind<FindAllServersQueryInputPort>() with factory {
         ExposedFindAllServersQuery()
     }
 
-    bind<FindServersByOwnerQuery>() with factory {
+    bind<FindServersByOwnerQueryInputPort>() with factory {
         ExposedFindServersByOwnerQuery()
     }
 
@@ -64,45 +64,45 @@ fun ApplicationEnvironment.buildApplicationDi(di: DI) = DI {
 
     // <-- User -->
 
-    bind<CreateUserCommand>() with factory {
-        CreateUserCommandImpl(instance())
+    bind<CreateUserCommandInputPort>() with factory {
+        CreateUserCommandInteractor(instance())
     }
 
-    bind<DeleteUserCommand>() with factory {
-        DeleteUserCommandImpl(instance())
+    bind<DeleteUserCommandInputPort>() with factory {
+        DeleteUserCommandInteractor(instance())
     }
 
-    bind<UpdateUserProfileCommand>() with factory {
-        UpdateUserProfileCommandImpl(instance())
+    bind<UpdateUserProfileCommandInputPort>() with factory {
+        UpdateUserProfileCommandInteractor(instance())
     }
 
-    bind<FindAllUsersQuery>() with factory {
+    bind<FindAllUsersQueryInputPort>() with factory {
         ExposedFindAllUsersQuery()
     }
 
-    bind<FindUserByAccountIdQuery>() with factory {
+    bind<FindUserByAccountIdQueryInputPort>() with factory {
         ExposedFindUserByAccountIdQuery()
     }
 
-    bind<FindUserByNameQuery>() with factory {
+    bind<FindUserByNameQueryInputPort>() with factory {
         ExposedFindUserByNameQuery()
     }
 
-    bind<GetUserIfCorrectLoginInfoQuery>() with factory {
+    bind<GetUserIfCorrectLoginInfoQueryInputPort>() with factory {
         ExposedGetUserIfCorrectLoginInfoQuery(instance())
     }
 
     // <-- UnauthenticatedUser -->
-    bind<CreateUnauthenticatedUserCommand>() with factory {
-        CreateUnauthenticatedUserCommandImpl(instance(), instance())
+    bind<CreateUnauthenticatedUserCommandInputPort>() with factory {
+        CreateUnauthenticatedUserCommandInteractor(instance(), instance())
     }
 
-    bind<DeleteUnauthenticatedUserCommand>() with factory {
-        DeleteUnauthenticatedUserCommandImpl(instance())
+    bind<DeleteUnauthenticatedUserCommandInputPort>() with factory {
+        DeleteUnauthenticatedUserCommandInteractor(instance())
     }
 
-    bind<FindUnauthenticatedUserByIdQuery>() with factory {
-        FindUnauthenticatedUserByIdQueryImpl(instance())
+    bind<FindUnauthenticatedUserByIdQueryInputPort>() with factory {
+        FindUnauthenticatedUserByIdQueryInteractor(instance())
     }
 
     bind<SendEmailToAuthenticateService>() with factory {

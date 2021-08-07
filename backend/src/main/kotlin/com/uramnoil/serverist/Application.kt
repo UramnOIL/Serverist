@@ -4,11 +4,11 @@ import com.apurebase.kgraphql.GraphQL
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.queries.OrderBy
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryInputPort
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQuery
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQueryInputPort
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
@@ -81,7 +81,7 @@ fun Application.routingLogin(di: DI) = routing {
                 return@post
             }
 
-            val service: GetUserIfCorrectLoginInfoQuery by di.instance()
+            val service by di.instance<GetUserIfCorrectLoginInfoQueryInputPort>()
 
             val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
                 call.application.environment.log.error(it)
@@ -97,7 +97,7 @@ fun Application.routingLogin(di: DI) = routing {
     post("signup") {
         data class IdEmailPassword(val accountId: String, val email: String, val password: String)
         call.receive<IdEmailPassword>().let { idEmailPassword ->
-            val command by di.instance<CreateUnauthenticatedUserCommand>()
+            val command by di.instance<CreateUnauthenticatedUserCommandInputPort>()
             val user = command.execute(
                 idEmailPassword.accountId,
                 idEmailPassword.email,
@@ -119,7 +119,7 @@ fun Application.routingLogin(di: DI) = routing {
         data class AuthenticateUserId(val id: Uuid)
 
         val auth = call.receive<AuthenticateUserId>()
-        val query by di.instance<FindUnauthenticatedUserByIdQuery>()
+        val query by di.instance<FindUnauthenticatedUserByIdQueryInputPort>()
         val user = query.execute(auth.id).getOrElse {
             call.application.environment.log.error(it)
             return@post call.respond(it)
@@ -127,7 +127,7 @@ fun Application.routingLogin(di: DI) = routing {
 
         if (user != null) {
             call.respond(HttpStatusCode.OK)
-            val command by di.instance<DeleteUnauthenticatedUserCommand>()
+            val command by di.instance<DeleteUnauthenticatedUserCommandInputPort>()
             command.execute(user.id)
         } else {
             call.respond(HttpStatusCode.BadRequest, "無効なリクエスト")

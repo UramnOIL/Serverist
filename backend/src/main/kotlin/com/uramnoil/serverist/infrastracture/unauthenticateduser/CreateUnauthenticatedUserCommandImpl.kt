@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.unauthenticateduser
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
 import com.uramnoil.serverist.domain.kernel.models.user.AccountId
 import com.uramnoil.serverist.domain.kernel.models.user.Email
 import com.uramnoil.serverist.domain.kernel.models.user.Password
@@ -11,10 +11,10 @@ import com.uramnoil.serverist.domain.unauthenticateduser.repositories.Unauthenti
 import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser as ApplicationUnauthenticatedUser
 import com.uramnoil.serverist.domain.unauthenticateduser.models.UnauthenticatedUser as DomainUnauthenticatedUser
 
-class CreateUnauthenticatedUserCommandImpl(
+class CreateUnauthenticatedUserCommandInteractor(
     private val repository: UnauthenticatedUserRepository,
     private val service: HashPasswordService
-) : CreateUnauthenticatedUserCommand {
+) : CreateUnauthenticatedUserCommandInputPort {
     override suspend fun execute(
         accountId: String,
         email: String,

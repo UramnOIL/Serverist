@@ -3,16 +3,16 @@ package com.uramnoil.serverist.graphql
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.user.commands.DeleteUserCommand
-import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommand
-import com.uramnoil.serverist.application.user.queries.FindUserByIdQuery
+import com.uramnoil.serverist.application.user.commands.DeleteUserCommandInputPort
+import com.uramnoil.serverist.application.user.commands.UpdateUserProfileCommandInputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryInputPort
 import org.kodein.di.DI
 import org.kodein.di.instance
 
 fun SchemaBuilder.userSchema(di: DI) {
     query("findUserById") {
         resolver { id: Uuid ->
-            val query by di.instance<FindUserByIdQuery>()
+            val query by di.instance<FindUserByIdQueryInputPort>()
             query.execute(id)
         }
     }
@@ -21,7 +21,7 @@ fun SchemaBuilder.userSchema(di: DI) {
         resolver { name: String, accountId: String, description: String, context: Context ->
             val id = context.getIdFromSession()
 
-            val command by di.instance<UpdateUserProfileCommand>()
+            val command by di.instance<UpdateUserProfileCommandInputPort>()
             command.execute(context.getIdFromSession(), accountId, name, description)
             id
         }
@@ -33,7 +33,7 @@ fun SchemaBuilder.userSchema(di: DI) {
         resolver { context: Context ->
             val id = context.getIdFromSession()
 
-            val command by di.instance<DeleteUserCommand>()
+            val command by di.instance<DeleteUserCommandInputPort>()
             command.execute(context.getIdFromSession())
             id
         }
