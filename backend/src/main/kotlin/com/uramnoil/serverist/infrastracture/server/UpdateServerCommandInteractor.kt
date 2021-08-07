@@ -17,7 +17,7 @@ class UpdateServerCommandInteractor(
         description: String
     ): Result<Unit> {
         return repository.findById(Id(id)).map {
-            it ?: throw NotFoundException("UpdateServerCommand#excecute: サーバー(Id: ${id})が見つかりませんでした。")
+            it ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: ${id})が見つかりませんでした。")
             it.apply {
                 this.name = Name(name)
                 this.address = Address(address)

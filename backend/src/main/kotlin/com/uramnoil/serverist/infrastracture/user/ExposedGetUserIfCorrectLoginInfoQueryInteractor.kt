@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedGetUserIfCorrectLoginInfoQuery(
+class ExposedGetUserIfCorrectLoginInfoQueryInteractor(
     private val hashPasswordService: com.uramnoil.serverist.domain.kernel.services.HashPasswordService
 ) : GetUserIfCorrectLoginInfoQueryInputPort {
     override suspend fun execute(accountIdOrEmail: String, password: String): Result<User?> {

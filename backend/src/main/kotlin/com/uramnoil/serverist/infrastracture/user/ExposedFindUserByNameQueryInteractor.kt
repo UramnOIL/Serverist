@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.*
 
-class ExposedFindUserByNameQuery : FindUserByNameQueryInputPort {
+class ExposedFindUserByNameQueryInteractor : FindUserByNameQueryInputPort {
     override suspend fun execute(name: String, serversLimit: Long) = kotlin.runCatching {
         newSuspendedTransaction {
             Users.select { Users.name.lowerCase() eq name.lowercase(Locale.getDefault()) }.firstOrNull()

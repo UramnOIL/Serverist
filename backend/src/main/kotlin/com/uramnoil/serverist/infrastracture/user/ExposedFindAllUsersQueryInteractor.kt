@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedFindAllUsersQuery : FindAllUsersQueryInputPort {
+class ExposedFindAllUsersQueryInteractor : FindAllUsersQueryInputPort {
     override suspend fun execute() = kotlin.runCatching {
         newSuspendedTransaction {
             Users.selectAll().map(ResultRow::toApplicationUser)

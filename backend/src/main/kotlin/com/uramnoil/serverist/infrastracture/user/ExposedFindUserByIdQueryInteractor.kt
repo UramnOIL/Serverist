@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedFindUserByIdQuery : FindUserByIdQueryInputPort {
+class ExposedFindUserByIdQueryInteractor : FindUserByIdQueryInputPort {
     override suspend fun execute(id: Uuid) = kotlin.runCatching {
         newSuspendedTransaction {
             Users.select { Users.id eq id }.firstOrNull()?.let(ResultRow::toApplicationUser)
