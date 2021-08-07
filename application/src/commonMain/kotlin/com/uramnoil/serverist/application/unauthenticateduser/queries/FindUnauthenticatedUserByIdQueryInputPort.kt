@@ -1,0 +1,3 @@
+package com.uramnoil.serverist.application.unauthenticateduser.queries
+
+expect interface FindUnauthenticatedUserByIdQueryInputPort

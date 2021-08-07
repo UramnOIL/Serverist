@@ -1,0 +1,3 @@
+package com.uramnoil.serverist.application.unauthenticateduser.commands
+
+expect interface DeleteUnauthenticatedUserCommandInputPort
