@@ -2,7 +2,7 @@ package com.uramnoil.serverist.application.server.queries
 
 import com.benasher44.uuid.Uuid
 
-interface IsUserOwnerOfServerQuerysUseCaseInputPort {
+interface IsUserOwnerOfServerQueryUseCaseInputPort {
     fun execute(ownerId: Uuid, serverId: Uuid)
 }
 
