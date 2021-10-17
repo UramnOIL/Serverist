@@ -12,4 +12,18 @@ pluginManagement {
     }
 }
 
-include(":domain", ":application", ":backend")
+include(
+    ":domain",
+    ":domain:common",
+    ":domain:auth",
+    ":domain:user",
+    ":domain:server"
+)
+
+include(
+    ":application",
+)
+
+include(
+    ":backend"
+)
