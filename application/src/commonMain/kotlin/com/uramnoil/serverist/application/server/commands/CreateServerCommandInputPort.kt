@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.application.serverist.commands
+package com.uramnoil.serverist.application.server.commands
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.serverist.Server
+import com.uramnoil.serverist.application.server.Server
 
 /**
  * A input-port of CreateServerCommandUseCase.

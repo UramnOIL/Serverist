@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.serverist
+package com.uramnoil.serverist.application.server
 
 import com.benasher44.uuid.Uuid
 import kotlinx.datetime.Instant
