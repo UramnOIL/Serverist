@@ -2,10 +2,10 @@ package com.uramnoil.serverist.application.user.queries
 
 import com.uramnoil.serverist.application.user.User
 
-interface GetUserIfCorrectLoginInfoQueryInputPort {
+interface GetUserIfCorrectLoginInfoQueryUseCaseInputPort {
     fun execute(accountIdOrEmail: String, password: String)
 }
 
-interface GetUserIfCorrectLoginInfoQueryOutputPort {
+interface GetUserIfCorrectLoginInfoQueryUseCaseOutputPort {
     fun handle(result: Result<User?>)
 }

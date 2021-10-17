@@ -1,11 +1,12 @@
 package com.uramnoil.serverist.application.user.queries
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.User
 
-interface FindUserByAccountIdQueryInputPort {
-    fun execute(accountId: String)
+interface FindUserByIdQueryUseCaseInputPort {
+    fun execute(id: Uuid)
 }
 
-interface FindUserByAccountIdQueryOutputPort {
+interface FindUserByIdQueryUseCaseOutputPort {
     fun handle(result: Result<User?>)
 }

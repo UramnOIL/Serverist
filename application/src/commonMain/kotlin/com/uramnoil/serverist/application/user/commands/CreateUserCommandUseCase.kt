@@ -2,7 +2,7 @@ package com.uramnoil.serverist.application.user.commands
 
 import com.uramnoil.serverist.application.user.User
 
-interface CreateUserCommandInputPort {
+interface CreateUserCommandUseCaseInputPort {
     fun execute(
         accountId: String,
         email: String,
@@ -12,6 +12,6 @@ interface CreateUserCommandInputPort {
     )
 }
 
-interface CreateUserCommandOutputPort {
+interface CreateUserCommandUseCaseOutputPort {
     fun handle(result: Result<User>)
 }

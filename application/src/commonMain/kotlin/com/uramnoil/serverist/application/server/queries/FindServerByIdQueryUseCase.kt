@@ -3,10 +3,10 @@ package com.uramnoil.serverist.application.server.queries
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.server.Server
 
-interface FindServerByIdQueryInputPort {
+interface FindServerByIdQueryUseCaseInputPort {
     fun execute(id: Uuid)
 }
 
-interface FindServerByIdQueryOutputPort {
+interface FindServerByIdQueryUseCaseOutputPort {
     fun handle(result: Result<Server?>)
 }

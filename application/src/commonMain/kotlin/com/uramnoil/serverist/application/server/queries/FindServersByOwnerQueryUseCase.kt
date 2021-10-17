@@ -4,7 +4,7 @@ import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.Server
 
-interface FindServersByOwnerQueryInputPort {
+interface FindServersByOwnerQueryUseCaseInputPort {
     fun execute(
         ownerId: Uuid,
         limit: Int,
@@ -14,6 +14,6 @@ interface FindServersByOwnerQueryInputPort {
     )
 }
 
-interface FindServersByOwnerQueryOutputPort {
+interface FindServersByOwnerQueryUseCaseOutputPort {
     fun handle(result: Result<List<Server>>)
 }

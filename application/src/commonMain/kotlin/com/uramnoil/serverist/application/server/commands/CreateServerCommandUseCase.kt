@@ -6,7 +6,7 @@ import com.uramnoil.serverist.application.server.Server
 /**
  * A input-port of CreateServerCommandUseCase.
  */
-interface CreateServerCommandInputPort {
+interface CreateServerCommandUseCaseInputPort {
     /**
      * Request to create a new server.
      *
@@ -28,7 +28,7 @@ interface CreateServerCommandInputPort {
 /**
  * A output-port of CreateServerCommandUseCase
  */
-interface CreateServerCommandOutputPort {
+interface CreateServerCommandUseCaseOutputPort {
     /**
      * Handle result of request of creating a new server.
      *

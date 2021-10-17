@@ -2,10 +2,10 @@ package com.uramnoil.serverist.application.user.queries
 
 import com.uramnoil.serverist.application.user.User
 
-interface FindUserByNameQueryInputPort {
-    fun execute(name: String, serversLimit: Long)
+interface FindUserByAccountIdQueryUseCaseInputPort {
+    fun execute(accountId: String)
 }
 
-interface FindUserByNameQueryOutputPort {
+interface FindUserByAccountIdQueryUseCaseOutputPort {
     fun handle(result: Result<User?>)
 }
