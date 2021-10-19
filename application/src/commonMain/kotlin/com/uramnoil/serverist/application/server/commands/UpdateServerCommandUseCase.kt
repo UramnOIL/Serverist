@@ -3,7 +3,7 @@ package com.uramnoil.serverist.application.server.commands
 import com.benasher44.uuid.Uuid
 
 
-interface UpdateServerCommandInputPort {
+interface UpdateServerCommandUseCaseInputPort {
     fun execute(
         id: Uuid,
         name: String,
@@ -13,6 +13,6 @@ interface UpdateServerCommandInputPort {
     )
 }
 
-fun interface UpdateServerCommandOutputPort {
+fun interface UpdateServerCommandUseCaseOutputPort {
     fun handle(result: Result<Unit>)
 }
