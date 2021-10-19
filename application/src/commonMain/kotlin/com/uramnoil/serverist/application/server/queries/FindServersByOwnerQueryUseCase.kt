@@ -14,6 +14,6 @@ interface FindServersByOwnerQueryUseCaseInputPort {
     )
 }
 
-interface FindServersByOwnerQueryUseCaseOutputPort {
+fun interface FindServersByOwnerQueryUseCaseOutputPort {
     fun handle(result: Result<List<Server>>)
 }

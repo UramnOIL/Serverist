@@ -6,6 +6,6 @@ interface FindUserByAccountIdQueryUseCaseInputPort {
     fun execute(accountId: String)
 }
 
-interface FindUserByAccountIdQueryUseCaseOutputPort {
+fun interface FindUserByAccountIdQueryUseCaseOutputPort {
     fun handle(result: Result<User?>)
 }

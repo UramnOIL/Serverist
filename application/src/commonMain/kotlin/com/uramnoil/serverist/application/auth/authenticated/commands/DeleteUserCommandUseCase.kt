@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.user.commands
+package com.uramnoil.serverist.application.auth.authenticated.commands
 
 import com.benasher44.uuid.Uuid
 

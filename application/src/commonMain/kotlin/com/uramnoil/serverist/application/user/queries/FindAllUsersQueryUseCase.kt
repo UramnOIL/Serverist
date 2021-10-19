@@ -6,6 +6,6 @@ interface FindAllUsersQueryUseCaseInputPort {
     fun execute()
 }
 
-interface FindAllUsersQueryUseCaseOutputPort {
+fun interface FindAllUsersQueryUseCaseOutputPort {
     fun handle(result: Result<List<User>>)
 }

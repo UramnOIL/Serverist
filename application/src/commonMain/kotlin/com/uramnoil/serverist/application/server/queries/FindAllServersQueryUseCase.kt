@@ -7,6 +7,6 @@ interface FindAllServersQueryUseCaseInputPort {
     fun execute(limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
-interface FindAllServersQueryUseCaseOutputPort {
+fun interface FindAllServersQueryUseCaseOutputPort {
     fun handle(result: Result<List<Server>>)
 }

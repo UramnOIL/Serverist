@@ -13,6 +13,6 @@ interface UpdateServerCommandInputPort {
     )
 }
 
-interface UpdateServerCommandOutputPort {
+fun interface UpdateServerCommandOutputPort {
     fun handle(result: Result<Unit>)
 }

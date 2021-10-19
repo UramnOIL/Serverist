@@ -7,6 +7,6 @@ interface FindServerByIdQueryUseCaseInputPort {
     fun execute(id: Uuid)
 }
 
-interface FindServerByIdQueryUseCaseOutputPort {
+fun interface FindServerByIdQueryUseCaseOutputPort {
     fun handle(result: Result<Server?>)
 }

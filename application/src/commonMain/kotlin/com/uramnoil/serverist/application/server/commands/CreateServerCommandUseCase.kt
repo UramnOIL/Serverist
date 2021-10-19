@@ -28,7 +28,7 @@ interface CreateServerCommandUseCaseInputPort {
 /**
  * A output-port of CreateServerCommandUseCase
  */
-interface CreateServerCommandUseCaseOutputPort {
+fun interface CreateServerCommandUseCaseOutputPort {
     /**
      * Handle result of request of creating a new server.
      *

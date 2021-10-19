@@ -6,6 +6,6 @@ interface DeleteServerCommandUseCaseInputPort {
     fun execute(id: Uuid)
 }
 
-interface DeleteServerCommandUseCaseOutputPort {
+fun interface DeleteServerCommandUseCaseOutputPort {
     fun handle(result: Result<Unit>)
 }

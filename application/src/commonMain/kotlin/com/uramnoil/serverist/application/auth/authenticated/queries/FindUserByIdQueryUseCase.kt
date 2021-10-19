@@ -1,7 +1,6 @@
-package com.uramnoil.serverist.application.user.queries
+package com.uramnoil.serverist.application.auth.authenticated.queries
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.user.User
 
 interface FindUserByIdQueryUseCaseInputPort {
     fun execute(id: Uuid)

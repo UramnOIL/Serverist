@@ -6,6 +6,6 @@ interface FindUserByNameQueryUseCaseInputPort {
     fun execute(name: String, serversLimit: Long)
 }
 
-interface FindUserByNameQueryUseCaseOutputPort {
+fun interface FindUserByNameQueryUseCaseOutputPort {
     fun handle(result: Result<User?>)
 }
