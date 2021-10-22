@@ -27,7 +27,7 @@ dependencies {
     val ktorVersion: String by project
     val logbackVersion: String by project
     val kgraphqlVersion: String by project
-    val kodeinVersion: String by project
+    val koinVersion: String by project
     val exposedVersion: String by project
     val springBootVersion: String by project
 
@@ -47,7 +47,7 @@ dependencies {
     implementation("com.apurebase:kgraphql-ktor:$kgraphqlVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
-    implementation("org.kodein.di:kodein-di-jvm:$kodeinVersion")
+    implementation("io.insert-koin:koin-ktor:$koinVersion")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
