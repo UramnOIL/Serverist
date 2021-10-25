@@ -1,0 +1,14 @@
+package com.uramnoil.serverist.domain.server.models
+
+import com.uramnoil.serverist.domain.common.user.UserId
+
+
+class Server constructor(
+    val id: Id,
+    val createdAt: CreatedAt,
+    var name: Name,
+    val ownerId: UserId,
+    var address: Address,
+    var port: Port,
+    var description: Description
+)

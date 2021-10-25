@@ -4,11 +4,11 @@ import com.apurebase.kgraphql.GraphQL
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.queries.OrderBy
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommand
-import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQuery
+import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandInputPort
+import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryInputPort
 import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.queries.ValidateLoginService
+import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQueryInputPort
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
@@ -34,12 +34,10 @@ data class AuthSession(val id: Uuid) : Principal
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
-@kotlin.jvm.JvmOverloads
-fun Application.module(testing: Boolean = false) {
+fun Application.productModule() {
     val di = environment.buildApplicationDi(environment.buildDomainDi(DI {}))
 
     createConnection()
-
 
     install(Sessions) {
         cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
@@ -58,8 +56,12 @@ fun Application.module(testing: Boolean = false) {
 
 fun Application.createConnection() {
     environment.config.apply {
+        val host = property("database.host").getString()
+        val database = property("database.database").getString()
+        val port = property("database.port").getString()
+
         Database.connect(
-            url = "jdbc:mysql://${property("database.url").getString()}?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()
@@ -79,14 +81,12 @@ fun Application.routingLogin(di: DI) = routing {
                 return@post
             }
 
-            val service: ValidateLoginService by di.instance()
+            val service by di.instance<GetUserIfCorrectLoginInfoQueryInputPort>()
 
             val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
                 call.application.environment.log.error(it)
                 return@post call.respond(it)
-            }
-
-            user ?: return@post call.respond(HttpStatusCode.Unauthorized)
+            } ?: return@post call.respond(HttpStatusCode.Unauthorized)
 
             call.sessions.set(AuthSession(user.id))
 
@@ -97,12 +97,15 @@ fun Application.routingLogin(di: DI) = routing {
     post("signup") {
         data class IdEmailPassword(val accountId: String, val email: String, val password: String)
         call.receive<IdEmailPassword>().let { idEmailPassword ->
-            val command by di.instance<CreateUnauthenticatedUserCommand>()
-            val user =
-                command.execute(idEmailPassword.accountId, idEmailPassword.email, idEmailPassword.password).getOrElse {
-                    call.application.environment.log.error(it)
-                    return@post call.respond(it)
-                }
+            val command by di.instance<CreateUnauthenticatedUserCommandInputPort>()
+            val user = command.execute(
+                idEmailPassword.accountId,
+                idEmailPassword.email,
+                idEmailPassword.password
+            ).getOrElse {
+                call.application.environment.log.error(it)
+                return@post call.respond(it)
+            }
 
             val service by di.instance<SendEmailToAuthenticateService>()
             service.execute(user).onFailure {
@@ -116,7 +119,7 @@ fun Application.routingLogin(di: DI) = routing {
         data class AuthenticateUserId(val id: Uuid)
 
         val auth = call.receive<AuthenticateUserId>()
-        val query by di.instance<FindUnauthenticatedUserByIdQuery>()
+        val query by di.instance<FindUnauthenticatedUserByIdQueryInputPort>()
         val user = query.execute(auth.id).getOrElse {
             call.application.environment.log.error(it)
             return@post call.respond(it)
@@ -124,7 +127,7 @@ fun Application.routingLogin(di: DI) = routing {
 
         if (user != null) {
             call.respond(HttpStatusCode.OK)
-            val command by di.instance<DeleteUnauthenticatedUserCommand>()
+            val command by di.instance<DeleteUnauthenticatedUserCommandInputPort>()
             command.execute(user.id)
         } else {
             call.respond(HttpStatusCode.BadRequest, "無効なリクエスト")

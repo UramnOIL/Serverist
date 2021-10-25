@@ -4,10 +4,10 @@ import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.commands.CreateServerCommand
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommand
-import com.uramnoil.serverist.application.server.commands.UpdateServerCommand
-import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQuery
+import com.uramnoil.serverist.application.server.commands.CreateServerCommandInputPort
+import com.uramnoil.serverist.application.server.commands.DeleteServerCommandInputPort
+import com.uramnoil.serverist.application.server.commands.UpdateServerCommandInputPort
+import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQueryInputPort
 import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
 import com.uramnoil.serverist.application.server.queries.OrderBy
 import org.kodein.di.DI
@@ -23,7 +23,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
 
     query("serversById") {
         resolver { id: Uuid, page: PageRequest, sort: Sort, orderBy: OrderBy ->
-            val query by di.instance<FindServersByOwnerQuery>()
+            val query by di.instance<FindServersByOwnerQueryInputPort>()
             query.execute(
                 ownerId = id,
                 limit = page.limit,
@@ -38,7 +38,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
         resolver { name: String, address: String?, port: Int?, description: String, context: Context ->
             val ownerId = context.getIdFromSession()
 
-            val command by di.instance<CreateServerCommand>()
+            val command by di.instance<CreateServerCommandInputPort>()
             command.execute(ownerId, name, address, port, description)
         }
 
@@ -49,7 +49,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
         resolver { id: Uuid, name: String, address: String?, port: Int?, description: String, context: Context ->
             checkOwner(context.getIdFromSession(), id)
 
-            val command by di.instance<UpdateServerCommand>()
+            val command by di.instance<UpdateServerCommandInputPort>()
             command.execute(id, name, address, port, description)
 
             id
@@ -62,7 +62,7 @@ fun SchemaBuilder.serverSchema(di: DI) {
         resolver { id: Uuid, context: Context ->
             checkOwner(context.getIdFromSession(), id)
 
-            val command by di.instance<DeleteServerCommand>()
+            val command by di.instance<DeleteServerCommandInputPort>()
             command.execute(id)
             id
         }
