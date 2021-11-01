@@ -1,16 +1,16 @@
 package com.uramnoil.serverist.domain.user.models
 
-import com.uramnoil.serverist.domain.common.user.UserId
+import com.uramnoil.serverist.domain.common.user.Id
 
 class User private constructor(
-    val id: UserId,
+    val id: Id,
     val accountId: AccountId,
     var name: Name,
     var description: Description
 ) {
     companion object {
         fun new(
-            id: UserId,
+            id: Id,
             accountId: AccountId,
             name: Name,
             description: Description
