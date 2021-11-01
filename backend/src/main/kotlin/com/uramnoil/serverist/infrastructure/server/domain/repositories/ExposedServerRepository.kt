@@ -1,10 +1,10 @@
-package com.uramnoil.serverist.infrastracture.server.domain.repositories
+package com.uramnoil.serverist.infrastructure.server.domain.repositories
 
-import com.uramnoil.serverist.domain.common.user.UserId
-import com.uramnoil.serverist.domain.server.models.*
+import com.uramnoil.serverist.domain.server.models.Id
+import com.uramnoil.serverist.domain.server.models.Server
 import com.uramnoil.serverist.domain.server.repositories.ServerRepository
 import com.uramnoil.serverist.infrastracture.server.Servers
-import com.uramnoil.serverist.infrastracture.server.toKotlinInstant
+import com.uramnoil.serverist.infrastracture.server.toDomainServer
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -32,19 +32,10 @@ class ExposedServerRepository : ServerRepository {
         }
     }
 
-    override suspend fun findById(id: Id) = kotlin.runCatching {
+    override suspend fun findById(id: Id): Result<Server?> = kotlin.runCatching {
         newSuspendedTransaction {
-            Servers.select { Servers.owner eq id.value }.firstOrNull()?.let {
-                Server(
-                    Id(it[Servers.id].value),
-                    CreatedAt(it[Servers.createdAt].toKotlinInstant()),
-                    Name(it[Servers.name]),
-                    UserId(it[Servers.owner]),
-                    Address(it[Servers.address]),
-                    Port(it[Servers.port]),
-                    Description(it[Servers.description])
-                )
-            }
+            val row = Servers.select { Servers.id eq id.value }.firstOrNull()
+            row?.toDomainServer()
         }
     }
 }

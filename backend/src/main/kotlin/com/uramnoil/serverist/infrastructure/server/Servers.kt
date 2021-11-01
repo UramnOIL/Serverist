@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastracture.server
 
 import com.uramnoil.serverist.application.server.Server
-import com.uramnoil.serverist.domain.common.user.UserId
+import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.server.models.*
 import com.uramnoil.serverist.infrastructure.user.Users
 import kotlinx.datetime.Instant
@@ -36,7 +36,7 @@ fun ResultRow.toApplicationServer() = Server(
 fun ResultRow.toDomainServer() = DomainServer(
     id = Id(this[Servers.id].value),
     createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstant()),
-    ownerId = UserId(this[Servers.owner]),
+    ownerId = Id(this[Servers.owner]),
     name = Name(this[Servers.name]),
     address = Address(this[Servers.address]),
     port = Port(this[Servers.port]),

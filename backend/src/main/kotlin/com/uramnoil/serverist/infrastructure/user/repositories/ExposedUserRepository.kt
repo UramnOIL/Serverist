@@ -1,10 +1,10 @@
 package com.uramnoil.serverist.infrastracture.user.repositories
 
-import com.uramnoil.serverist.domain.common.user.UserId
+import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.user.models.User
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
-import com.uramnoil.serverist.infrastructure.user.Users
 import com.uramnoil.serverist.infrastracture.user.toDomainUser
+import com.uramnoil.serverist.infrastructure.user.Users
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -43,7 +43,7 @@ class ExposedUserRepository : UserRepository {
         }
     }
 
-    override suspend fun findById(id: UserId): Result<User?> = runCatching {
+    override suspend fun findById(id: Id): Result<User?> = runCatching {
         newSuspendedTransaction {
             Users.select { Users.id eq id.value }.firstOrNull()
         }?.toDomainUser()?.getOrThrow()

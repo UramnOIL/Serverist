@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastracture.user
 
-import com.uramnoil.serverist.domain.common.user.UserId
+import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.user.models.AccountId
 import com.uramnoil.serverist.domain.user.models.Description
 import com.uramnoil.serverist.domain.user.models.Name
@@ -17,7 +17,7 @@ fun ResultRow.toApplicationUser() = ApplicationUser(
 )
 
 fun ResultRow.toDomainUser() = DomainUser.new(
-    UserId(this[Users.id].value),
+    Id(this[Users.id].value),
     AccountId(this[Users.accountId]),
     Name(this[Users.name]),
     Description(this[Users.description])
