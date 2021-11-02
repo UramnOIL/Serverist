@@ -35,7 +35,6 @@ dependencies {
     implementation(project(":domain:auth"))
     implementation(project(":domain:user"))
     implementation(project(":domain:server"))
-    implementation(project(":application"))
 
     implementation(kotlin("stdlib:$kotlinVersion"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")

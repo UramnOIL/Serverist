@@ -1,14 +1,12 @@
-package com.uramnoil.serverist.kodein.domain
+package com.uramnoil.serverist.koin.domain
 
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import com.uramnoil.serverist.infrastracture.user.repositories.ExposedUserRepository
 import io.ktor.application.*
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.factory
+import org.koin.dsl.module
 
-fun Application.buildUserDomainDI() = DI {
-    bind<UserRepository>() with factory {
+fun Application.buildUserDomainDI() = module {
+    single<UserRepository> {
         ExposedUserRepository()
     }
 }

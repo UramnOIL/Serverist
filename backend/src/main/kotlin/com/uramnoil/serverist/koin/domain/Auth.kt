@@ -1,14 +1,12 @@
-package com.uramnoil.serverist.kodein.domain
+package com.uramnoil.serverist.koin.domain
 
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
 import com.uramnoil.serverist.infrastructure.HashPasswordServiceImpl
 import io.ktor.application.*
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.factory
+import org.koin.dsl.module
 
-fun Application.buildAuthDomainDI() = DI {
-    bind<HashPasswordService>() with factory {
+fun Application.buildAuthDomainDI() = module {
+    single<HashPasswordService> {
         HashPasswordServiceImpl()
     }
 }
