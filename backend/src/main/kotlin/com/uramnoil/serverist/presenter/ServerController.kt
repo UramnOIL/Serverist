@@ -3,21 +3,27 @@ package com.uramnoil.serverist.presenter
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.Server
-import com.uramnoil.serverist.application.server.commands.*
-import com.uramnoil.serverist.application.server.queries.*
+import com.uramnoil.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
+import com.uramnoil.serverist.application.server.queries.OrderBy
 import com.uramnoil.serverist.application.server.services.ServerService
-import org.kodein.di.DI
-import org.kodein.di.instance
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 class ServerController(
-    private val di: DI
+    private val service: ServerService,
+    private val createCommand: CreateServerCommandUseCaseInputPort,
+    private val updateCommand: UpdateServerCommandUseCaseInputPort,
+    private val deleteCommand: DeleteServerCommandUseCaseInputPort,
+    private val findByOwnerQuery: FindServersByOwnerQueryUseCaseInputPort,
+    private val findAllQuery: FindAllServersQueryUseCaseInputPort,
+    private val findByIdQuery: FindServerByIdQueryUseCaseInputPort,
 ) {
     suspend fun checkUserIsOwnerOfServer(userId: Uuid, serverId: Uuid): Result<Boolean> {
-        val service by di.instance<ServerService>()
         return service.checkUserIsOwnerOfServer(userId, serverId)
     }
 
@@ -27,12 +33,8 @@ class ServerController(
         host: String?,
         port: Int?,
         description: String
-    ): Result<Server> = suspendCoroutine {
-        val presenter = CreateServerCommandUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<CreateServerCommandUseCaseInputPort>(presenter)
-        command.execute(ownerId, name, host, port, description)
+    ): Result<Server> {
+        return createCommand.execute(ownerId, name, host, port, description)
     }
 
     suspend fun updateServer(
@@ -41,12 +43,8 @@ class ServerController(
         address: String?,
         port: Int?,
         description: String
-    ): Result<Unit> = suspendCoroutine {
-        val presenter = UpdateServerCommandUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<UpdateServerCommandUseCaseInputPort>(presenter)
-        command.execute(
+    ): Result<Unit> {
+        return updateCommand.execute(
             id,
             name,
             address,
@@ -57,12 +55,8 @@ class ServerController(
 
     suspend fun deleteServer(
         uuid: UUID
-    ): Result<Unit> = suspendCoroutine {
-        val presenter = DeleteServerCommandUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<DeleteServerCommandUseCaseInputPort>(presenter)
-        command.execute(uuid)
+    ): Result<Unit> {
+        return deleteCommand.execute(uuid)
     }
 
     suspend fun findServerByOwner(
@@ -71,12 +65,8 @@ class ServerController(
         offset: Long,
         sort: Sort,
         orderBy: OrderBy
-    ): Result<List<Server>> = suspendCoroutine {
-        val presenter = FindServersByOwnerQueryUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<FindServersByOwnerQueryUseCaseInputPort>(presenter)
-        command.execute(ownerId, limit, offset, sort, orderBy)
+    ): Result<List<Server>> {
+        return findByOwnerQuery.execute(ownerId, limit, offset, sort, orderBy)
     }
 
     suspend fun findAllServers(
@@ -84,21 +74,13 @@ class ServerController(
         offset: Long,
         sort: Sort,
         orderBy: OrderBy
-    ): Result<List<Server>> = suspendCoroutine {
-        val presenter = FindAllServersQueryUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<FindAllServersQueryUseCaseInputPort>(presenter)
-        command.execute(limit, offset, sort, orderBy)
+    ): Result<List<Server>> {
+        return findAllQuery.execute(limit, offset, sort, orderBy)
     }
 
     suspend fun findServerByIdQueryUseCase(
         id: UUID
-    ): Result<Server?> = suspendCoroutine {
-        val presenter = FindServerByIdQueryUseCaseOutputPort { result ->
-            it.resume(result)
-        }
-        val command by di.instance<FindServerByIdQueryUseCaseInputPort>(presenter)
-        command.execute(id)
+    ): Result<Server?> {
+        return findByIdQuery.execute(id)
     }
 }
