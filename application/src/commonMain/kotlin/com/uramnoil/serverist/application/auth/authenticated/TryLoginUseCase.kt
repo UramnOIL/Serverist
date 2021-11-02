@@ -4,7 +4,7 @@ import com.benasher44.uuid.Uuid
 
 
 interface TryLoginUseCaseInputPort {
-    fun execute(accountIdOrEmail: String, password: String)
+    fun execute(email: String, password: String)
 }
 
 fun interface TryLoginUseCaseOutputPort {

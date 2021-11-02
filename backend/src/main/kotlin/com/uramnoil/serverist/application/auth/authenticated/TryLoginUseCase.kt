@@ -4,5 +4,5 @@ import com.benasher44.uuid.Uuid
 
 
 interface TryLoginUseCaseInputPort {
-    suspend fun execute(accountIdOrEmail: String, password: String): Result<Uuid?>
+    suspend fun execute(mail: String, password: String): Result<Uuid?>
 }
