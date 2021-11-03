@@ -6,11 +6,11 @@ import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmail
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
+import com.uramnoil.serverist.domain.auth.unauthenticated.models.AuthenticationCode
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.ExpiredAt
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
-import kotlinx.datetime.Clock
-import kotlin.time.Duration
+import kotlinx.datetime.Instant
 import kotlin.time.ExperimentalTime
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.User as DomainUser
 
@@ -21,20 +21,32 @@ class CreateUserCommandUseCaseInteractor(
 ) :
     CreateUserCommandUseCaseInputPort {
     @OptIn(ExperimentalTime::class)
-    override suspend fun execute(email: String, password: String): Result<Unit> {
+    override suspend fun execute(
+        email: String,
+        password: String,
+        authenticationCode: String,
+        expiredAt: Instant
+    ): Result<Unit> {
         val hashedPassword = hashPasswordService.hash(Password(password))
         val newResult = DomainUser.new(
             id = Id(Uuid.randomUUID()),
             email = Email(email),
             hashedPassword = hashedPassword,
-            expiredAt = ExpiredAt(Clock.System.now().plus(Duration.minutes(30)))
+            authenticationCode = AuthenticationCode(authenticationCode),
+            expiredAt = ExpiredAt(expiredAt)
         )
-        val insertResult = newResult.mapCatching {
-            repository.insert(it).getOrThrow()
+
+        val newUser = newResult.getOrElse {
+            return Result.failure(it)
         }
 
-        insertResult.onSuccess {
-            sendEmailService.execute(email, TODO("A token of url to verify user's email address"))
+        val insertResult = repository.insert(newUser)
+        insertResult.getOrElse {
+            return Result.failure(it)
+        }
+
+        sendEmailService.execute(email, authenticationCode).getOrElse {
+            return Result.failure(it)
         }
 
         return insertResult
