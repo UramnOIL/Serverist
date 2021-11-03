@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.application.user.User
-import com.uramnoil.serverist.application.user.commands.DeleteUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.user.application.User
+import com.uramnoil.serverist.user.application.commands.DeleteUserCommandUseCaseInputPort
+import com.uramnoil.serverist.user.application.commands.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.user.application.queries.FindUserByIdQueryUseCaseInputPort
 import java.util.*
 
 class UserController(

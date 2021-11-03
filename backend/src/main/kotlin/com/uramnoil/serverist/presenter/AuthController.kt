@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.application.auth.authenticated.TryLoginUseCaseInputPort
-import com.uramnoil.serverist.application.auth.unauthenticated.commands.CreateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.auth.application.authenticated.TryLoginUseCaseInputPort
+import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort
 import java.util.*
 
 class AuthController(

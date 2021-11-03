@@ -2,18 +2,32 @@ package com.uramnoil.serverist
 
 import com.apurebase.kgraphql.GraphQL
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.queries.OrderBy
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQueryInputPort
+import com.uramnoil.serverist.auth.application.authenticated.TryLoginUseCaseInputPort
+import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException
+import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.auth.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
-import com.uramnoil.serverist.infrastracture.server.Servers
-import com.uramnoil.serverist.infrastracture.user.Users
+import com.uramnoil.serverist.koin.domain.buildAuthDomainDI
+import com.uramnoil.serverist.koin.domain.buildServerDomainDI
+import com.uramnoil.serverist.koin.domain.buildUserDomainDI
+import com.uramnoil.serverist.presenter.AuthController
+import com.uramnoil.serverist.presenter.ServerController
+import com.uramnoil.serverist.presenter.UserController
+import com.uramnoil.serverist.server.application.commands.CreateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.commands.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.commands.UpdateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindServerByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindServersByOwnerQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.OrderBy
+import com.uramnoil.serverist.server.application.services.ServerService
+import com.uramnoil.serverist.server.infrastructure.Servers
+import com.uramnoil.serverist.user.application.commands.DeleteUserCommandUseCaseInputPort
+import com.uramnoil.serverist.user.application.commands.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.user.application.queries.FindUserByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.user.infrastructure.Users
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
@@ -25,9 +39,10 @@ import io.ktor.util.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.kodein.di.DI
-import org.kodein.di.instance
+import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.inject
 import java.io.File
+import java.util.*
 
 data class AuthSession(val id: Uuid) : Principal
 
@@ -35,8 +50,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.productModule() {
-    val di = environment.buildApplicationDi(environment.buildDomainDi(DI {}))
-
     createConnection()
 
     install(Sessions) {
@@ -49,11 +62,19 @@ fun Application.productModule() {
     install(Authentication) {
         session<AuthSession>()
     }
-
-    routingLogin(di)
-    buildGraphql(di)
 }
 
+fun Application.koin() {
+    install(Koin) {
+        val serverDomainDI = buildServerDomainDI()
+        val userDomainDI = buildUserDomainDI()
+        val authDomainDI = buildAuthDomainDI()
+    }
+}
+
+/**
+ * コネクションプールの作成
+ */
 fun Application.createConnection() {
     environment.config.apply {
         val host = property("database.host").getString()
@@ -73,69 +94,97 @@ fun Application.createConnection() {
     }
 }
 
-fun Application.routingLogin(di: DI) = routing {
+/**
+ * 認証関連のルーティング
+ */
+fun Application.routingAuth() = routing {
+    val tryLoginUseCaseInputPort: TryLoginUseCaseInputPort by inject()
+    val createUserCommandUseCaseInputPort: CreateUserCommandUseCaseInputPort by inject()
+    val controller = AuthController(
+        tryLoginUseCaseInputPort = tryLoginUseCaseInputPort,
+        createUserCommandUseCaseInputPort = createUserCommandUseCaseInputPort
+    )
+
+    // ログイン
     post("login") {
-        data class IdEmailPassword(val idOrEmail: String, val password: String)
-        call.receive<IdEmailPassword>().let { idEmailPassword ->
-            call.sessions.get<AuthSession>()?.let {
-                return@post
-            }
+        data class CredentialContainer(val email: String, val password: String)
 
-            val service by di.instance<GetUserIfCorrectLoginInfoQueryInputPort>()
+        val (email, password) = call.receive<CredentialContainer>()
 
-            val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
-            } ?: return@post call.respond(HttpStatusCode.Unauthorized)
+        // すでにログイン済みだった場合
+        if (call.sessions.get<AuthSession>() != null) {
+            call.respond(HttpStatusCode.OK)
+            return@post
+        }
 
-            call.sessions.set(AuthSession(user.id))
+        // ログイン処理
+        val loginResult = controller.login(email, password)
 
+        val id = loginResult.getOrElse {
+            // サーバーエラー
+            call.respond(HttpStatusCode.InternalServerError)
+            return@post
+        }
+
+        id ?: run {
+            // 不正なクレデンシャル
+            call.respond(HttpStatusCode.BadRequest)
+            return@post
+        }
+
+        call.sessions.set(AuthSession(id))
+        call.respond(HttpStatusCode.OK)
+    }
+
+    // 登録
+    post("signup") {
+        data class EmailAndPassword(val email: String, val password: String)
+
+        val (email, password) = call.receive<EmailAndPassword>()
+
+        // サインアップ処理
+        val createUserResult = controller.signUp(email, password)
+
+        // 成功時
+        createUserResult.onSuccess {
             call.respond(HttpStatusCode.OK)
         }
-    }
 
-    post("signup") {
-        data class IdEmailPassword(val accountId: String, val email: String, val password: String)
-        call.receive<IdEmailPassword>().let { idEmailPassword ->
-            val command by di.instance<CreateUnauthenticatedUserCommandInputPort>()
-            val user = command.execute(
-                idEmailPassword.accountId,
-                idEmailPassword.email,
-                idEmailPassword.password
-            ).getOrElse {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
-            }
-
-            val service by di.instance<SendEmailToAuthenticateService>()
-            service.execute(user).onFailure {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
+        // 失敗時
+        createUserResult.onFailure {
+            when (it) {
+                // コードをすでに送信済み
+                is VerificationCodeHasAlreadyBeenSentException -> {
+                    call.respond(
+                        HttpStatusCode.BadRequest,
+                        "The email owner must have already been received a code to verify."
+                    )
+                }
+                // Emailがすでに使われている
+                is AccountAlreadyExistsException -> {
+                    call.respond(HttpStatusCode.BadRequest, "This email has already been used.")
+                }
+                // サーバーエラー
+                else -> {
+                    call.respond(HttpStatusCode.InternalServerError)
+                    log.error(it)
+                }
             }
         }
     }
 
-    post("auth") {
-        data class AuthenticateUserId(val id: Uuid)
+    // Email認証
+    post("verify") {
+        data class AuthenticateUserId(val id: UUID)
 
         val auth = call.receive<AuthenticateUserId>()
-        val query by di.instance<FindUnauthenticatedUserByIdQueryInputPort>()
-        val user = query.execute(auth.id).getOrElse {
-            call.application.environment.log.error(it)
-            return@post call.respond(it)
-        }
-
-        if (user != null) {
-            call.respond(HttpStatusCode.OK)
-            val command by di.instance<DeleteUnauthenticatedUserCommandInputPort>()
-            command.execute(user.id)
-        } else {
-            call.respond(HttpStatusCode.BadRequest, "無効なリクエスト")
-        }
     }
 }
 
-fun Application.buildGraphql(di: DI) = install(GraphQL) {
+/**
+ * GraphQL用のビルダ
+ */
+fun Application.buildGraphql() = install(GraphQL) {
     playground = true
 
     wrap {
@@ -143,6 +192,7 @@ fun Application.buildGraphql(di: DI) = install(GraphQL) {
     }
 
     context { call ->
+        // AuthSession所有時にコンテキストへ追加
         call.authentication.principal<AuthSession>()?.let {
             +it
         }
@@ -158,7 +208,36 @@ fun Application.buildGraphql(di: DI) = install(GraphQL) {
         enum<Sort>()
         enum<OrderBy>()
 
-        serverSchema(di)
-        userSchema(di)
+        val service: ServerService by inject()
+        val createCommand: CreateServerCommandUseCaseInputPort by inject()
+        val updateCommand: UpdateServerCommandUseCaseInputPort by inject()
+        val deleteCommand: DeleteServerCommandUseCaseInputPort by inject()
+        val findByOwnerQuery: FindServersByOwnerQueryUseCaseInputPort by inject()
+        val findAllQuery: FindAllServersQueryUseCaseInputPort by inject()
+        val findByIdQuery: FindServerByIdQueryUseCaseInputPort by inject()
+
+        serverSchema(
+            ServerController(
+                service = service,
+                createCommand = createCommand,
+                updateCommand = updateCommand,
+                deleteCommand = deleteCommand,
+                findByOwnerQuery = findByOwnerQuery,
+                findAllQuery = findAllQuery,
+                findByIdQuery = findByIdQuery
+            )
+        )
+
+        val findUserByIdQueryUseCaseInputPort: FindUserByIdQueryUseCaseInputPort by inject()
+        val updateUserCommandUseCaseInputPort: UpdateUserCommandUseCaseInputPort by inject()
+        val deleteUserCommandUseCaseInputPort: DeleteUserCommandUseCaseInputPort by inject()
+
+        userSchema(
+            UserController(
+                findUserByIdQueryUseCaseInputPort = findUserByIdQueryUseCaseInputPort,
+                updateUserCommandUseCaseInputPort = updateUserCommandUseCaseInputPort,
+                deleteUserCommandUseCaseInputPort = deleteUserCommandUseCaseInputPort
+            )
+        )
     }
 }

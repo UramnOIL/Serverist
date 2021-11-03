@@ -1,21 +1,21 @@
 package com.uramnoil.serverist.koin.application
 
-import com.uramnoil.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.services.ServerService
 import com.uramnoil.serverist.domain.server.repositories.ServerRepository
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
-import com.uramnoil.serverist.infrastracture.server.application.services.ExposedServerService
-import com.uramnoil.serverist.infrastructure.server.application.commands.CreateServerCommandInteractor
-import com.uramnoil.serverist.infrastructure.server.application.commands.DeleteServerCommandUseCaseInteractor
-import com.uramnoil.serverist.infrastructure.server.application.commands.UpdateServerCommandUseCaseInteractor
-import com.uramnoil.serverist.infrastructure.server.application.queries.ExposedFindAllServersQueryUseCaseInteractor
-import com.uramnoil.serverist.infrastructure.server.application.queries.ExposedFindServersByOwnerQueryInteractor
-import com.uramnoil.serverist.infrastructure.server.application.queries.FindServerByIdQueryUseCaseInteractor
+import com.uramnoil.serverist.server.application.commands.CreateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.commands.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.commands.UpdateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindServerByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.queries.FindServersByOwnerQueryUseCaseInputPort
+import com.uramnoil.serverist.server.application.services.ServerService
+import com.uramnoil.serverist.server.infrastructure.application.commands.CreateServerCommandInteractor
+import com.uramnoil.serverist.server.infrastructure.application.commands.DeleteServerCommandUseCaseInteractor
+import com.uramnoil.serverist.server.infrastructure.application.commands.UpdateServerCommandUseCaseInteractor
+import com.uramnoil.serverist.server.infrastructure.application.queries.ExposedFindAllServersQueryUseCaseInteractor
+import com.uramnoil.serverist.server.infrastructure.application.queries.ExposedFindServersByOwnerQueryInteractor
+import com.uramnoil.serverist.server.infrastructure.application.queries.FindServerByIdQueryUseCaseInteractor
+import com.uramnoil.serverist.server.infrastructure.application.services.ExposedServerService
 import io.ktor.application.*
 import org.koin.dsl.module
 
