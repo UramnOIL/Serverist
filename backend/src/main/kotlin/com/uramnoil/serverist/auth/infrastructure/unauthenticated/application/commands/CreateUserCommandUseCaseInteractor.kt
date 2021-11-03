@@ -2,12 +2,11 @@ package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.c
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateService
+import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
-import com.uramnoil.serverist.domain.auth.unauthenticated.models.AuthenticationCode
-import com.uramnoil.serverist.domain.auth.unauthenticated.models.ExpiredAt
+import com.uramnoil.serverist.domain.auth.unauthenticated.models.ActivationCode
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
 import kotlinx.datetime.Instant
@@ -17,7 +16,7 @@ import com.uramnoil.serverist.domain.auth.unauthenticated.models.User as DomainU
 class CreateUserCommandUseCaseInteractor(
     private val repository: UserRepository,
     private val hashPasswordService: HashPasswordService,
-    private val sendEmailService: SendEmailToAuthenticateService,
+    private val sendEmailService: SendEmailToAuthenticateUseCase,
 ) :
     CreateUserCommandUseCaseInputPort {
     @OptIn(ExperimentalTime::class)
@@ -32,8 +31,7 @@ class CreateUserCommandUseCaseInteractor(
             id = Id(Uuid.randomUUID()),
             email = Email(email),
             hashedPassword = hashedPassword,
-            authenticationCode = AuthenticationCode(authenticationCode),
-            expiredAt = ExpiredAt(expiredAt)
+            activationCode = ActivationCode(authenticationCode),
         )
 
         val newUser = newResult.getOrElse {

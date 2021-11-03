@@ -15,6 +15,7 @@ class ExposedUserRepository : UserRepository {
                 it[id] = user.id.value
                 it[email] = user.email.value
                 it[hashedPassword] = user.hashedPassword.value
+                it[activateCode] = user.activationCode.value
             }
             commit()
         }
@@ -25,8 +26,9 @@ class ExposedUserRepository : UserRepository {
             Users.update({ Users.id eq user.id.value }) {
                 it[email] = user.email.value
                 it[hashedPassword] = user.hashedPassword.value
-                commit()
+                it[activateCode] = user.activationCode.value
             }
+            commit()
         }
     }
 
