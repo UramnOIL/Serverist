@@ -1,15 +1,16 @@
 package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application
 
-import com.uramnoil.serverist.auth.application.unauthenticated.TryAuthEmailUseCaseInputPort
+import com.uramnoil.serverist.auth.application.unauthenticated.queries.CheckCorrectAuthenticationCodeQueryUseCaseInputPort
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import java.util.*
 
-class TryAuthEmailUseCaseInteractor(private val repository: UserRepository) : TryAuthEmailUseCaseInputPort {
-    override suspend fun execute(token: UUID): Result<Unit> {
+class CheckCorrectAuthenticationCodeQueryUseCaseInteractor(private val repository: UserRepository) :
+    CheckCorrectAuthenticationCodeQueryUseCaseInputPort {
+    override suspend fun execute(id: UUID, code: String): Result<Boolean> {
         // Try find
-        val result = repository.findById(Id(token))
+        val result = repository.findById(Id(id))
 
         // Repository error
         val user = result.getOrElse {
@@ -21,6 +22,6 @@ class TryAuthEmailUseCaseInteractor(private val repository: UserRepository) : Tr
             return Result.failure(NotFoundException("token"))
         }
 
-        return Result.success(Unit)
+        return Result.success(user.authenticationCode.value == code)
     }
 }
