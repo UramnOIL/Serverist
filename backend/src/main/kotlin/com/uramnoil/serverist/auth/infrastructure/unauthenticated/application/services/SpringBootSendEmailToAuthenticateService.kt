@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.services
 
-import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateService
+import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSenderImpl
@@ -12,7 +12,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val password: String,
     private val from: String,
     private val url: String
-) : SendEmailToAuthenticateService {
+) : SendEmailToAuthenticateUseCase {
     override suspend fun execute(email: String, token: String): Result<Unit> = kotlin.runCatching {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
             host = this@SpringBootSendEmailToAuthenticateService.host
