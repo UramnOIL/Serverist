@@ -6,5 +6,5 @@ interface FindUserByActivationCodeQueryUseCaseInputPort {
     /**
      * @return 未認証ユーザーのID
      */
-    suspend fun execute(activationCode: UUID): Result<UUID?>
+    suspend fun execute(activationCode: UUID): Result<User?>
 }
