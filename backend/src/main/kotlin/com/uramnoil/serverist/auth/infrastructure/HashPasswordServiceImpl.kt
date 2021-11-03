@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastructure
+package com.uramnoil.serverist.auth.infrastructure
 
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
