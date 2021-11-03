@@ -5,7 +5,7 @@ import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUs
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
 
-class DeleteUserCommandInteractor(
+class DeleteUserCommandUseCaseInteractor(
     private val repository: UserRepository,
 ) : DeleteUserCommandInputPort {
     override suspend fun execute(id: Uuid): Result<Unit> {
