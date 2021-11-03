@@ -6,5 +6,5 @@ object Users : UUIDTable("users") {
     val accountId = char("account_id", 16).uniqueIndex()
     val email = char("email", 255).uniqueIndex()
     val hashedPassword = char("hashed_password", 255)
-    val activateCode = char("activate_code", 31)
+    val activateCode = uuid("activate_code")
 }
