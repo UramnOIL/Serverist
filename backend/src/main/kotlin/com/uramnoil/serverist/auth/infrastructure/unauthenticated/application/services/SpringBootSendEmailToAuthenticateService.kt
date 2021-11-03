@@ -4,6 +4,7 @@ import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmail
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSenderImpl
+import java.util.*
 
 class SpringBootSendEmailToAuthenticateService(
     private val host: String,
@@ -13,7 +14,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val from: String,
     private val url: String
 ) : SendEmailToAuthenticateUseCase {
-    override suspend fun execute(email: String, token: String): Result<Unit> = kotlin.runCatching {
+    override suspend fun execute(email: String, activationCode: UUID): Result<Unit> = kotlin.runCatching {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
             host = this@SpringBootSendEmailToAuthenticateService.host
             port = this@SpringBootSendEmailToAuthenticateService.port
@@ -25,7 +26,7 @@ class SpringBootSendEmailToAuthenticateService(
             from = this@SpringBootSendEmailToAuthenticateService.from
             setTo(email)
             subject = "Serveristユーザー登録"
-            text = "$url?token=${token}"
+            text = "$url?code=${activationCode}"
         }
 
         mailSender.send(message)

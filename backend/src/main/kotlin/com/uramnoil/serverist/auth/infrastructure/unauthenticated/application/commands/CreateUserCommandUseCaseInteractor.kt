@@ -9,7 +9,7 @@ import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.ActivationCode
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
-import kotlinx.datetime.Instant
+import java.util.*
 import kotlin.time.ExperimentalTime
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.User as DomainUser
 
@@ -23,8 +23,7 @@ class CreateUserCommandUseCaseInteractor(
     override suspend fun execute(
         email: String,
         password: String,
-        authenticationCode: String,
-        expiredAt: Instant
+        authenticationCode: UUID
     ): Result<Unit> {
         val hashedPassword = hashPasswordService.hash(Password(password))
         val newResult = DomainUser.new(
