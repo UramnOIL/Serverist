@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.user.infrastructure.application.queries
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.auth.application.authenticated.TryLoginUseCaseInputPort
+import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.infrastructure.authenticated.toApplicationAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
@@ -10,7 +10,8 @@ import com.uramnoil.serverist.infrastracture.auth.authenticated.Users
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ExposedTryLoginInteractor(private val hashPasswordService: HashPasswordService) : TryLoginUseCaseInputPort {
+class ExposedFindUserByEmailAndPasswordQueryInteractor(private val hashPasswordService: HashPasswordService) :
+    FindUserByEmailAndPasswordQueryUseCaseInputPort {
     override suspend fun execute(accountIdOrEmail: String, password: String): Result<Uuid?> {
         val rowResult = kotlin.runCatching {
             newSuspendedTransaction {
