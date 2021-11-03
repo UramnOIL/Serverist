@@ -24,7 +24,7 @@ class CreateUserCommandUseCaseInteractor(
         email: String,
         password: String,
         authenticationCode: UUID
-    ): Result<Unit> {
+    ): Result<UUID> {
         val hashedPassword = hashPasswordService.hash(Password(password))
         val newResult = DomainUser.new(
             id = Id(Uuid.randomUUID()),
@@ -46,6 +46,6 @@ class CreateUserCommandUseCaseInteractor(
             return Result.failure(it)
         }
 
-        return insertResult
+        return Result.success(newUser.id.value)
     }
 }

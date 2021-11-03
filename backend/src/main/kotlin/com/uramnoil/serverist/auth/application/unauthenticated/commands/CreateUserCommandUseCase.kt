@@ -10,5 +10,5 @@ interface CreateUserCommandUseCaseInputPort {
         email: String,
         password: String,
         authenticationCode: UUID,
-    ): Result<Unit>
+    ): Result<UUID>
 }
