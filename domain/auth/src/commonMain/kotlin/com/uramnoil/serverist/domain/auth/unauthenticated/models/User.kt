@@ -8,16 +8,14 @@ class User private constructor(
     val id: Id,
     val email: Email,
     val hashedPassword: HashedPassword,
-    val authenticationCode: AuthenticationCode,
-    val expiredAt: ExpiredAt,
+    val activationCode: ActivationCode,
 ) {
     companion object {
         fun new(
             id: Id,
             email: Email,
             hashedPassword: HashedPassword,
-            authenticationCode: AuthenticationCode,
-            expiredAt: ExpiredAt,
-        ): Result<User> = runCatching { User(id, email, hashedPassword, authenticationCode, expiredAt) }
+            activationCode: ActivationCode,
+        ): Result<User> = runCatching { User(id, email, hashedPassword, activationCode) }
     }
 }
