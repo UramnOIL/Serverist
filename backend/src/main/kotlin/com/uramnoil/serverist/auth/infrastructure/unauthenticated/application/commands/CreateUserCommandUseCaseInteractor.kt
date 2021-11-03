@@ -2,7 +2,6 @@ package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.c
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
@@ -16,7 +15,6 @@ import com.uramnoil.serverist.domain.auth.unauthenticated.models.User as DomainU
 class CreateUserCommandUseCaseInteractor(
     private val repository: UserRepository,
     private val hashPasswordService: HashPasswordService,
-    private val sendEmailService: SendEmailToAuthenticateUseCase,
 ) :
     CreateUserCommandUseCaseInputPort {
     @OptIn(ExperimentalTime::class)
@@ -38,14 +36,6 @@ class CreateUserCommandUseCaseInteractor(
         }
 
         val insertResult = repository.insert(newUser)
-        insertResult.getOrElse {
-            return Result.failure(it)
-        }
-
-        sendEmailService.execute(email, authenticationCode).getOrElse {
-            return Result.failure(it)
-        }
-
-        return Result.success(newUser.id.value)
+        return insertResult.map { newUser.id.value }
     }
 }
