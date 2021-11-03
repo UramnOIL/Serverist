@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application
+package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.queries
 
 import com.uramnoil.serverist.auth.application.unauthenticated.queries.CheckCorrectAuthenticationCodeQueryUseCaseInputPort
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
