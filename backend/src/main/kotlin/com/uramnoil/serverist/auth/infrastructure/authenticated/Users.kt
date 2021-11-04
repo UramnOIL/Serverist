@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastracture.auth.authenticated
+package com.uramnoil.serverist.auth.infrastructure.authenticated
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 
