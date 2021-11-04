@@ -1,25 +1,26 @@
 package com.uramnoil.serverist.presenter
 
 import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUserCommandInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.queries.FindUserByEmailQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
 import java.util.*
 import kotlin.time.ExperimentalTime
 import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseInputPort as CreateAuthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.auth.application.authenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteAuthenticatedUserCommandUseCaseInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort as CreateUnauthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteUnauthenticatedUserCommandUseCaseInputPort
 
 
 class AuthController(
     private val createUserCommandUseCaseInputPort: CreateUnauthenticatedUserCommandUseCaseInputPort,
-    private val deleteUnauthenticatedUserUseCaseInputPort: DeleteUserCommandInputPort,
+    private val deleteUnauthenticatedUserUseCaseInputPort: DeleteUnauthenticatedUserCommandUseCaseInputPort,
     private val sendEmailToAuthenticateUseCase: SendEmailToAuthenticateUseCase,
     private val findUserByEmailAndPasswordQueryUseCaseInputPort: FindUserByEmailAndPasswordQueryUseCaseInputPort,
     private val findUserByActivationCodeQueryUseCaseInputPort: FindUserByActivationCodeQueryUseCaseInputPort,
     private val findUserByEmailQueryUseCaseInputPort: FindUserByEmailQueryUseCaseInputPort,
     private val createAuthenticatedCommandUserCaseInputPort: CreateAuthenticatedUserCommandUseCaseInputPort,
-    private val deleteAuthenticatedUserCommandUseCaseInputPort: DeleteUserCommandInputPort,
+    private val deleteAuthenticatedUserCommandUseCaseInputPort: DeleteAuthenticatedUserCommandUseCaseInputPort,
     private val userController: UserController,     //HACK 別コンテキストの直接的な参照
 ) {
     @OptIn(ExperimentalTime::class)
