@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.user.infrastructure.application.command
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.domain.common.exception.NotFoundException
+import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.user.models.Description
 import com.uramnoil.serverist.domain.user.models.Name
@@ -15,7 +15,7 @@ class UpdateUserCommandUseCaseInteractor(private val repository: UserRepository)
         }
 
         user ?: run {
-            return Result.failure(NotFoundException("id: ${id}のユーザー見つかりませんでした。"))
+            return Result.failure(UserNotFoundByIdException(id.toString()))
         }
 
         user.apply {

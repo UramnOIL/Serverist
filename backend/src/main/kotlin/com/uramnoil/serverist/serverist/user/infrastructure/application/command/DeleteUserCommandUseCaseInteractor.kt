@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.user.infrastructure.application.command
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.domain.common.exception.NotFoundException
+import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import com.uramnoil.serverist.serverist.user.application.commands.DeleteUserCommandUseCaseInputPort
@@ -13,7 +13,7 @@ class DeleteUserCommandUseCaseInteractor(private val repository: UserRepository)
         }
 
         user ?: run {
-            return Result.failure(NotFoundException("id: ${id}に一致するユーザーが見つかりませんでした。"))
+            return Result.failure(UserNotFoundByIdException(id.toString()))
         }
 
         return repository.delete(user)
