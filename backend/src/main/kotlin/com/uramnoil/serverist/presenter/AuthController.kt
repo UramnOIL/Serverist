@@ -13,7 +13,7 @@ import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUs
 
 
 class AuthController(
-    private val createUserCommandUseCaseInputPort: CreateUnauthenticatedUserCommandUseCaseInputPort,
+    private val createUnauthenticatedUserCommandUseCaseInputPort: CreateUnauthenticatedUserCommandUseCaseInputPort,
     private val deleteUnauthenticatedUserUseCaseInputPort: DeleteUnauthenticatedUserCommandUseCaseInputPort,
     private val sendEmailToAuthenticateUseCase: SendEmailToAuthenticateUseCase,
     private val findUserByEmailAndPasswordQueryUseCaseInputPort: FindUserByEmailAndPasswordQueryUseCaseInputPort,
@@ -31,7 +31,7 @@ class AuthController(
     suspend fun signUp(email: String, password: String): Result<Unit> {
         val authenticationCode = UUID.randomUUID()
 
-        val createResult = createUserCommandUseCaseInputPort.execute(
+        val createResult = createUnauthenticatedUserCommandUseCaseInputPort.execute(
             email,
             password,
             authenticationCode,
