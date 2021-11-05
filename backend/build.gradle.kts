@@ -36,31 +36,42 @@ dependencies {
     implementation(project(":domain:user"))
     implementation(project(":domain:server"))
 
-    implementation(kotlin("stdlib:$kotlinVersion"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    // kotlin
+    implementation(kotlin("stdlib", "$kotlinVersion"))
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.3.0")
 
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("io.ktor:ktor-auth:$ktorVersion")
-    implementation("io.ktor:ktor-server-sessions:$ktorVersion")
-    implementation("com.apurebase:kgraphql:$kgraphqlVersion")
-    implementation("com.apurebase:kgraphql-ktor:$kgraphqlVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    // ktor
+    implementation("io.ktor", "ktor-server-netty", "$ktorVersion")
+    implementation("io.ktor", "ktor-auth", "$ktorVersion")
+    implementation("io.ktor", "ktor-server-sessions", "$ktorVersion")
+    implementation("io.ktor", "ktor-serialization", ktorVersion)
+    implementation("ch.qos.logback", "logback-classic", "1.2.6")
 
-    implementation("io.insert-koin:koin-ktor:$koinVersion")
+    // kgraphql
+    implementation("com.apurebase", "kgraphql", "$kgraphqlVersion")
+    implementation("com.apurebase", "kgraphql-ktor", "$kgraphqlVersion")
+    implementation("ch.qos.logback", "logback-classic", "$logbackVersion")
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("mysql:mysql-connector-java:8.0.20")
+    // koin
+    implementation("io.insert-koin", "koin-ktor", "$koinVersion")
 
-    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion")
+    // exposed
+    implementation("org.jetbrains.exposed", "exposed-core", "$exposedVersion")
+    implementation("org.jetbrains.exposed", "exposed-dao", "$exposedVersion")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "$exposedVersion")
+    implementation("org.jetbrains.exposed", "exposed-java-time", "$exposedVersion")
+    implementation("mysql", "mysql-connector-java", "8.0.20")
 
-    testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
-    testImplementation("com.h2database:h2:1.4.200")
+    // springframework
+    implementation("org.springframework.boot", "spring-boot-starter-security", "$springBootVersion")
+    implementation("org.springframework.boot", "spring-boot-starter-mail", "$springBootVersion")
+    implementation("org.springframework.boot", "spring-boot-starter-data-redis", "$springBootVersion")
+
+    // test
+    testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
+    testImplementation("io.ktor", "ktor-server-test-host", "$ktorVersion")
+    testImplementation("com.h2database", "h2", "1.4.200")
 }
 
 tasks.withType<Jar> {
