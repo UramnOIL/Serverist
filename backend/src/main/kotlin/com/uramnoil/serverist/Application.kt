@@ -67,12 +67,12 @@ fun Application.productMain() {
         level = Level.DEBUG
         format {
             val userId = it.sessions.get<AuthSession>()?.id ?: "Guest"
-            val ip = it.callId
+            val ip = it.request.local.remoteHost
             val status = it.response.status()
             val httpMethod = it.request.httpMethod.value
             val userAgent = it.request.headers["User-Agent"]
             val uri = it.request.uri
-            "User id: $userId, User agent: $userAgent, Status: $status, HTTP method: $httpMethod, URI: $uri"
+            "IP: $ip, User ID: $userId, User agent: $userAgent, Status: $status, HTTP method: $httpMethod, URI: $uri"
         }
     }
 
