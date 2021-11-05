@@ -38,7 +38,11 @@ data class AuthSession(val id: Uuid) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-fun Application.common() {
+/**
+ * 本番環境用
+ */
+@Suppress("unused")
+fun Application.productMain() {
     install(StatusPages) {
         exception<ContentTransformationException> {
             call.respond(HttpStatusCode.BadRequest)
@@ -51,16 +55,6 @@ fun Application.common() {
     install(ContentNegotiation) {
         json()
     }
-}
-
-/**
- * 本番環境用
- */
-@Suppress("unused")
-fun Application.productMain() {
-    common()
-
-    createConnection()
 
     install(Sessions) {
         cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
@@ -214,7 +208,7 @@ fun Application.routingAuth() = routing {
     }
 
     post("activate/resend") {
-
+        call.respond(HttpStatusCode.InternalServerError)
     }
 }
 
