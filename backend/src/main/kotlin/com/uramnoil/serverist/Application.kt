@@ -75,7 +75,7 @@ fun Application.productMain() {
     createConnection()
     productKoin()
     routingAuth()
-    buildGraphql()
+    routingGraphQL()
 }
 
 fun Application.productKoin() {
