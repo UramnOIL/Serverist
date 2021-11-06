@@ -25,6 +25,7 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
 import io.ktor.util.*
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -34,6 +35,7 @@ import org.slf4j.event.Level
 import java.io.File
 import java.util.*
 
+@Serializable
 data class AuthSession(val id: Uuid) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -116,6 +118,7 @@ fun Application.createConnection() {
 fun Application.routingAuth() = routing {
     val controller: AuthController by inject()
     post("login") {
+        @Serializable
         data class CredentialParameters(val email: String, val password: String)
 
         val (email, password) = call.receive<CredentialParameters>()
@@ -146,6 +149,7 @@ fun Application.routingAuth() = routing {
 
     // 登録
     post("signup") {
+        @Serializable
         data class EmailAndPassword(val email: String, val password: String)
 
         val (email, password) = call.receive<EmailAndPassword>()
@@ -183,6 +187,7 @@ fun Application.routingAuth() = routing {
 
     // Email認証
     get("activate") {
+        @Serializable
         data class AuthenticateUserId(val id: UUID)
 
         val (id) = call.receive<AuthenticateUserId>()
