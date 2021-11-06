@@ -1,13 +1,6 @@
 package com.uramnoil.serverist
 
-import com.apurebase.kgraphql.GraphQL
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.graphql.PageRequest
-import com.uramnoil.serverist.graphql.serverSchema
-import com.uramnoil.serverist.graphql.userSchema
-import com.uramnoil.serverist.presenter.ServerController
-import com.uramnoil.serverist.presenter.UserController
-import com.uramnoil.serverist.serverist.server.application.queries.OrderBy
 import com.uramnoil.serverist.serverist.server.infrastructure.Servers
 import com.uramnoil.serverist.serverist.user.infrastructure.Users
 import io.ktor.application.*
@@ -24,9 +17,9 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.Koin
-import org.koin.ktor.ext.inject
 import org.slf4j.event.Level
 import routing.routingAuth
+import routing.routingGraphQL
 import java.io.File
 
 @Serializable
@@ -40,18 +33,18 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused")
 fun Application.productMain() {
     install(StatusPages) {
+        // 不正なリクエストパラメータ
         exception<ContentTransformationException> {
             call.respond(HttpStatusCode.BadRequest)
         }
-        exception<Exception> {
-            call.respond(HttpStatusCode.InternalServerError)
-        }
     }
 
+    // ContentNegotiation application/jsonをリクエストで使えるようにする
     install(ContentNegotiation) {
         json()
     }
 
+    // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
         cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
@@ -59,6 +52,7 @@ fun Application.productMain() {
         }
     }
 
+    // CallLogging リクエストのロギング用
     install(CallLogging) {
         level = Level.DEBUG
         format {
@@ -74,6 +68,8 @@ fun Application.productMain() {
 
     createConnection()
     productKoin()
+
+    // ルーティング
     routingAuth()
     routingGraphQL()
 }
@@ -103,44 +99,5 @@ fun Application.createConnection() {
         transaction {
             SchemaUtils.create(Users, Servers)
         }
-    }
-}
-
-
-
-/**
- * GraphQL用のビルダ
- */
-fun Application.buildGraphql() = install(GraphQL) {
-    playground = true
-
-    wrap {
-        authenticate(optional = true, build = it)
-    }
-
-    context { call ->
-        // AuthSession所有時にコンテキストへ追加
-        call.authentication.principal<AuthSession>()?.let {
-            +it
-        }
-    }
-
-    schema {
-        stringScalar<Uuid> {
-            deserialize = { Uuid.fromString(it) }
-            serialize = Uuid::toString
-        }
-
-        type<PageRequest>()
-        enum<Sort>()
-        enum<OrderBy>()
-
-        val serverController: ServerController by inject()
-
-        serverSchema(serverController)
-
-        val userController: UserController by inject()
-
-        userSchema(userController)
     }
 }
