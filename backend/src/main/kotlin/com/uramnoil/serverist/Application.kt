@@ -216,6 +216,15 @@ fun Application.routingAuth() = routing {
     post("activate/resend") {
         call.respond(HttpStatusCode.InternalServerError)
     }
+
+    post("withdrawal") {
+        val auth = call.sessions.get<AuthSession>()
+        if (auth == null) {
+            call.respond(HttpStatusCode.OK)
+            return@post
+        }
+        controller.withdraw(auth.id)
+    }
 }
 
 /**
