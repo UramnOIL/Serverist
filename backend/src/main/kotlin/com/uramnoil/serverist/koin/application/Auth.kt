@@ -2,6 +2,7 @@ package com.uramnoil.serverist.koin.application
 
 import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
 import com.uramnoil.serverist.auth.infrastructure.HashPasswordServiceImpl
+import com.uramnoil.serverist.auth.infrastructure.authenticated.application.queries.ExposedFindUserByEmailAndPasswordQueryInteractor
 import com.uramnoil.serverist.auth.infrastructure.authenticated.domain.ExposedUserRepositoryImpl
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.commands.CreateUserCommandUseCaseInteractor
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.queries.FindUserByActivationCodeQueryUseCaseInteractor
@@ -12,7 +13,6 @@ import com.uramnoil.serverist.auth.infrastructure.unauthenticated.domain.reposit
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository
 import com.uramnoil.serverist.presenter.AuthController
 import com.uramnoil.serverist.presenter.UserController
-import com.uramnoil.serverist.serverist.user.infrastructure.application.queries.ExposedFindUserByEmailAndPasswordQueryInteractor
 import io.ktor.application.*
 import com.uramnoil.serverist.auth.infrastructure.authenticated.application.commands.CreateUserCommandUseCaseInteractor as CreateAuthenticatedUserCommandUseCaseInteractor
 import com.uramnoil.serverist.auth.infrastructure.authenticated.application.commands.DeleteUserCommandUseCaseInteractor as DeleteAuthenticatedUserCommandUseCaseInteractor

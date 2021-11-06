@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.serverist.user.infrastructure.application.queries
+package com.uramnoil.serverist.auth.infrastructure.authenticated.application.queries
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
@@ -12,10 +12,10 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 class ExposedFindUserByEmailAndPasswordQueryInteractor(private val hashPasswordService: HashPasswordService) :
     FindUserByEmailAndPasswordQueryUseCaseInputPort {
-    override suspend fun execute(accountIdOrEmail: String, password: String): Result<Uuid?> {
+    override suspend fun execute(mail: String, password: String): Result<Uuid?> {
         val rowResult = kotlin.runCatching {
             newSuspendedTransaction {
-                Users.select { (Users.email eq accountIdOrEmail) }.firstOrNull()
+                Users.select { (Users.email eq mail) }.firstOrNull()
             }
         }
 
