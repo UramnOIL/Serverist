@@ -19,12 +19,4 @@ fun SchemaBuilder.userSchema(controller: UserController) {
 
         accessRule(::requireAuthSession)
     }
-
-    mutation("delete") {
-        resolver { context: Context ->
-            controller.delete(context.getIdFromSession())
-        }
-
-        accessRule(::requireAuthSession)
-    }
 }
