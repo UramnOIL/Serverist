@@ -17,7 +17,7 @@ fun SchemaBuilder.userSchema(controller: UserController) {
             controller.update(context.getIdFromSession(), accountId, name, description)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 
     mutation("delete") {
@@ -25,6 +25,6 @@ fun SchemaBuilder.userSchema(controller: UserController) {
             controller.delete(context.getIdFromSession())
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 }

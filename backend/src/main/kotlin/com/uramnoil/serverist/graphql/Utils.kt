@@ -7,7 +7,7 @@ import com.uramnoil.serverist.AuthSession
 
 data class PageRequest(val limit: Int, val offset: Long)
 
-fun checkSession(context: Context): Exception? =
+fun requireAuthSession(context: Context): Exception? =
     if (context.get<AuthSession>() == null) Exception("権限がありません。") else null
 
 fun Context.getIdFromSession(): Uuid = get<AuthSession>()!!.id

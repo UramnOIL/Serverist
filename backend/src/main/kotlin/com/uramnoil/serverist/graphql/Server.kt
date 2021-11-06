@@ -32,7 +32,7 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
             controller.createServer(ownerId, name, address, port, description)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 
     mutation("updateServer") {
@@ -41,7 +41,7 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
             controller.updateServer(id, name, address, port, description)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 
     mutation("deleteServer") {
@@ -50,6 +50,6 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
             controller.deleteServer(id)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 }
