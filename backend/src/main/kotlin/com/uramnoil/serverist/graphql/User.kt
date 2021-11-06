@@ -6,7 +6,7 @@ import com.uramnoil.serverist.presenter.UserController
 import java.util.*
 
 fun SchemaBuilder.userSchema(controller: UserController) {
-    query("findUsersById") {
+    query("findUserById") {
         resolver { id: UUID ->
             controller.findById(id)
         }
