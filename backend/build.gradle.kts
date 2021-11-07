@@ -72,6 +72,7 @@ dependencies {
     testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
     testImplementation("io.ktor", "ktor-server-test-host", "$ktorVersion")
     testImplementation("com.h2database", "h2", "1.4.200")
+    testImplementation("io.mockk", "mockk", "1.12.0")
 }
 
 tasks.withType<Jar> {
