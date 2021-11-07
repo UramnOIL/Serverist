@@ -2,15 +2,15 @@ package com.uramnoil.serverist.presenter
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.Sort
-import com.uramnoil.serverist.serverist.server.application.Server
-import com.uramnoil.serverist.serverist.server.application.commands.CreateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.commands.DeleteServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.commands.UpdateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.queries.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.queries.FindServerByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.queries.FindServersByOwnerQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.server.application.queries.OrderBy
-import com.uramnoil.serverist.serverist.server.application.services.ServerService
+import com.uramnoil.serverist.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
+import com.uramnoil.serverist.serverist.application.server.services.ServerService
 import java.util.*
 
 

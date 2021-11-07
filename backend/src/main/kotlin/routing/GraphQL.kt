@@ -8,7 +8,7 @@ import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
 import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
-import com.uramnoil.serverist.serverist.server.application.queries.OrderBy
+import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
 import io.ktor.application.*
 import io.ktor.auth.*
 import org.koin.ktor.ext.inject
