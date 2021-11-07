@@ -69,12 +69,20 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-data-redis", "$springBootVersion")
 
     // test
+
+    // mockk
+    testImplementation("io.mockk", "mockk", "1.12.0")
+
+    // kotlin
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
+
+    // ktor
     testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
     testImplementation("io.ktor", "ktor-server-test-host", "$ktorVersion")
+
+    // in-memory database
     testImplementation("com.h2database", "h2", "1.4.200")
-    testImplementation("io.mockk", "mockk", "1.12.0")
 }
 
 tasks.withType<Jar> {
