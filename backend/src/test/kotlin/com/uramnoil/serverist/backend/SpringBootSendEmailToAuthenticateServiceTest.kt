@@ -16,6 +16,8 @@ class SpringBootSendEmailToAuthenticateServiceTest {
             url = "http://localhost/auth",
         )
 
+        val code = UUID.randomUUID()
+
         runBlocking {
             service.execute("hoge.com", "token")
         }
