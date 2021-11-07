@@ -1,7 +1,5 @@
 package com.uramnoil.serverist.koin.application
 
-import com.uramnoil.serverist.domain.server.repositories.ServerRepository
-import com.uramnoil.serverist.domain.user.repositories.UserRepository
 import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
 import com.uramnoil.serverist.serverist.infrastructure.application.server.commands.CreateServerCommandInteractor
@@ -18,15 +16,15 @@ import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.
 import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.ExposedFindUserByAccountIdQueryUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.ExposedFindUserByNameQueryUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.FindUserByIdQueryUseCaseInteractor
+import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedServerRepository
 import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedUserRepository
 import io.ktor.application.*
 
 data class Controllers(val userController: UserController, val serverController: ServerController)
 
-fun Application.buildServeristControllers(
-    serverRepository: ServerRepository,
-    userRepository: UserRepository,
-): Controllers {
+fun Application.buildServeristControllers(): Controllers {
+    val userRepository = ExposedUserRepository()
+    val serverRepository = ExposedServerRepository()
     val createServerCommand = CreateServerCommandInteractor(userRepository, serverRepository)
     val deleteServerCommand = DeleteServerCommandUseCaseInteractor(serverRepository)
     val updateServerCommandUseCaseInputPort = UpdateServerCommandUseCaseInteractor(serverRepository)
@@ -45,7 +43,6 @@ fun Application.buildServeristControllers(
         findByOwnerQuery = findServersByOwnerQueryUseCaseInputPort
     )
 
-    val userRepository = ExposedUserRepository()
     val createUserCommandUseCaseInputPort = CreateUserCommandUseCaseInteractor(userRepository)
     val deleteUserCommandUseCaseInputPort = DeleteUserCommandUseCaseInteractor(userRepository)
     val updateUserCommandUseCaseInputPort = UpdateUserCommandUseCaseInteractor(userRepository)
