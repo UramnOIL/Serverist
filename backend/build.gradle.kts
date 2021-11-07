@@ -83,6 +83,10 @@ dependencies {
 
     // in-memory database
     testImplementation("com.h2database", "h2", "1.4.200")
+
+    // mail
+
+    testImplementation("com.icegreen", "greenmail", "1.6.5")
 }
 
 tasks.withType<Jar> {
