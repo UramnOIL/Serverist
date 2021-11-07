@@ -69,6 +69,8 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-data-redis", "$springBootVersion")
 
     // test
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
     testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
     testImplementation("io.ktor", "ktor-server-test-host", "$ktorVersion")
     testImplementation("com.h2database", "h2", "1.4.200")
