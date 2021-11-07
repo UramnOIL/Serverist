@@ -12,7 +12,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val username: String,
     private val password: String,
     private val from: String,
-    private val url: String
+    private val activateUrl: String
 ) : SendEmailToAuthenticateUseCase {
     override suspend fun execute(email: String, activationCode: UUID): Result<Unit> = kotlin.runCatching {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
@@ -26,7 +26,7 @@ class SpringBootSendEmailToAuthenticateService(
             from = this@SpringBootSendEmailToAuthenticateService.from
             setTo(email)
             subject = "Serveristユーザー登録"
-            text = "$url?code=${activationCode}"
+            text = "$activateUrl?code=${activationCode}"
         }
 
         mailSender.send(message)

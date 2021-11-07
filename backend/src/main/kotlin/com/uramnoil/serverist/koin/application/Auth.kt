@@ -40,7 +40,7 @@ fun Application.buildAuthController(userController: UserController): AuthControl
             property("mail.username").getString(),
             property("mail.password").getString(),
             property("mail.from").getString(),
-            property("mail.auth_url").getString()
+            property("mail.activate_url").getString()
         )
     }
 
