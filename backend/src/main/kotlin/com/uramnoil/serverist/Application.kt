@@ -31,7 +31,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
  * 本番環境用
  */
 @Suppress("unused")
-fun Application.productMain() {
+fun Application.mainModule(testing: Boolean = false) {
     install(StatusPages) {
         // 不正なリクエストパラメータ
         exception<ContentTransformationException> {
