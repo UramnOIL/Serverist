@@ -37,7 +37,7 @@ dependencies {
     implementation(project(":domain:server"))
 
     // kotlin
-    implementation(kotlin("stdlib", "$kotlinVersion"))
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "$coroutinesVersion")
     implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.3.0")
 
