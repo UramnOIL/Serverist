@@ -1,8 +1,9 @@
 package com.uramnoil.serverist
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.serverist.server.infrastructure.Servers
-import com.uramnoil.serverist.serverist.user.infrastructure.Users
+import com.uramnoil.serverist.koin.application.buildAuthController
+import com.uramnoil.serverist.koin.application.buildServeristControllers
+import com.uramnoil.serverist.serverist.infrastructure.Servers
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -16,11 +17,15 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 import routing.routingAuth
 import routing.routingGraphQL
 import java.io.File
+import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
+import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 @Serializable
 data class AuthSession(val id: Uuid) : Principal
@@ -65,8 +70,6 @@ fun Application.mainModule(testing: Boolean = false) {
             "IP: $ip, User ID: $userId, User agent: $userAgent, Status: $status, HTTP method: $httpMethod, URI: $uri"
         }
     }
-
-    createConnection()
     productKoin()
 
     // ルーティング
@@ -76,7 +79,13 @@ fun Application.mainModule(testing: Boolean = false) {
 
 fun Application.productKoin() {
     install(Koin) {
-        modules()
+        val (userController, serverController) = buildServeristControllers()
+        val authController = buildAuthController(userController)
+        modules(module {
+            single { userController }
+            single { serverController }
+            single { authController }
+        })
     }
 }
 
@@ -97,7 +106,7 @@ fun Application.createConnection() {
         )
 
         transaction {
-            SchemaUtils.create(Users, Servers)
+            SchemaUtils.create(ServeristUsers, Servers, AuthenticatedUsers, UnauthenticatedUsers)
         }
     }
 }
