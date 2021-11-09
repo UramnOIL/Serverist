@@ -22,14 +22,14 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
                 offset = page.offset,
                 sort = sort,
                 orderBy = orderBy
-            )
+            ).getOrThrow()
         }
     }
 
     mutation("createServer") {
         resolver { name: String, address: String?, port: Int?, description: String, context: Context ->
             val ownerId = context.getIdFromSession()
-            controller.createServer(ownerId, name, address, port, description)
+            controller.createServer(ownerId, name, address, port, description).getOrThrow()
         }
 
         accessRule(::requireAuthSession)
@@ -38,7 +38,7 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
     mutation("updateServer") {
         resolver { id: Uuid, name: String, address: String?, port: Int?, description: String, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-            controller.updateServer(id, name, address, port, description)
+            controller.updateServer(id, name, address, port, description).fold({ true }, { false })
         }
 
         accessRule(::requireAuthSession)
@@ -47,7 +47,7 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
     mutation("deleteServer") {
         resolver { id: Uuid, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-            controller.deleteServer(id)
+            controller.deleteServer(id).fold({ true }, { false })
         }
 
         accessRule(::requireAuthSession)
