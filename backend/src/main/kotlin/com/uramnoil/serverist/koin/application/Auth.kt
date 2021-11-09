@@ -37,7 +37,7 @@ fun Application.buildAuthController(userController: UserController): AuthControl
         SpringBootSendEmailToAuthenticateService(
             property("mail.host").getString(),
             property("mail.port").getString().toInt(),
-            property("mail.username").getString(),
+            property("mail.user").getString(),
             property("mail.password").getString(),
             property("mail.from").getString(),
             property("mail.activate_url").getString()
