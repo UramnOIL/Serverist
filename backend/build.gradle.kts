@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
     id("com.github.johnrengelman.shadow")
     application
 }
@@ -24,6 +25,7 @@ repositories {
 dependencies {
     val kotlinVersion: String by project
     val coroutinesVersion: String by project
+    val serializationVersion: String by project
     val ktorVersion: String by project
     val logbackVersion: String by project
     val kgraphqlVersion: String by project
