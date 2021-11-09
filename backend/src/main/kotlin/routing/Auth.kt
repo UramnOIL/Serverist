@@ -6,6 +6,7 @@ import com.uramnoil.serverist.auth.application.unauthenticated.commands.Verifica
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import com.uramnoil.serverist.presenter.AuthController
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -121,12 +122,10 @@ fun Application.routingAuth() = routing {
         call.respond(HttpStatusCode.InternalServerError)
     }
 
-    post("withdrawal") {
-        val auth = call.sessions.get<AuthSession>()
-        if (auth == null) {
-            call.respond(HttpStatusCode.OK)
-            return@post
+    authenticate {
+        post("withdrawal") {
+            val (id) = call.sessions.get<AuthSession>()!!
+            controller.withdraw(id)
         }
-        controller.withdraw(auth.id)
     }
 }
