@@ -23,7 +23,15 @@ class CreateUserCommandUseCaseInteractor(
         password: String,
         authenticationCode: UUID
     ): Result<UUID> {
-        val hashedPassword = hashPasswordService.hash(Password(password))
+        val passwordResult = kotlin.runCatching {
+            Password(password)
+        }
+
+        val newPassword = passwordResult.getOrElse {
+            return Result.failure(it)
+        }
+
+        val hashedPassword = hashPasswordService.hash(newPassword)
         val newResult = DomainUser.new(
             id = Id(Uuid.randomUUID()),
             email = Email(email),
