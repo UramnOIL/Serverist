@@ -1,6 +1,7 @@
 package routing
 
 import com.uramnoil.serverist.AuthSession
+import com.uramnoil.serverist.UUIDSerializer
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
@@ -36,18 +37,7 @@ fun Application.routingAuth() = routing {
 
         // ログイン処理
         val loginResult = controller.login(email, password)
-
-        val id = loginResult.getOrElse {
-            // サーバーエラー
-            call.respond(HttpStatusCode.InternalServerError)
-            return@post
-        }
-
-        id ?: run {
-            // 不正なクレデンシャル
-            call.respond(HttpStatusCode.BadRequest)
-            return@post
-        }
+        val id = loginResult.getOrThrow()
 
         call.sessions.set(AuthSession(id))
     }
@@ -81,10 +71,15 @@ fun Application.routingAuth() = routing {
                 is AccountAlreadyExistsException -> {
                     call.respond(HttpStatusCode.BadRequest, "This email has already been used.")
                 }
+
+                is IllegalArgumentException -> {
+                    call.respond(HttpStatusCode.BadRequest, it.message ?: "Invalid parameters")
+                }
+
                 // サーバーエラー
                 else -> {
-                    call.respond(HttpStatusCode.InternalServerError)
                     log.error(it)
+                    call.respond(HttpStatusCode.InternalServerError)
                 }
             }
         }
@@ -93,7 +88,7 @@ fun Application.routingAuth() = routing {
     // Email認証
     get("activate") {
         @Serializable
-        data class AuthenticateUserId(val id: UUID)
+        data class AuthenticateUserId(@Serializable(with = UUIDSerializer::class) val id: UUID)
 
         val (id) = call.receive<AuthenticateUserId>()
 
@@ -122,10 +117,11 @@ fun Application.routingAuth() = routing {
         call.respond(HttpStatusCode.InternalServerError)
     }
 
-    authenticate {
+    authenticate("auth-session") {
         post("withdrawal") {
-            val (id) = call.sessions.get<AuthSession>()!!
-            controller.withdraw(id)
+            call.principal<AuthSession>()?.let {
+                controller.withdraw(it.id)
+            }
         }
     }
 }

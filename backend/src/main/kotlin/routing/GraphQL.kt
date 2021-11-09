@@ -22,7 +22,7 @@ fun Application.routingGraphQL() = install(GraphQL) {
     playground = true
 
     wrap {
-        authenticate(optional = true, build = it)
+        authenticate("auth-session", optional = true, build = it)
     }
 
     context { call ->
