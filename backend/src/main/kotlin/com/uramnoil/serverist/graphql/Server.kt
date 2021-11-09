@@ -3,29 +3,21 @@ package com.uramnoil.serverist.graphql
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.commands.CreateServerCommandInputPort
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommandInputPort
-import com.uramnoil.serverist.application.server.commands.UpdateServerCommandInputPort
-import com.uramnoil.serverist.application.server.queries.FindServersByOwnerQueryInputPort
-import com.uramnoil.serverist.application.server.queries.IsUserOwnerOfServer
-import com.uramnoil.serverist.application.server.queries.OrderBy
-import org.kodein.di.DI
-import org.kodein.di.instance
+import com.uramnoil.serverist.Sort
+import com.uramnoil.serverist.presenter.ServerController
+import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
 
-fun SchemaBuilder.serverSchema(di: DI) {
+fun SchemaBuilder.serverSchema(controller: ServerController) {
     suspend fun checkOwner(userId: Uuid, serverId: Uuid) {
-        val query by di.instance<IsUserOwnerOfServer>()
-        if (query.execute(serverId, userId).isFailure) {
+        if (!controller.checkUserIsOwnerOfServer(userId, serverId).getOrThrow()) {
             throw IllegalArgumentException("権限がありません。")
         }
     }
 
     query("serversById") {
-        resolver { id: Uuid, page: PageRequest, sort: Sort, orderBy: OrderBy ->
-            val query by di.instance<FindServersByOwnerQueryInputPort>()
-            query.execute(
-                ownerId = id,
+        resolver { ownerId: Uuid, page: PageRequest, sort: Sort, orderBy: OrderBy ->
+            controller.findServerByOwner(
+                ownerId = ownerId,
                 limit = page.limit,
                 offset = page.offset,
                 sort = sort,
@@ -37,36 +29,27 @@ fun SchemaBuilder.serverSchema(di: DI) {
     mutation("createServer") {
         resolver { name: String, address: String?, port: Int?, description: String, context: Context ->
             val ownerId = context.getIdFromSession()
-
-            val command by di.instance<CreateServerCommandInputPort>()
-            command.execute(ownerId, name, address, port, description)
+            controller.createServer(ownerId, name, address, port, description)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 
     mutation("updateServer") {
         resolver { id: Uuid, name: String, address: String?, port: Int?, description: String, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-
-            val command by di.instance<UpdateServerCommandInputPort>()
-            command.execute(id, name, address, port, description)
-
-            id
+            controller.updateServer(id, name, address, port, description)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 
     mutation("deleteServer") {
         resolver { id: Uuid, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-
-            val command by di.instance<DeleteServerCommandInputPort>()
-            command.execute(id)
-            id
+            controller.deleteServer(id)
         }
 
-        accessRule(::checkSession)
+        accessRule(::requireAuthSession)
     }
 }

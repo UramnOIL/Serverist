@@ -1,44 +1,55 @@
 package com.uramnoil.serverist
 
-import com.apurebase.kgraphql.GraphQL
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.queries.OrderBy
-import com.uramnoil.serverist.application.unauthenticateduser.commands.CreateUnauthenticatedUserCommandInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.commands.DeleteUnauthenticatedUserCommandInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.queries.FindUnauthenticatedUserByIdQueryInputPort
-import com.uramnoil.serverist.application.unauthenticateduser.service.SendEmailToAuthenticateService
-import com.uramnoil.serverist.application.user.queries.GetUserIfCorrectLoginInfoQueryInputPort
-import com.uramnoil.serverist.graphql.PageRequest
-import com.uramnoil.serverist.graphql.serverSchema
-import com.uramnoil.serverist.graphql.userSchema
-import com.uramnoil.serverist.infrastracture.server.Servers
-import com.uramnoil.serverist.infrastracture.user.Users
+import com.uramnoil.serverist.koin.application.buildAuthController
+import com.uramnoil.serverist.koin.application.buildServeristControllers
+import com.uramnoil.serverist.serverist.infrastructure.Servers
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.features.*
+import io.ktor.features.ContentTransformationException
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.serialization.*
 import io.ktor.sessions.*
-import io.ktor.util.*
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.kodein.di.DI
-import org.kodein.di.instance
+import org.koin.dsl.module
+import org.koin.ktor.ext.Koin
+import org.slf4j.event.Level
+import routing.routingAuth
+import routing.routingGraphQL
 import java.io.File
+import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
+import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
+@Serializable
 data class AuthSession(val id: Uuid) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+/**
+ * 本番環境用
+ */
 @Suppress("unused")
-fun Application.productModule() {
-    val di = environment.buildApplicationDi(environment.buildDomainDi(DI {}))
+fun Application.mainModule(testing: Boolean = false) {
+    install(StatusPages) {
+        // 不正なリクエストパラメータ
+        exception<ContentTransformationException> {
+            call.respond(HttpStatusCode.BadRequest)
+        }
+    }
 
-    createConnection()
+    // ContentNegotiation application/jsonをリクエストで使えるようにする
+    install(ContentNegotiation) {
+        json()
+    }
 
+    // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
         cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
@@ -46,14 +57,41 @@ fun Application.productModule() {
         }
     }
 
-    install(Authentication) {
-        session<AuthSession>()
+    // CallLogging リクエストのロギング用
+    install(CallLogging) {
+        level = Level.DEBUG
+        format {
+            val userId = it.sessions.get<AuthSession>()?.id ?: "Guest"
+            val ip = it.request.local.remoteHost
+            val status = it.response.status()
+            val httpMethod = it.request.httpMethod.value
+            val userAgent = it.request.headers["User-Agent"]
+            val uri = it.request.uri
+            "IP: $ip, User ID: $userId, User agent: $userAgent, Status: $status, HTTP method: $httpMethod, URI: $uri"
+        }
     }
+    productKoin()
 
-    routingLogin(di)
-    buildGraphql(di)
+    // ルーティング
+    routingAuth()
+    routingGraphQL()
 }
 
+fun Application.productKoin() {
+    install(Koin) {
+        val (userController, serverController) = buildServeristControllers()
+        val authController = buildAuthController(userController)
+        modules(module {
+            single { userController }
+            single { serverController }
+            single { authController }
+        })
+    }
+}
+
+/**
+ * コネクションプールの作成
+ */
 fun Application.createConnection() {
     environment.config.apply {
         val host = property("database.host").getString()
@@ -68,97 +106,7 @@ fun Application.createConnection() {
         )
 
         transaction {
-            SchemaUtils.create(Users, Servers)
+            SchemaUtils.create(ServeristUsers, Servers, AuthenticatedUsers, UnauthenticatedUsers)
         }
-    }
-}
-
-fun Application.routingLogin(di: DI) = routing {
-    post("login") {
-        data class IdEmailPassword(val idOrEmail: String, val password: String)
-        call.receive<IdEmailPassword>().let { idEmailPassword ->
-            call.sessions.get<AuthSession>()?.let {
-                return@post
-            }
-
-            val service by di.instance<GetUserIfCorrectLoginInfoQueryInputPort>()
-
-            val user = service.execute(idEmailPassword.idOrEmail, idEmailPassword.password).getOrElse {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
-            } ?: return@post call.respond(HttpStatusCode.Unauthorized)
-
-            call.sessions.set(AuthSession(user.id))
-
-            call.respond(HttpStatusCode.OK)
-        }
-    }
-
-    post("signup") {
-        data class IdEmailPassword(val accountId: String, val email: String, val password: String)
-        call.receive<IdEmailPassword>().let { idEmailPassword ->
-            val command by di.instance<CreateUnauthenticatedUserCommandInputPort>()
-            val user = command.execute(
-                idEmailPassword.accountId,
-                idEmailPassword.email,
-                idEmailPassword.password
-            ).getOrElse {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
-            }
-
-            val service by di.instance<SendEmailToAuthenticateService>()
-            service.execute(user).onFailure {
-                call.application.environment.log.error(it)
-                return@post call.respond(it)
-            }
-        }
-    }
-
-    post("auth") {
-        data class AuthenticateUserId(val id: Uuid)
-
-        val auth = call.receive<AuthenticateUserId>()
-        val query by di.instance<FindUnauthenticatedUserByIdQueryInputPort>()
-        val user = query.execute(auth.id).getOrElse {
-            call.application.environment.log.error(it)
-            return@post call.respond(it)
-        }
-
-        if (user != null) {
-            call.respond(HttpStatusCode.OK)
-            val command by di.instance<DeleteUnauthenticatedUserCommandInputPort>()
-            command.execute(user.id)
-        } else {
-            call.respond(HttpStatusCode.BadRequest, "無効なリクエスト")
-        }
-    }
-}
-
-fun Application.buildGraphql(di: DI) = install(GraphQL) {
-    playground = true
-
-    wrap {
-        authenticate(optional = true, build = it)
-    }
-
-    context { call ->
-        call.authentication.principal<AuthSession>()?.let {
-            +it
-        }
-    }
-
-    schema {
-        stringScalar<Uuid> {
-            deserialize = { Uuid.fromString(it) }
-            serialize = Uuid::toString
-        }
-
-        type<PageRequest>()
-        enum<Sort>()
-        enum<OrderBy>()
-
-        serverSchema(di)
-        userSchema(di)
     }
 }

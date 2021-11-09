@@ -1,28 +1,46 @@
 package com.uramnoil.serverist.backend
 
-import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.unauthenticateduser.UnauthenticatedUser
-import com.uramnoil.serverist.infrastracture.unauthenticateduser.SpringBootSendEmailToAuthenticateService
-import kotlin.test.Test
+import com.icegreen.greenmail.util.GreenMail
+import com.icegreen.greenmail.util.GreenMailUtil
+import com.icegreen.greenmail.util.ServerSetupTest
+import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.services.SpringBootSendEmailToAuthenticateService
+import kotlinx.coroutines.runBlocking
+import java.util.*
+import kotlin.test.*
 
-class SpringBootSendEmailToAuthenticateServiceTest {
+internal class SpringBootSendEmailToAuthenticateServiceTest {
+    private val greenMail = GreenMail(ServerSetupTest.SMTP)
+
+    @BeforeTest
+    fun before() {
+        greenMail.start()
+    }
+
+    @AfterTest
+    fun after() {
+        greenMail.stop()
+    }
+
     @Test
     fun `送信テスト`() {
         val service = SpringBootSendEmailToAuthenticateService(
             host = "localhost",
-            port = 25,
+            port = 3025,
             username = "",
             password = "",
             from = "test@serverist.com",
-            url = "http://localhost/auth",
+            activateUrl = "http://localhost/auth",
         )
 
-        service.execute(
-            UnauthenticatedUser(
-                id = Uuid.randomUUID(),
-                accountId = "test",
-                email = "hoge.com"
-            )
-        )
+        val code = UUID.randomUUID()
+
+        runBlocking {
+            service.execute("hoge.com", code)
+        }
+
+        assertTrue(greenMail.waitForIncomingEmail(3000, 1))
+
+        val messages = greenMail.receivedMessages
+        assertEquals(messages.first().let { GreenMailUtil.getBody(it) }, "http://localhost/auth?code=$code")
     }
 }
