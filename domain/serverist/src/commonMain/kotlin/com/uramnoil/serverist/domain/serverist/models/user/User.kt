@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.user.models
+package com.uramnoil.serverist.domain.serverist.models.user
 
 import com.uramnoil.serverist.domain.common.user.Id
 

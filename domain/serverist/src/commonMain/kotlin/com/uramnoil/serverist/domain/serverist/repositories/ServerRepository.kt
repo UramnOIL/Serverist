@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.domain.server.repositories
+package com.uramnoil.serverist.domain.serverist.repositories
 
-import com.uramnoil.serverist.domain.server.models.Id
-import com.uramnoil.serverist.domain.server.models.Server
+import com.uramnoil.serverist.domain.serverist.models.server.Id
+import com.uramnoil.serverist.domain.serverist.models.server.Server
 
 
 interface ServerRepository {

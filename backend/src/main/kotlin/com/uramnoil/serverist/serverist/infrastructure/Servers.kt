@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure
 
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.server.models.*
+import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import com.uramnoil.serverist.domain.server.models.Server as DomainServer
+import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
 
 object Servers : UUIDTable("servers") {
     val name = varchar("name", 16)

@@ -2,14 +2,14 @@ package com.uramnoil.serverist.serverist.infrastructure.application.server.comma
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.server.models.*
-import com.uramnoil.serverist.domain.server.repositories.ServerRepository
-import com.uramnoil.serverist.domain.user.repositories.UserRepository
+import com.uramnoil.serverist.domain.serverist.models.server.*
+import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
+import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
 import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
 import com.uramnoil.serverist.serverist.infrastructure.application.toApplication
 import kotlinx.datetime.Clock
 import java.util.*
-import com.uramnoil.serverist.domain.server.models.Server as DomainServer
+import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
 
 class CreateServerCommandInteractor(
     private val userRepository: UserRepository,

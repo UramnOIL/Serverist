@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.domain.server.models.*
-import com.uramnoil.serverist.domain.server.repositories.ServerRepository
+import com.uramnoil.serverist.domain.serverist.models.server.*
+import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
 import io.ktor.features.*
 

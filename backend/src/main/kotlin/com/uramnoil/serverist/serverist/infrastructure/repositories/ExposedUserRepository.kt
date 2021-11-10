@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.serverist.infrastructure.repositories
 
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.user.models.User
-import com.uramnoil.serverist.domain.user.repositories.UserRepository
+import com.uramnoil.serverist.domain.serverist.models.user.User
+import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users
 import com.uramnoil.serverist.serverist.user.infrastructure.application.toDomainUser
 import org.jetbrains.exposed.sql.deleteWhere

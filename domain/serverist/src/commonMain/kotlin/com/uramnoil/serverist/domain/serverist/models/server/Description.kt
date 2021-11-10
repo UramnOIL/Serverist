@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.domain.user.models
+package com.uramnoil.serverist.domain.serverist.models.server
 
 data class Description(val value: String) {
     init {
