@@ -14,7 +14,7 @@ import java.time.ZoneOffset
 import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
 
 object Servers : UUIDTable("servers") {
-    val name = varchar("name", 16)
+    val name = varchar("name", 31)
     val owner = uuid("owner").references(Users.id)
     val createdAt = datetime("created_at")
     val host = char("host", 253).nullable()
