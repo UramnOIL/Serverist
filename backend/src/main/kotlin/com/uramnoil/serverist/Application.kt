@@ -53,7 +53,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
  * 本番環境用
  */
 @Suppress("unused")
-fun Application.mainModule(testing: Boolean = false) {
+fun Application.mainModule() {
     install(StatusPages) {
         // 不正なリクエストパラメータ
         exception<ContentTransformationException> {
@@ -120,7 +120,7 @@ fun Application.productKoin() {
 /**
  * コネクションプールの作成
  */
-fun Application.createConnection() {
+fun Application.createMySqlConnection() {
     environment.config.apply {
         val host = property("database.host").getString()
         val database = property("database.database").getString()
