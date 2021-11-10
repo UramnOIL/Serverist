@@ -32,6 +32,7 @@ dependencies {
     val koinVersion: String by project
     val exposedVersion: String by project
     val springBootVersion: String by project
+    val kotestVersion: String by project
 
     implementation(project(":domain:common"))
     implementation(project(":domain:auth"))
@@ -78,6 +79,9 @@ dependencies {
     // kotlin
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
+
+    // kotest
+    testImplementation("io.kotest", "kotest-assertions-core", kotestVersion)
 
     // ktor
     testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
