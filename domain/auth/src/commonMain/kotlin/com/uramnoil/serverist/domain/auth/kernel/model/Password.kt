@@ -3,7 +3,7 @@ package com.uramnoil.serverist.domain.auth.kernel.model
 data class Password(val value: String) {
     init {
         if (PasswordSpec.isSatisfiedBy(value)) {
-            throw IllegalArgumentException("パスワードは８文字以上の半角英数字を使用してください。")
+            throw IllegalArgumentException("The password must be at least 8 characters long and must be alphanumeric.")
         }
     }
 }
