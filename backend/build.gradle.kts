@@ -36,8 +36,7 @@ dependencies {
 
     implementation(project(":domain:common"))
     implementation(project(":domain:auth"))
-    implementation(project(":domain:user"))
-    implementation(project(":domain:server"))
+    implementation(project(":domain:serverist"))
 
     // kotlin
     implementation(kotlin("stdlib"))

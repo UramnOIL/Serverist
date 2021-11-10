@@ -18,8 +18,7 @@ include(
     ":domain",
     ":domain:common",
     ":domain:auth",
-    ":domain:user",
-    ":domain:server",
+    ":domain:serverist",
 )
 
 include(
