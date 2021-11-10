@@ -1,7 +1,5 @@
 = Serverist
 
-Kotlin + DDDで作るマイクラ用のサーバーリスト
+Kotlin + DDD × クリーンアーキテクチャで作るマイクラ用のサーバーリスト
 
-== インストール
-
-== 設定
+参考: https://minecraft.jp
