@@ -7,12 +7,12 @@ data class Address(val value: String?) {
         }
         val ipRegex =
             Regex(pattern = """^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$""")
-        val hostRegex =
-            Regex(pattern = """^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])${'$'}""")
+        val domainRegex =
+            Regex(pattern = """^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$""")
 
         if (value != null) {
-            if (!(ipRegex.matches(value) || hostRegex.matches(value))) {
-                throw IllegalArgumentException("Incorrect IP or host format.")
+            if (!(ipRegex.matches(value) || domainRegex.matches(value))) {
+                throw IllegalArgumentException("Incorrect host format.")
             }
         }
     }
