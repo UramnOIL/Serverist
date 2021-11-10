@@ -32,7 +32,7 @@ class CreateServerCommandInteractor(
                 CreatedAt(Clock.System.now()),
                 Name(name),
                 it.id,
-                Address(host),
+                Host(host),
                 Port(port),
                 Description(description)
             )

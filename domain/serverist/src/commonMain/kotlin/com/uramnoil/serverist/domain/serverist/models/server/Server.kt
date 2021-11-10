@@ -8,7 +8,7 @@ class Server constructor(
     val createdAt: CreatedAt,
     var name: Name,
     val ownerId: Id,
-    var address: Address,
+    var host: Host,
     var port: Port,
     var description: Description
 )

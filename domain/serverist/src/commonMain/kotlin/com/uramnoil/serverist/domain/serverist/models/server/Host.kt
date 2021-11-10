@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.serverist.models.server
 
-data class Address(val value: String?) {
+data class Host(val value: String?) {
     init {
         if (value == "") {
             throw IllegalArgumentException("Empty characters cannot be assigned.")

@@ -21,7 +21,7 @@ class UpdateServerCommandUseCaseInteractor(
             it ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: ${id})が見つかりませんでした。")
             it.apply {
                 this.name = Name(name)
-                this.address = Address(address)
+                this.host = Host(address)
                 this.port = Port(port)
                 this.description = Description(description)
             }

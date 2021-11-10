@@ -4,17 +4,17 @@ import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 
-class AddressTest : FunSpec({
+class HostTest : FunSpec({
     context("正常系") {
         test("example.com") {
             shouldNotThrow<IllegalArgumentException> {
-                Address("example.com")
+                Host("example.com")
             }
         }
 
         test("192.168.0.1") {
             shouldNotThrow<IllegalArgumentException> {
-                Address("192.168.0.1")
+                Host("192.168.0.1")
             }
         }
     }
@@ -22,25 +22,25 @@ class AddressTest : FunSpec({
     context("異常系") {
         test("hoge") {
             shouldThrow<IllegalArgumentException> {
-                Address("hoge")
+                Host("hoge")
             }
         }
 
         test("example.123") {
             shouldThrow<IllegalArgumentException> {
-                Address("hoge.123")
+                Host("hoge.123")
             }
         }
 
         test("example.a") {
             shouldThrow<IllegalArgumentException> {
-                Address("example.a")
+                Host("example.a")
             }
         }
 
         test("192.168.1") {
             shouldThrow<IllegalArgumentException> {
-                Address("192.168.1")
+                Host("192.168.1")
             }
         }
     }
