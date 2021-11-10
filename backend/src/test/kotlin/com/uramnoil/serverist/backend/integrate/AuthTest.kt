@@ -5,6 +5,7 @@ import com.icegreen.greenmail.util.ServerSetupTest
 import com.uramnoil.serverist.mainModule
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.Users
+import io.kotest.core.spec.style.FunSpec
 import io.ktor.application.*
 import io.ktor.config.*
 import io.ktor.http.*
@@ -14,13 +15,14 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
-class AuthTest {
-    private val greenMail = GreenMail(ServerSetupTest.SMTP)
+class AuthTest : FunSpec({
+    val greenMail = GreenMail(ServerSetupTest.SMTP)
 
-    // メール設定
-    private fun Application.mailConfig() {
+    fun Application.mailConfig() {
         (environment.config as MapApplicationConfig).apply {
             put("mail.host", "localhost")
             put("mail.port", "3025")
@@ -31,8 +33,7 @@ class AuthTest {
         }
     }
 
-    @BeforeTest
-    fun before() {
+    beforeSpec {
         Database.connect(
             "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
             driver = "org.h2.Driver",
@@ -47,29 +48,32 @@ class AuthTest {
                 com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users
             )
         }
+    }
+
+    beforeTest {
         greenMail.start()
     }
 
-    @AfterTest
-    fun after() {
+    afterTest {
         greenMail.stop()
     }
 
-    @Test
-    fun testRegister(): Unit = withTestApplication(
-        moduleFunction = {
-            mailConfig()
-            mainModule(true)
-        }
-    ) {
-        with(handleRequest(HttpMethod.Post, "/signup") {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody(Json.encodeToString(mapOf("email" to "hoge@example.com", "password" to "hogefuga1234")))
-        }) {
-            assertEquals(HttpStatusCode.OK, response.status(), response.content)
-            assertTrue(greenMail.waitForIncomingEmail(3000, 1))
-            val mail = greenMail.receivedMessages.firstOrNull()
-            assertNotNull(mail)
+    test("/signup test") {
+        withTestApplication(
+            moduleFunction = {
+                mailConfig()
+                mainModule()
+            }
+        ) {
+            with(handleRequest(HttpMethod.Post, "/signup") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(mapOf("email" to "hoge@example.com", "password" to "hogefuga1234")))
+            }) {
+                assertEquals(HttpStatusCode.OK, response.status(), response.content)
+                assertTrue(greenMail.waitForIncomingEmail(3000, 1))
+                val mail = greenMail.receivedMessages.firstOrNull()
+                assertNotNull(mail)
+            }
         }
     }
-}
+})
