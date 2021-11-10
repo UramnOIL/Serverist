@@ -81,7 +81,8 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 
     // kotest
-    testImplementation("io.kotest", "kotest-assertions-core", kotestVersion)
+    testImplementation("io.kotest", "kotest-property", kotestVersion)
+    testImplementation("io.kotest", "kotest-runner-junit5-jvm", kotestVersion)
 
     // ktor
     testImplementation("io.ktor", "ktor-server-tests", "$ktorVersion")
