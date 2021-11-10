@@ -3,8 +3,8 @@ plugins {
 }
 
 kotlin {
-    jvm {
-
+    targets {
+        jvm()
     }
 
     sourceSets {
@@ -18,6 +18,13 @@ kotlin {
             dependencies {
                 implementation(project(":domain:common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                val kotestVersion: String by project
+                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation("io.kotest:kotest-framework-engine:$kotestVersion")
             }
         }
     }
