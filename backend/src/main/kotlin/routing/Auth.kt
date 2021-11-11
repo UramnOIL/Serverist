@@ -4,6 +4,7 @@ import com.uramnoil.serverist.AuthSession
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
+import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.presenter.AuthController
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -128,9 +129,31 @@ fun Application.routingAuth() = routing {
 
     authenticate("auth-session") {
         post("withdrawal") {
-            call.principal<AuthSession>()?.let {
-                controller.withdraw(it.id)
+            val session = call.sessions.get<AuthSession>() ?: run {
+                log.info("hoge")
+                call.respond(HttpStatusCode.BadRequest)
+                return@post
             }
+
+            val result = controller.withdraw(session.id)
+            val status = result.fold(
+                {
+                    HttpStatusCode.OK
+                },
+                {
+                    when (it) {
+                        is UserNotFoundByIdException -> {
+                            HttpStatusCode.BadRequest
+                        }
+                        else -> {
+                            log.error(it)
+                            HttpStatusCode.InternalServerError
+                        }
+                    }
+                }
+            )
+
+            call.respond(status)
         }
     }
 }
