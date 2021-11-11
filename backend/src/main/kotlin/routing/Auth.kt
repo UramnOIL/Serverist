@@ -1,7 +1,6 @@
 package routing
 
 import com.uramnoil.serverist.AuthSession
-import com.uramnoil.serverist.UUIDSerializer
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
@@ -86,15 +85,23 @@ fun Application.routingAuth() = routing {
     }
 
     // Email認証
-    get("activate") {
-        @Serializable
-        data class AuthenticateUserId(@Serializable(with = UUIDSerializer::class) val id: UUID)
+    get("/activate") {
+        log.info("hoge")
+        val rowCode = call.request.queryParameters["code"] ?: kotlin.run {
+            call.respond(HttpStatusCode.BadRequest, "`code` parameter is missing.")
+            return@get
+        }
 
-        val (id) = call.receive<AuthenticateUserId>()
+        val codeResult = kotlin.runCatching { UUID.fromString(rowCode) }
 
-        val result = controller.activate(id)
+        val code = codeResult.getOrElse {
+            call.respond(HttpStatusCode.BadRequest, "Invalid code.")
+            return@get
+        }
 
-        result.fold(
+        val result = controller.activate(code)
+
+        val status = result.fold(
             {
                 HttpStatusCode.OK
             },
@@ -111,6 +118,8 @@ fun Application.routingAuth() = routing {
                 }
             }
         )
+
+        call.respond(status)
     }
 
     post("activate/resend") {
