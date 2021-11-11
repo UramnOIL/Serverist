@@ -46,6 +46,7 @@ fun Application.routingAuth() = routing {
     authenticate("auth-session") {
         get("logout") {
             call.sessions.clear("AUTH")
+            call.respond(HttpStatusCode.OK)
         }
     }
 
