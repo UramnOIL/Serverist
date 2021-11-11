@@ -21,6 +21,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+                api("com.benasher44:uuid:$uuidVersion")
             }
         }
         val commonTest by getting {
