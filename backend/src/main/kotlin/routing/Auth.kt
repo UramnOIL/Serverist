@@ -123,7 +123,7 @@ fun Application.routingAuth() = routing {
     }
 
     post("activate/resend") {
-        call.respond(HttpStatusCode.InternalServerError)
+        call.respond(HttpStatusCode.NoContent)
     }
 
     authenticate("auth-session") {
