@@ -17,8 +17,6 @@ kotlin {
         val datetimeVersion: String by project
         val uuidVersion: String by project
 
-        println(uuidVersion)
-
         val commonMain by getting {
             dependencies {
                 implementation(project(":domain:common"))
