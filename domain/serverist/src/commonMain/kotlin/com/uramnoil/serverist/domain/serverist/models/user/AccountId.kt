@@ -2,14 +2,9 @@ package com.uramnoil.serverist.domain.serverist.models.user
 
 data class AccountId(val value: String) {
     init {
-        // 15文字以内
-        if (value.length > 15) {
-            throw IllegalArgumentException("Longer than 15 characters Id is not allowed.")
-        }
-
-        // 3文字以上
-        if (value.length < 3) {
-            throw IllegalArgumentException("Shorter than 15 characters Id is not allowed.")
+        // 3文字以上15文字以内
+        if (value.length !in 3..15) {
+            throw IllegalArgumentException("Strings of less than 3 characters or longer than 15 characters are not allowed.")
         }
 
         // 半角英数字 + _
