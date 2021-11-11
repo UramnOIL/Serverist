@@ -71,7 +71,7 @@ class AuthController(
         val createAuthenticatedUserResult =
             createAuthenticatedCommandUserCaseInputPort.execute(user.email, user.hashedPassword)
 
-        createAuthenticatedUserResult.getOrElse {
+        val uuid = createAuthenticatedUserResult.getOrElse {
             return Result.failure(it)
         }
 
@@ -82,7 +82,7 @@ class AuthController(
         val accountId = (1..15).map { characters.random() }.joinToString("")
 
         val createServeristUserResult =
-            userController.create(UUID.randomUUID(), accountId, listOf("Hoge", "Fuga").random(), "")
+            userController.create(uuid, accountId, listOf("Hoge", "Fuga").random(), "")
 
         // ServeristUserの作成失敗時
         createServeristUserResult.getOrElse {
