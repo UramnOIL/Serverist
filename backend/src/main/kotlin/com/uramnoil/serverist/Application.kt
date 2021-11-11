@@ -68,7 +68,7 @@ fun Application.mainModule() {
 
     // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
-        cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
+        cookie<AuthSession>("AUTH", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
             cookie.maxAgeInSeconds = 1000
         }
