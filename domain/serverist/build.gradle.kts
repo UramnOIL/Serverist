@@ -3,6 +3,10 @@ plugins {
     id("io.kotest.multiplatform")
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 kotlin {
     targets {
         jvm()
@@ -25,7 +29,13 @@ kotlin {
             dependencies {
                 val kotestVersion: String by project
                 implementation("io.kotest:kotest-assertions-core:$kotestVersion")
-                implementation("io.kotest:kotest-framework-engine:$kotestVersion")
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                val kotestVersion: String by project
+                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
             }
         }
     }
