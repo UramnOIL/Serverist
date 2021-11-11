@@ -43,6 +43,12 @@ fun Application.routingAuth() = routing {
         call.respond(HttpStatusCode.OK)
     }
 
+    authenticate("auth-session") {
+        get("logout") {
+            call.sessions.clear("AUTH")
+        }
+    }
+
     // 登録
     post("signup") {
         @Serializable
