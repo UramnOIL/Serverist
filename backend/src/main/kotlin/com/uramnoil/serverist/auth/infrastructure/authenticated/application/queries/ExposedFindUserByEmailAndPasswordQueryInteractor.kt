@@ -2,7 +2,7 @@ package com.uramnoil.serverist.auth.infrastructure.authenticated.application.que
 
 import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users
-import com.uramnoil.serverist.auth.infrastructure.authenticated.toApplicationAuthenticatedUser
+import com.uramnoil.serverist.auth.infrastructure.authenticated.application.toApplicationAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
