@@ -40,6 +40,7 @@ fun Application.routingAuth() = routing {
         val id = loginResult.getOrThrow()
 
         call.sessions.set(AuthSession(id))
+        call.respond(HttpStatusCode.OK)
     }
 
     // 登録
