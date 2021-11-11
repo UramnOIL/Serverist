@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
@@ -16,24 +15,24 @@ class CreateServerCommandInteractor(
     private val serverRepository: ServerRepository,
 ) : CreateServerCommandUseCaseInputPort {
     override suspend fun execute(
-        ownerId: Uuid,
+        ownerId: UUID,
         name: String,
         host: String?,
-        port: Int?,
+        port: UShort?,
         description: String
     ): Result<UUID> {
         val findByIdResult = userRepository.findById(Id(ownerId))
 
-        val result = findByIdResult.mapCatching {
-            it ?: throw IllegalArgumentException("id: ${ownerId}のユーザー見つかりませんでした。")
+        val result = findByIdResult.mapCatching { user ->
+            user ?: throw IllegalArgumentException("id: ${ownerId}のユーザー見つかりませんでした。")
 
             val server = DomainServer(
-                Id(Uuid.randomUUID()),
+                Id(UUID.randomUUID()),
                 CreatedAt(Clock.System.now()),
                 Name(name),
-                it.id,
-                Host(host),
-                Port(port),
+                user.id,
+                host?.let { Host(it) },
+                port?.let { Port(it) },
                 Description(description)
             )
 

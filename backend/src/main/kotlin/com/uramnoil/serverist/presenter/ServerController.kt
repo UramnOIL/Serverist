@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.presenter
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.Sort
 import com.uramnoil.serverist.serverist.application.server.Server
 import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
@@ -23,7 +22,7 @@ class ServerController(
     private val findAllQuery: FindAllServersQueryUseCaseInputPort,
     private val findByIdQuery: FindServerByIdQueryUseCaseInputPort,
 ) {
-    suspend fun checkUserIsOwnerOfServer(userId: Uuid, serverId: Uuid): Result<Boolean> {
+    suspend fun checkUserIsOwnerOfServer(userId: UUID, serverId: UUID): Result<Boolean> {
         return service.checkUserIsOwnerOfServer(userId, serverId)
     }
 
@@ -31,7 +30,7 @@ class ServerController(
         ownerId: UUID,
         name: String,
         host: String?,
-        port: Int?,
+        port: UShort?,
         description: String
     ): Result<UUID> {
         return createCommand.execute(ownerId, name, host, port, description)
@@ -41,7 +40,7 @@ class ServerController(
         id: UUID,
         name: String,
         address: String?,
-        port: Int?,
+        port: UShort?,
         description: String
     ): Result<Unit> {
         return updateCommand.execute(
@@ -60,7 +59,7 @@ class ServerController(
     }
 
     suspend fun findServerByOwner(
-        ownerId: Uuid,
+        ownerId: UUID,
         limit: Int,
         offset: Long,
         sort: Sort,

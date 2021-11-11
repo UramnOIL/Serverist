@@ -1,31 +1,31 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
 import io.ktor.features.*
+import java.util.*
 
 class UpdateServerCommandUseCaseInteractor(
     private val repository: ServerRepository,
 ) : UpdateServerCommandUseCaseInputPort {
     override suspend fun execute(
-        id: Uuid,
+        id: UUID,
         name: String,
-        address: String?,
-        port: Int?,
+        host: String?,
+        port: UShort?,
         description: String
     ): Result<Unit> {
         val findResult = repository.findById(Id(id))
-        val updateResult = findResult.mapCatching {
-            it ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: ${id})が見つかりませんでした。")
-            it.apply {
+        val updateResult = findResult.mapCatching { server ->
+            server ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: ${id})が見つかりませんでした。")
+            server.apply {
                 this.name = Name(name)
-                this.host = Host(address)
-                this.port = Port(port)
+                this.host = host?.let { Host(it) }
+                this.port = port?.let { Port(it) }
                 this.description = Description(description)
             }
-            repository.update(it).getOrThrow()
+            repository.update(server).getOrThrow()
         }
         return updateResult
     }

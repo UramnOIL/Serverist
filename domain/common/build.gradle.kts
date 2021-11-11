@@ -20,6 +20,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
             }
         }
         val commonTest by getting {

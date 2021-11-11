@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.queries
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.Sort
 import com.uramnoil.serverist.serverist.application.server.Server
 import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
@@ -11,10 +10,11 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
 
 class ExposedFindServersByOwnerQueryInteractor : FindServersByOwnerQueryUseCaseInputPort {
     override suspend fun execute(
-        ownerId: Uuid,
+        ownerId: UUID,
         limit: Int,
         offset: Long,
         sort: Sort,
