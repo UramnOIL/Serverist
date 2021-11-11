@@ -6,7 +6,7 @@ import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
 import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.infrastructure.application.toApplication
+import com.uramnoil.serverist.serverist.infrastructure.application.server.toApplication
 import kotlinx.datetime.Clock
 import java.util.*
 import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
