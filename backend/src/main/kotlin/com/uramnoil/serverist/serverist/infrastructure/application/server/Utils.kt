@@ -8,7 +8,7 @@ fun Server.toApplication() = ApplicationServer(
     createdAt = createdAt.value,
     ownerId = ownerId.value,
     name = name.value,
-    address = host.value,
-    port = port.value,
+    host = host?.value,
+    port = port?.value,
     description = description.value
 )

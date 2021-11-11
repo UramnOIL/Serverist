@@ -17,8 +17,8 @@ class ExposedServerRepository : ServerRepository {
         newSuspendedTransaction {
             Servers.update({ Servers.id eq server.id.value }) {
                 it[name] = server.name.value
-                it[host] = server.host.value
-                it[port] = server.port.value
+                it[host] = server.host?.value
+                it[port] = server.port?.value
                 it[description] = server.description.value
             }
             commit()

@@ -18,7 +18,7 @@ object Servers : UUIDTable("servers") {
     val owner = uuid("owner").references(Users.id)
     val createdAt = datetime("created_at")
     val host = char("host", 253).nullable()
-    val port = integer("port").nullable()
+    val port = ushort("port").nullable()
     val description = varchar("description", 255)
 }
 
@@ -37,8 +37,8 @@ fun ResultRow.toDomainServer() = DomainServer(
     createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstant()),
     ownerId = Id(this[Servers.owner]),
     name = Name(this[Servers.name]),
-    host = Host(this[Servers.host]),
-    port = Port(this[Servers.port]),
+    host = this[Servers.host]?.let { Host(it) },
+    port = this[Servers.port]?.let { Port(it) },
     description = Description(this[Servers.description])
 )
 
