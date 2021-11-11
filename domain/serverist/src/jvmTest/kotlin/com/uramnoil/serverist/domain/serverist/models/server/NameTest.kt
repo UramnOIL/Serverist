@@ -6,23 +6,16 @@ import io.kotest.core.spec.style.FunSpec
 
 class NameTest : FunSpec({
     context("正常系") {
-        test("空文字") {
+        test("1文字") {
             shouldNotThrow<IllegalArgumentException> {
-                Name("")
-            }
-
-            shouldNotThrow<IllegalArgumentException> {
-                Name(" ")    //半角
-            }
-
-            shouldNotThrow<IllegalArgumentException> {
-                Name("　")    //全角
+                val string = (1..1).map { 'v' }.joinToString("")
+                Name(string)
             }
         }
 
-        test("255文字") {
+        test("31文字") {
             shouldNotThrow<IllegalArgumentException> {
-                val string = (1..255).map { 'v' }.joinToString("")
+                val string = (1..31).map { 'v' }.joinToString("")
                 Name(string)
             }
         }
