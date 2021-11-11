@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.serverist.models.server
 
-data class Host(val value: String?) {
+data class Host(val value: String) {
     init {
         if (value == "") {
             throw IllegalArgumentException("Empty characters cannot be assigned.")
@@ -10,10 +10,8 @@ data class Host(val value: String?) {
         val domainRegex =
             Regex(pattern = """^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$""")
 
-        if (value != null) {
-            if (!(ipRegex.matches(value) || domainRegex.matches(value))) {
-                throw IllegalArgumentException("Incorrect host format.")
-            }
+        if (!(ipRegex.matches(value) || domainRegex.matches(value))) {
+            throw IllegalArgumentException("Incorrect host format.")
         }
     }
 }
