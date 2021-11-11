@@ -9,6 +9,6 @@ data class Server(
     val ownerId: UUID,
     val name: String,
     val host: String?,
-    val port: UShort?,
+    val port: Int?,
     val description: String
 )

@@ -27,18 +27,18 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
     }
 
     mutation("createServer") {
-        resolver { name: String, address: String?, port: UShort?, description: String, context: Context ->
+        resolver { name: String, address: String?, port: Int?, description: String, context: Context ->
             val ownerId = context.getIdFromSession()
-            controller.createServer(ownerId, name, address, port, description).getOrThrow()
+            controller.createServer(ownerId, name, address, port?.toUShort(), description).getOrThrow()
         }
 
         accessRule(::requireAuthSession)
     }
 
     mutation("updateServer") {
-        resolver { id: UUID, name: String, address: String?, port: UShort?, description: String, context: Context ->
+        resolver { id: UUID, name: String, address: String?, port: Int?, description: String, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-            controller.updateServer(id, name, address, port, description).fold({ true }, { false })
+            controller.updateServer(id, name, address, port?.toUShort(), description).fold({ true }, { false })
         }
 
         accessRule(::requireAuthSession)

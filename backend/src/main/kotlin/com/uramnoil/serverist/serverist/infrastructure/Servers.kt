@@ -28,7 +28,7 @@ fun ResultRow.toApplicationServer() = Server(
     this[Servers.owner],
     this[Servers.name],
     this[Servers.host],
-    this[Servers.port],
+    this[Servers.port]?.toInt(),
     this[Servers.description]
 )
 
