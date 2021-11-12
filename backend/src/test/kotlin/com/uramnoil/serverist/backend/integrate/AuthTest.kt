@@ -25,6 +25,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
@@ -217,6 +218,12 @@ class AuthTest : FunSpec({
                 with(handleRequest(HttpMethod.Post, "/withdrawal")) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
+
+                val row = transaction {
+                    AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
+                }
+
+                assertNull(row)
             }
         }
     }
