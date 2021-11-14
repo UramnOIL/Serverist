@@ -11,6 +11,7 @@ import com.uramnoil.serverist.presenter.UserController
 import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.sessions.*
 import org.koin.ktor.ext.inject
 import java.util.*
 
@@ -27,7 +28,7 @@ fun Application.routingGraphQL() = install(GraphQL) {
 
     context { call ->
         // AuthSession所有時にコンテキストへ追加
-        call.authentication.principal<AuthSession>()?.let {
+        call.sessions.get<AuthSession>()?.let {
             +it
         }
     }
