@@ -2,6 +2,7 @@ package com.uramnoil.serverist.serverist.infrastructure.application.user.command
 
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
+import com.uramnoil.serverist.domain.serverist.models.user.AccountId
 import com.uramnoil.serverist.domain.serverist.models.user.Description
 import com.uramnoil.serverist.domain.serverist.models.user.Name
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
@@ -19,6 +20,7 @@ class UpdateUserCommandUseCaseInteractor(private val repository: UserRepository)
         }
 
         user.apply {
+            this.accountId = AccountId(accountId)
             this.name = Name(name)
             this.description = Description(description)
         }

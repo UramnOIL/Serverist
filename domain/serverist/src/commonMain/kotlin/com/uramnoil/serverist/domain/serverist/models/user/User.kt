@@ -4,7 +4,7 @@ import com.uramnoil.serverist.domain.common.user.Id
 
 class User private constructor(
     val id: Id,
-    val accountId: AccountId,
+    var accountId: AccountId,
     var name: Name,
     var description: Description
 ) {
