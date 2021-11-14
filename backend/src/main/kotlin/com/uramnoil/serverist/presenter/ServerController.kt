@@ -77,7 +77,7 @@ class ServerController(
         return findAllQuery.execute(limit, offset, sort, orderBy)
     }
 
-    suspend fun findServerByIdQueryUseCase(
+    suspend fun findServerById(
         id: UUID
     ): Result<Server?> {
         return findByIdQuery.execute(id)
