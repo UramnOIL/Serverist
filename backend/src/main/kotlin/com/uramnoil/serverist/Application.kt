@@ -1,5 +1,6 @@
 package com.uramnoil.serverist
 
+import com.uramnoil.serverist.exceptions.NoAuthorityException
 import com.uramnoil.serverist.koin.application.buildAuthController
 import com.uramnoil.serverist.koin.application.buildServeristControllers
 import com.uramnoil.serverist.serverist.infrastructure.Servers
@@ -58,6 +59,10 @@ fun Application.mainModule() {
         // 不正なリクエストパラメータ
         exception<ContentTransformationException> {
             call.respond(HttpStatusCode.BadRequest)
+        }
+        // アクセス権限がない
+        exception<NoAuthorityException> {
+            call.respond(HttpStatusCode.Forbidden)
         }
     }
 
