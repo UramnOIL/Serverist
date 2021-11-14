@@ -29,7 +29,6 @@ class ExposedUserRepository : UserRepository {
             Users.update({ Users.id eq user.id.value }) {
                 it[name] = user.name.value
                 it[accountId] = user.accountId.value
-                it[name] = user.name.value
                 it[description] = user.description.value
                 commit()
             }
