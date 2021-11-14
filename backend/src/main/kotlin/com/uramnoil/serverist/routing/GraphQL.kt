@@ -1,4 +1,4 @@
-package routing
+package com.uramnoil.serverist.routing
 
 import com.apurebase.kgraphql.GraphQL
 import com.uramnoil.serverist.AuthSession

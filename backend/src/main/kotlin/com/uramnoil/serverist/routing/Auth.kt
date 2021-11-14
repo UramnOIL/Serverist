@@ -1,4 +1,4 @@
-package routing
+package com.uramnoil.serverist.routing
 
 import com.uramnoil.serverist.AuthSession
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException

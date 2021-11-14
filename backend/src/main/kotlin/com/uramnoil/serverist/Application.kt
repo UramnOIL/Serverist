@@ -3,6 +3,8 @@ package com.uramnoil.serverist
 import com.uramnoil.serverist.exceptions.NoAuthorityException
 import com.uramnoil.serverist.koin.application.buildAuthController
 import com.uramnoil.serverist.koin.application.buildServeristControllers
+import com.uramnoil.serverist.routing.routingAuth
+import com.uramnoil.serverist.routing.routingGraphQL
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -25,8 +27,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
-import routing.routingAuth
-import routing.routingGraphQL
 import java.io.File
 import java.util.*
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
