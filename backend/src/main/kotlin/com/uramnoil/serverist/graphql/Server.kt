@@ -14,15 +14,16 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
         }
     }
 
-    query("findServers") {
-        resolver { ownerId: UUID, page: PageRequest, sort: Sort, orderBy: OrderBy ->
-            controller.findServerByOwner(
+    query("findServersByOwner") {
+        resolver { ownerId: UUID, page: PageRequest?, sort: Sort?, orderBy: OrderBy? ->
+            val result = controller.findServerByOwner(
                 ownerId = ownerId,
-                limit = page.limit,
-                offset = page.offset,
-                sort = sort,
-                orderBy = orderBy
-            ).getOrThrow()
+                limit = page?.limit ?: 50,
+                offset = page?.offset ?: 0,
+                sort = sort ?: Sort.Asc,
+                orderBy = orderBy ?: OrderBy.CreatedAt
+            )
+            result.getOrThrow()
         }
     }
 
