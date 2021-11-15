@@ -115,7 +115,7 @@ class ServerTest : FunSpec({
                 )
             }) {
                 response.status() shouldBe HttpStatusCode.OK
-                response.content!! shouldBe """{"data":{"findServer":{"id":"$uuid","name":"TestServer1","ownerId":"$uuid","description":"description","host":"example.com","port":19132,"createdAt":${aCreatedAt.toEpochMilliseconds()}}}}"""
+                response.content!! shouldBe """{"data":{"findServersByOwner":[{"ownerId":"$uuid"}]}}"""
             }
         }
     }
