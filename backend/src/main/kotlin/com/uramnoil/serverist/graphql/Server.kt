@@ -27,6 +27,17 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
         }
     }
 
+    query("findServers") {
+        resolver { page: PageRequest?, sort: Sort?, orderBy: OrderBy? ->
+            controller.findAllServers(
+                limit = page?.limit ?: 50,
+                offset = page?.offset ?: 0,
+                sort = sort ?: Sort.Asc,
+                orderBy = orderBy ?: OrderBy.CreatedAt
+            ).getOrThrow()
+        }
+    }
+
     query("findServer") {
         resolver { id: UUID ->
             val result = controller.findServerById(id)
