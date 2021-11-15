@@ -19,21 +19,18 @@ class ExposedFindServersByOwnerQueryInteractor : FindServersByOwnerQueryUseCaseI
         offset: Long,
         sort: Sort,
         orderBy: OrderBy
-    ): Result<List<Server>> {
-        val result = kotlin.runCatching {
-            val rows = newSuspendedTransaction {
-                Servers.select { Servers.owner eq ownerId }.orderBy(
-                    when (orderBy) {
-                        OrderBy.CreatedAt -> Servers.createdAt
-                    },
-                    when (sort) {
-                        Sort.Asc -> SortOrder.ASC
-                        Sort.Desc -> SortOrder.DESC
-                    }
-                ).limit(limit, offset = offset)
-            }
-            rows.map(ResultRow::toApplicationServer)
+    ): Result<List<Server>> = kotlin.runCatching {
+        val row = newSuspendedTransaction {
+            Servers.select { Servers.owner eq ownerId }.orderBy(
+                when (orderBy) {
+                    OrderBy.CreatedAt -> Servers.createdAt
+                },
+                when (sort) {
+                    Sort.Asc -> SortOrder.ASC
+                    Sort.Desc -> SortOrder.DESC
+                }
+            ).limit(limit, offset = offset).toList()
         }
-        return result
+        row.map(ResultRow::toApplicationServer)
     }
 }
