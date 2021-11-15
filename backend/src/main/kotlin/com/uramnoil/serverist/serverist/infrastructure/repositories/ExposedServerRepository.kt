@@ -5,13 +5,28 @@ import com.uramnoil.serverist.domain.serverist.models.server.Server
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.toDomainServer
+import com.uramnoil.serverist.serverist.infrastructure.toJavaLocalDataTime
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
 
 class ExposedServerRepository : ServerRepository {
-    override suspend fun insert(server: Server) = Result.success(Unit) // TODO
+    override suspend fun insert(server: Server) = kotlin.runCatching {
+        newSuspendedTransaction {
+            Servers.insert {
+                it[id] = server.id.value
+                it[owner] = server.ownerId.value
+                it[name] = server.name.value
+                it[host] = server.host?.value
+                it[port] = server.port?.value
+                it[description] = server.description.value
+                it[createdAt] = server.createdAt.value.toJavaLocalDataTime()
+            }
+            commit()
+        }
+    }
 
     override suspend fun update(server: Server) = kotlin.runCatching {
         newSuspendedTransaction {
