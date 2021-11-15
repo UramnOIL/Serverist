@@ -9,6 +9,9 @@ import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.mainModule
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.application.*
@@ -23,10 +26,6 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
@@ -52,6 +51,10 @@ class AuthTest : FunSpec({
             user = "sa",
             password = ""
         )
+    }
+
+    beforeTest {
+        greenMail.start()
 
         transaction {
             SchemaUtils.create(
@@ -64,19 +67,25 @@ class AuthTest : FunSpec({
 
         transaction {
             AuthenticatedUsers.insert {
-                it[AuthenticatedUsers.id] = UUID.randomUUID()
-                it[AuthenticatedUsers.email] = "uramnoil@example.com"
-                it[AuthenticatedUsers.hashedPassword] = HashPasswordServiceImpl().hash(Password("abcd1234")).value
+                it[id] = UUID.randomUUID()
+                it[email] = "uramnoil@example.com"
+                it[hashedPassword] = HashPasswordServiceImpl().hash(Password("abcd1234")).value
             }
+            commit()
         }
-    }
-
-    beforeTest {
-        greenMail.start()
     }
 
     afterTest {
         greenMail.stop()
+
+        transaction {
+            SchemaUtils.drop(
+                ServeristUsers,
+                Servers,
+                AuthenticatedUsers,
+                UnauthenticatedUsers
+            )
+        }
     }
 
     test("/signup test") {
@@ -94,10 +103,10 @@ class AuthTest : FunSpec({
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
             }) {
-                assertEquals(HttpStatusCode.OK, response.status(), response.content)
-                assertTrue(greenMail.waitForIncomingEmail(3000, 1))
+                response.status() shouldBe HttpStatusCode.OK
+                greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
                 val mail = greenMail.receivedMessages.firstOrNull()
-                assertNotNull(mail)
+                mail.shouldNotBeNull()
 
                 val row = transaction {
                     UnauthenticatedUsers.select { UnauthenticatedUsers.email eq email }.firstOrNull()
@@ -136,7 +145,7 @@ class AuthTest : FunSpec({
             val unauthenticatedRow = transaction {
                 UnauthenticatedUsers.select { UnauthenticatedUsers.email eq email }.firstOrNull()
             }
-            assertNotNull(unauthenticatedRow)
+            unauthenticatedRow.shouldNotBeNull()
             val activationCode = unauthenticatedRow[UnauthenticatedUsers.activateCode]
 
             with(handleRequest(HttpMethod.Get, "/activate?code=$activationCode")) {
@@ -146,13 +155,13 @@ class AuthTest : FunSpec({
             val authenticatedRow = transaction {
                 AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
             }
-            assertNotNull(authenticatedRow)
+            authenticatedRow.shouldNotBeNull()
 
             val id = authenticatedRow[AuthenticatedUsers.id]
             val serveristRow = transaction {
                 ServeristUsers.select { ServeristUsers.id eq id }.firstOrNull()
             }
-            assertNotNull(serveristRow)
+            serveristRow.shouldNotBeNull()
         }
     }
 
@@ -223,7 +232,7 @@ class AuthTest : FunSpec({
                     AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
                 }
 
-                assertNull(row)
+                row.shouldBeNull()
             }
         }
     }
