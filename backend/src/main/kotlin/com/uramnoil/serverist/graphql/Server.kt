@@ -14,7 +14,7 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
         }
     }
 
-    query("serversById") {
+    query("findServers") {
         resolver { ownerId: UUID, page: PageRequest, sort: Sort, orderBy: OrderBy ->
             controller.findServerByOwner(
                 ownerId = ownerId,
@@ -26,19 +26,26 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
         }
     }
 
+    query("findServer") {
+        resolver { id: UUID ->
+            val result = controller.findServerById(id)
+            result.getOrThrow()
+        }
+    }
+
     mutation("createServer") {
-        resolver { name: String, address: String?, port: Int?, description: String, context: Context ->
+        resolver { name: String, host: String?, port: Int?, description: String, context: Context ->
             val ownerId = context.getIdFromSession()
-            controller.createServer(ownerId, name, address, port?.toUShort(), description).getOrThrow()
+            controller.createServer(ownerId, name, host, port?.toUShort(), description).getOrThrow()
         }
 
         accessRule(::requireAuthSession)
     }
 
     mutation("updateServer") {
-        resolver { id: UUID, name: String, address: String?, port: Int?, description: String, context: Context ->
+        resolver { id: UUID, name: String, host: String?, port: Int?, description: String, context: Context ->
             checkOwner(context.getIdFromSession(), id)
-            controller.updateServer(id, name, address, port?.toUShort(), description).fold({ true }, { false })
+            controller.updateServer(id, name, host, port?.toUShort(), description).fold({ true }, { false })
         }
 
         accessRule(::requireAuthSession)
