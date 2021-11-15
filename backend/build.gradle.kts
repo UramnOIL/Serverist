@@ -40,7 +40,7 @@ dependencies {
     // kotlin
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
-    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.3.0")
+    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", serializationVersion)
 
     // ktor
     implementation("io.ktor", "ktor-server-netty", ktorVersion)
