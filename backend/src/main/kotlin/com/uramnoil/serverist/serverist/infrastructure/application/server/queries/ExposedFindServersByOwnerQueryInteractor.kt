@@ -21,7 +21,7 @@ class ExposedFindServersByOwnerQueryInteractor : FindServersByOwnerQueryUseCaseI
         orderBy: OrderBy
     ): Result<List<Server>> = kotlin.runCatching {
         val row = newSuspendedTransaction {
-            Servers.select { Servers.owner eq ownerId }.orderBy(
+            Servers.select { Servers.ownerId eq ownerId }.orderBy(
                 when (orderBy) {
                     OrderBy.CreatedAt -> Servers.createdAt
                 },

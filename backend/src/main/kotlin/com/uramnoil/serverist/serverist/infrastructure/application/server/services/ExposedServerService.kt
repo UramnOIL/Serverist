@@ -10,7 +10,7 @@ import java.util.*
 class ExposedServerService : ServerService {
     override suspend fun checkUserIsOwnerOfServer(ownerId: UUID, serverId: UUID): Result<Boolean> = kotlin.runCatching {
         newSuspendedTransaction {
-            val result = Servers.select { (Servers.id eq serverId) and (Servers.owner eq ownerId) }
+            val result = Servers.select { (Servers.id eq serverId) and (Servers.ownerId eq ownerId) }
             result.firstOrNull() != null
         }
     }

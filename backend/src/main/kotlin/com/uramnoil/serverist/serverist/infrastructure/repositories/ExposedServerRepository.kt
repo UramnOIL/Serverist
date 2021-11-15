@@ -17,7 +17,7 @@ class ExposedServerRepository : ServerRepository {
         newSuspendedTransaction {
             Servers.insert {
                 it[id] = server.id.value
-                it[owner] = server.ownerId.value
+                it[ownerId] = server.ownerId.value
                 it[name] = server.name.value
                 it[host] = server.host?.value
                 it[port] = server.port?.value

@@ -15,7 +15,7 @@ import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainSer
 
 object Servers : UUIDTable("servers") {
     val name = varchar("name", 31)
-    val owner = uuid("owner").references(Users.id)
+    val ownerId = uuid("owner_id").references(Users.id)
     val createdAt = datetime("created_at")
     val host = char("host", 253).nullable()
     val port = ushort("port").nullable()
@@ -25,7 +25,7 @@ object Servers : UUIDTable("servers") {
 fun ResultRow.toApplicationServer() = Server(
     this[Servers.id].value,
     this[Servers.createdAt].toKotlinInstant(),
-    this[Servers.owner],
+    this[Servers.ownerId],
     this[Servers.name],
     this[Servers.host],
     this[Servers.port]?.toInt(),
@@ -35,7 +35,7 @@ fun ResultRow.toApplicationServer() = Server(
 fun ResultRow.toDomainServer() = DomainServer(
     id = Id(this[Servers.id].value),
     createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstant()),
-    ownerId = Id(this[Servers.owner]),
+    ownerId = Id(this[Servers.ownerId]),
     name = Name(this[Servers.name]),
     host = this[Servers.host]?.let { Host(it) },
     port = this[Servers.port]?.let { Port(it) },
