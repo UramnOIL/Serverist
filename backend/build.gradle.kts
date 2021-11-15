@@ -23,7 +23,6 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
     val ktorVersion: String by project
