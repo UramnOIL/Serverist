@@ -46,7 +46,9 @@ class ServerTest : FunSpec({
             user = "sa",
             password = ""
         )
+    }
 
+    beforeTest {
         transaction {
             SchemaUtils.create(
                 AuthenticatedUsers,
@@ -79,6 +81,16 @@ class ServerTest : FunSpec({
             }
 
             commit()
+        }
+    }
+
+    afterTest {
+        transaction {
+            SchemaUtils.drop(
+                AuthenticatedUsers,
+                com.uramnoil.serverist.serverist.infrastructure.Users,
+                Servers,
+            )
         }
     }
 

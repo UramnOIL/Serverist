@@ -46,7 +46,9 @@ class UserTest : FunSpec({
             user = "sa",
             password = ""
         )
+    }
 
+    beforeTest {
         transaction {
             SchemaUtils.create(
                 AuthenticatedUsers,
@@ -75,6 +77,16 @@ class UserTest : FunSpec({
                 it[description] = "fuga"
             }
             commit()
+        }
+    }
+
+    afterTest {
+        transaction {
+            SchemaUtils.drop(
+                AuthenticatedUsers,
+                Users,
+                Servers,
+            )
         }
     }
 
