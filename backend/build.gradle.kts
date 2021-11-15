@@ -12,6 +12,10 @@ application {
 }
 
 tasks {
+    test {
+        useJUnitPlatform()
+    }
+
     compileKotlin {
         kotlinOptions.jvmTarget = "16"
     }
@@ -25,6 +29,7 @@ repositories {
 }
 
 dependencies {
+    val kotlinVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
     val ktorVersion: String by project
@@ -40,7 +45,7 @@ dependencies {
     implementation(project(":domain:serverist"))
 
     // kotlin
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", serializationVersion)
 
@@ -75,10 +80,6 @@ dependencies {
 
     // mockk
     testImplementation("io.mockk", "mockk", "1.12.0")
-
-    // kotlin
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
 
     // kotest
     testImplementation("io.kotest", "kotest-property", kotestVersion)
