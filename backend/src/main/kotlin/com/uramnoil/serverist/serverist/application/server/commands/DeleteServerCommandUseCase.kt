@@ -9,7 +9,7 @@ interface DeleteServerCommandUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(id: UUID)
+    fun execute(id: UUID)
 }
 
 /**
@@ -19,5 +19,5 @@ fun interface DeleteServerCommandUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<Unit>)
+    fun handle(result: Result<Unit>)
 }

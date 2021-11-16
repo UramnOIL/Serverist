@@ -9,7 +9,7 @@ interface FindUserByNameQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(name: String, serversLimit: Long)
+    fun execute(name: String, serversLimit: Long)
 }
 
 /**
@@ -19,5 +19,5 @@ fun interface FindUserByNameQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<User?>)
+    fun handle(result: Result<User?>)
 }

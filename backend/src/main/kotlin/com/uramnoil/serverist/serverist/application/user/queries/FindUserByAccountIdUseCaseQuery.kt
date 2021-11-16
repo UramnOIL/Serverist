@@ -9,7 +9,7 @@ interface FindUserByAccountIdQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(accountId: String)
+    fun execute(accountId: String)
 }
 
 /**
@@ -19,5 +19,5 @@ fun interface FindUserByAccountIdQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<User?>)
+    fun handle(result: Result<User?>)
 }

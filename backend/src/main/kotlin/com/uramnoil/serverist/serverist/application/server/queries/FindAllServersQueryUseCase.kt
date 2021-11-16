@@ -10,7 +10,7 @@ interface FindAllServersQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
+    fun execute(limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
 /**
@@ -20,5 +20,5 @@ fun interface FindAllServersQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<List<Server>>)
+    fun handle(result: Result<List<Server>>)
 }

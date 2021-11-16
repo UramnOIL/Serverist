@@ -11,7 +11,7 @@ interface FindServersByOwnerQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(ownerId: UUID, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
+    fun execute(ownerId: UUID, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
 /**
@@ -21,5 +21,5 @@ fun interface FindServersByOwnerQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<List<Server>>)
+    fun handle(result: Result<List<Server>>)
 }

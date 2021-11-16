@@ -10,7 +10,7 @@ interface FindServerByIdQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(id: UUID)
+    fun execute(id: UUID)
 }
 
 /**
@@ -20,5 +20,5 @@ fun interface FindServerByIdQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<Server?>)
+    fun handle(result: Result<Server?>)
 }

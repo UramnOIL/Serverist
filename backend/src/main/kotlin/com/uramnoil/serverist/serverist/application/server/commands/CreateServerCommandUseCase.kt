@@ -12,7 +12,7 @@ interface CreateServerCommandUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(ownerId: UUID, name: String, host: String?, port: UShort?, description: String)
+    fun execute(ownerId: UUID, name: String, host: String?, port: UShort?, description: String)
 }
 
 /**
@@ -22,5 +22,5 @@ fun interface CreateServerCommandUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<UUID>)
+    fun handle(result: Result<UUID>)
 }

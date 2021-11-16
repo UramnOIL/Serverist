@@ -10,7 +10,7 @@ interface FindUserByIdQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute(id: UUID)
+    fun execute(id: UUID)
 }
 
 /**
@@ -20,5 +20,5 @@ fun interface FindUserByIdQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<User?>)
+    fun handle(result: Result<User?>)
 }

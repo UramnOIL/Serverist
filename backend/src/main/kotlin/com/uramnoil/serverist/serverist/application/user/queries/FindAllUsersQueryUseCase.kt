@@ -9,7 +9,7 @@ interface FindAllUsersQueryUseCaseInputPort {
     /**
      *
      */
-    suspend fun execute()
+    fun execute()
 }
 
 /**
@@ -19,5 +19,5 @@ fun interface FindAllUsersQueryUseCaseOutputPort {
     /**
      *
      */
-    suspend fun handle(result: Result<List<User>>)
+    fun handle(result: Result<List<User>>)
 }
