@@ -12,7 +12,7 @@ data class Email(val value: String) {
         if (value.length > 255) {
             throw IllegalArgumentException("It should be no more than 255 characters.")
         }
-        val regex = Regex(pattern = """^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$""")
+        val regex = Regex(pattern = """^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$""")
 
         if (!regex.matches(value)) {
             throw  IllegalArgumentException("Illegal form of email address.")
