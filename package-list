@@ -26,6 +26,7 @@ com.uramnoil.serverist.auth.application.unauthenticated.queries
 com.uramnoil.serverist.auth.application.unauthenticated.service
 com.uramnoil.serverist.auth.infrastructure
 com.uramnoil.serverist.auth.infrastructure.authenticated
+com.uramnoil.serverist.auth.infrastructure.authenticated.application
 com.uramnoil.serverist.auth.infrastructure.authenticated.application.commands
 com.uramnoil.serverist.auth.infrastructure.authenticated.application.queries
 com.uramnoil.serverist.auth.infrastructure.authenticated.domain
@@ -35,9 +36,11 @@ com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.commands
 com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.queries
 com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.services
 com.uramnoil.serverist.auth.infrastructure.unauthenticated.domain.repositories
+com.uramnoil.serverist.exceptions
 com.uramnoil.serverist.graphql
 com.uramnoil.serverist.koin.application
 com.uramnoil.serverist.presenter
+com.uramnoil.serverist.routing
 com.uramnoil.serverist.serverist.application.server
 com.uramnoil.serverist.serverist.application.server.commands
 com.uramnoil.serverist.serverist.application.server.queries
@@ -46,7 +49,7 @@ com.uramnoil.serverist.serverist.application.user
 com.uramnoil.serverist.serverist.application.user.commands
 com.uramnoil.serverist.serverist.application.user.queries
 com.uramnoil.serverist.serverist.infrastructure
-com.uramnoil.serverist.serverist.infrastructure.application
+com.uramnoil.serverist.serverist.infrastructure.application.server
 com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 com.uramnoil.serverist.serverist.infrastructure.application.server.queries
 com.uramnoil.serverist.serverist.infrastructure.application.server.services
@@ -54,7 +57,6 @@ com.uramnoil.serverist.serverist.infrastructure.application.user.command
 com.uramnoil.serverist.serverist.infrastructure.application.user.queries
 com.uramnoil.serverist.serverist.infrastructure.repositories
 com.uramnoil.serverist.serverist.user.infrastructure.application
-routing
 module:auth
 com.uramnoil.serverist.domain.auth.authenticated.models
 com.uramnoil.serverist.domain.auth.authenticated.repositories
@@ -66,9 +68,7 @@ module:common
 com.uramnoil.serverist.domain.common
 com.uramnoil.serverist.domain.common.exception
 com.uramnoil.serverist.domain.common.user
-module:server
-com.uramnoil.serverist.domain.server.models
-com.uramnoil.serverist.domain.server.repositories
-module:user
-com.uramnoil.serverist.domain.user.models
-com.uramnoil.serverist.domain.user.repositories
+module:serverist
+com.uramnoil.serverist.domain.serverist.models.server
+com.uramnoil.serverist.domain.serverist.models.user
+com.uramnoil.serverist.domain.serverist.repositories
