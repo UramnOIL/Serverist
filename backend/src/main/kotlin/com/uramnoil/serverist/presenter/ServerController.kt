@@ -2,25 +2,24 @@ package com.uramnoil.serverist.presenter
 
 import com.uramnoil.serverist.Sort
 import com.uramnoil.serverist.serverist.application.server.Server
-import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
+import com.uramnoil.serverist.serverist.application.server.commands.*
+import com.uramnoil.serverist.serverist.application.server.queries.*
 import com.uramnoil.serverist.serverist.application.server.services.ServerService
+import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class ServerController(
     private val service: ServerService,
-    private val createCommand: CreateServerCommandUseCaseInputPort,
-    private val updateCommand: UpdateServerCommandUseCaseInputPort,
-    private val deleteCommand: DeleteServerCommandUseCaseInputPort,
-    private val findByOwnerQuery: FindServersByOwnerQueryUseCaseInputPort,
-    private val findAllQuery: FindAllServersQueryUseCaseInputPort,
-    private val findByIdQuery: FindServerByIdQueryUseCaseInputPort,
+    private val createServerCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateServerCommandUseCaseOutputPort) -> CreateServerCommandUseCaseInputPort,
+    private val updateServerCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: UpdateServerCommandUseCaseOutputPort) -> UpdateServerCommandUseCaseInputPort,
+    private val deleteServerCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteServerCommandUseCaseOutputPort) -> DeleteServerCommandUseCaseInputPort,
+    private val findByOwnerServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindServersByOwnerQueryUseCaseOutputPort) -> FindServersByOwnerQueryUseCaseInputPort,
+    private val findAllServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindAllServersQueryUseCaseOutputPort) -> FindAllServersQueryUseCaseInputPort,
+    private val findByIdServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindServerByIdQueryUseCaseOutputPort) -> FindServerByIdQueryUseCaseInputPort,
 ) {
     suspend fun checkUserIsOwnerOfServer(userId: UUID, serverId: UUID): Result<Boolean> {
         return service.checkUserIsOwnerOfServer(userId, serverId)
@@ -33,7 +32,20 @@ class ServerController(
         port: UShort?,
         description: String
     ): Result<UUID> {
-        return createCommand.execute(ownerId, name, host, port, description)
+
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = CreateServerCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            createServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+                ownerId,
+                name,
+                host,
+                port,
+                description
+            )
+        }
     }
 
     suspend fun updateServer(
@@ -43,19 +55,33 @@ class ServerController(
         port: UShort?,
         description: String
     ): Result<Unit> {
-        return updateCommand.execute(
-            id,
-            name,
-            address,
-            port,
-            description
-        )
+
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = UpdateServerCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            updateServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+                id,
+                name,
+                address,
+                port,
+                description
+            )
+        }
     }
 
     suspend fun deleteServer(
         uuid: UUID
     ): Result<Unit> {
-        return deleteCommand.execute(uuid)
+
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = DeleteServerCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            deleteServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(uuid)
+        }
     }
 
     suspend fun findServerByOwner(
@@ -65,7 +91,20 @@ class ServerController(
         sort: Sort,
         orderBy: OrderBy
     ): Result<List<Server>> {
-        return findByOwnerQuery.execute(ownerId, limit, offset, sort, orderBy)
+
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = FindServersByOwnerQueryUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            findByOwnerServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+                ownerId,
+                limit,
+                offset,
+                sort,
+                orderBy
+            )
+        }
     }
 
     suspend fun findAllServers(
@@ -74,12 +113,30 @@ class ServerController(
         sort: Sort,
         orderBy: OrderBy
     ): Result<List<Server>> {
-        return findAllQuery.execute(limit, offset, sort, orderBy)
+
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = FindAllServersQueryUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            findAllServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+                limit,
+                offset,
+                sort,
+                orderBy
+            )
+        }
     }
 
     suspend fun findServerById(
         id: UUID
     ): Result<Server?> {
-        return findByIdQuery.execute(id)
+        val coroutineContext = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = FindServerByIdQueryUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            findByIdServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(id)
+        }
     }
 }

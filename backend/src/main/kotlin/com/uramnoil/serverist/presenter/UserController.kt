@@ -1,31 +1,58 @@
 package com.uramnoil.serverist.presenter
 
 import com.uramnoil.serverist.serverist.application.user.User
-import com.uramnoil.serverist.serverist.application.user.commands.CreateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.user.commands.DeleteUserCommandUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.user.commands.*
 import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
+import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class UserController(
-    private val createUserCommandUseCaseInputPort: CreateUserCommandUseCaseInputPort,
-    private val updateUserCommandUseCaseInputPort: UpdateUserCommandUseCaseInputPort,
-    private val deleteUserCommandUseCaseInputPort: DeleteUserCommandUseCaseInputPort,
-    private val findUserByIdQueryUseCaseInputPort: FindUserByIdQueryUseCaseInputPort,
+    private val createUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateUserCommandUseCaseOutputPort) -> CreateUserCommandUseCaseInputPort,
+    private val updateUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: UpdateUserCommandUseCaseOutputPort) -> UpdateUserCommandUseCaseInputPort,
+    private val deleteUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteUserCommandUseCaseOutputPort) -> DeleteUserCommandUseCaseInputPort,
+    private val findUserByIdQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByIdQueryUseCaseOutputPort) -> FindUserByIdQueryUseCaseInputPort,
 ) {
     suspend fun create(id: UUID, accountId: String, name: String, description: String): Result<UUID> {
-        return createUserCommandUseCaseInputPort.execute(id, accountId, name, description)
+        val context = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = CreateUserCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            createUserCommandUseCaseInputPortFactory(context, outputPort).execute(id, accountId, name, description)
+        }
     }
 
     suspend fun update(id: UUID, accountId: String, name: String, description: String): Result<Unit> {
-        return updateUserCommandUseCaseInputPort.execute(id, accountId, name, description)
+        val context = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = UpdateUserCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            updateUserCommandUseCaseInputPortFactory(context, outputPort).execute(id, accountId, name, description)
+        }
     }
 
     suspend fun delete(id: UUID): Result<Unit> {
-        return deleteUserCommandUseCaseInputPort.execute(id)
+        val context = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = DeleteUserCommandUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            deleteUserCommandUseCaseInputPortFactory(context, outputPort).execute(id)
+        }
     }
 
     suspend fun findById(id: UUID): Result<User?> {
-        return findUserByIdQueryUseCaseInputPort.execute(id)
+        val context = currentCoroutineContext()
+        return suspendCoroutine {
+            val outputPort = FindUserByIdQueryUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            findUserByIdQueryUseCaseInputPortFactory(context, outputPort).execute(id)
+        }
     }
 }
