@@ -13,7 +13,10 @@ interface FindAllServersQueryUseCaseInputPort {
     suspend fun execute(limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
-interface FindAllServersQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindAllServersQueryUseCaseOutputPort {
     /**
      *
      */

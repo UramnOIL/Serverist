@@ -12,7 +12,10 @@ interface CreateUserCommandUseCaseInputPort {
     suspend fun execute(id: UUID, accountId: String, name: String, description: String)
 }
 
-interface CreateUserCommandUseCaseOutputPort {
+/**
+ *
+ */
+fun interface CreateUserCommandUseCaseOutputPort {
     /**
      *
      */

@@ -12,7 +12,10 @@ interface FindUserByActivationCodeQueryUseCaseInputPort {
     suspend fun execute(activationCode: UUID)
 }
 
-interface FindUserByActivationCodeQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindUserByActivationCodeQueryUseCaseOutputPort {
     /**
      *
      */

@@ -12,7 +12,10 @@ interface FindUserByAccountIdQueryUseCaseInputPort {
     suspend fun execute(accountId: String)
 }
 
-interface FindUserByAccountIdQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindUserByAccountIdQueryUseCaseOutputPort {
     /**
      *
      */

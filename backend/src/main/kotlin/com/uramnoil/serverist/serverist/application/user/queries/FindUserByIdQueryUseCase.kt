@@ -13,7 +13,10 @@ interface FindUserByIdQueryUseCaseInputPort {
     suspend fun execute(id: UUID)
 }
 
-interface FindUserByIdQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindUserByIdQueryUseCaseOutputPort {
     /**
      *
      */

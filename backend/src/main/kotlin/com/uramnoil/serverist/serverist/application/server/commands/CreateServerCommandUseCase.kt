@@ -15,7 +15,10 @@ interface CreateServerCommandUseCaseInputPort {
     suspend fun execute(ownerId: UUID, name: String, host: String?, port: UShort?, description: String)
 }
 
-interface CreateServerCommandUseCaseOutputPort {
+/**
+ *
+ */
+fun interface CreateServerCommandUseCaseOutputPort {
     /**
      *
      */

@@ -14,7 +14,10 @@ interface FindServersByOwnerQueryUseCaseInputPort {
     suspend fun execute(ownerId: UUID, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
-interface FindServersByOwnerQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindServersByOwnerQueryUseCaseOutputPort {
     /**
      *
      */

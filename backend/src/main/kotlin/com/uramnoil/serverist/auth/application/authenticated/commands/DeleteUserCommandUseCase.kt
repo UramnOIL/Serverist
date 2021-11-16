@@ -12,7 +12,10 @@ interface DeleteUserCommandUseCaseInputPort {
     suspend fun execute(id: UUID)
 }
 
-interface DeleteUserCommandUseCaseOutputPort {
+/**
+ *
+ */
+fun interface DeleteUserCommandUseCaseOutputPort {
     /**
      *
      */

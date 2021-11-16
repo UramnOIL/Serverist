@@ -13,7 +13,10 @@ interface FindUserByEmailAndPasswordQueryUseCaseInputPort {
     suspend fun execute(mail: String, password: String)
 }
 
-interface FindUserByEmailAndPasswordQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindUserByEmailAndPasswordQueryUseCaseOutputPort {
     /**
      *
      */

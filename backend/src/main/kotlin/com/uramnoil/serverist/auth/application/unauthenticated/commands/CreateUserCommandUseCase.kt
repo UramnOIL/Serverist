@@ -15,7 +15,10 @@ interface CreateUserCommandUseCaseInputPort {
     suspend fun execute(email: String, password: String, authenticationCode: UUID)
 }
 
-interface CreateUserCommandUseCaseOutputPort {
+/**
+ *
+ */
+fun interface CreateUserCommandUseCaseOutputPort {
     /**
      *
      */

@@ -12,7 +12,10 @@ interface FindAllUsersQueryUseCaseInputPort {
     suspend fun execute()
 }
 
-interface FindAllUsersQueryUseCaseOutputPort {
+/**
+ *
+ */
+fun interface FindAllUsersQueryUseCaseOutputPort {
     /**
      *
      */
