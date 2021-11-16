@@ -19,7 +19,7 @@ interface CreateServerCommandUseCaseInputPort {
         ownerId: UUID,
         name: String,
         host: String?,
-        port: Int?,
+        port: UShort?,
         description: String
     ): Result<UUID>
 }

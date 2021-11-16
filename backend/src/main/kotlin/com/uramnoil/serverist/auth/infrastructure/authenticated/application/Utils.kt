@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.auth.infrastructure.authenticated
+package com.uramnoil.serverist.auth.infrastructure.authenticated.application
 
-import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users
+import com.uramnoil.serverist.auth.infrastructure.authenticated.Users
 import com.uramnoil.serverist.domain.auth.authenticated.models.User
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword

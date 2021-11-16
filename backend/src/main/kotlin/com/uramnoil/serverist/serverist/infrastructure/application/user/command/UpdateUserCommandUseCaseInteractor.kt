@@ -1,15 +1,16 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.user.command
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.user.models.Description
-import com.uramnoil.serverist.domain.user.models.Name
-import com.uramnoil.serverist.domain.user.repositories.UserRepository
+import com.uramnoil.serverist.domain.serverist.models.user.AccountId
+import com.uramnoil.serverist.domain.serverist.models.user.Description
+import com.uramnoil.serverist.domain.serverist.models.user.Name
+import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
 import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserCommandUseCaseInputPort
+import java.util.*
 
 class UpdateUserCommandUseCaseInteractor(private val repository: UserRepository) : UpdateUserCommandUseCaseInputPort {
-    override suspend fun execute(id: Uuid, accountId: String, name: String, description: String): Result<Unit> {
+    override suspend fun execute(id: UUID, accountId: String, name: String, description: String): Result<Unit> {
         val user = repository.findById(Id(id)).getOrElse {
             return Result.failure(it)
         }
@@ -19,6 +20,7 @@ class UpdateUserCommandUseCaseInteractor(private val repository: UserRepository)
         }
 
         user.apply {
+            this.accountId = AccountId(accountId)
             this.name = Name(name)
             this.description = Description(description)
         }

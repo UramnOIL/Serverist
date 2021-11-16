@@ -8,8 +8,8 @@ buildscript {
 }
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.38.0"
     kotlin("multiplatform") apply false
+    kotlin("plugin.serialization") apply false
     kotlin("jvm") apply false
     id("org.jetbrains.dokka")
 }

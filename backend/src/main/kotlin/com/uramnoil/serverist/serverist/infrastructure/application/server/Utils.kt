@@ -1,6 +1,6 @@
-package com.uramnoil.serverist.serverist.infrastructure.application
+package com.uramnoil.serverist.serverist.infrastructure.application.server
 
-import com.uramnoil.serverist.domain.server.models.Server
+import com.uramnoil.serverist.domain.serverist.models.server.Server
 import com.uramnoil.serverist.serverist.application.server.Server as ApplicationServer
 
 fun Server.toApplication() = ApplicationServer(
@@ -8,7 +8,7 @@ fun Server.toApplication() = ApplicationServer(
     createdAt = createdAt.value,
     ownerId = ownerId.value,
     name = name.value,
-    address = address.value,
-    port = port.value,
+    host = host?.value,
+    port = port?.value?.toInt(),
     description = description.value
 )

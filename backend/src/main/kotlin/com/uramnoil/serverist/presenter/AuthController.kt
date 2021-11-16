@@ -4,6 +4,7 @@ import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByE
 import com.uramnoil.serverist.auth.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.queries.FindUserByEmailQueryUseCaseInputPort
 import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
+import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import java.util.*
 import kotlin.time.ExperimentalTime
 import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseInputPort as CreateAuthenticatedUserCommandUseCaseInputPort
@@ -47,10 +48,11 @@ class AuthController(
 
     /**
      * ログイン
-     * @return Result<UUID?> ログイン情報が正しい時に、ユーザーIDを返す
+     * @return Result<UUID> ログイン情報が正しい時に、ユーザーIDを返す
      */
-    suspend fun login(email: String, password: String): Result<UUID?> {
+    suspend fun login(email: String, password: String): Result<UUID> {
         return findUserByEmailAndPasswordQueryUseCaseInputPort.execute(email, password)
+            .mapCatching { it ?: throw NotFoundException("Invalid credential.") }
     }
 
     /**
@@ -69,7 +71,7 @@ class AuthController(
         val createAuthenticatedUserResult =
             createAuthenticatedCommandUserCaseInputPort.execute(user.email, user.hashedPassword)
 
-        createAuthenticatedUserResult.getOrElse {
+        val uuid = createAuthenticatedUserResult.getOrElse {
             return Result.failure(it)
         }
 
@@ -80,7 +82,7 @@ class AuthController(
         val accountId = (1..15).map { characters.random() }.joinToString("")
 
         val createServeristUserResult =
-            userController.create(UUID.randomUUID(), accountId, listOf("Hoge", "Fuga").random(), "")
+            userController.create(uuid, accountId, listOf("Hoge", "Fuga").random(), "")
 
         // ServeristUserの作成失敗時
         createServeristUserResult.getOrElse {

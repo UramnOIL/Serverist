@@ -1,9 +1,15 @@
 package com.uramnoil.serverist.domain.auth.kernel.model
 
+/**
+ * Password Value Object
+ * 8文字以上
+ * 半角英数字 + 記号
+ */
 data class Password(val value: String) {
     init {
-        if (PasswordSpec.isSatisfiedBy(value)) {
-            throw IllegalArgumentException("パスワードは８文字以上の半角英数字を使用してください。")
+        val regex = Regex(pattern = """^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!"#$%&'()*+,\-./:;<=>?\[\\\]^_`{|}~]{8,}$""")
+        if (!regex.matches(value)) {
+            throw IllegalArgumentException("The password must be at least 8 characters long and must be alphanumeric.")
         }
     }
 }

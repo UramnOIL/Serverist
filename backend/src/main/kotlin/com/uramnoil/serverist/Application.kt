@@ -1,8 +1,10 @@
 package com.uramnoil.serverist
 
-import com.benasher44.uuid.Uuid
+import com.uramnoil.serverist.exceptions.NoAuthorityException
 import com.uramnoil.serverist.koin.application.buildAuthController
 import com.uramnoil.serverist.koin.application.buildServeristControllers
+import com.uramnoil.serverist.routing.routingAuth
+import com.uramnoil.serverist.routing.routingGraphQL
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -13,22 +15,38 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
-import routing.routingAuth
-import routing.routingGraphQL
 import java.io.File
+import java.util.*
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
+object UUIDSerializer : KSerializer<UUID> {
+    override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): UUID {
+        return UUID.fromString(decoder.decodeString())
+    }
+
+    override fun serialize(encoder: Encoder, value: UUID) {
+        encoder.encodeString(value.toString())
+    }
+}
+
 @Serializable
-data class AuthSession(val id: Uuid) : Principal
+data class AuthSession(@Serializable(with = UUIDSerializer::class) val id: UUID) : Principal
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -36,11 +54,15 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
  * 本番環境用
  */
 @Suppress("unused")
-fun Application.mainModule(testing: Boolean = false) {
+fun Application.mainModule() {
     install(StatusPages) {
         // 不正なリクエストパラメータ
         exception<ContentTransformationException> {
             call.respond(HttpStatusCode.BadRequest)
+        }
+        // アクセス権限がない
+        exception<NoAuthorityException> {
+            call.respond(HttpStatusCode.Forbidden)
         }
     }
 
@@ -51,7 +73,7 @@ fun Application.mainModule(testing: Boolean = false) {
 
     // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
-        cookie<AuthSession>("SESSION", directorySessionStorage(File(".sessions"), cached = true)) {
+        cookie<AuthSession>("AUTH", directorySessionStorage(File(".sessions"), cached = true)) {
             cookie.path = "/"
             cookie.maxAgeInSeconds = 1000
         }
@@ -59,7 +81,7 @@ fun Application.mainModule(testing: Boolean = false) {
 
     // CallLogging リクエストのロギング用
     install(CallLogging) {
-        level = Level.DEBUG
+        level = Level.INFO
         format {
             val userId = it.sessions.get<AuthSession>()?.id ?: "Guest"
             val ip = it.request.local.remoteHost
@@ -70,11 +92,22 @@ fun Application.mainModule(testing: Boolean = false) {
             "IP: $ip, User ID: $userId, User agent: $userAgent, Status: $status, HTTP method: $httpMethod, URI: $uri"
         }
     }
+
     productKoin()
+    installFormAuth()
 
     // ルーティング
     routingAuth()
     routingGraphQL()
+}
+
+fun Application.installFormAuth() {
+    install(Authentication) {
+        session<AuthSession>("auth-session") {
+            validate { it }
+            skipWhen { it.sessions.get<AuthSession>() != null }
+        }
+    }
 }
 
 fun Application.productKoin() {
@@ -92,7 +125,7 @@ fun Application.productKoin() {
 /**
  * コネクションプールの作成
  */
-fun Application.createConnection() {
+fun Application.createMySqlConnection() {
     environment.config.apply {
         val host = property("database.host").getString()
         val database = property("database.database").getString()

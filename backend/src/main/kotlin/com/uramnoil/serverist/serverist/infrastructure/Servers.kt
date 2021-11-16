@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure
 
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.server.models.*
+import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
@@ -11,34 +11,34 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import com.uramnoil.serverist.domain.server.models.Server as DomainServer
+import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
 
 object Servers : UUIDTable("servers") {
-    val name = varchar("name", 16)
-    val owner = uuid("owner").references(Users.id)
+    val name = varchar("name", 31)
+    val ownerId = uuid("owner_id").references(Users.id)
     val createdAt = datetime("created_at")
-    val address = char("address", 253).nullable()
-    val port = integer("port").nullable()
+    val host = char("host", 253).nullable()
+    val port = ushort("port").nullable()
     val description = varchar("description", 255)
 }
 
 fun ResultRow.toApplicationServer() = Server(
     this[Servers.id].value,
     this[Servers.createdAt].toKotlinInstant(),
-    this[Servers.owner],
+    this[Servers.ownerId],
     this[Servers.name],
-    this[Servers.address],
-    this[Servers.port],
+    this[Servers.host],
+    this[Servers.port]?.toInt(),
     this[Servers.description]
 )
 
 fun ResultRow.toDomainServer() = DomainServer(
     id = Id(this[Servers.id].value),
     createdAt = CreatedAt(this[Servers.createdAt].toKotlinInstant()),
-    ownerId = Id(this[Servers.owner]),
+    ownerId = Id(this[Servers.ownerId]),
     name = Name(this[Servers.name]),
-    address = Address(this[Servers.address]),
-    port = Port(this[Servers.port]),
+    host = this[Servers.host]?.let { Host(it) },
+    port = this[Servers.port]?.let { Port(it) },
     description = Description(this[Servers.description])
 )
 

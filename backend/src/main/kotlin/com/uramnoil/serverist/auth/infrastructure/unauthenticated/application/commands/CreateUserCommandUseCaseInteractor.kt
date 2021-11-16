@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.commands
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
@@ -23,9 +22,17 @@ class CreateUserCommandUseCaseInteractor(
         password: String,
         authenticationCode: UUID
     ): Result<UUID> {
-        val hashedPassword = hashPasswordService.hash(Password(password))
+        val passwordResult = kotlin.runCatching {
+            Password(password)
+        }
+
+        val newPassword = passwordResult.getOrElse {
+            return Result.failure(it)
+        }
+
+        val hashedPassword = hashPasswordService.hash(newPassword)
         val newResult = DomainUser.new(
-            id = Id(Uuid.randomUUID()),
+            id = Id(UUID.randomUUID()),
             email = Email(email),
             hashedPassword = hashedPassword,
             activationCode = ActivationCode(authenticationCode),

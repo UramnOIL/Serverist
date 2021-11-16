@@ -1,14 +1,14 @@
 package com.uramnoil.serverist.serverist.application.server.commands
 
-import com.benasher44.uuid.Uuid
+import java.util.*
 
 
 interface UpdateServerCommandUseCaseInputPort {
     suspend fun execute(
-        id: Uuid,
+        id: UUID,
         name: String,
-        address: String?,
-        port: Int?,
+        host: String?,
+        port: UShort?,
         description: String
     ): Result<Unit>
 }
