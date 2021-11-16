@@ -1,6 +1,5 @@
-package com.uramnoil.serverist.application.user.queries
+package com.uramnoil.serverist.application.authenticated.queries
 
-import com.uramnoil.serverist.application.user.User
 import java.util.*
 
 /**

@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.server.services
 
-import com.benasher44.uuid.Uuid
+import java.util.*
 
 interface ServerService {
-    suspend fun checkUserIsOwnerOfServer(ownerId: Uuid, serverId: Uuid): Result<Boolean>
+    suspend fun checkUserIsOwnerOfServer(ownerId: UUID, serverId: UUID): Result<Boolean>
 }

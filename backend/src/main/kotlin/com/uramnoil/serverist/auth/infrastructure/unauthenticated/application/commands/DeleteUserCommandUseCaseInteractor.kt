@@ -8,7 +8,7 @@ import java.util.*
 class DeleteUserCommandUseCaseInteractor(
     private val repository: UserRepository,
 ) : DeleteUserCommandUseCaseInputPort {
-    override suspend fun execute(id: UUID): Result<Unit> {
+    override fun execute(id: UUID): Result<Unit> {
         val findResult = repository.findById(Id(id)).mapCatching {
             it ?: throw IllegalArgumentException("id=${id}に一致するユーザーが見つかりませんでした。")
         }

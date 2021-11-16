@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.user.commands
+package com.uramnoil.serverist.application.authenticated.commands
 
 import java.util.*
 

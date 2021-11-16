@@ -1,6 +1,7 @@
-package com.uramnoil.serverist.application.user.commands
+package com.uramnoil.serverist.application.authenticated.commands
 
 import java.util.*
+
 
 /**
  *
@@ -9,7 +10,7 @@ interface CreateUserCommandUseCaseInputPort {
     /**
      *
      */
-    fun execute(id: UUID, accountId: String, name: String, description: String)
+    fun execute(email: String, password: String)
 }
 
 /**

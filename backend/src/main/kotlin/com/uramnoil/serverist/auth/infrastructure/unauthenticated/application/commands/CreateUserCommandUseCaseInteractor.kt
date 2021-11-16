@@ -17,7 +17,7 @@ class CreateUserCommandUseCaseInteractor(
 ) :
     CreateUserCommandUseCaseInputPort {
     @OptIn(ExperimentalTime::class)
-    override suspend fun execute(
+    override fun execute(
         email: String,
         password: String,
         authenticationCode: UUID

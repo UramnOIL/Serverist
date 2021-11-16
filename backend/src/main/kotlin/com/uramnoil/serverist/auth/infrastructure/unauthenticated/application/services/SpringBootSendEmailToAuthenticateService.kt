@@ -14,7 +14,7 @@ class SpringBootSendEmailToAuthenticateService(
     private val from: String,
     private val activateUrl: String
 ) : SendEmailToAuthenticateUseCase {
-    override suspend fun execute(email: String, activationCode: UUID): Result<Unit> = kotlin.runCatching {
+    override fun execute(email: String, activationCode: UUID): Result<Unit> = kotlin.runCatching {
         val mailSender: MailSender = JavaMailSenderImpl().apply {
             host = this@SpringBootSendEmailToAuthenticateService.host
             port = this@SpringBootSendEmailToAuthenticateService.port

@@ -10,7 +10,7 @@ import java.util.*
 
 class FindUserByActivationCodeQueryUseCaseInteractor :
     FindUserByActivationCodeQueryUseCaseInputPort {
-    override suspend fun execute(activationCode: UUID): Result<User?> = kotlin.runCatching {
+    override fun execute(activationCode: UUID): Result<User?> = kotlin.runCatching {
         val result = newSuspendedTransaction {
             val row = Users.select { Users.activateCode eq activationCode }.firstOrNull()
             row?.toApplicationUnauthenticatedUser()

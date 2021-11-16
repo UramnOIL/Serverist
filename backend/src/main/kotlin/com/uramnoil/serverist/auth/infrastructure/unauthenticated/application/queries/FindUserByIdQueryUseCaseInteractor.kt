@@ -11,7 +11,7 @@ class FindUserByIdQueryUseCaseInteractor(
     private val repository: UserRepository,
 ) :
     FindUserByIdQueryUseCaseInputPort {
-    override suspend fun execute(id: UUID): Result<User?> {
+    override fun execute(id: UUID): Result<User?> {
         val result = repository.findById(Id(id)).map {
             it?.toApplication()
         }

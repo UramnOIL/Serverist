@@ -12,7 +12,7 @@ import java.util.*
 
 class ExposedFindUserByEmailAndPasswordQueryInteractor(private val hashPasswordService: HashPasswordService) :
     FindUserByEmailAndPasswordQueryUseCaseInputPort {
-    override suspend fun execute(mail: String, password: String): Result<UUID?> {
+    override fun execute(mail: String, password: String): Result<UUID?> {
         val rowResult = kotlin.runCatching {
             newSuspendedTransaction {
                 Users.select { (Users.email eq mail) }.firstOrNull()

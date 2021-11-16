@@ -1,12 +1,24 @@
 package com.uramnoil.serverist.application.server.queries
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.server.Server
+import java.util.*
 
+/**
+ *
+ */
 interface FindServerByIdQueryUseCaseInputPort {
-    fun execute(id: Uuid)
+    /**
+     *
+     */
+    fun execute(id: UUID)
 }
 
+/**
+ *
+ */
 fun interface FindServerByIdQueryUseCaseOutputPort {
+    /**
+     *
+     */
     fun handle(result: Result<Server?>)
 }
