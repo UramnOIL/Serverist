@@ -1,11 +1,13 @@
 package com.uramnoil.serverist
 
+import com.uramnoil.serverist.auth.infrastructure.authenticated.domain.ExposedUserRepositoryImpl
 import com.uramnoil.serverist.exceptions.NoAuthorityException
 import com.uramnoil.serverist.koin.application.buildAuthController
 import com.uramnoil.serverist.koin.application.buildServeristControllers
 import com.uramnoil.serverist.routing.routingAuth
 import com.uramnoil.serverist.routing.routingGraphQL
 import com.uramnoil.serverist.serverist.infrastructure.Servers
+import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedServerRepository
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -31,7 +33,9 @@ import java.io.File
 import java.util.*
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.unauthenticated.domain.repositories.ExposedUserRepository as ExposedUnauthenticatedUserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
+import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedUserRepository as ExposedServeristUserRepository
 
 object UUIDSerializer : KSerializer<UUID> {
     override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
@@ -112,8 +116,13 @@ fun Application.installFormAuth() {
 
 fun Application.productKoin() {
     install(Koin) {
-        val (userController, serverController) = buildServeristControllers()
-        val authController = buildAuthController(userController)
+        val serveristUserRepository = ExposedServeristUserRepository()
+        val authenticatedUserRepository = ExposedUserRepositoryImpl()
+        val unauthenticatedUserRepository = ExposedUnauthenticatedUserRepository()
+        val serverRepository = ExposedServerRepository()
+        val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
+        val authController =
+            buildAuthController(unauthenticatedUserRepository, authenticatedUserRepository, userController)
         modules(module {
             single { userController }
             single { serverController }
