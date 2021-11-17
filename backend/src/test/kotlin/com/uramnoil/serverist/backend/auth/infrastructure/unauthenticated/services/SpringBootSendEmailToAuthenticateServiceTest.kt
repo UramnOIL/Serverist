@@ -7,7 +7,9 @@ import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.se
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.withContext
 import java.util.*
 
 internal class SpringBootSendEmailToAuthenticateServiceTest : FunSpec({
@@ -23,28 +25,27 @@ internal class SpringBootSendEmailToAuthenticateServiceTest : FunSpec({
 
     context("正常系") {
         test("送信テスト") {
-            val coroutineContext = currentCoroutineContext()
             val service = SpringBootSendEmailToAuthenticateServiceInputPort(
                 host = "localhost",
                 port = 3025,
                 username = "",
                 password = "",
                 from = "test@serverist.com",
-                activateUrl = "http://localhost/auth",
+                activateUrl = "http://localhost:8080/activate",
                 {
-                    it.getOrThrow()
                 },
-                coroutineContext
+                currentCoroutineContext()
             )
 
             val code = UUID.randomUUID()
-
             service.execute("hoge.com", code)
 
-            greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
+            withContext(Dispatchers.Default) {
+                greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
+            }
 
             val messages = greenMail.receivedMessages
-            messages.first().let { GreenMailUtil.getBody(it) } shouldBe "http://localhost/auth?code=$code"
+            messages.first().let { GreenMailUtil.getBody(it) } shouldBe "http://localhost:8080/activate?code=$code"
         }
     }
 })
