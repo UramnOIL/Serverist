@@ -6,7 +6,7 @@ import java.util.*
 /**
  *
  */
-interface SendEmailToAuthenticateUseCaseInputPort {
+fun interface SendEmailToAuthenticateUseCaseInputPort {
     /**
      *
      */
@@ -16,7 +16,7 @@ interface SendEmailToAuthenticateUseCaseInputPort {
 /**
  *
  */
-interface SendEmailToAuthenticateUseCaseOutputPort {
+fun interface SendEmailToAuthenticateUseCaseOutputPort {
     /**
      *
      */
