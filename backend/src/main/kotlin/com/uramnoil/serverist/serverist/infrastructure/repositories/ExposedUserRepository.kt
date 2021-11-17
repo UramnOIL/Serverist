@@ -4,7 +4,7 @@ import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.user.User
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users
-import com.uramnoil.serverist.serverist.user.infrastructure.application.toDomainUser
+import com.uramnoil.serverist.serverist.infrastructure.application.user.toDomainUser
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select

@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.infrastructure.authenticated.domain
 
 import com.uramnoil.serverist.auth.infrastructure.authenticated.Users
-import com.uramnoil.serverist.auth.infrastructure.authenticated.application.toDomainAuthenticatedUser
+import com.uramnoil.serverist.auth.infrastructure.authenticated.toDomainAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.authenticated.models.User
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.common.user.Id

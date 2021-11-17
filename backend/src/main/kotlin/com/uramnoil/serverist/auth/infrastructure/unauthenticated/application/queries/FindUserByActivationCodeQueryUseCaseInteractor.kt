@@ -1,20 +1,28 @@
 package com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.queries
 
-import com.uramnoil.serverist.auth.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.queries.User
+import com.uramnoil.serverist.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseInputPort
+import com.uramnoil.serverist.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users
 import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.toApplicationUnauthenticatedUser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
-class FindUserByActivationCodeQueryUseCaseInteractor :
-    FindUserByActivationCodeQueryUseCaseInputPort {
-    override fun execute(activationCode: UUID): Result<User?> = kotlin.runCatching {
-        val result = newSuspendedTransaction {
-            val row = Users.select { Users.activateCode eq activationCode }.firstOrNull()
-            row?.toApplicationUnauthenticatedUser()
+class FindUserByActivationCodeQueryUseCaseInteractor(
+    private val outputPort: FindUserByActivationCodeQueryUseCaseOutputPort,
+    private val coroutineContext: CoroutineContext
+) : FindUserByActivationCodeQueryUseCaseInputPort {
+    override fun execute(activationCode: UUID) {
+        kotlin.runCatching {
+            CoroutineScope(coroutineContext).launch {
+                val row = newSuspendedTransaction {
+                    Users.select { Users.activateCode eq activationCode }.firstOrNull()
+                }
+                outputPort.handle(Result.success(row?.toApplicationUnauthenticatedUser()))
+            }
         }
-        result
     }
 }

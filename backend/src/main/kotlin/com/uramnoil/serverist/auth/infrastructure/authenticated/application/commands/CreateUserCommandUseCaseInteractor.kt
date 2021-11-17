@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.infrastructure.authenticated.application.commands
 
-import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseOutputPort
 import com.uramnoil.serverist.domain.auth.authenticated.models.User
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
@@ -17,7 +17,7 @@ class CreateUserCommandUseCaseInteractor(
     private val repository: UserRepository,
     private val hashPasswordService: HashPasswordService,
     private val outputPort: CreateUserCommandUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext,
+    private val coroutineContext: CoroutineContext
 ) : CreateUserCommandUseCaseInputPort {
     override fun execute(email: String, password: String) {
         val id = UUID.randomUUID()

@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.serverist.infrastructure
 
+import com.uramnoil.serverist.application.server.Server
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.server.*
-import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toKotlinInstant

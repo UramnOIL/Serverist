@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.serverist.user.infrastructure.application
+package com.uramnoil.serverist.serverist.infrastructure.application.user
 
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.user.AccountId
@@ -6,8 +6,8 @@ import com.uramnoil.serverist.domain.serverist.models.user.Description
 import com.uramnoil.serverist.domain.serverist.models.user.Name
 import com.uramnoil.serverist.serverist.infrastructure.Users
 import org.jetbrains.exposed.sql.ResultRow
+import com.uramnoil.serverist.application.user.User as ApplicationUser
 import com.uramnoil.serverist.domain.serverist.models.user.User as DomainUser
-import com.uramnoil.serverist.serverist.application.user.User as ApplicationUser
 
 fun ResultRow.toApplicationUser() = ApplicationUser(
     this[Users.id].value,

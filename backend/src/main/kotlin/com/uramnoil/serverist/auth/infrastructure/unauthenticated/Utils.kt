@@ -6,7 +6,7 @@ import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.ActivationCode
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.Id
 import org.jetbrains.exposed.sql.ResultRow
-import com.uramnoil.serverist.auth.application.unauthenticated.queries.User as ApplicationUser
+import com.uramnoil.serverist.application.unauthenticated.queries.User as ApplicationUser
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.User as DomainUser
 
 fun DomainUser.toApplication() = ApplicationUser(
