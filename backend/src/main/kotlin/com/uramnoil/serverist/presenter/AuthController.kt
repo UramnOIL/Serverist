@@ -1,9 +1,10 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
-import com.uramnoil.serverist.auth.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseOutputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.queries.*
-import com.uramnoil.serverist.auth.application.unauthenticated.service.SendEmailToAuthenticateUseCase
+import com.uramnoil.serverist.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
+import com.uramnoil.serverist.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseOutputPort
+import com.uramnoil.serverist.application.unauthenticated.queries.*
+import com.uramnoil.serverist.application.unauthenticated.service.SendEmailToAuthenticateUseCaseInputPort
+import com.uramnoil.serverist.application.unauthenticated.service.SendEmailToAuthenticateUseCaseOutputPort
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
@@ -11,20 +12,20 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.time.ExperimentalTime
-import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseInputPort as CreateAuthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.authenticated.commands.CreateUserCommandUseCaseOutputPort as CreateAuthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.auth.application.authenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteAuthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.authenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteAuthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort as CreateUnauthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.CreateUserCommandUseCaseOutputPort as CreateUnauthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteUnauthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteUnauthenticatedUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseInputPort as CreateAuthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseOutputPort as CreateAuthenticatedUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.authenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteAuthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.authenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteAuthenticatedUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort as CreateUnauthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.unauthenticated.commands.CreateUserCommandUseCaseOutputPort as CreateUnauthenticatedUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.unauthenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteUnauthenticatedUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.unauthenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteUnauthenticatedUserCommandUseCaseOutputPort
 
 
 class AuthController(
     private val createUnauthenticatedUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateUnauthenticatedUserCommandUseCaseOutputPort) -> CreateUnauthenticatedUserCommandUseCaseInputPort,
     private val deleteUnauthenticatedUserUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteUnauthenticatedUserCommandUseCaseOutputPort) -> DeleteUnauthenticatedUserCommandUseCaseInputPort,
-    private val sendEmailToAuthenticateUseCase: SendEmailToAuthenticateUseCase,
+    private val sendEmailToAuthenticateUseCaseFactory: (coroutineContext: CoroutineContext, outputPort: SendEmailToAuthenticateUseCaseOutputPort) -> SendEmailToAuthenticateUseCaseInputPort,
     private val findUserByEmailAndPasswordQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByEmailAndPasswordQueryUseCaseOutputPort) -> FindUserByEmailAndPasswordQueryUseCaseInputPort,
     private val findUserByActivationCodeQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByActivationCodeQueryUseCaseOutputPort) -> FindUserByActivationCodeQueryUseCaseInputPort,
     private val findUserByEmailQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByEmailQueryUseCaseOutputPort) -> FindUserByEmailQueryUseCaseInputPort,
@@ -40,7 +41,7 @@ class AuthController(
     suspend fun signUp(email: String, password: String): Result<Unit> {
         val coroutineContext = currentCoroutineContext()
 
-        val authenticationCode = UUID.randomUUID()
+        val activationCode = UUID.randomUUID()
         val createResult = suspendCoroutine<Result<UUID>> {
             val outputPort = CreateUnauthenticatedUserCommandUseCaseOutputPort { result ->
                 it.resume(result)
@@ -48,7 +49,7 @@ class AuthController(
             createUnauthenticatedUserCommandUseCaseInputPortFactory(coroutineContext, outputPort).execute(
                 email,
                 password,
-                authenticationCode,
+                activationCode,
             )
         }
 
@@ -57,7 +58,12 @@ class AuthController(
         }
 
         // メール送信
-        return sendEmailToAuthenticateUseCase.execute(email, authenticationCode)
+        return suspendCoroutine {
+            val outputPort = SendEmailToAuthenticateUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            sendEmailToAuthenticateUseCaseFactory(coroutineContext, outputPort).execute(email, activationCode)
+        }
     }
 
     /**
@@ -152,7 +158,14 @@ class AuthController(
 
         user ?: return Result.failure(IllegalArgumentException("No inactive user has this email."))
 
-        return sendEmailToAuthenticateUseCase.execute(user.email, user.activationCode)
+
+        // メール送信
+        return suspendCoroutine {
+            val outputPort = SendEmailToAuthenticateUseCaseOutputPort { result ->
+                it.resume(result)
+            }
+            sendEmailToAuthenticateUseCaseFactory(coroutineContext, outputPort).execute(user.email, user.activationCode)
+        }
     }
 
     /**

@@ -1,10 +1,11 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.Sort
-import com.uramnoil.serverist.serverist.application.server.Server
-import com.uramnoil.serverist.serverist.application.server.commands.*
-import com.uramnoil.serverist.serverist.application.server.queries.*
-import com.uramnoil.serverist.serverist.application.server.services.ServerService
+import com.uramnoil.serverist.application.OrderBy
+import com.uramnoil.serverist.application.Sort
+import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.application.server.commands.*
+import com.uramnoil.serverist.application.server.queries.*
+import com.uramnoil.serverist.application.server.services.ServerService
 import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
 import kotlin.coroutines.CoroutineContext

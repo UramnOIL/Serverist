@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.serverist.application.user.User
-import com.uramnoil.serverist.serverist.application.user.commands.*
-import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
+import com.uramnoil.serverist.application.user.User
+import com.uramnoil.serverist.application.user.commands.*
+import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
 import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
 import kotlin.coroutines.CoroutineContext
