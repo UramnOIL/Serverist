@@ -38,7 +38,7 @@ class SpringBootSendEmailToAuthenticateServiceInputPort(
                 }
 
                 mailSender.send(message)
-                outputPort.execute(Result.success(Unit))
+                outputPort.handle(Result.success(Unit))
             }
         }
     }

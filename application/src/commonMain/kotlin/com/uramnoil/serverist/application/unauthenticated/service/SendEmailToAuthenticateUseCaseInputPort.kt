@@ -20,5 +20,5 @@ fun interface SendEmailToAuthenticateUseCaseOutputPort {
     /**
      *
      */
-    fun execute(result: Result<Unit>)
+    fun handle(result: Result<Unit>)
 }
