@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.routing
 
 import com.uramnoil.serverist.AuthSession
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.AccountAlreadyExistsException
-import com.uramnoil.serverist.auth.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
+import com.uramnoil.serverist.application.unauthenticated.commands.AccountAlreadyExistsException
+import com.uramnoil.serverist.application.unauthenticated.commands.VerificationCodeHasAlreadyBeenSentException
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.presenter.AuthController

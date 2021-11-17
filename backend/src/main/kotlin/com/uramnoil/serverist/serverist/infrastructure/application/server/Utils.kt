@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server
 
 import com.uramnoil.serverist.domain.serverist.models.server.Server
-import com.uramnoil.serverist.serverist.application.server.Server as ApplicationServer
+import com.uramnoil.serverist.application.server.Server as ApplicationServer
 
 fun Server.toApplication() = ApplicationServer(
     id = id.value,
