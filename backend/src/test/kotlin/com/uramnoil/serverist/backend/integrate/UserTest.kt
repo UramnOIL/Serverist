@@ -5,7 +5,7 @@ import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.mainModule
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.Users
-import com.uramnoil.serverist.serverist.user.infrastructure.application.toApplicationUser
+import com.uramnoil.serverist.serverist.infrastructure.application.user.toApplicationUser
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
