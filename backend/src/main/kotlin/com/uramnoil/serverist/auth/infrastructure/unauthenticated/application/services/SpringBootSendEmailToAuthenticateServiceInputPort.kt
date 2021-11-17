@@ -37,8 +37,10 @@ class SpringBootSendEmailToAuthenticateServiceInputPort(
                     text = "$activateUrl?code=${activationCode}"
                 }
 
-                mailSender.send(message)
-                outputPort.handle(Result.success(Unit))
+                val result = kotlin.runCatching {
+                    mailSender.send(message)
+                }
+                outputPort.handle(result)
             }
         }
     }
