@@ -2,9 +2,9 @@ package com.uramnoil.serverist.graphql
 
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
-import com.uramnoil.serverist.Sort
+import com.uramnoil.serverist.application.OrderBy
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.presenter.ServerController
-import com.uramnoil.serverist.serverist.application.server.queries.OrderBy
 import java.util.*
 
 fun SchemaBuilder.serverSchema(controller: ServerController) {
