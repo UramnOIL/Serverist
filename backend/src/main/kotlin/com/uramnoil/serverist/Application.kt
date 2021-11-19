@@ -1,13 +1,15 @@
 package com.uramnoil.serverist
 
-import com.uramnoil.serverist.auth.infrastructure.authenticated.domain.ExposedUserRepositoryImpl
+import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.domain.repositories.ExposedUserRepositoryImpl
 import com.uramnoil.serverist.exceptions.NoAuthorityException
 import com.uramnoil.serverist.koin.application.buildAuthController
 import com.uramnoil.serverist.koin.application.buildServeristControllers
 import com.uramnoil.serverist.routing.routingAuth
 import com.uramnoil.serverist.routing.routingGraphQL
 import com.uramnoil.serverist.serverist.infrastructure.Servers
-import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedServerRepository
+import com.uramnoil.serverist.serverist.infrastructure.domain.repositories.ExposedServerRepository
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -31,11 +33,9 @@ import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 import java.io.File
 import java.util.*
-import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
-import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
-import com.uramnoil.serverist.auth.infrastructure.unauthenticated.domain.repositories.ExposedUserRepository as ExposedUnauthenticatedUserRepository
+import com.uramnoil.serverist.auth.infrastructure.domain.repositories.ExposedUserRepository as ExposedUnauthenticatedUserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
-import com.uramnoil.serverist.serverist.infrastructure.repositories.ExposedUserRepository as ExposedServeristUserRepository
+import com.uramnoil.serverist.serverist.infrastructure.domain.repositories.ExposedUserRepository as ExposedServeristUserRepository
 
 object UUIDSerializer : KSerializer<UUID> {
     override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
