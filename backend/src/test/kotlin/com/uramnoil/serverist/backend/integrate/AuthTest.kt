@@ -211,10 +211,10 @@ class AuthTest : FunSpec({
                     it[AuthenticatedUsers.hashedPassword] = hashedPassword
                 }
                 ServeristUsers.insert {
-                    it[ServeristUsers.id] = uuid
-                    it[ServeristUsers.accountId] = "hoge"
-                    it[ServeristUsers.name] = "hoge"
-                    it[ServeristUsers.description] = "hoge"
+                    it[id] = uuid
+                    it[accountId] = "hoge"
+                    it[name] = "hoge"
+                    it[description] = "hoge"
                 }
             }
             cookiesSession {
@@ -255,10 +255,10 @@ class AuthTest : FunSpec({
                     it[AuthenticatedUsers.hashedPassword] = hashedPassword
                 }
                 ServeristUsers.insert {
-                    it[ServeristUsers.id] = uuid
-                    it[ServeristUsers.accountId] = "hoge"
-                    it[ServeristUsers.name] = "hoge"
-                    it[ServeristUsers.description] = "hoge"
+                    it[id] = uuid
+                    it[accountId] = "hoge"
+                    it[name] = "hoge"
+                    it[description] = "hoge"
                 }
             }
             cookiesSession {
