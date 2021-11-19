@@ -28,5 +28,6 @@ include(
 )
 
 include(
-    ":backend"
+    ":backend",
+    ":clientCommon"
 )
