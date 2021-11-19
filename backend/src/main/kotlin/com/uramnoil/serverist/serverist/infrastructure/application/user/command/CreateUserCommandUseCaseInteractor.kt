@@ -8,7 +8,7 @@ import com.uramnoil.serverist.domain.serverist.models.user.Description
 import com.uramnoil.serverist.domain.serverist.models.user.Name
 import com.uramnoil.serverist.domain.serverist.models.user.User
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
-import com.uramnoil.serverist.serverist.infrastructure.application.user.toApplicationUser
+import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*

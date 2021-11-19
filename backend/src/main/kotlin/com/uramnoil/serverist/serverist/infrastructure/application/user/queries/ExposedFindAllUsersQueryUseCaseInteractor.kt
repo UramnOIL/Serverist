@@ -3,7 +3,7 @@ package com.uramnoil.serverist.serverist.infrastructure.application.user.queries
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQueryUseCaseInputPort
 import com.uramnoil.serverist.application.user.queries.FindAllUsersQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Users
-import com.uramnoil.serverist.serverist.infrastructure.application.user.toApplicationUser
+import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.selectAll
