@@ -4,7 +4,7 @@ import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseI
 import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
-import com.uramnoil.serverist.serverist.infrastructure.application.user.toApplicationUser
+import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*

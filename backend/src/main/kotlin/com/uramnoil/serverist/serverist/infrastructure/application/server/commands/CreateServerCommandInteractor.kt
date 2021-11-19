@@ -7,7 +7,7 @@ import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.server.*
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
-import com.uramnoil.serverist.serverist.infrastructure.application.server.toApplication
+import com.uramnoil.serverist.serverist.infrastructure.toApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
