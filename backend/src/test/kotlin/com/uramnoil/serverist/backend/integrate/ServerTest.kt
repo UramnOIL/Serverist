@@ -1,6 +1,7 @@
 package com.uramnoil.serverist.backend.integrate
 
-import com.uramnoil.serverist.auth.infrastructure.HashPasswordServiceImpl
+import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.domain.kernel.service.HashPasswordServiceImpl
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.mainModule
 import com.uramnoil.serverist.serverist.infrastructure.Servers
@@ -18,7 +19,6 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
-import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 class ServerTest : FunSpec({

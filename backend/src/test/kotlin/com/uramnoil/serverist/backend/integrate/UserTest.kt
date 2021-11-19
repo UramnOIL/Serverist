@@ -1,11 +1,12 @@
 package com.uramnoil.serverist.backend.integrate
 
-import com.uramnoil.serverist.auth.infrastructure.HashPasswordServiceImpl
+import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.domain.kernel.service.HashPasswordServiceImpl
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.mainModule
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.Users
-import com.uramnoil.serverist.serverist.infrastructure.application.user.toApplicationUser
+import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -21,7 +22,6 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
-import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
 
 class UserTest : FunSpec({
     val uuid = UUID.randomUUID()

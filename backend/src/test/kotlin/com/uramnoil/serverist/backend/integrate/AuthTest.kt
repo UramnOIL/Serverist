@@ -3,7 +3,9 @@ package com.uramnoil.serverist.backend.integrate
 import com.icegreen.greenmail.util.GreenMail
 import com.icegreen.greenmail.util.GreenMailUtil
 import com.icegreen.greenmail.util.ServerSetupTest
-import com.uramnoil.serverist.auth.infrastructure.HashPasswordServiceImpl
+import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
+import com.uramnoil.serverist.auth.infrastructure.domain.kernel.service.HashPasswordServiceImpl
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.mainModule
@@ -26,8 +28,6 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
-import com.uramnoil.serverist.auth.infrastructure.authenticated.Users as AuthenticatedUsers
-import com.uramnoil.serverist.auth.infrastructure.unauthenticated.Users as UnauthenticatedUsers
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 class AuthTest : FunSpec({

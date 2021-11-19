@@ -3,7 +3,7 @@ package com.uramnoil.serverist.backend.auth.infrastructure.unauthenticated.servi
 import com.icegreen.greenmail.util.GreenMail
 import com.icegreen.greenmail.util.GreenMailUtil
 import com.icegreen.greenmail.util.ServerSetupTest
-import com.uramnoil.serverist.auth.infrastructure.unauthenticated.application.services.SpringBootSendEmailToAuthenticateServiceInputPort
+import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.services.SpringBootSendEmailToAuthenticateServiceInputPort
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
