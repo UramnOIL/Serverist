@@ -3,17 +3,17 @@ plugins {
 }
 
 kotlin {
-    js(IR) {
-        binaries.library()
-    }
+    jvm()
 
     val ktorVersion: String by project
+    val coroutinesVersion: String by project
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":application"))
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation(project(":application"))
+                implementation("io.ktor:ktor-client-core:1.6.5")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
     }
