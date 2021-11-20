@@ -15,6 +15,8 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 import java.util.*
 
@@ -40,7 +42,7 @@ fun Application.routingAuth() = routing {
         val id = loginResult.getOrThrow()
 
         call.sessions.set(AuthSession(id))
-        call.respond(HttpStatusCode.OK)
+        call.respond(HttpStatusCode.OK, Json.encodeToString(mapOf("id" to id.toString())))
     }
 
     authenticate("auth-session") {
