@@ -1,5 +1,7 @@
 package com.uramnoil.serverist.application.authenticated
 
+import com.benasher44.uuid.Uuid
+
 /**
  *
  */
@@ -17,5 +19,5 @@ fun interface LoginUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Unit>)
+    fun handle(result: Result<Uuid>)
 }
