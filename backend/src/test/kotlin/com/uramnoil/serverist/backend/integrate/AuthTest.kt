@@ -175,9 +175,10 @@ class AuthTest : FunSpec({
             val email = "hoge@example.com"
             val password = "abcd1234"
             val hashedPassword = HashPasswordServiceImpl().hash(Password(password)).value
+            val uuid = UUID.randomUUID()
             transaction {
                 AuthenticatedUsers.insert {
-                    it[AuthenticatedUsers.id] = UUID.randomUUID()
+                    it[AuthenticatedUsers.id] = uuid
                     it[AuthenticatedUsers.email] = email
                     it[AuthenticatedUsers.hashedPassword] = hashedPassword
                 }
@@ -188,6 +189,7 @@ class AuthTest : FunSpec({
                     setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
                 }) {
                     response.cookies["AUTH"] shouldNotBe null
+                    response.content shouldBe """{"id":"$uuid"}"""
                 }
             }
         }
