@@ -1,7 +1,5 @@
 package com.uramnoil.serverist.application.authenticated
 
-import com.benasher44.uuid.Uuid
-
 /**
  * サインアップ用ユースケース
  * クライアントサイドで使用
@@ -24,5 +22,5 @@ fun interface SignupUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Uuid>)
+    fun handle(result: Result<Unit>)
 }
