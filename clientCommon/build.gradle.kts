@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization")
     id("com.apollographql.apollo")
 }
 
@@ -8,6 +9,7 @@ kotlin {
 
     val ktorVersion: String by project
     val coroutinesVersion: String by project
+    val serializationVersion: String by project
     val apolloVersion: String by project
 
     sourceSets {
@@ -17,6 +19,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:1.6.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
         }
     }
