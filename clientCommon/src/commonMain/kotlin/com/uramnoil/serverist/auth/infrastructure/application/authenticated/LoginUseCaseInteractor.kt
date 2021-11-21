@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.auth.infrastructure.application.authenticated.commands
+package com.uramnoil.serverist.auth.infrastructure.application.authenticated
 
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.application.authenticated.LoginUseCaseInputPort

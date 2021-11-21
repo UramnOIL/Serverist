@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.auth.infrastructure.application.authenticated.commands
 
+import com.uramnoil.serverist.auth.infrastructure.application.authenticated.LoginUseCaseInteractor
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.*
