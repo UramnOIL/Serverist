@@ -28,7 +28,7 @@ class SignupUseCaseInteractorTest : FunSpec({
             }
             engine {
                 addHandler { request ->
-                    if ("${request.url.protocol.name}://${request.url.host}${request.url.fullPath}" != "https://serverist.com/signin") {
+                    if ("${request.url.protocol.name}://${request.url.host}${request.url.fullPath}" != "https://serverist.com/signup") {
                         return@addHandler respondError(HttpStatusCode.NotFound)
                     }
                     if (request.method != HttpMethod.Post) {
