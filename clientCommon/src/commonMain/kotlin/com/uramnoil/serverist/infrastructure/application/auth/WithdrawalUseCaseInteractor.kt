@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastructure.application.authenticated
+package com.uramnoil.serverist.infrastructure.application.auth
 
 import com.uramnoil.serverist.application.auth.WithdrawalUseCaseInputPort
 import com.uramnoil.serverist.application.auth.WithdrawalUseCaseOutputPort
