@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.auth.infrastructure.application.authenticated
+package com.uramnoil.serverist.infrastructure.application.authenticated
 
-import com.uramnoil.serverist.application.authenticated.SignupUseCaseInputPort
-import com.uramnoil.serverist.application.authenticated.SignupUseCaseOutputPort
+import com.uramnoil.serverist.application.auth.SignupUseCaseInputPort
+import com.uramnoil.serverist.application.auth.SignupUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
 import io.ktor.client.*

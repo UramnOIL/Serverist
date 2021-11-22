@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.auth.infrastructure.application.authenticated
+package com.uramnoil.serverist.infrastructure.application.authenticated
 
-import com.uramnoil.serverist.application.authenticated.WithdrawalUseCaseInputPort
-import com.uramnoil.serverist.application.authenticated.WithdrawalUseCaseOutputPort
+import com.uramnoil.serverist.application.auth.WithdrawalUseCaseInputPort
+import com.uramnoil.serverist.application.auth.WithdrawalUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
 import io.ktor.client.*

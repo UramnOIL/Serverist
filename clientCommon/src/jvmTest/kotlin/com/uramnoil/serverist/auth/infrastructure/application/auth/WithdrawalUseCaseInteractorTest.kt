@@ -1,5 +1,6 @@
-package com.uramnoil.serverist.auth.infrastructure.application.authenticated
+package com.uramnoil.serverist.auth.infrastructure.application.auth
 
+import com.uramnoil.serverist.infrastructure.application.authenticated.WithdrawalUseCaseInteractor
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
