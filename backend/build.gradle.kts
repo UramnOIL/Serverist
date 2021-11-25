@@ -98,13 +98,11 @@ dependencies {
     testImplementation("com.icegreen", "greenmail", "1.6.5")
 }
 
-tasks.withType<Jar> {
+project.setProperty("mainClassName", "io.ktor.server.netty.EngineMain")
+
+tasks.shadowJar {
     manifest {
-        attributes(
-            mapOf(
-                "Main-Class" to application.mainClass.get()
-            )
-        )
+        attributes(Pair("Main-Class", "io.ktor.server.netty.EngineMain"))
     }
 }
 
