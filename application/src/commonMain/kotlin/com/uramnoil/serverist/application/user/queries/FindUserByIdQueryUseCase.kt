@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.user.queries
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.user.User
-import java.util.*
 
 /**
  *
@@ -10,7 +10,7 @@ interface FindUserByIdQueryUseCaseInputPort {
     /**
      *
      */
-    fun execute(id: UUID)
+    fun execute(id: Uuid)
 }
 
 /**

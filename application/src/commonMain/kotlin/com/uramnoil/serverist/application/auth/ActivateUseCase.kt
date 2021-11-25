@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.application.auth
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 fun interface ActivateUseCaseInputPort {
-    fun execute(code: UUID)
+    fun execute(code: Uuid)
 }
 
 fun interface ActivateUseCaseOutputPort {

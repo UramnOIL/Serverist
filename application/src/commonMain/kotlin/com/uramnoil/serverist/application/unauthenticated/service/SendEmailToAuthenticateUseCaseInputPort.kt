@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.unauthenticated.service
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 
 /**
@@ -10,7 +10,7 @@ fun interface SendEmailToAuthenticateUseCaseInputPort {
     /**
      *
      */
-    fun execute(email: String, activationCode: UUID)
+    fun execute(email: String, activationCode: Uuid)
 }
 
 /**

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.authenticated.queries
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 
 /**
@@ -20,5 +20,5 @@ fun interface FindUserByEmailAndPasswordQueryUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<UUID?>)
+    fun handle(result: Result<Uuid?>)
 }

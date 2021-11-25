@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.application.user
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 data class User(
-    val id: UUID,
+    val id: Uuid,
     val accountId: String,
     val name: String,
     val description: String

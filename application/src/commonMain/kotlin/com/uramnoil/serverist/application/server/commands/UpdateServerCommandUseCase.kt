@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.server.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 
 /**
@@ -10,7 +10,7 @@ interface UpdateServerCommandUseCaseInputPort {
     /**
      *
      */
-    fun execute(id: UUID, name: String, host: String?, port: UShort?, description: String)
+    fun execute(id: Uuid, name: String, host: String?, port: UShort?, description: String)
 }
 
 /**

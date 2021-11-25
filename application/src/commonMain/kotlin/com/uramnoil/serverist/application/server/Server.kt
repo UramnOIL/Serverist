@@ -1,12 +1,12 @@
 package com.uramnoil.serverist.application.server
 
+import com.benasher44.uuid.Uuid
 import kotlinx.datetime.Instant
-import java.util.*
 
 data class Server(
-    val id: UUID,
+    val id: Uuid,
     val createdAt: Instant,
-    val ownerId: UUID,
+    val ownerId: Uuid,
     val name: String,
     val host: String?,
     val port: Int?,
