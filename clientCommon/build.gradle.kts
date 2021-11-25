@@ -21,7 +21,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("com.apollographql.apollo:apollo-runtime:$apolloVersion")
                 implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
+                implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
         }
@@ -52,4 +54,8 @@ kotlin {
             }
         }
     }
+}
+
+apollo {
+    generateKotlinModels.set(true)
 }
