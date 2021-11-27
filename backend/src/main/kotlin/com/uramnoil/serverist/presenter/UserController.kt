@@ -12,7 +12,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class UserController(
     private val createUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateUserCommandUseCaseOutputPort) -> CreateUserCommandUseCaseInputPort,
-    private val updateUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: UpdateUserCommandUseCaseOutputPort) -> UpdateUserCommandUseCaseInputPort,
+    private val updateUserCommandUseCaseInputPortForServerFactory: (coroutineContext: CoroutineContext, outputPort: UpdateUserCommandUseCaseOutputPort) -> UpdateUserCommandUseCaseInputPortForServer,
     private val deleteUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteUserCommandUseCaseOutputPort) -> DeleteUserCommandUseCaseInputPort,
     private val findUserByIdQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByIdQueryUseCaseOutputPort) -> FindUserByIdQueryUseCaseInputPort,
 ) {
@@ -32,7 +32,12 @@ class UserController(
             val outputPort = UpdateUserCommandUseCaseOutputPort { result ->
                 it.resume(result)
             }
-            updateUserCommandUseCaseInputPortFactory(context, outputPort).execute(id, accountId, name, description)
+            updateUserCommandUseCaseInputPortForServerFactory(context, outputPort).execute(
+                id,
+                accountId,
+                name,
+                description
+            )
         }
     }
 
