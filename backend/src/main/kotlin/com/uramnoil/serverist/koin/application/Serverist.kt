@@ -49,7 +49,7 @@ fun Application.buildServeristControllers(
         createUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
             CreateUserCommandUseCaseInteractor(userRepository, outputPort, coroutineContext)
         },
-        updateUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
+        updateUserCommandUseCaseInputPortForServerFactory = { coroutineContext, outputPort ->
             UpdateUserCommandUseCaseInteractorForServer(userRepository, outputPort, coroutineContext)
         },
         deleteUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
