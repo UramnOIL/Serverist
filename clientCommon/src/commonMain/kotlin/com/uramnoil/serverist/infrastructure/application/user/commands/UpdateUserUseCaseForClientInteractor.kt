@@ -7,7 +7,6 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -25,13 +24,12 @@ import kotlin.coroutines.CoroutineContext
  * )
  * ```
  */
-class UpdateUserUseCaseForClientInteractor @OptIn(ExperimentalCoroutinesApi::class) constructor(
+class UpdateUserUseCaseForClientInteractor(
     private val httpClient: HttpClient,
     private val url: String,
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
 ) : UpdateUserCommandUseCaseInputPortForClient {
-    @ExperimentalCoroutinesApi
     override fun execute(accountId: String, name: String, description: String) {
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {
