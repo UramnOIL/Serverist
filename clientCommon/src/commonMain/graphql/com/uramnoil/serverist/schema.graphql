@@ -1,0 +1,21 @@
+query FindServersByOwner($uuid: UUID!, $page: PageRequest, $sort: Sort, $orderBy: OrderBy) {
+  findServersByOwner(
+    ownerId: $uuid
+    page: $page
+    sort: $sort
+    orderBy: $orderBy
+  ) {
+    id,
+    name,
+    ownerId,
+    host,
+    port,
+    description,
+  }
+}
+
+mutation UpdateUser($name: String!, $accountId: String!, $description: String!) {
+  updateUser(name: $name, accountId: $accountId, description: $description) {
+    id
+  }
+}
