@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.auth.infrastructure.application.auth
 
-import com.uramnoil.serverist.infrastructure.application.auth.WithdrawalUseCaseInteractor
+import com.uramnoil.serverist.infrastructure.application.auth.WithdrawalUseCaseInteractorForClient
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
@@ -55,7 +55,7 @@ class WithdrawalUseCaseInteractorTest : FunSpec({
         val coroutineContext = currentCoroutineContext()
 
         val result = suspendCoroutine<Result<Unit>> {
-            WithdrawalUseCaseInteractor(
+            WithdrawalUseCaseInteractorForClient(
                 client,
                 "https://serverist.com",
                 { result ->

@@ -3,7 +3,12 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm("jvm-server") {
+        dependencies {
+            //val serverMain by sourceSets.getting
+            //metadataImplementation(serverMain)
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
