@@ -6,7 +6,6 @@ import com.uramnoil.serverist.application.auth.ActivateUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.toApplicationUnauthenticatedUser
 import com.uramnoil.serverist.domain.auth.authenticated.models.User
-import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.common.user.Id
@@ -17,9 +16,12 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository as AuthenticatedUserRepository
+import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository as UnauthenticatedUserRepository
 
 class ActivateUseCaseInteractor(
-    private val repository: UserRepository,
+    private val authenticatedUserRepository: AuthenticatedUserRepository,
+    private val unauthenticatedUserRepository: UnauthenticatedUserRepository,
     private val userController: UserController,
     coroutineContext: CoroutineContext,
     private val outputPort: ActivateUseCaseOutputPort,
@@ -42,7 +44,7 @@ class ActivateUseCaseInteractor(
 
                 val newUser = newResult.getOrThrow()
 
-                val insertResult = repository.insert(newUser)
+                val insertResult = authenticatedUserRepository.insert(newUser)
                 insertResult.getOrThrow()
 
                 // ServeristUser作成ステップ
@@ -58,12 +60,16 @@ class ActivateUseCaseInteractor(
 
                 // UnauthenticatedUser削除ステップ
 
-                val findResult = repository.findById(Id(user.id))
+                // UnauthenticatedUserを検索
+                val findResult = unauthenticatedUserRepository.findById(
+                    com.uramnoil.serverist.domain.auth.unauthenticated.models.Id(user.id)
+                )
                 val domainUser = findResult.getOrThrow()
 
                 domainUser ?: error("This is id of user that should not have already been deleted.") // 削除されているはずのないユーザー
 
-                Unit
+                val deleteResult = unauthenticatedUserRepository.delete(domainUser)
+                deleteResult.getOrThrow()
             }
 
             outputPort.handle(result)
