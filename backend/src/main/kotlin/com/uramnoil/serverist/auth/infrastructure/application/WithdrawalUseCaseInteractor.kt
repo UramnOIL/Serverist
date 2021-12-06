@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class WithdrawalUseCaseInputPortInteractor(
+class WithdrawalUseCaseInteractor(
     private val repository: UserRepository,
     coroutineContext: CoroutineContext,
     private val outputPort: WithdrawalUseCaseOutputPort,

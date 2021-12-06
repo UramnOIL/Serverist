@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlin.coroutines.CoroutineContext
 
-class LoginUseCaseInputPortInteractor(
+class LoginUseCaseInteractor(
     private val hashPasswordService: HashPasswordService,
     coroutineContext: CoroutineContext,
     private val outputPort: LoginUseCaseOutputPort,
