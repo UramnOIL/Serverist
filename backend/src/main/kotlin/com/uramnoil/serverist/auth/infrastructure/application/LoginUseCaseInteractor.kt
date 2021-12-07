@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
-import com.uramnoil.serverist.application.auth.LoginUseCaseInputPort
-import com.uramnoil.serverist.application.auth.LoginUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.LoginUseCaseInputPort
+import com.uramnoil.serverist.auth.application.LoginUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.toApplicationAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword

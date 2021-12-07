@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.auth.ActivateUseCaseInputPort
-import com.uramnoil.serverist.application.auth.ActivateUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.ActivateUseCaseInputPort
+import com.uramnoil.serverist.auth.application.ActivateUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.toApplicationUnauthenticatedUser
 import com.uramnoil.serverist.domain.auth.authenticated.models.User

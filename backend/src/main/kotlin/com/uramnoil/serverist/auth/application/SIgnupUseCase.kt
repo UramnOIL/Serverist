@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.auth
+package com.uramnoil.serverist.auth.application
 
 /**
  * サインアップ用ユースケース

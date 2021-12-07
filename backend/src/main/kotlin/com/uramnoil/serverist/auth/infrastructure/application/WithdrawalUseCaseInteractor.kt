@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.auth.WithdrawalUseCaseInputPortForServer
-import com.uramnoil.serverist.application.auth.WithdrawalUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.WithdrawalUseCaseInputPortForServer
+import com.uramnoil.serverist.auth.application.WithdrawalUseCaseOutputPort
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
