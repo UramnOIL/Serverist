@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.server.services
+package com.uramnoil.serverist.serverist.application.server.services
 
 import com.benasher44.uuid.Uuid
 

@@ -1,23 +1,23 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.user.command
 
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseInputPortForServer
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseOutputPort
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.domain.serverist.models.user.AccountId
 import com.uramnoil.serverist.domain.serverist.models.user.Description
 import com.uramnoil.serverist.domain.serverist.models.user.Name
 import com.uramnoil.serverist.domain.serverist.repositories.UserRepository
+import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserCommandUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class UpdateUserCommandUseCaseInteractorForServer(
+class UpdateUserCommandUseCaseInteractor(
     private val repository: UserRepository,
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
-) : UpdateUserCommandUseCaseInputPortForServer {
+) : UpdateUserCommandUseCaseInputPort {
     override fun execute(id: UUID, accountId: String, name: String, description: String) {
         CoroutineScope(coroutineContext).launch {
             val user = repository.findById(Id(id)).getOrElse {

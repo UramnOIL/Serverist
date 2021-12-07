@@ -1,7 +1,7 @@
-package com.uramnoil.serverist.application.server.queries
+package com.uramnoil.serverist.serverist.application.server.queries
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.Server
 
 /**
  *

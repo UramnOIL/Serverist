@@ -1,10 +1,10 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.queries
 
-import com.uramnoil.serverist.application.OrderBy
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.Server
-import com.uramnoil.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.queries.FindAllServersQueryUseCaseOutputPort
+import com.uramnoil.serverist.serverist.application.OrderBy
+import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.queries.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.queries.FindAllServersQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.toApplicationServer
 import kotlinx.coroutines.CoroutineScope

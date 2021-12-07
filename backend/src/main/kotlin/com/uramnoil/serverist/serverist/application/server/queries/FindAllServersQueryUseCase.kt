@@ -1,8 +1,8 @@
-package com.uramnoil.serverist.application.server.queries
+package com.uramnoil.serverist.serverist.application.server.queries
 
-import com.uramnoil.serverist.application.OrderBy
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.OrderBy
+import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.serverist.application.server.Server
 
 /**
  *

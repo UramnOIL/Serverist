@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.user
+package com.uramnoil.serverist.serverist.application.user
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
