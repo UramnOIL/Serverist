@@ -5,7 +5,7 @@ import com.benasher44.uuid.Uuid
 /**
  *
  */
-fun interface LoginUseCaseInputPort {
+fun interface SingInUseCaseInputPort {
     /**
      *
      */
@@ -15,7 +15,7 @@ fun interface LoginUseCaseInputPort {
 /**
  *
  */
-fun interface LoginUseCaseOutputPort {
+fun interface SignInUseCaseOutputPort {
     /**
      *
      */

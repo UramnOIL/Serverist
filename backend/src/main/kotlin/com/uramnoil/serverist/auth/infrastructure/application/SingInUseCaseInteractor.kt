@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
-import com.uramnoil.serverist.auth.application.LoginUseCaseInputPort
-import com.uramnoil.serverist.auth.application.LoginUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.SignInUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.SingInUseCaseInputPort
 import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
 import com.uramnoil.serverist.auth.infrastructure.toApplicationAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
@@ -13,11 +13,11 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlin.coroutines.CoroutineContext
 
-class LoginUseCaseInteractor(
+class SingInUseCaseInteractor(
     private val hashPasswordService: HashPasswordService,
     coroutineContext: CoroutineContext,
-    private val outputPort: LoginUseCaseOutputPort,
-) : LoginUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+    private val outputPort: SignInUseCaseOutputPort,
+) : SingInUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(email: String, password: String) {
         launch {
             val rowResult = kotlin.runCatching {
