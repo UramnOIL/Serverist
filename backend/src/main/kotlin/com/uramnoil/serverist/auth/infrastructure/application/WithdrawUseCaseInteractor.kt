@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.auth.application.WithdrawalUseCaseInputPortForServer
-import com.uramnoil.serverist.auth.application.WithdrawalUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.WithdrawUseCaseInputPort
+import com.uramnoil.serverist.auth.application.WithdrawUseCaseOutputPort
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.domain.common.user.Id
@@ -10,11 +10,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class WithdrawalUseCaseInteractor(
+class WithdrawUseCaseInteractor(
     private val repository: UserRepository,
     coroutineContext: CoroutineContext,
-    private val outputPort: WithdrawalUseCaseOutputPort,
-) : WithdrawalUseCaseInputPortForServer, CoroutineScope by CoroutineScope(coroutineContext) {
+    private val outputPort: WithdrawUseCaseOutputPort,
+) : WithdrawUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(id: Uuid) {
         launch {
             val userResult = repository.findById(Id(id))

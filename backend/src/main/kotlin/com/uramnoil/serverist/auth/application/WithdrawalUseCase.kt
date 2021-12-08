@@ -2,14 +2,11 @@ package com.uramnoil.serverist.auth.application
 
 import com.benasher44.uuid.Uuid
 
-fun interface WithdrawalUseCaseInputPortForClient {
-    fun execute()
-}
 
-fun interface WithdrawalUseCaseInputPortForServer {
+fun interface WithdrawUseCaseInputPort {
     fun execute(id: Uuid)
 }
 
-fun interface WithdrawalUseCaseOutputPort {
+fun interface WithdrawUseCaseOutputPort {
     fun handle(result: Result<Unit>)
 }
