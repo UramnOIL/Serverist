@@ -12,7 +12,7 @@ fun interface SignupUseCaseInputPort {
     /**
      *
      */
-    fun execute(email: String, password: String)
+    fun execute(email: String, password: String, activateCode: String)
 }
 
 /**
