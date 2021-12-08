@@ -10,7 +10,7 @@ import java.util.*
 /**
  *
  */
-fun interface SignupUseCaseInputPort {
+fun interface SignUpUseCaseInputPort {
     /**
      *
      */
@@ -20,7 +20,7 @@ fun interface SignupUseCaseInputPort {
 /**
  *
  */
-fun interface SignupUseCaseOutputPort {
+fun interface SignUpUseCaseOutputPort {
     /**
      *
      */
