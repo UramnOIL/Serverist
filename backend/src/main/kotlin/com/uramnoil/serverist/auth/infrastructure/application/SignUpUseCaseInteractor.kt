@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
-import com.uramnoil.serverist.auth.application.SendActivationEmailService
+import com.uramnoil.serverist.auth.application.SendEmailService
 import com.uramnoil.serverist.auth.application.SignUpUseCaseInputPort
 import com.uramnoil.serverist.auth.application.SignUpUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
@@ -20,7 +20,7 @@ import kotlin.coroutines.CoroutineContext
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository as UnathenticatedUserRepository
 
 class SignUpUseCaseInteractor(
-    private val sendEmailToAuthenticateService: SendActivationEmailService,
+    private val sendEmailService: SendEmailService,
     private val hashPasswordService: HashPasswordService,
     private val unauthenticatedUserRepository: UnathenticatedUserRepository,
     coroutineContext: CoroutineContext,
@@ -48,7 +48,7 @@ class SignUpUseCaseInteractor(
 
                 val newUser = newResult.getOrThrow()
 
-                sendEmailToAuthenticateService.sendEmail(email, activationCode).getOrThrow()
+                sendEmailService.sendActivationEmail(email, activationCode).getOrThrow()
 
                 unauthenticatedUserRepository.insert(newUser).getOrThrow()
             }
