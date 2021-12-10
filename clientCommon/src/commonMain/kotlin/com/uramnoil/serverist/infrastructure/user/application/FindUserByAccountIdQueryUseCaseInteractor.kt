@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastructure.application.user
+package com.uramnoil.serverist.infrastructure.user.application
 
 import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseInput
 import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseInputPort
