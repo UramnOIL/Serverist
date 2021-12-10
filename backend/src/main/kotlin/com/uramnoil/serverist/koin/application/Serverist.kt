@@ -13,7 +13,7 @@ import com.uramnoil.serverist.serverist.infrastructure.application.server.querie
 import com.uramnoil.serverist.serverist.infrastructure.application.server.services.ExposedServerService
 import com.uramnoil.serverist.serverist.infrastructure.application.user.command.CreateUserCommandUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.command.DeleteUserCommandUseCaseInteractor
-import com.uramnoil.serverist.serverist.infrastructure.application.user.command.UpdateUserCommandUseCaseInteractorForServer
+import com.uramnoil.serverist.serverist.infrastructure.application.user.command.UpdateUserCommandUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.FindUserByIdQueryUseCaseInteractor
 import io.ktor.application.*
 
@@ -49,8 +49,8 @@ fun Application.buildServeristControllers(
         createUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
             CreateUserCommandUseCaseInteractor(userRepository, outputPort, coroutineContext)
         },
-        updateUserCommandUseCaseInputPortForServerFactory = { coroutineContext, outputPort ->
-            UpdateUserCommandUseCaseInteractorForServer(userRepository, outputPort, coroutineContext)
+        updateUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
+            UpdateUserCommandUseCaseInteractor(userRepository, outputPort, coroutineContext)
         },
         deleteUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
             DeleteUserCommandUseCaseInteractor(userRepository, outputPort, coroutineContext)

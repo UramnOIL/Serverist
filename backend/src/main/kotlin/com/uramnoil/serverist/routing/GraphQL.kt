@@ -2,13 +2,13 @@ package com.uramnoil.serverist.routing
 
 import com.apurebase.kgraphql.GraphQL
 import com.uramnoil.serverist.AuthSession
-import com.uramnoil.serverist.application.OrderBy
-import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.graphql.PageRequest
 import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
 import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
+import com.uramnoil.serverist.serverist.application.OrderBy
+import com.uramnoil.serverist.serverist.application.Sort
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.sessions.*

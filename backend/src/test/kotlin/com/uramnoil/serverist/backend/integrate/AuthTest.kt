@@ -187,6 +187,7 @@ class AuthTest : FunSpec({
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
                 }) {
+                    response.status() shouldBe HttpStatusCode.OK
                     response.cookies["AUTH"] shouldNotBe null
                 }
             }

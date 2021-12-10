@@ -122,7 +122,7 @@ fun Application.productKoin() {
         val serverRepository = ExposedServerRepository()
         val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
         val authController =
-            buildAuthController(unauthenticatedUserRepository, authenticatedUserRepository, userController)
+            buildAuthController(log, unauthenticatedUserRepository, authenticatedUserRepository, userController)
         modules(module {
             single { userController }
             single { serverController }
