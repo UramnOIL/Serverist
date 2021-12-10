@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastructure.application.user.commands
+package com.uramnoil.serverist.infrastructure.application.user
 
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseInputPortForClient
 import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseOutputPort
