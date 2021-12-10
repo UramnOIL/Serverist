@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.user.queries
 
-import com.uramnoil.serverist.application.user.queries.FindUserByNameQueryUseCaseInputPort
-import com.uramnoil.serverist.application.user.queries.FindUserByNameQueryUseCaseOutputPort
+import com.uramnoil.serverist.serverist.application.user.queries.FindUserByNameQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.user.queries.FindUserByNameQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Users
 import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
@@ -14,10 +14,10 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposedFindUserByNameQueryUseCaseInteractor(
     private val outputPort: FindUserByNameQueryUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext
-) : FindUserByNameQueryUseCaseInputPort {
+    coroutineContext: CoroutineContext
+) : FindUserByNameQueryUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(name: String, serversLimit: Long) {
-        CoroutineScope(coroutineContext).launch {
+        launch {
             val rowOrNull = runCatching {
                 newSuspendedTransaction {
                     Users.select { Users.name.lowerCase() eq name.lowercase(Locale.getDefault()) }.firstOrNull()

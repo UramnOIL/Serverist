@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.user.queries
 
-import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
+import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Users
 import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
