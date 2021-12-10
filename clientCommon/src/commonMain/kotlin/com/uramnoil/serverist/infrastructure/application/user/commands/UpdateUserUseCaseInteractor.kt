@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.infrastructure.application.user.commands
 
+import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInput
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInputPort
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
@@ -30,14 +31,18 @@ class UpdateUserUseCaseInteractor(
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
 ) : UpdateUserCommandUseCaseInputPort {
-    override fun execute(accountId: String, name: String, description: String) {
+    override fun execute(input: UpdateUserCommandUseCaseInput) {
+        val (accountId, name, description) = input
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {
                 val response = httpClient.post<HttpResponse>(url) {
                     body = """
                         mutation UpdateUser {
-                          updateUser(name: $name, accountId: $accountId, description: $description ) {
-                            id
+                          updateUser(accountId: $accountId, name: $name, description: $description ) {
+                              id
+                              accountId
+                              name
+                              description
                           }
                         }
                     """.trimIndent()
