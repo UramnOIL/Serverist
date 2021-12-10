@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.infrastructure.application.user.queries
 
+import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseInputPort
+import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseOutputPort
 import com.uramnoil.serverist.application.user.User
-import com.uramnoil.serverist.application.user.queries.FindAllUsersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.user.queries.FindAllUsersQueryUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import io.ktor.client.*
 import io.ktor.client.request.*

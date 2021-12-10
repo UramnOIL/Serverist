@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastructure.application.user.queries
 
-import com.uramnoil.serverist.application.user.queries.FindUserByNameQueryUseCaseInputPort
+import com.uramnoil.serverist.application.user.FindUserByNameQueryUseCaseInputPort
 
 class FindUserByNameQueryUseCaseInputPortImpl : FindUserByNameQueryUseCaseInputPort {
     override fun execute(name: String, serversLimit: Long) {

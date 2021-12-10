@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastructure.application.user.commands
 
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseInputPortForClient
-import com.uramnoil.serverist.application.user.commands.UpdateUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -24,12 +24,12 @@ import kotlin.coroutines.CoroutineContext
  * )
  * ```
  */
-class UpdateUserUseCaseForClientInteractor(
+class UpdateUserUseCaseInteractor(
     private val httpClient: HttpClient,
     private val url: String,
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
-) : UpdateUserCommandUseCaseInputPortForClient {
+) : UpdateUserCommandUseCaseInputPort {
     override fun execute(accountId: String, name: String, description: String) {
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {

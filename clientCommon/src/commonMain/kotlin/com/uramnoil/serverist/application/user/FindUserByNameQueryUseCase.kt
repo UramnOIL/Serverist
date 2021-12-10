@@ -1,6 +1,4 @@
-package com.uramnoil.serverist.application.user.queries
-
-import com.uramnoil.serverist.application.user.User
+package com.uramnoil.serverist.application.user
 
 /**
  *
