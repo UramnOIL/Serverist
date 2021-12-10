@@ -8,7 +8,7 @@ package com.uramnoil.serverist.application.auth
 /**
  *
  */
-fun interface SignupUseCaseInputPort {
+fun interface SignUpUseCaseInputPort {
     /**
      *
      */
@@ -18,7 +18,7 @@ fun interface SignupUseCaseInputPort {
 /**
  *
  */
-fun interface SignupUseCaseOutputPort {
+fun interface SignUpUseCaseOutputPort {
     /**
      *
      */

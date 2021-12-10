@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastructure.application.auth
 
-import com.uramnoil.serverist.application.auth.SignupUseCaseInputPort
-import com.uramnoil.serverist.application.auth.SignupUseCaseOutputPort
+import com.uramnoil.serverist.application.auth.SignUpUseCaseInputPort
+import com.uramnoil.serverist.application.auth.SignUpUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
 import io.ktor.client.*
@@ -15,12 +15,12 @@ import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
 
-class SignupUseCaseInteractor(
+class SignUpUseCaseInteractor(
     private val host: String,
     private val httpClient: HttpClient,
-    private val outputPort: SignupUseCaseOutputPort,
+    private val outputPort: SignUpUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
-) : SignupUseCaseInputPort {
+) : SignUpUseCaseInputPort {
     @Serializable
     data class Credential(val email: String, val password: String)
 
