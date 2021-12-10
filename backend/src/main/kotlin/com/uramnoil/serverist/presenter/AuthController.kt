@@ -1,68 +1,41 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseInputPort
-import com.uramnoil.serverist.application.authenticated.queries.FindUserByEmailAndPasswordQueryUseCaseOutputPort
-import com.uramnoil.serverist.application.unauthenticated.queries.*
-import com.uramnoil.serverist.application.unauthenticated.service.SendEmailToAuthenticateUseCaseInputPort
-import com.uramnoil.serverist.application.unauthenticated.service.SendEmailToAuthenticateUseCaseOutputPort
-import com.uramnoil.serverist.domain.common.exception.NotFoundException
+import com.uramnoil.serverist.AuthSession
+import com.uramnoil.serverist.auth.application.*
+import io.ktor.application.*
+import io.ktor.request.*
+import io.ktor.sessions.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import org.slf4j.Logger
 import java.util.*
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlin.time.ExperimentalTime
-import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseInputPort as CreateAuthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.authenticated.commands.CreateUserCommandUseCaseOutputPort as CreateAuthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.application.authenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteAuthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.authenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteAuthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.application.unauthenticated.commands.CreateUserCommandUseCaseInputPort as CreateUnauthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.unauthenticated.commands.CreateUserCommandUseCaseOutputPort as CreateUnauthenticatedUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.application.unauthenticated.commands.DeleteUserCommandUseCaseInputPort as DeleteUnauthenticatedUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.unauthenticated.commands.DeleteUserCommandUseCaseOutputPort as DeleteUnauthenticatedUserCommandUseCaseOutputPort
 
 
 class AuthController(
-    private val createUnauthenticatedUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateUnauthenticatedUserCommandUseCaseOutputPort) -> CreateUnauthenticatedUserCommandUseCaseInputPort,
-    private val deleteUnauthenticatedUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteUnauthenticatedUserCommandUseCaseOutputPort) -> DeleteUnauthenticatedUserCommandUseCaseInputPort,
-    private val sendEmailToAuthenticateUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: SendEmailToAuthenticateUseCaseOutputPort) -> SendEmailToAuthenticateUseCaseInputPort,
-    private val findUserByEmailAndPasswordQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByEmailAndPasswordQueryUseCaseOutputPort) -> FindUserByEmailAndPasswordQueryUseCaseInputPort,
-    private val findUserByActivationCodeQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByActivationCodeQueryUseCaseOutputPort) -> FindUserByActivationCodeQueryUseCaseInputPort,
-    private val findUserByEmailQueryUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindUserByEmailQueryUseCaseOutputPort) -> FindUserByEmailQueryUseCaseInputPort,
-    private val createAuthenticatedCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateAuthenticatedUserCommandUseCaseOutputPort) -> CreateAuthenticatedUserCommandUseCaseInputPort,
-    private val deleteAuthenticatedUserCommandUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteAuthenticatedUserCommandUseCaseOutputPort) -> DeleteAuthenticatedUserCommandUseCaseInputPort,
-    private val userController: UserController,     //HACK 別コンテキストの直接的な参照
+    private val log: Logger,
+    private val signUpUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: SignUpUseCaseOutputPort) -> SignUpUseCaseInputPort,
+    private val singInUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: SignInUseCaseOutputPort) -> SingInUseCaseInputPort,
+    private val activateUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: ActivateUseCaseOutputPort) -> ActivateUseCaseInputPort,
+    private val withdrawUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: WithdrawUseCaseOutputPort) -> WithdrawUseCaseInputPort,
 ) {
     @OptIn(ExperimentalTime::class)
-    /**
-     * サインアップ
-     * メール認証あり
-     */
-    suspend fun signUp(email: String, password: String): Result<Unit> {
-        val coroutineContext = currentCoroutineContext()
+            /**
+             * サインアップ
+             * メール認証あり
+             */
+    fun signUp(call: ApplicationCall, coroutineContext: CoroutineContext, outputPort: SignUpUseCaseOutputPort) {
+        @Serializable
+        data class EmailAndPassword(val email: String, val password: String)
 
-        val activationCode = UUID.randomUUID()
-        val createResult = suspendCoroutine<Result<UUID>> {
-            val outputPort = CreateUnauthenticatedUserCommandUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            createUnauthenticatedUserCommandUseCaseInputPortFactory(coroutineContext, outputPort).execute(
-                email,
-                password,
-                activationCode,
-            )
-        }
+        CoroutineScope(coroutineContext).launch {
+            val (email, password) = call.receive<EmailAndPassword>()
+            val activationCode = UUID.randomUUID()
 
-        createResult.onFailure {
-            return Result.failure(it)
-        }
-
-        // メール送信
-        return suspendCoroutine {
-            val outputPort = SendEmailToAuthenticateUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            sendEmailToAuthenticateUseCaseInputPortFactory(coroutineContext, outputPort).execute(email, activationCode)
+            signUpUseCaseInputPortFactory(coroutineContext, outputPort).execute(email, password, activationCode)
         }
     }
 
@@ -70,126 +43,93 @@ class AuthController(
      * ログイン
      * @return Result<UUID> ログイン情報が正しい時に、ユーザーIDを返す
      */
-    suspend fun login(email: String, password: String): Result<UUID> {
-        val coroutineContext = currentCoroutineContext()
+    fun login(
+        call: ApplicationCall,
+        coroutineContext: CoroutineContext,
+        outputPort: SignInUseCaseOutputPort
+    ) {
+        @Serializable
+        data class CredentialParameters(val email: String, val password: String)
 
-        return suspendCoroutine<Result<UUID?>> {
-            val outputPort = FindUserByEmailAndPasswordQueryUseCaseOutputPort { result ->
-                it.resume(result)
+        CoroutineScope(coroutineContext).launch {
+            val auth = call.sessions.get<AuthSession>()
+            // すでにログイン済みだった場合
+            if (auth != null) {
+                outputPort.handle(Result.success(auth.id))
+                return@launch
             }
-            findUserByEmailAndPasswordQueryUseCaseInputPortFactory(coroutineContext, outputPort).execute(
-                email,
-                password
-            )
-        }.mapCatching { it ?: throw NotFoundException("Invalid credential.") }
+
+            val (email, password) = call.receive<CredentialParameters>()
+
+            singInUseCaseInputPortFactory(currentCoroutineContext(), outputPort).execute(email, password)
+        }
     }
 
     /**
      * アクティベーション
      */
-    suspend fun activate(activationCode: UUID): Result<Unit> {
-        val coroutineContext = currentCoroutineContext()
-
-        val findResult = suspendCoroutine<Result<User?>> {
-            val outputPort = FindUserByActivationCodeQueryUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            findUserByActivationCodeQueryUseCaseInputPortFactory(coroutineContext, outputPort).execute(activationCode)
+    fun activate(
+        call: ApplicationCall,
+        coroutineContext: CoroutineContext,
+        outputPort: ActivateUseCaseOutputPort
+    ) {
+        val rowCode = call.request.queryParameters["code"] ?: kotlin.run {
+            outputPort.handle(Result.failure(IllegalArgumentException("`code` parameter is missing.")))
+            return
         }
-        val user = findResult.getOrElse {
-            return Result.failure(it)
-        }
+        val codeResult = kotlin.runCatching { UUID.fromString(rowCode) }
 
-        // 使われていないactivationCodeの時
-        user ?: return Result.failure(IllegalArgumentException("Illegal activation code"))
-
-        val createAuthenticatedUserResult = suspendCoroutine<Result<UUID>> {
-            val outputPort = CreateAuthenticatedUserCommandUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            createAuthenticatedCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(
-                user.email,
-                user.hashedPassword
-            )
+        val code = codeResult.getOrElse {
+            outputPort.handle(Result.failure(IllegalArgumentException("Invalid code.")))
+            return
         }
 
-        val uuid = createAuthenticatedUserResult.getOrElse {
-            return Result.failure(it)
-        }
-
-        // [a-zA-Z0-9]
-        val characters = ('a'..'z') + ('A'..'Z') + ('0'..'9') + '_'
-        // ランダムでアカウントIDを15文字で生成
-        // (26 + 26 + 10) ^ 15なので衝突しないとみなす。衝突した際にもう一度トライする方が良い。
-        val accountId = (1..15).map { characters.random() }.joinToString("")
-
-        val createServeristUserResult =
-            userController.create(uuid, accountId, listOf("Hoge", "Fuga").random(), "")
-
-        // ServeristUserの作成失敗時
-        createServeristUserResult.getOrElse {
-            return Result.failure(it)
-        }
-
-        // 全て成功時にUnauthenticatedUserを削除
-        return suspendCoroutine<Result<Unit>> {
-            val outputPort = DeleteUnauthenticatedUserCommandUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            deleteUnauthenticatedUserCommandUseCaseInputPortFactory(coroutineContext, outputPort).execute(user.id)
-        }
+        activateUseCaseInputPortFactory(coroutineContext, outputPort).execute(code)
     }
 
     /**
      * メール再送信
      */
-    suspend fun resendAuthEmail(email: String): Result<Unit> {
-        val coroutineContext = currentCoroutineContext()
-        val findResult = suspendCoroutine<Result<User?>> {
-            val outputPort = FindUserByEmailQueryUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            findUserByEmailQueryUseCaseInputPortFactory(coroutineContext, outputPort).execute(email)
-        }
-
-        val user = findResult.getOrElse {
-            return Result.failure(it)
-        }
-
-        user ?: return Result.failure(IllegalArgumentException("No inactive user has this email."))
-
-
-        // メール送信
-        return suspendCoroutine {
-            val outputPort = SendEmailToAuthenticateUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            sendEmailToAuthenticateUseCaseInputPortFactory(coroutineContext, outputPort).execute(
-                user.email,
-                user.activationCode
-            )
-        }
+    fun resendAuthEmail(
+        call: ApplicationCall,
+        coroutineContext: CoroutineContext,
+    ) {
+//        val coroutineContext = currentCoroutineContext()
+//        val findResult = suspendCoroutine<Result<User?>> {
+//            val outputPort = FindUserByEmailQueryUseCaseOutputPort { result ->
+//                it.resume(result)
+//            }
+//            findUserByEmailQueryUseCaseInputPortFactory(coroutineContext, outputPort).execute(email)
+//        }
+//
+//        val user = findResult.getOrElse {
+//            return Result.failure(it)
+//        }
+//
+//        user ?: return Result.failure(IllegalArgumentException("No inactive user has this email."))
+//
+//
+//        // メール送信
+//        return suspendCoroutine {
+//            val outputPort = SendEmailToAuthenticateUseCaseOutputPort { result ->
+//                it.resume(result)
+//            }
+//            sendEmailToAuthenticateUseCaseInputPortFactory(coroutineContext, outputPort).execute(
+//                user.email,
+//                user.activationCode
+//            )
+//        }
     }
 
     /**
      * 退会
      */
-    suspend fun withdraw(id: UUID): Result<Unit> {
-        val coroutineContext = currentCoroutineContext()
-        // 認証情報の削除
-        val deleteAuthenticatedUserResult = suspendCoroutine<Result<Unit>> {
-            val outputPort = DeleteAuthenticatedUserCommandUseCaseOutputPort { result ->
-                it.resume(result)
-            }
-            deleteAuthenticatedUserCommandUseCaseInputPortFactory(coroutineContext, outputPort).execute(id)
-        }
-        deleteAuthenticatedUserResult.getOrElse {
-            // TODO: 失敗時も必ずユーザーのプロフィールも削除したい
-            return Result.failure(it)
-        }
-
-        val deleteServeristUserResult = userController.delete(id)
-
-        return deleteServeristUserResult
+    fun withdraw(
+        call: ApplicationCall,
+        coroutineContext: CoroutineContext,
+        outputPort: WithdrawUseCaseOutputPort
+    ) {
+        val auth = call.sessions.get<AuthSession>()!!
+        withdrawUseCaseInputPortFactory(coroutineContext, outputPort).execute(auth.id)
     }
 }

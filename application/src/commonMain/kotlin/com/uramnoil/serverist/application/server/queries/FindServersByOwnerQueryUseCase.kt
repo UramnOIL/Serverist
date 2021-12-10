@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.application.server.queries
 
+import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.Server
-import java.util.*
 
 /**
  *
@@ -12,7 +12,7 @@ interface FindServersByOwnerQueryUseCaseInputPort {
     /**
      *
      */
-    fun execute(ownerId: UUID, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
+    fun execute(ownerId: Uuid, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
 }
 
 /**

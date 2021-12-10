@@ -13,7 +13,7 @@ fun LocalDateTime.toKotlinInstant() = toInstant(ZoneOffset.UTC).toKotlinInstant(
 
 fun Instant.toJavaLocalDataTime() = LocalDateTime.ofInstant(toJavaInstant(), ZoneOffset.UTC)
 
-fun Server.toApplication() = com.uramnoil.serverist.application.server.Server(
+fun Server.toApplication() = com.uramnoil.serverist.serverist.application.server.Server(
     id = id.value,
     createdAt = createdAt.value,
     ownerId = ownerId.value,
@@ -23,7 +23,7 @@ fun Server.toApplication() = com.uramnoil.serverist.application.server.Server(
     description = description.value
 )
 
-fun User.toApplicationUser() = com.uramnoil.serverist.application.user.User(
+fun User.toApplicationUser() = com.uramnoil.serverist.serverist.application.user.User(
     id.value,
     accountId.value,
     name.value,

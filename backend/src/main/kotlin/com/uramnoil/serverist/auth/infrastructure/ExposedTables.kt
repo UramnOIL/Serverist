@@ -1,5 +1,7 @@
 package com.uramnoil.serverist.auth.infrastructure
 
+import com.uramnoil.serverist.auth.infrastructure.application.AuthenticatedUser
+import com.uramnoil.serverist.auth.infrastructure.application.UnauthenticatedUser
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 import com.uramnoil.serverist.domain.auth.unauthenticated.models.ActivationCode
@@ -20,7 +22,7 @@ object AuthenticatedUsers : UUIDTable("authenticated_users") {
 }
 
 
-fun ResultRow.toApplicationUnauthenticatedUser() = com.uramnoil.serverist.application.unauthenticated.queries.User(
+fun ResultRow.toApplicationUnauthenticatedUser() = UnauthenticatedUser(
     this[UnauthenticatedUsers.id].value,
     this[UnauthenticatedUsers.email],
     this[UnauthenticatedUsers.hashedPassword],
@@ -35,7 +37,7 @@ fun ResultRow.toDomainUnauthenticatedUser(): Result<User> = User.new(
 )
 
 
-fun ResultRow.toApplicationAuthenticatedUser() = com.uramnoil.serverist.application.authenticated.queries.User(
+fun ResultRow.toApplicationAuthenticatedUser() = AuthenticatedUser(
     this[AuthenticatedUsers.id].value,
     this[AuthenticatedUsers.email],
     this[AuthenticatedUsers.hashedPassword],

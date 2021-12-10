@@ -1,9 +1,9 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.commands.DeleteServerCommandUseCaseOutputPort
 import com.uramnoil.serverist.domain.serverist.models.server.Id
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
+import com.uramnoil.serverist.serverist.application.server.commands.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.serverist.application.server.commands.DeleteServerCommandUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*

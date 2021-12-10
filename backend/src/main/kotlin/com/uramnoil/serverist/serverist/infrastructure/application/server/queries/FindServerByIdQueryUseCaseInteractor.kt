@@ -1,7 +1,5 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.queries
 
-import com.uramnoil.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.queries.FindServerByIdQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.toApplicationServer
 import kotlinx.coroutines.CoroutineScope
@@ -12,9 +10,9 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class FindServerByIdQueryUseCaseInteractor(
-    private val outputPort: FindServerByIdQueryUseCaseOutputPort,
+    private val outputPort: _root_ide_package_.com.uramnoil.serverist.serverist.application.server.queries.FindServerByIdQueryUseCaseOutputPort,
     private val coroutineContext: CoroutineContext
-) : FindServerByIdQueryUseCaseInputPort {
+) : _root_ide_package_.com.uramnoil.serverist.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort {
     override fun execute(id: UUID) {
         CoroutineScope(coroutineContext).launch {
             val row = kotlin.runCatching {

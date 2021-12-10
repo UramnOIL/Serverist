@@ -1,11 +1,11 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.application.OrderBy
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.Server
-import com.uramnoil.serverist.application.server.commands.*
-import com.uramnoil.serverist.application.server.queries.*
-import com.uramnoil.serverist.application.server.services.ServerService
+import com.uramnoil.serverist.serverist.application.OrderBy
+import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.commands.*
+import com.uramnoil.serverist.serverist.application.server.queries.*
+import com.uramnoil.serverist.serverist.application.server.services.ServerService
 import kotlinx.coroutines.currentCoroutineContext
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -20,7 +20,7 @@ class ServerController(
     private val deleteServerCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: DeleteServerCommandUseCaseOutputPort) -> DeleteServerCommandUseCaseInputPort,
     private val findByOwnerServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindServersByOwnerQueryUseCaseOutputPort) -> FindServersByOwnerQueryUseCaseInputPort,
     private val findAllServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindAllServersQueryUseCaseOutputPort) -> FindAllServersQueryUseCaseInputPort,
-    private val findByIdServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindServerByIdQueryUseCaseOutputPort) -> FindServerByIdQueryUseCaseInputPort,
+    private val findByIdServerQueryUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: FindServerByIdQueryUseCaseOutputPort) -> _root_ide_package_.com.uramnoil.serverist.serverist.application.server.queries.FindServerByIdQueryUseCaseInputPort,
 ) {
     suspend fun checkUserIsOwnerOfServer(userId: UUID, serverId: UUID): Result<Boolean> {
         return service.checkUserIsOwnerOfServer(userId, serverId)
@@ -33,7 +33,6 @@ class ServerController(
         port: UShort?,
         description: String
     ): Result<UUID> {
-
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
             val outputPort = CreateServerCommandUseCaseOutputPort { result ->

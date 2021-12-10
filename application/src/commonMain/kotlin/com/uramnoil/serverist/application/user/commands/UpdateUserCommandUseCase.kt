@@ -1,15 +1,25 @@
 package com.uramnoil.serverist.application.user.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 /**
  *
  */
-interface UpdateUserCommandUseCaseInputPort {
+interface UpdateUserCommandUseCaseInputPortForServer {
     /**
      *
      */
-    fun execute(id: UUID, accountId: String, name: String, description: String)
+    fun execute(id: Uuid, accountId: String, name: String, description: String)
+}
+
+/**
+ *
+ */
+interface UpdateUserCommandUseCaseInputPortForClient {
+    /**
+     *
+     */
+    fun execute(accountId: String, name: String, description: String)
 }
 
 /**

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.application.unauthenticated.queries
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 /**
  *
@@ -9,7 +9,7 @@ interface FindUserByActivationCodeQueryUseCaseInputPort {
     /**
      *
      */
-    fun execute(activationCode: UUID)
+    fun execute(activationCode: Uuid)
 }
 
 /**

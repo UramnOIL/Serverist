@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.services
 
-import com.uramnoil.serverist.application.server.services.ServerService
+import com.uramnoil.serverist.serverist.application.server.services.ServerService
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select

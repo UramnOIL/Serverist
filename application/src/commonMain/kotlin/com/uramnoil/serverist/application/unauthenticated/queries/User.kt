@@ -1,10 +1,10 @@
 package com.uramnoil.serverist.application.unauthenticated.queries
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
 data class User(
-    val id: UUID,
+    val id: Uuid,
     val email: String,
     val hashedPassword: String,
-    val activationCode: UUID
+    val activationCode: Uuid
 )

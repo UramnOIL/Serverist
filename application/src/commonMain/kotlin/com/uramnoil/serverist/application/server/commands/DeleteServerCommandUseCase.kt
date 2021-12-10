@@ -1,6 +1,7 @@
 package com.uramnoil.serverist.application.server.commands
 
-import java.util.*
+import com.benasher44.uuid.Uuid
+
 
 /**
  *
@@ -9,7 +10,7 @@ interface DeleteServerCommandUseCaseInputPort {
     /**
      *
      */
-    fun execute(id: UUID)
+    fun execute(id: Uuid)
 }
 
 /**

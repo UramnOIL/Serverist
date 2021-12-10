@@ -1,5 +1,5 @@
 package com.uramnoil.serverist.application.authenticated.queries
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
-data class User(val id: UUID, val email: String, val hashedPassword: String)
+data class User(val id: Uuid, val email: String, val hashedPassword: String)

@@ -12,9 +12,11 @@ fun SchemaBuilder.userSchema(controller: UserController) {
         }
     }
 
-    mutation("update") {
+    mutation("updateUser") {
         resolver { name: String, accountId: String, description: String, context: Context ->
-            controller.update(context.getIdFromSession(), accountId, name, description).fold({ true }, { false })
+            val id = context.getIdFromSession()
+            controller.update(id, accountId, name, description)
+            controller.findById(id).getOrThrow()
         }
 
         accessRule(::requireAuthSession)

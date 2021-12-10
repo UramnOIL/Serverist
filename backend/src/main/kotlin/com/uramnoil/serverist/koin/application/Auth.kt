@@ -1,78 +1,61 @@
 package com.uramnoil.serverist.koin.application
 
-import com.uramnoil.serverist.application.unauthenticated.commands.DeleteUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.auth.infrastructure.application.authenticated.queries.ExposedFindUserByEmailAndPasswordQueryInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.commands.CreateUserCommandUseCaseInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.queries.FindUserByActivationCodeQueryUseCaseInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.queries.FindUserByEmailQueryUseCaseInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.services.SpringBootSendEmailToAuthenticateServiceInputPort
+import com.uramnoil.serverist.auth.application.WithdrawUseCaseOutputPort
+import com.uramnoil.serverist.auth.infrastructure.application.*
 import com.uramnoil.serverist.auth.infrastructure.domain.kernel.service.HashPasswordServiceImpl
 import com.uramnoil.serverist.presenter.AuthController
 import com.uramnoil.serverist.presenter.UserController
 import io.ktor.application.*
+import org.slf4j.Logger
 import kotlin.coroutines.CoroutineContext
-import com.uramnoil.serverist.auth.infrastructure.application.authenticated.commands.CreateUserCommandUseCaseInteractor as CreateAuthenticatedUserCommandUseCaseInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.authenticated.commands.DeleteUserCommandUseCaseInteractor as DeleteAuthenticatedUserCommandUseCaseInteractor
-import com.uramnoil.serverist.auth.infrastructure.application.unauthenticated.commands.DeleteUserCommandUseCaseInteractor as DeleteUnauthenticatedUserCommandUseCaseInteractor
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository as AuthenticatedUserRepository
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository as UnauthenticatedUserRepository
 
 fun Application.buildAuthController(
+    logger: Logger,
     unauthenticatedRepository: UnauthenticatedUserRepository,
     authenticatedUserRepository: AuthenticatedUserRepository,
     userController: UserController
 ): AuthController {
     val hashPasswordService = HashPasswordServiceImpl()
+
+
+    val sendEmailService = environment.config.run {
+        SpringBootSendEmailService(
+            property("mail.host").getString(),
+            property("mail.port").getString().toInt(),
+            property("mail.user").getString(),
+            property("mail.password").getString(),
+            property("mail.from").getString(),
+            property("mail.activate_url").getString(),
+        )
+    }
+
     return AuthController(
-        createUnauthenticatedUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            CreateUserCommandUseCaseInteractor(
-                unauthenticatedRepository,
+        logger,
+        { coroutineContext, outputPort ->
+            SignUpUseCaseInteractor(
+                sendEmailService,
                 hashPasswordService,
-                outputPort,
-                coroutineContext
-            )
-        },
-        deleteUnauthenticatedUserCommandUseCaseInputPortFactory = { coroutineContext: CoroutineContext, outputPort: DeleteUserCommandUseCaseOutputPort ->
-            DeleteUnauthenticatedUserCommandUseCaseInteractor(
                 unauthenticatedRepository,
-                outputPort,
-                coroutineContext
+                coroutineContext,
+                outputPort
             )
         },
-        sendEmailToAuthenticateUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            environment.config.run {
-                SpringBootSendEmailToAuthenticateServiceInputPort(
-                    property("mail.host").getString(),
-                    property("mail.port").getString().toInt(),
-                    property("mail.user").getString(),
-                    property("mail.password").getString(),
-                    property("mail.from").getString(),
-                    property("mail.activate_url").getString(),
-                    outputPort,
-                    coroutineContext
-                )
-            }
+        { coroutineContext, outputPort ->
+            SingInUseCaseInteractor(hashPasswordService, coroutineContext, outputPort)
         },
-        findUserByEmailQueryUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            FindUserByEmailQueryUseCaseInteractor(outputPort, coroutineContext)
-        },
-        findUserByActivationCodeQueryUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            FindUserByActivationCodeQueryUseCaseInteractor(outputPort, coroutineContext)
-        },
-        findUserByEmailAndPasswordQueryUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            ExposedFindUserByEmailAndPasswordQueryInteractor(hashPasswordService, outputPort, coroutineContext)
-        },
-        createAuthenticatedCommandUserCaseInputPortFactory = { coroutineContext, outputPort ->
-            CreateAuthenticatedUserCommandUseCaseInteractor(
+        { coroutineContext, outputPort ->
+            ActivateUseCaseInteractor(
                 authenticatedUserRepository,
-                hashPasswordService,
-                outputPort,
-                coroutineContext
+                unauthenticatedRepository,
+                userController,
+                coroutineContext,
+                outputPort
             )
         },
-        deleteAuthenticatedUserCommandUseCaseInputPortFactory = { coroutineContext, outputPort ->
-            DeleteAuthenticatedUserCommandUseCaseInteractor(authenticatedUserRepository, outputPort, coroutineContext)
+        { coroutineContext: CoroutineContext, outputPort: WithdrawUseCaseOutputPort ->
+            WithdrawUseCaseInteractor(authenticatedUserRepository, coroutineContext, outputPort)
         },
-        userController = userController
     )
 }
