@@ -1,21 +1,6 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 
-module:application
-com.uramnoil.serverist.application
-com.uramnoil.serverist.application.auth
-com.uramnoil.serverist.application.authenticated.commands
-com.uramnoil.serverist.application.authenticated.queries
-com.uramnoil.serverist.application.server
-com.uramnoil.serverist.application.server.commands
-com.uramnoil.serverist.application.server.queries
-com.uramnoil.serverist.application.server.services
-com.uramnoil.serverist.application.unauthenticated.commands
-com.uramnoil.serverist.application.unauthenticated.queries
-com.uramnoil.serverist.application.unauthenticated.service
-com.uramnoil.serverist.application.user
-com.uramnoil.serverist.application.user.commands
-com.uramnoil.serverist.application.user.queries
 module:backend
 com.uramnoil.serverist
 com.uramnoil.serverist.auth.application
@@ -49,6 +34,15 @@ com.uramnoil.serverist.serverist.infrastructure.application.user.command
 com.uramnoil.serverist.serverist.infrastructure.application.user.queries
 com.uramnoil.serverist.serverist.infrastructure.domain.repositories
 module:clientCommon
+com.uramnoil.serverist.application
+com.uramnoil.serverist.application.auth
+com.uramnoil.serverist.application.server
+com.uramnoil.serverist.application.server.commands
+com.uramnoil.serverist.application.server.queries
+com.uramnoil.serverist.application.server.services
+com.uramnoil.serverist.application.user
+com.uramnoil.serverist.application.user.commands
+com.uramnoil.serverist.application.user.queries
 com.uramnoil.serverist.exceptions
 com.uramnoil.serverist.infrastructure.application.auth
 com.uramnoil.serverist.infrastructure.application.user.commands
