@@ -3,11 +3,13 @@ package com.uramnoil.serverist.application.user
 /**
  *
  */
+data class FindUserByNameQueryUseCaseInput(val name: String, val serversLimit: Long)
+
+/**
+ *
+ */
 interface FindUserByNameQueryUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(name: String, serversLimit: Long)
+    fun execute(input: FindUserByNameQueryUseCaseInput)
 }
 
 /**

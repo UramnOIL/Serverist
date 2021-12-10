@@ -5,11 +5,13 @@ import com.benasher44.uuid.Uuid
 /**
  *
  */
+data class FindUserByIdQueryUseCaseInput(val id: Uuid)
+
+/**
+ *
+ */
 interface FindUserByIdQueryUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(id: Uuid)
+    fun execute(input: FindUserByIdQueryUseCaseInput)
 }
 
 /**

@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.application.server.commands
+package com.uramnoil.serverist.application.server
 
 import com.benasher44.uuid.Uuid
 
@@ -6,11 +6,13 @@ import com.benasher44.uuid.Uuid
 /**
  *
  */
+data class DeleteServerCommandUseCaseInput(val id: Uuid)
+
+/**
+ *
+ */
 interface DeleteServerCommandUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(id: Uuid)
+    fun execute(input: DeleteServerCommandUseCaseInput)
 }
 
 /**
