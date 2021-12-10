@@ -1,18 +1,25 @@
-package com.uramnoil.serverist.application.server.queries
+package com.uramnoil.serverist.application.server
 
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.Server
+
+/**
+ *
+ */
+data class FindServersByOwnerQueryUseCaseInput(
+    val ownerId: Uuid,
+    val limit: Int,
+    val offset: Long,
+    val sort: Sort,
+    val orderBy: OrderBy
+)
 
 /**
  *
  */
 interface FindServersByOwnerQueryUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(ownerId: Uuid, limit: Int, offset: Long, sort: Sort, orderBy: OrderBy)
+    fun execute(input: FindServersByOwnerQueryUseCaseInput)
 }
 
 /**

@@ -1,16 +1,17 @@
-package com.uramnoil.serverist.application.user.queries
+package com.uramnoil.serverist.application.user
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.application.user.User
+
+/**
+ *
+ */
+data class FindUserByIdQueryUseCaseInput(val id: Uuid)
 
 /**
  *
  */
 interface FindUserByIdQueryUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(id: Uuid)
+    fun execute(input: FindUserByIdQueryUseCaseInput)
 }
 
 /**

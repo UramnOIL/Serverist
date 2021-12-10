@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastructure.application.auth
 
-import com.uramnoil.serverist.application.auth.WithdrawalUseCaseInputPortForClient
+import com.uramnoil.serverist.application.auth.WithdrawalUseCaseInputPort
 import com.uramnoil.serverist.application.auth.WithdrawalUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
@@ -13,12 +13,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class WithdrawalUseCaseInteractorForClient(
+class WithdrawalUseCaseInteractor(
     private val client: HttpClient,
     private val host: String,
     private val outputPort: WithdrawalUseCaseOutputPort,
     private val coroutineContext: CoroutineContext,
-) : WithdrawalUseCaseInputPortForClient {
+) : WithdrawalUseCaseInputPort {
     override fun execute() {
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {

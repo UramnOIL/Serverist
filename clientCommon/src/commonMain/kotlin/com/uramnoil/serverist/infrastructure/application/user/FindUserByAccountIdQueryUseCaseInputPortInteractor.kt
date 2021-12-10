@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.infrastructure.application.user
 
-import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQueryUseCaseInputPort
-import com.uramnoil.serverist.application.user.queries.FindUserByAccountIdQueryUseCaseOutputPort
+import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseInputPort
+import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import io.ktor.client.*
 import io.ktor.client.request.*
