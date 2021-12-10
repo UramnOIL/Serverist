@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.domain.auth.unauthenticated.models
 
-import java.util.*
+import com.benasher44.uuid.Uuid
 
-data class ActivationCode(val value: UUID)
+
+data class ActivationCode(val value: Uuid)
