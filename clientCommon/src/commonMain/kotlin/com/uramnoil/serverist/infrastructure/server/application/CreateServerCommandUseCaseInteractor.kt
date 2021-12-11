@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.infrastructure.server
+package com.uramnoil.serverist.infrastructure.server.application
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.toInput
