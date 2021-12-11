@@ -9,6 +9,8 @@ kotlin {
 
     val coroutinesVersion: String by project
     val serializationVersion: String by project
+    val datetimeVersion: String by project
+
     val napierVersion: String by project
     val ktorVersion: String by project
     val apolloVersion: String by project
@@ -20,6 +22,7 @@ kotlin {
                 implementation(project(":domain:common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
 
                 implementation("io.github.aakira:napier:$napierVersion")
 
