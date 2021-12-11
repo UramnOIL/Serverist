@@ -1,57 +1,52 @@
 package com.uramnoil.serverist.infrastructure.user.application
 
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.await
+import com.uramnoil.serverist.UpdateUserMutation
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInput
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInputPort
+import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutput
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutputPort
-import com.uramnoil.serverist.exceptions.BadRequestException
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 /**
- * ```
- * val apolloClient = ApolloClient(
- *     networkTransport = com.apollographql.apollo.network.http.ApolloHttpNetworkTransport(
- *         serverUrl = "https://your.domain/graphql/endpoint",
- *         headers = mapOf(
- *             "Accept" to "application/json",
- *             "Content-Type" to "application/json",
- *             ""
- *         )
- *     )
- * )
- * ```
+ *
  */
 class UpdateUserUseCaseInteractor(
-    private val httpClient: HttpClient,
-    private val url: String,
+    private val apolloClient: ApolloClient,
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext
-) : UpdateUserCommandUseCaseInputPort {
+    coroutineContext: CoroutineContext
+) : UpdateUserCommandUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: UpdateUserCommandUseCaseInput) {
-        val (accountId, name, description) = input
-        CoroutineScope(coroutineContext).launch {
-            val result = kotlin.runCatching {
-                val response = httpClient.post<HttpResponse>(url) {
-                    body = """
-                        mutation UpdateUser {
-                          updateUser(accountId: $accountId, name: $name, description: $description ) {
-                              id
-                              accountId
-                              name
-                              description
-                          }
-                        }
-                    """.trimIndent()
-                }
-                if (response.status.value == 200) {
-                    throw BadRequestException()
-                }
+        launch {
+            val mutation = input.run {
+                UpdateUserMutation(
+                    accountId = accountId,
+                    name = name,
+                    description = description
+                )
             }
-            outputPort.handle(result)
+            val response = apolloClient.mutate(mutation).await()
+
+            // Error
+            response.errors?.run {
+                forEach {
+                    Napier.e(it.message)
+                }
+                outputPort.handle(UpdateUserCommandUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
+            }
+
+            val data = response.data
+            data ?: run {
+                // Data is null
+                outputPort.handle(UpdateUserCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                return@launch
+            }
+
+            outputPort.handle(UpdateUserCommandUseCaseOutput(Result.success(Unit)))
         }
     }
 }
