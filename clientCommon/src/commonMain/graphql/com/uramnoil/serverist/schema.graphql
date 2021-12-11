@@ -1,3 +1,18 @@
+query FindAllServers($page: PageRequest!, $sort: Sort!, $orderBy: OrderBy!) {
+  findServers(
+    page: $page
+    sort: $sort
+    orderBy: $orderBy
+  ) {
+    id,
+    name,
+    ownerId,
+    host,
+    port,
+    description,
+  }
+}
+
 query FindServersByOwner($uuid: UUID!, $page: PageRequest, $sort: Sort, $orderBy: OrderBy) {
   findServersByOwner(
     ownerId: $uuid
