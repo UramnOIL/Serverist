@@ -2,6 +2,10 @@ mutation CreateServer($name: String!, $host: String, $port: Int, $description: S
     createServer(name: $name, host: $host, port: $port, description: $description)
 }
 
+mutation DeleteServer($id: UUID!) {
+    deleteServer(id: $id)
+}
+
 query FindAllServers($page: PageRequest!, $sort: Sort!, $orderBy: OrderBy!) {
   findServers(
     page: $page
