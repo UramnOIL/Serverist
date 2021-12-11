@@ -25,9 +25,6 @@ interface FindServersByOwnerQueryUseCaseInputPort {
 /**
  *
  */
-/**
- *
- */
 data class FindServersByOwnerQueryUseCaseOutput(private val result: Result<List<Server>>)
 
 /**

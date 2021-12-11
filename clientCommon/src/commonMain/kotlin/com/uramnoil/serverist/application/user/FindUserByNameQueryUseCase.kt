@@ -15,9 +15,6 @@ interface FindUserByNameQueryUseCaseInputPort {
 /**
  *
  */
-/**
- *
- */
 data class FindUserByNameQueryUseCaseOutput(private val result: Result<User?>)
 
 /**

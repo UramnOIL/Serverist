@@ -17,9 +17,6 @@ interface FindServerByIdQueryUseCaseInputPort {
 /**
  *
  */
-/**
- *
- */
 data class FindServerByIdQueryUseCaseOutput(private val result: Result<Server?>)
 
 /**

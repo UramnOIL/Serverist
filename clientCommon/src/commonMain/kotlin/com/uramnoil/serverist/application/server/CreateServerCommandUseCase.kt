@@ -26,9 +26,6 @@ interface CreateServerCommandUseCaseInputPort {
 /**
  *
  */
-/**
- *
- */
 data class CreateServerCommandUseCaseOutput(private val result: Result<Uuid>)
 
 /**

@@ -18,9 +18,6 @@ interface DeleteServerCommandUseCaseInputPort {
 /**
  *
  */
-/**
- *
- */
 data class DeleteServerCommandUseCaseOutput(private val result: Result<Unit>)
 
 /**
