@@ -40,7 +40,7 @@ mutation UpdateUser($name: String!, $accountId: String!, $description: String!) 
 }
 
 query FindUserById($id: UUID!) {
-  findUser(id: $id) {
+  findUserById(id: $id) {
     id,
     accountId,
     name,
