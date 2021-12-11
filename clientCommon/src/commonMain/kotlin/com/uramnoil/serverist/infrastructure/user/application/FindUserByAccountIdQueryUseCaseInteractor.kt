@@ -13,6 +13,6 @@ class FindUserByAccountIdQueryUseCaseInteractor(
     coroutineContext: CoroutineContext
 ) : FindUserByAccountIdQueryUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: FindUserByAccountIdQueryUseCaseInput) {
-        error("not implemented yet.")
+        TODO("Not yet implemented")
     }
 }
