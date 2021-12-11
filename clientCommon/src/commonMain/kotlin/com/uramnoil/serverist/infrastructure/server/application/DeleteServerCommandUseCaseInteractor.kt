@@ -6,6 +6,7 @@ import com.apollographql.apollo.coroutines.await
 import com.uramnoil.serverist.DeleteServerMutation
 import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseInput
 import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseInputPort
+import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutput
 import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,7 @@ class DeleteServerCommandUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(Result.failure(RuntimeException("Errors returned.")))
+                outputPort.handle(DeleteServerCommandUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -39,11 +40,11 @@ class DeleteServerCommandUseCaseInteractor(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(Result.failure(IllegalStateException("No data returned.")))
+                outputPort.handle(DeleteServerCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
-            outputPort.handle(Result.success(Unit))
+            outputPort.handle(DeleteServerCommandUseCaseOutput(Result.success(Unit)))
         }
     }
 }

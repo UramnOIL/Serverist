@@ -1,8 +1,6 @@
 package com.uramnoil.serverist.infrastructure.user.application
 
-import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseOutputPort
-import com.uramnoil.serverist.application.user.User
+import com.uramnoil.serverist.application.user.*
 import com.uramnoil.serverist.exceptions.BadRequestException
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -20,7 +18,7 @@ class FindAllUsersQueryUseCaseInputPortInteractor(
     private val outputPort: FindAllUsersQueryUseCaseOutputPort,
     coroutineContext: CoroutineContext
 ) : FindAllUsersQueryUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute() {
+    override fun execute(input: FindAllUsersQueryUseCaseInput) {
         launch {
             val result = kotlin.runCatching {
                 val response = httpClient.post<HttpResponse>(url) {
@@ -37,7 +35,7 @@ class FindAllUsersQueryUseCaseInputPortInteractor(
                 }
                 Json.decodeFromString<List<User>>(response.content.toByteArray().toString())
             }
-            outputPort.handle(result)
+            outputPort.handle(FindAllUsersQueryUseCaseOutput(result))
         }
     }
 }

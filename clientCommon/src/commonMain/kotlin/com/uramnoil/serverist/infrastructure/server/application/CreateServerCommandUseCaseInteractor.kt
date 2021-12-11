@@ -7,6 +7,7 @@ import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.CreateServerMutation
 import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseInput
 import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseInputPort
+import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutput
 import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +35,7 @@ class CreateServerCommandUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(Result.failure(RuntimeException("Errors returned.")))
+                outputPort.handle(CreateServerCommandUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -42,7 +43,7 @@ class CreateServerCommandUseCaseInteractor(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(Result.failure(IllegalStateException("No data returned.")))
+                outputPort.handle(CreateServerCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
@@ -50,7 +51,7 @@ class CreateServerCommandUseCaseInteractor(
                 uuidFrom(data.createServer as String)
             }
 
-            outputPort.handle(serversResult)
+            outputPort.handle(CreateServerCommandUseCaseOutput(serversResult))
         }
     }
 }

@@ -5,10 +5,7 @@ import com.apollographql.apollo.api.ApolloExperimental
 import com.apollographql.apollo.coroutines.await
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.FindAllServersQuery
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInput
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseOutputPort
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.application.server.*
 import com.uramnoil.serverist.infrastructure.toApollo
 import com.uramnoil.serverist.type.PageRequest
 import io.github.aakira.napier.Napier
@@ -25,13 +22,14 @@ class FindAllServersQueryUseCaseInfrastructure(
     private val outputPort: FindAllServersQueryUseCaseOutputPort
 ) : FindAllServersQueryUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: FindAllServersQueryUseCaseInput) {
-        val (limit, offset, sort, orderBy) = input
         launch {
-            val query = FindAllServersQuery(
-                page = PageRequest(limit, offset),
-                sort = sort.toApollo(),
-                orderBy = orderBy.toApollo()
-            )
+            val query = input.run {
+                FindAllServersQuery(
+                    page = PageRequest(limit, offset),
+                    sort = sort.toApollo(),
+                    orderBy = orderBy.toApollo()
+                )
+            }
             val response = apolloClient.query(query).await()
 
             // GraphQL Error
@@ -39,7 +37,7 @@ class FindAllServersQueryUseCaseInfrastructure(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(Result.failure(RuntimeException("Errors returned.")))
+                outputPort.handle(FindAllServersQueryUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -47,7 +45,7 @@ class FindAllServersQueryUseCaseInfrastructure(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(Result.failure(IllegalStateException("No data returned.")))
+                outputPort.handle(FindAllServersQueryUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
@@ -67,7 +65,7 @@ class FindAllServersQueryUseCaseInfrastructure(
                 }
             }
 
-            outputPort.handle(serversResult)
+            outputPort.handle(FindAllServersQueryUseCaseOutput(serversResult))
         }
     }
 }

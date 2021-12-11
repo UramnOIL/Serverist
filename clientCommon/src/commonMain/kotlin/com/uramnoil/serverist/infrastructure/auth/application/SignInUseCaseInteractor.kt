@@ -1,7 +1,9 @@
 package com.uramnoil.serverist.infrastructure.auth.application
 
 import com.benasher44.uuid.uuidFrom
+import com.uramnoil.serverist.application.auth.SignInUseCaseInput
 import com.uramnoil.serverist.application.auth.SignInUseCaseInputPort
+import com.uramnoil.serverist.application.auth.SignInUseCaseOutput
 import com.uramnoil.serverist.application.auth.SignInUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
@@ -30,7 +32,8 @@ class SignInUseCaseInteractor(
     @Serializable
     data class IdResponse(@SerialName("id") val id: String)
 
-    override fun execute(email: String, password: String) {
+    override fun execute(input: SignInUseCaseInput) {
+        val (email, password) = input
         CoroutineScope(coroutineContext).launch {
             val response = httpClient.post<HttpResponse>("$host/login") {
                 method = HttpMethod.Post
@@ -51,7 +54,7 @@ class SignInUseCaseInteractor(
                 }
             }
 
-            outputPort.handle(result)
+            outputPort.handle(SignInUseCaseOutput(result))
         }
     }
 }

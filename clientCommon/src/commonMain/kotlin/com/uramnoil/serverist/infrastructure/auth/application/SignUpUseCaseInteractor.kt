@@ -1,6 +1,8 @@
 package com.uramnoil.serverist.infrastructure.auth.application
 
+import com.uramnoil.serverist.application.auth.SignUpUseCaseInput
 import com.uramnoil.serverist.application.auth.SignUpUseCaseInputPort
+import com.uramnoil.serverist.application.auth.SignUpUseCaseOutput
 import com.uramnoil.serverist.application.auth.SignUpUseCaseOutputPort
 import com.uramnoil.serverist.exceptions.BadRequestException
 import com.uramnoil.serverist.exceptions.InternalServerErrorException
@@ -24,7 +26,8 @@ class SignUpUseCaseInteractor(
     @Serializable
     data class Credential(val email: String, val password: String)
 
-    override fun execute(email: String, password: String) {
+    override fun execute(input: SignUpUseCaseInput) {
+        val (email, password) = input
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {
                 val response = httpClient.post<HttpResponse>("$host/signup") {
@@ -46,7 +49,7 @@ class SignUpUseCaseInteractor(
                 }
             }
 
-            outputPort.handle(result)
+            outputPort.handle(SignUpUseCaseOutput(result))
         }
     }
 }
