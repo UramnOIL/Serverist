@@ -17,8 +17,8 @@ import kotlin.coroutines.CoroutineContext
  */
 class UpdateUserUseCaseInteractor(
     private val apolloClient: ApolloClient,
+    coroutineContext: CoroutineContext,
     private val outputPort: UpdateUserCommandUseCaseOutputPort,
-    coroutineContext: CoroutineContext
 ) : UpdateUserCommandUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: UpdateUserCommandUseCaseInput) {
         launch {
