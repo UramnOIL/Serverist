@@ -6,6 +6,10 @@ mutation DeleteServer($id: UUID!) {
     deleteServer(id: $id)
 }
 
+mutation UpdateServer($id: UUID!, $name: String!, $host: String, $port: Int, $description: String!) {
+    updateServer(id: $id, name: $name, host: $host, port: $port, description: $description)
+}
+
 query FindAllServers($page: PageRequest!, $sort: Sort!, $orderBy: OrderBy!) {
   findServers(
     page: $page
