@@ -5,16 +5,18 @@ import com.benasher44.uuid.Uuid
 /**
  *
  */
-fun interface SignInUseCaseInputPort {
-    /**
-     *
-     */
-    fun execute(email: String, password: String)
-}
+data class SignInUseCaseInput(val email: String, val password: String)
 
 /**
  *
  */
+fun interface SignInUseCaseInputPort {
+    /**
+     *
+     */
+    fun execute(input: SignInUseCaseInput)
+}
+
 /**
  *
  */

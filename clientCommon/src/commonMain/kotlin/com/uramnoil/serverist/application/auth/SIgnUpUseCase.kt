@@ -8,11 +8,16 @@ package com.uramnoil.serverist.application.auth
 /**
  *
  */
+data class SignUpUseCaseInput(val email: String, val password: String)
+
+/**
+ *
+ */
 fun interface SignUpUseCaseInputPort {
     /**
      *
      */
-    fun execute(email: String, password: String)
+    fun execute(input: SignUpUseCaseInput)
 }
 
 /**

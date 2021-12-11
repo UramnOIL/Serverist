@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.application.user
 
+class FindAllUsersQueryUseCaseInput
 
 /**
  *
@@ -8,7 +9,7 @@ interface FindAllUsersQueryUseCaseInputPort {
     /**
      *
      */
-    fun execute()
+    fun execute(input: FindAllUsersQueryUseCaseInput)
 }
 
 /**

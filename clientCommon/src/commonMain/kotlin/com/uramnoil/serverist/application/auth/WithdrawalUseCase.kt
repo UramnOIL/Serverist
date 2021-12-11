@@ -1,7 +1,9 @@
 package com.uramnoil.serverist.application.auth
 
+class WithdrawalUseCaseInput
+
 fun interface WithdrawalUseCaseInputPort {
-    fun execute()
+    fun execute(input: WithdrawalUseCaseInput)
 }
 
 /**
