@@ -7,9 +7,10 @@ plugins {
 kotlin {
     jvm()
 
-    val ktorVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
+    val napierVersion: String by project
+    val ktorVersion: String by project
     val apolloVersion: String by project
     val kotestVersion: String by project
 
@@ -19,6 +20,9 @@ kotlin {
                 implementation(project(":domain:common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+
+                implementation("io.github.aakira:napier:$napierVersion")
+
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
