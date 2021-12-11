@@ -1,3 +1,7 @@
+mutation CreateServer($name: String!, $host: String, $port: Int, $description: String!) {
+    createServer(name: $name, host: $host, port: $port, description: $description)
+}
+
 query FindAllServers($page: PageRequest!, $sort: Sort!, $orderBy: OrderBy!) {
   findServers(
     page: $page
