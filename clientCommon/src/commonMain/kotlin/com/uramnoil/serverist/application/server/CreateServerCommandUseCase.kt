@@ -10,7 +10,6 @@ import com.benasher44.uuid.Uuid
  *
  */
 data class CreateServerCommandUseCaseInput(
-    val ownerId: Uuid,
     val name: String,
     val host: String?,
     val port: UShort?,
