@@ -17,14 +17,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":domain:common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("com.apollographql.apollo:apollo-api:$apolloVersion")
                 implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
                 implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
         }
         val commonTest by getting {
