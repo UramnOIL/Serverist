@@ -17,9 +17,17 @@ interface FindUserByIdQueryUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class FindUserByIdQueryUseCaseOutput(private val result: Result<User?>)
+
+/**
+ *
+ */
 fun interface FindUserByIdQueryUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<User?>)
+    fun handle(output: FindUserByIdQueryUseCaseOutput)
 }

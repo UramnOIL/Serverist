@@ -6,6 +6,17 @@ fun interface ActivateUseCaseInputPort {
     fun execute(code: Uuid)
 }
 
+/**
+ *
+ */
+data class ActivateUseCaseOutput(private val result: Result<Unit>)
+
+/**
+ *
+ */
 fun interface ActivateUseCaseOutputPort {
-    fun handle(result: Result<Unit>)
+    /**
+     *
+     */
+    fun handle(output: ActivateUseCaseOutput)
 }

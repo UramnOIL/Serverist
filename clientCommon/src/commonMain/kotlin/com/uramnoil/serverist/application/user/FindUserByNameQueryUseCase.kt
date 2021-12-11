@@ -15,9 +15,17 @@ interface FindUserByNameQueryUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class FindUserByNameQueryUseCaseOutput(private val result: Result<User?>)
+
+/**
+ *
+ */
 fun interface FindUserByNameQueryUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<User?>)
+    fun handle(output: FindUserByNameQueryUseCaseOutput)
 }

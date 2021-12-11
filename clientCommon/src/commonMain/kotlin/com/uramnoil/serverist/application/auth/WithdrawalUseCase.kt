@@ -4,6 +4,17 @@ fun interface WithdrawalUseCaseInputPort {
     fun execute()
 }
 
+/**
+ *
+ */
+data class WithdrawalUseCaseOutput(private val result: Result<Unit>)
+
+/**
+ *
+ */
 fun interface WithdrawalUseCaseOutputPort {
-    fun handle(result: Result<Unit>)
+    /**
+     *
+     */
+    fun handle(output: WithdrawalUseCaseOutput)
 }

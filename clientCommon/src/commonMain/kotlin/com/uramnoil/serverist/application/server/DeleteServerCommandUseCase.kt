@@ -18,9 +18,17 @@ interface DeleteServerCommandUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class DeleteServerCommandUseCaseOutput(private val result: Result<Unit>)
+
+/**
+ *
+ */
 fun interface DeleteServerCommandUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Unit>)
+    fun handle(output: DeleteServerCommandUseCaseOutput)
 }

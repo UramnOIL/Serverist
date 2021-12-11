@@ -14,9 +14,17 @@ interface FindAllUsersQueryUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class FindAllUsersQueryUseCaseOutput(private val result: Result<List<User>>)
+
+/**
+ *
+ */
 fun interface FindAllUsersQueryUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<List<User>>)
+    fun handle(output: FindAllUsersQueryUseCaseOutput)
 }

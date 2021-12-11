@@ -16,9 +16,14 @@ interface UpdateUserCommandUseCaseInputPort {
 /**
  *
  */
+data class UpdateUserCommandUseCaseOutput(private val result: Result<Unit>)
+
+/**
+ *
+ */
 fun interface UpdateUserCommandUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Unit>)
+    fun handle(output: UpdateUserCommandUseCaseOutput)
 }

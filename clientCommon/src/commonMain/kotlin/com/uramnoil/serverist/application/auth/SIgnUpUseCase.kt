@@ -18,9 +18,17 @@ fun interface SignUpUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class SignUpUseCaseOutput(private val result: Result<Unit>)
+
+/**
+ *
+ */
 fun interface SignUpUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Unit>)
+    fun handle(output: SignUpUseCaseOutput)
 }

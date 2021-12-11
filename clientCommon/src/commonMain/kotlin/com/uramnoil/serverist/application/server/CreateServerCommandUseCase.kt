@@ -26,9 +26,17 @@ interface CreateServerCommandUseCaseInputPort {
 /**
  *
  */
+/**
+ *
+ */
+data class CreateServerCommandUseCaseOutput(private val result: Result<Uuid>)
+
+/**
+ *
+ */
 fun interface CreateServerCommandUseCaseOutputPort {
     /**
      *
      */
-    fun handle(result: Result<Uuid>)
+    fun handle(output: CreateServerCommandUseCaseOutput)
 }
