@@ -66,7 +66,13 @@ kotlin {
                 dependsOn(commonMain)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
-                implementation(compose.desktop.currentOs)
+
+                api(compose.foundation)
+                api(compose.material)
+                api(compose.ui)
+                api(compose.preview)
+                api(compose.uiTooling)
+                api(compose.desktop.currentOs)
             }
         }
     }
