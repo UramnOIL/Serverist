@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.apollographql.apollo")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -58,6 +59,14 @@ kotlin {
 
                 // ktor
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
+            }
+        }
+        val compose by creating {
+            dependencies {
+                implementation(project(":domain:common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("io.github.aakira:napier:$napierVersion")
+                implementation(compose.desktop.currentOs)
             }
         }
     }
