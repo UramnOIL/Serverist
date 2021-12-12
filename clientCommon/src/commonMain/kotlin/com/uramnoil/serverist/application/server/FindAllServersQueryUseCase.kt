@@ -18,7 +18,7 @@ interface FindAllServersQueryUseCaseInputPort {
 /**
  *
  */
-data class FindAllServersQueryUseCaseOutput(private val result: Result<List<Server>>)
+data class FindAllServersQueryUseCaseOutput(val result: Result<List<Server>>)
 
 /**
  *

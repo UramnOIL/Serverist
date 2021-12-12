@@ -9,7 +9,7 @@ fun interface ActivateUseCaseInputPort {
 /**
  *
  */
-data class ActivateUseCaseOutput(private val result: Result<Unit>)
+data class ActivateUseCaseOutput(val result: Result<Unit>)
 
 /**
  *

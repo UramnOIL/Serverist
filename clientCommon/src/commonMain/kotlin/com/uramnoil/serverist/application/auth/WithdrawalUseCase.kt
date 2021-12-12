@@ -9,7 +9,7 @@ fun interface WithdrawalUseCaseInputPort {
 /**
  *
  */
-data class WithdrawalUseCaseOutput(private val result: Result<Unit>)
+data class WithdrawalUseCaseOutput(val result: Result<Unit>)
 
 /**
  *
