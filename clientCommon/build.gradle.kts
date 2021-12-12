@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization")
     id("com.apollographql.apollo")
     id("org.jetbrains.compose")
+    kotlin("jvm") version "1.6.10-RC"
 }
 
 kotlin {
