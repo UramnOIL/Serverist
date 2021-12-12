@@ -3,7 +3,6 @@ plugins {
     kotlin("plugin.serialization")
     id("com.apollographql.apollo")
     id("org.jetbrains.compose")
-    kotlin("jvm") version "1.6.10-RC"
 }
 
 kotlin {
@@ -64,7 +63,7 @@ kotlin {
         }
         val compose by creating {
             dependencies {
-                implementation(project(":domain:common"))
+                dependsOn(commonMain)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
                 implementation(compose.desktop.currentOs)
