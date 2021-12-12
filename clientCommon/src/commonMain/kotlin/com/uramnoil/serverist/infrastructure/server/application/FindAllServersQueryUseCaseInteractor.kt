@@ -16,7 +16,7 @@ import kotlinx.datetime.Clock
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
-class FindAllServersQueryUseCaseInfrastructure(
+class FindAllServersQueryUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
     private val outputPort: FindAllServersQueryUseCaseOutputPort
