@@ -64,6 +64,9 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 dependsOn(composeMain)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
                 implementation(compose.desktop.currentOs)
                 implementation(compose.ui)
                 implementation(compose.uiTooling)
