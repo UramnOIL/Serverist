@@ -26,10 +26,8 @@ kotlin {
     val kotestVersion: String by project
 
     sourceSets {
-        val clientMain by creating {
+        val commonMain by getting {
             dependencies {
-                implementation(project(":application"))
-
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
@@ -42,6 +40,14 @@ kotlin {
                 implementation("com.apollographql.apollo:apollo-api:$apolloVersion")
                 implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
                 implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
+            }
+        }
+
+        val clientMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(project(":application"))
+
             }
         }
         val commonTest by getting {
