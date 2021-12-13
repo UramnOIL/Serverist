@@ -3,6 +3,7 @@ package com.uramnoil.serverist.application.server
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
+import com.uramnoil.serverist.serverist.application.server.Server
 
 /**
  *

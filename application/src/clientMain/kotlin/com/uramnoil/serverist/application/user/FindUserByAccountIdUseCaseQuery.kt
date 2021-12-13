@@ -1,5 +1,7 @@
 package com.uramnoil.serverist.application.user
 
+import com.uramnoil.serverist.serverist.application.user.User
+
 /**
  *
  */
