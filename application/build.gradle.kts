@@ -42,10 +42,6 @@ kotlin {
             dependsOn(clientMain)
         }
 
-        val androidMain by getting {
-            dependsOn(clientMain)
-        }
-
         val iosMain by getting {
             dependsOn(clientMain)
         }
