@@ -11,9 +11,12 @@ import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutpu
 import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class CreateServerCommandUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,

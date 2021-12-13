@@ -9,12 +9,14 @@ import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutput
 import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 /**
  *
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class UpdateUserUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,

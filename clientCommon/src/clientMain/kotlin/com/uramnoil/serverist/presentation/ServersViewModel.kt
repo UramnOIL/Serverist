@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.presentation
 
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

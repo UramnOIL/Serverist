@@ -5,8 +5,10 @@ import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseIn
 import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseInputPort
 import com.uramnoil.serverist.application.user.FindUserByAccountIdQueryUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class FindUserByAccountIdQueryUseCaseInteractor(
     private val apolloClient: ApolloClient,
     private val outputPort: FindUserByAccountIdQueryUseCaseOutputPort,

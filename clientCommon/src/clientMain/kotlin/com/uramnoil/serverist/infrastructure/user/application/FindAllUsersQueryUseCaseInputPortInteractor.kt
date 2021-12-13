@@ -5,8 +5,10 @@ import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseInputPort
 import com.uramnoil.serverist.application.user.FindAllUsersQueryUseCaseOutputPort
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class FindAllUsersQueryUseCaseInputPortInteractor(
     private val httpClient: HttpClient,
     private val url: String,

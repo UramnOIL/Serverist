@@ -10,9 +10,12 @@ import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutpu
 import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class DeleteServerCommandUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
