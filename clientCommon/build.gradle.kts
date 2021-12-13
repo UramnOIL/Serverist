@@ -6,7 +6,9 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    targets {
+        jvm("desktop")
+    }
 
     val coroutinesVersion: String by project
     val serializationVersion: String by project
@@ -20,7 +22,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":domain:common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
@@ -48,31 +49,24 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
-        val jvmTest by getting {
-            dependencies {
-                // mockk
-                implementation("io.mockk:mockk:1.12.0")
-
-                // kotest
-                implementation("io.kotest:kotest-property:$kotestVersion")
-                implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
-
-                // ktor
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
-            }
-        }
-        val compose by creating {
+        val composeMain by creating {
             dependencies {
                 dependsOn(commonMain)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
 
+                api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
-                api(compose.ui)
-                api(compose.preview)
-                api(compose.uiTooling)
-                api(compose.desktop.currentOs)
+            }
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                dependsOn(composeMain)
+                implementation(compose.desktop.currentOs)
+                implementation(compose.ui)
+                implementation(compose.uiTooling)
             }
         }
     }
