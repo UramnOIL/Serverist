@@ -4,9 +4,13 @@ plugins {
 
 kotlin {
     targets {
-        jvm()
-        jvm("serverJvm")
-        jvm("android")
+        val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.java)
+        jvm {
+            attributes.attribute(isForClient, true)
+        }
+        jvm("serverJvm") {
+            attributes.attribute(isForClient, false)
+        }
         ios()
         js(IR) {
             browser()
