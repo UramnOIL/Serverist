@@ -1,6 +1,21 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 
+module:application
+com.uramnoil.serverist.application
+com.uramnoil.serverist.application.auth
+com.uramnoil.serverist.application.server
+com.uramnoil.serverist.application.server.services
+com.uramnoil.serverist.application.user
+com.uramnoil.serverist.auth.application
+com.uramnoil.serverist.serverist.application
+com.uramnoil.serverist.serverist.application.server
+com.uramnoil.serverist.serverist.application.server.commands
+com.uramnoil.serverist.serverist.application.server.queries
+com.uramnoil.serverist.serverist.application.server.services
+com.uramnoil.serverist.serverist.application.user
+com.uramnoil.serverist.serverist.application.user.commands
+com.uramnoil.serverist.serverist.application.user.queries
 module:backend
 com.uramnoil.serverist
 com.uramnoil.serverist.auth.application
