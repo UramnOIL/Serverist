@@ -7,7 +7,13 @@ plugins {
 
 kotlin {
     targets {
-        jvm("desktop")
+        val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
+        jvm {
+            attributes.attribute(isForClient, true)
+        }
+        jvm("desktop") {
+            attributes.attribute(isForClient, true)
+        }
     }
 
     val coroutinesVersion: String by project
