@@ -26,8 +26,10 @@ kotlin {
     val kotestVersion: String by project
 
     sourceSets {
-        val commonMain by getting {
+        val clientMain by creating {
             dependencies {
+                implementation(project(":application"))
+
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
@@ -57,7 +59,7 @@ kotlin {
         }
         val composeMain by creating {
             dependencies {
-                dependsOn(commonMain)
+                dependsOn(clientMain)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
 
