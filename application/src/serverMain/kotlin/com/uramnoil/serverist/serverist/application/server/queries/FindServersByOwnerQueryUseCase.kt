@@ -1,8 +1,8 @@
 package com.uramnoil.serverist.serverist.application.server.queries
 
 import com.benasher44.uuid.Uuid
-import com.uramnoil.serverist.serverist.application.OrderBy
-import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.application.OrderBy
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.serverist.application.server.Server
 
 /**
