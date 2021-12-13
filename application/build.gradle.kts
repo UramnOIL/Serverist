@@ -4,7 +4,7 @@ plugins {
 
 kotlin {
     targets {
-        val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.java)
+        val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
         jvm {
             attributes.attribute(isForClient, true)
         }
