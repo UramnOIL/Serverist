@@ -26,6 +26,10 @@ include(
 )
 
 include(
+    ":application"
+)
+
+include(
     ":backend",
     ":clientCommon"
 )
