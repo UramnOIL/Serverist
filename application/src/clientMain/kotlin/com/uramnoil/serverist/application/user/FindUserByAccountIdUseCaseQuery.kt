@@ -5,26 +5,26 @@ import com.uramnoil.serverist.serverist.application.user.User
 /**
  *
  */
-data class FindUserByAccountIdQueryUseCaseInput(val accountId: String)
+data class FindUserByAccountIdUseCaseInput(val accountId: String)
 
 /**
  *
  */
-fun interface FindUserByAccountIdQueryUseCaseInputPort {
-    fun execute(input: FindUserByAccountIdQueryUseCaseInput)
+fun interface FindUserByAccountIdUseCaseInputPort {
+    fun execute(input: FindUserByAccountIdUseCaseInput)
 }
 
 /**
  *
  */
-data class FindUserByAccountIdQueryUseCaseOutput(val result: Result<User?>)
+data class FindUserByAccountIdUseCaseOutput(val result: Result<User?>)
 
 /**
  *
  */
-fun interface FindUserByAccountIdQueryUseCaseOutputPort {
+fun interface FindUserByAccountIdUseCaseOutputPort {
     /**
      *
      */
-    fun handle(output: FindUserByAccountIdQueryUseCaseOutput)
+    fun handle(output: FindUserByAccountIdUseCaseOutput)
 }

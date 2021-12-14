@@ -8,7 +8,7 @@ import com.uramnoil.serverist.serverist.application.server.Server
 /**
  *
  */
-data class FindServersByOwnerQueryUseCaseInput(
+data class FindServersByOwnerUseCaseInput(
     val ownerId: Uuid,
     val limit: Int,
     val offset: Long,
@@ -19,21 +19,21 @@ data class FindServersByOwnerQueryUseCaseInput(
 /**
  *
  */
-fun interface FindServersByOwnerQueryUseCaseInputPort {
-    fun execute(input: FindServersByOwnerQueryUseCaseInput)
+fun interface FindServersByOwnerUseCaseInputPort {
+    fun execute(input: FindServersByOwnerUseCaseInput)
 }
 
 /**
  *
  */
-data class FindServersByOwnerQueryUseCaseOutput(val result: Result<List<Server>>)
+data class FindServersByOwnerUseCaseOutput(val result: Result<List<Server>>)
 
 /**
  *
  */
-fun interface FindServersByOwnerQueryUseCaseOutputPort {
+fun interface FindServersByOwnerUseCaseOutputPort {
     /**
      *
      */
-    fun handle(output: FindServersByOwnerQueryUseCaseOutput)
+    fun handle(output: FindServersByOwnerUseCaseOutput)
 }
