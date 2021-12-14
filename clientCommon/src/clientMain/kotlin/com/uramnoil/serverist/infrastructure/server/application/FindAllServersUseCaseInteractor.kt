@@ -5,10 +5,10 @@ import com.apollographql.apollo.api.ApolloExperimental
 import com.apollographql.apollo.coroutines.await
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.FindAllServersQuery
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInput
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseOutput
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseOutputPort
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseInputPort
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutput
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutputPort
 import com.uramnoil.serverist.infrastructure.toApollo
 import com.uramnoil.serverist.serverist.application.server.Server
 import com.uramnoil.serverist.type.PageRequest
@@ -20,12 +20,12 @@ import kotlinx.datetime.Clock
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
-class FindAllServersQueryUseCaseInteractor(
+class FindAllServersUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
-    private val outputPort: FindAllServersQueryUseCaseOutputPort
-) : FindAllServersQueryUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(input: FindAllServersQueryUseCaseInput) {
+    private val outputPort: FindAllServersUseCaseOutputPort
+) : FindAllServersUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+    override fun execute(input: FindAllServersUseCaseInput) {
         launch {
             val query = input.run {
                 FindAllServersQuery(
@@ -41,7 +41,7 @@ class FindAllServersQueryUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(FindAllServersQueryUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
+                outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -49,7 +49,7 @@ class FindAllServersQueryUseCaseInteractor(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(FindAllServersQueryUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                outputPort.handle(FindAllServersUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
@@ -69,7 +69,7 @@ class FindAllServersQueryUseCaseInteractor(
                 }
             }
 
-            outputPort.handle(FindAllServersQueryUseCaseOutput(serversResult))
+            outputPort.handle(FindAllServersUseCaseOutput(serversResult))
         }
     }
 }

@@ -5,10 +5,10 @@ import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.CreateServerMutation
-import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseInput
-import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutput
-import com.uramnoil.serverist.application.server.CreateServerCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.server.CreateServerUseCaseInput
+import com.uramnoil.serverist.application.server.CreateServerUseCaseInputPort
+import com.uramnoil.serverist.application.server.CreateServerUseCaseOutput
+import com.uramnoil.serverist.application.server.CreateServerUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,12 +17,12 @@ import kotlin.coroutines.CoroutineContext
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CreateServerCommandUseCaseInteractor(
+class CreateServerUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
-    private val outputPort: CreateServerCommandUseCaseOutputPort,
-) : CreateServerCommandUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(input: CreateServerCommandUseCaseInput) {
+    private val outputPort: CreateServerUseCaseOutputPort,
+) : CreateServerUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+    override fun execute(input: CreateServerUseCaseInput) {
         launch {
             val mutation = input.run {
                 CreateServerMutation(
@@ -38,7 +38,7 @@ class CreateServerCommandUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(CreateServerCommandUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
+                outputPort.handle(CreateServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -46,7 +46,7 @@ class CreateServerCommandUseCaseInteractor(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(CreateServerCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                outputPort.handle(CreateServerUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
@@ -54,7 +54,7 @@ class CreateServerCommandUseCaseInteractor(
                 uuidFrom(data.createServer as String)
             }
 
-            outputPort.handle(CreateServerCommandUseCaseOutput(serversResult))
+            outputPort.handle(CreateServerUseCaseOutput(serversResult))
         }
     }
 }

@@ -3,10 +3,10 @@ package com.uramnoil.serverist.infrastructure.user.application
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.uramnoil.serverist.UpdateUserMutation
-import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInput
-import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseInputPort
-import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutput
-import com.uramnoil.serverist.application.user.UpdateUserCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.user.UpdateUserUseCaseInput
+import com.uramnoil.serverist.application.user.UpdateUserUseCaseInputPort
+import com.uramnoil.serverist.application.user.UpdateUserUseCaseOutput
+import com.uramnoil.serverist.application.user.UpdateUserUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,9 +20,9 @@ import kotlin.coroutines.CoroutineContext
 class UpdateUserUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
-    private val outputPort: UpdateUserCommandUseCaseOutputPort,
-) : UpdateUserCommandUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(input: UpdateUserCommandUseCaseInput) {
+    private val outputPort: UpdateUserUseCaseOutputPort,
+) : UpdateUserUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+    override fun execute(input: UpdateUserUseCaseInput) {
         launch {
             val mutation = input.run {
                 UpdateUserMutation(
@@ -38,17 +38,17 @@ class UpdateUserUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(UpdateUserCommandUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
+                outputPort.handle(UpdateUserUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
             }
 
             val data = response.data
             data ?: run {
                 // Data is null
-                outputPort.handle(UpdateUserCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                outputPort.handle(UpdateUserUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
-            outputPort.handle(UpdateUserCommandUseCaseOutput(Result.success(Unit)))
+            outputPort.handle(UpdateUserUseCaseOutput(Result.success(Unit)))
         }
     }
 }

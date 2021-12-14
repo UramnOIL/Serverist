@@ -4,10 +4,10 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloExperimental
 import com.apollographql.apollo.coroutines.await
 import com.uramnoil.serverist.DeleteServerMutation
-import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseInput
-import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseInputPort
-import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutput
-import com.uramnoil.serverist.application.server.DeleteServerCommandUseCaseOutputPort
+import com.uramnoil.serverist.application.server.DeleteServerUseCaseInput
+import com.uramnoil.serverist.application.server.DeleteServerUseCaseInputPort
+import com.uramnoil.serverist.application.server.DeleteServerUseCaseOutput
+import com.uramnoil.serverist.application.server.DeleteServerUseCaseOutputPort
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,13 +16,13 @@ import kotlin.coroutines.CoroutineContext
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class DeleteServerCommandUseCaseInteractor(
+class DeleteServerUseCaseInteractor(
     private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
-    private val outputPort: DeleteServerCommandUseCaseOutputPort,
-) : DeleteServerCommandUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+    private val outputPort: DeleteServerUseCaseOutputPort,
+) : DeleteServerUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     @OptIn(ApolloExperimental::class)
-    override fun execute(input: DeleteServerCommandUseCaseInput) {
+    override fun execute(input: DeleteServerUseCaseInput) {
         launch {
             val mutation = input.run {
                 DeleteServerMutation(
@@ -35,7 +35,7 @@ class DeleteServerCommandUseCaseInteractor(
                 forEach {
                     Napier.e(it.message)
                 }
-                outputPort.handle(DeleteServerCommandUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
+                outputPort.handle(DeleteServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
             }
 
@@ -43,11 +43,11 @@ class DeleteServerCommandUseCaseInteractor(
 
             data ?: run {
                 // Data is null
-                outputPort.handle(DeleteServerCommandUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                outputPort.handle(DeleteServerUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
                 return@launch
             }
 
-            outputPort.handle(DeleteServerCommandUseCaseOutput(Result.success(Unit)))
+            outputPort.handle(DeleteServerUseCaseOutput(Result.success(Unit)))
         }
     }
 }
