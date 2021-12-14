@@ -8,9 +8,6 @@ plugins {
 kotlin {
     targets {
         val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
-        jvm {
-            attributes.attribute(isForClient, true)
-        }
         jvm("desktop") {
             attributes.attribute(isForClient, true)
         }
@@ -64,14 +61,14 @@ kotlin {
             }
         }
         val composeMain by creating {
+            dependsOn(clientMain)
             dependencies {
-                dependsOn(clientMain)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
 
-                api(compose.runtime)
-                api(compose.foundation)
-                api(compose.material)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
             }
         }
 
