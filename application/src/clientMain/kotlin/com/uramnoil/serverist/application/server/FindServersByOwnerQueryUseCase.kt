@@ -19,7 +19,7 @@ data class FindServersByOwnerQueryUseCaseInput(
 /**
  *
  */
-interface FindServersByOwnerQueryUseCaseInputPort {
+fun interface FindServersByOwnerQueryUseCaseInputPort {
     fun execute(input: FindServersByOwnerQueryUseCaseInput)
 }
 

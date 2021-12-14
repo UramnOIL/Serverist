@@ -12,7 +12,7 @@ data class FindAllServersQueryUseCaseInput(val limit: Int, val offset: Long, val
 /**
  *
  */
-interface FindAllServersQueryUseCaseInputPort {
+fun interface FindAllServersQueryUseCaseInputPort {
     fun execute(input: FindAllServersQueryUseCaseInput)
 }
 

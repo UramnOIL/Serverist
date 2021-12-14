@@ -11,7 +11,7 @@ data class DeleteServerCommandUseCaseInput(val id: Uuid)
 /**
  *
  */
-interface DeleteServerCommandUseCaseInputPort {
+fun interface DeleteServerCommandUseCaseInputPort {
     fun execute(input: DeleteServerCommandUseCaseInput)
 }
 

@@ -7,7 +7,7 @@ class FindAllUsersQueryUseCaseInput
 /**
  *
  */
-interface FindAllUsersQueryUseCaseInputPort {
+fun interface FindAllUsersQueryUseCaseInputPort {
     /**
      *
      */

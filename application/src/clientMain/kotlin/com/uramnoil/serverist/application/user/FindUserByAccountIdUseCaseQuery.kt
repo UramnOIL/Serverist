@@ -10,7 +10,7 @@ data class FindUserByAccountIdQueryUseCaseInput(val accountId: String)
 /**
  *
  */
-interface FindUserByAccountIdQueryUseCaseInputPort {
+fun interface FindUserByAccountIdQueryUseCaseInputPort {
     fun execute(input: FindUserByAccountIdQueryUseCaseInput)
 }
 

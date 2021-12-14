@@ -11,7 +11,7 @@ data class FindServerByIdQueryUseCaseInput(val id: Uuid)
 /**
  *
  */
-interface FindServerByIdQueryUseCaseInputPort {
+fun interface FindServerByIdQueryUseCaseInputPort {
     fun execute(input: FindServerByIdQueryUseCaseInput)
 }
 

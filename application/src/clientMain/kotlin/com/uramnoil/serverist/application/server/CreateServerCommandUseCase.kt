@@ -19,7 +19,7 @@ data class CreateServerCommandUseCaseInput(
 /**
  *
  */
-interface CreateServerCommandUseCaseInputPort {
+fun interface CreateServerCommandUseCaseInputPort {
     fun execute(input: CreateServerCommandUseCaseInput)
 }
 

@@ -6,7 +6,7 @@ data class UpdateUserCommandUseCaseInput(val accountId: String, val name: String
 /**
  *
  */
-interface UpdateUserCommandUseCaseInputPort {
+fun interface UpdateUserCommandUseCaseInputPort {
     /**
      *
      */

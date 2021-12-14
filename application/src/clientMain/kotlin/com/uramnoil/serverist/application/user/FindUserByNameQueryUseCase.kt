@@ -10,7 +10,7 @@ data class FindUserByNameQueryUseCaseInput(val name: String, val serversLimit: L
 /**
  *
  */
-interface FindUserByNameQueryUseCaseInputPort {
+fun interface FindUserByNameQueryUseCaseInputPort {
     fun execute(input: FindUserByNameQueryUseCaseInput)
 }
 

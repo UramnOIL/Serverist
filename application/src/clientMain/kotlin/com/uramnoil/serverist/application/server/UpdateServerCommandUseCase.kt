@@ -17,7 +17,7 @@ data class UpdateServerCommandUseCaseInput(
 /**
  *
  */
-interface UpdateServerCommandUseCaseInputPort {
+fun interface UpdateServerCommandUseCaseInputPort {
     fun execute(input: UpdateServerCommandUseCaseInput)
 }
 
