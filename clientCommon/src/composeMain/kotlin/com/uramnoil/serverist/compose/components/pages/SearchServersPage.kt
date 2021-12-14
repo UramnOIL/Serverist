@@ -11,9 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInput
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseOutputPort
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseInputPort
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutputPort
 import com.uramnoil.serverist.presentation.FindServersPresenter
 import com.uramnoil.serverist.presentation.ServersViewModel
 import kotlin.coroutines.CoroutineContext
@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 internal val serversViewModel = ServersViewModel()
 
 @Composable
-fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServersQueryUseCaseOutputPort) -> FindAllServersQueryUseCaseInputPort) {
+fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServersUseCaseOutputPort) -> FindAllServersUseCaseInputPort) {
     val coroutineScope = rememberCoroutineScope()
     val coroutineContext = coroutineScope.coroutineContext
 
@@ -38,7 +38,7 @@ fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServer
         Box(Modifier.fillMaxWidth()) {
             Button(
                 {
-                    inputPort.execute(FindAllServersQueryUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
+                    inputPort.execute(FindAllServersUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
                 },
                 modifier = Modifier.align(Alignment.CenterEnd)
             ) {
