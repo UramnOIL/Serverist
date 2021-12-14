@@ -6,7 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInput
 import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInputPort
-import com.uramnoil.serverist.application.server.Server
+import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Clock
 
 @Preview
