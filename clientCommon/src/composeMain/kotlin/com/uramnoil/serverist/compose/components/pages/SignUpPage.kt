@@ -77,7 +77,8 @@ fun SignUpPage(factory: SignUpUseCaseInputPortFactory, onSignedUp: () -> Unit) {
         Button(
             onClick = {
                 inputPort.execute(SignUpUseCaseInput(email, password))
-            }
+            },
+            enabled = password.isNotEmpty() && isCorrectFormattedPassword
         ) {
             Text("Sign Up")
         }
