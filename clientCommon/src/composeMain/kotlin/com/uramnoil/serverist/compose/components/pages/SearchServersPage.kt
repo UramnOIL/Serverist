@@ -1,10 +1,13 @@
 package com.uramnoil.serverist.compose.components.pages
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
@@ -29,18 +32,27 @@ fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServer
         mutableStateOf(inputPort)
     }
 
+
+
     Column {
-        Button({
-            inputPort.execute(FindAllServersQueryUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
-        }) {
-            Text("検索")
+        Box(Modifier.fillMaxWidth()) {
+            Button(
+                {
+                    inputPort.execute(FindAllServersQueryUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
+                },
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Text("検索")
+            }
         }
 
         servers.forEach {
-            Row {
-                Text(it.name, Modifier.weight(1f))
-                Text(it.host ?: "N/A", Modifier.weight(1f))
-                Text(it.port?.toString() ?: "N/A", Modifier.weight(1f))
+            Column {
+                Text(it.name)
+                Row {
+                    Text(it.host ?: "N/A", Modifier.weight(1f))
+                    Text(it.port?.toString() ?: "N/A", Modifier.weight(1f))
+                }
             }
         }
     }
