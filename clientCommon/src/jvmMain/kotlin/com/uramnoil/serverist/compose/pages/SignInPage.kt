@@ -1,5 +1,6 @@
-package com.uramnoil.serverist.compose.components.pages
+package com.uramnoil.serverist.compose.pages
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -66,5 +67,19 @@ fun SignInPage(factory: SignInUseCaseInputPortFactory, onSignedIn: () -> Unit) {
         ) {
             Text("Sign In")
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    SignInPage(
+        { _, _ ->
+            SignInUseCaseInputPort {
+
+            }
+        }
+    ) {
+
     }
 }

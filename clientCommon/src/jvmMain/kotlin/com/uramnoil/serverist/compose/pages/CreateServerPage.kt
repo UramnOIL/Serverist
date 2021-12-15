@@ -1,5 +1,6 @@
-package com.uramnoil.serverist.compose.components.pages
+package com.uramnoil.serverist.compose.pages
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
@@ -16,6 +17,7 @@ fun CreateServerPage() {
         }
         mutableStateOf(controller)
     }
+
 
     var name by remember { mutableStateOf("") }
     var host by remember { mutableStateOf("") }
@@ -47,4 +49,11 @@ fun CreateServerPage() {
             Text("Create")
         }
     }
+}
+
+
+@Preview
+@Composable
+private fun Preview() {
+    CreateServerPage()
 }

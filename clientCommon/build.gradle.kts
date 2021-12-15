@@ -5,10 +5,17 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+repositories {
+    google()
+}
+
 kotlin {
     targets {
         val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
         jvm("desktop") {
+            attributes.attribute(isForClient, true)
+        }
+        jvm {
             attributes.attribute(isForClient, true)
         }
     }
@@ -21,6 +28,7 @@ kotlin {
     val ktorVersion: String by project
     val apolloVersion: String by project
     val kotestVersion: String by project
+    val koinVersion: String by project
 
     sourceSets {
         val commonMain by getting {
@@ -63,24 +71,30 @@ kotlin {
         val composeMain by creating {
             dependsOn(clientMain)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("io.github.aakira:napier:$napierVersion")
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
             }
         }
 
-        val desktopMain by getting {
+        val jvmMain by getting {
+            dependsOn(composeMain)
             dependencies {
-                dependsOn(composeMain)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.desktop.currentOs)
                 implementation(compose.ui)
                 implementation(compose.uiTooling)
+                implementation("io.insert-koin:koin-core:$koinVersion")
+                implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+            }
+        }
+
+        val desktopMain by getting {
+            dependsOn(jvmMain)
+            dependencies {
+                dependsOn(composeMain)
             }
         }
     }

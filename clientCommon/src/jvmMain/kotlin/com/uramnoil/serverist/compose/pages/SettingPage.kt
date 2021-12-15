@@ -1,5 +1,6 @@
-package com.uramnoil.serverist.compose.components.pages
+package com.uramnoil.serverist.compose.pages
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
@@ -41,4 +42,11 @@ fun SettingPage() {
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+private fun Preview() {
+    SettingPage()
 }

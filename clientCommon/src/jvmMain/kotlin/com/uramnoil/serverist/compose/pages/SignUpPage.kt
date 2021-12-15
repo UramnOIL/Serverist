@@ -1,5 +1,6 @@
-package com.uramnoil.serverist.compose.components.pages
+package com.uramnoil.serverist.compose.pages
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -83,4 +84,19 @@ fun SignUpPage(factory: SignUpUseCaseInputPortFactory, onSignedUp: () -> Unit) {
             Text("Sign Up")
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    SignUpPage(
+        { coroutineContext, signUpUseCaseOutputPort ->
+            SignUpUseCaseInputPort {
+
+            }
+        },
+        {
+
+        }
+    )
 }
