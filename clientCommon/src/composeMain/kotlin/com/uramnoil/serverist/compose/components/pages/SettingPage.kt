@@ -9,8 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.uramnoil.serverist.presentation.SettingController
-import kotlinx.coroutines.GlobalScope.coroutineContext
-
 
 @Composable
 fun SettingPage() {
@@ -21,7 +19,7 @@ fun SettingPage() {
     var description by remember { mutableStateOf("") }
 
     val controller by remember {
-        val controller = SettingController(coroutineContext) {
+        val controller = SettingController(coroutineScope.coroutineContext) {
 
         }
         mutableStateOf(controller)
