@@ -34,7 +34,9 @@ fun SettingPage() {
         OutlinedTextField(value = description, onValueChange = { description = it })
 
         Box {
-            Button(onClick = { }, modifier = Modifier.align(Alignment.CenterEnd)) {
+            Button(onClick = {
+                controller.updateUser(accountId, name, description)
+            }, modifier = Modifier.align(Alignment.CenterEnd)) {
                 Text("Apply")
             }
         }
