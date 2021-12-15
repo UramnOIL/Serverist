@@ -94,7 +94,6 @@ kotlin {
         val desktopMain by getting {
             dependsOn(jvmMain)
             dependencies {
-                dependsOn(composeMain)
             }
         }
     }
