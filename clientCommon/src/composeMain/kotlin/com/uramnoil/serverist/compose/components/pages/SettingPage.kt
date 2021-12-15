@@ -8,26 +8,23 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.uramnoil.serverist.application.user.UpdateUserUseCaseInputPort
-import com.uramnoil.serverist.application.user.UpdateUserUseCaseOutputPort
-import kotlin.coroutines.CoroutineContext
+import com.uramnoil.serverist.presentation.SettingController
+import kotlinx.coroutines.GlobalScope.coroutineContext
 
-
-typealias UpdateUserUseCaseInputPortFactory = (CoroutineContext, UpdateUserUseCaseOutputPort) -> UpdateUserUseCaseInputPort
 
 @Composable
-fun SettingPage(factory: UpdateUserUseCaseInputPortFactory) {
+fun SettingPage() {
     val coroutineScope = rememberCoroutineScope()
 
     var accountId by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
-    val inputPort by remember {
-        val inputPort = factory(coroutineScope.coroutineContext) {
+    val controller by remember {
+        val controller = SettingController(coroutineContext) {
 
         }
-        mutableStateOf(inputPort)
+        mutableStateOf(controller)
     }
 
     Column {
