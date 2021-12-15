@@ -4,8 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.benasher44.uuid.uuidFrom
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInput
-import com.uramnoil.serverist.application.server.FindAllServersQueryUseCaseInputPort
+import com.uramnoil.serverist.application.server.FindAllServersUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Clock
 
@@ -28,9 +27,7 @@ private fun Preview() {
     }
 
     SearchServersPage { coroutineContext, outputPort ->
-        object : FindAllServersQueryUseCaseInputPort {
-            override fun execute(input: FindAllServersQueryUseCaseInput) {
-            }
+        FindAllServersUseCaseInputPort {
         }
     }
 }
