@@ -28,7 +28,7 @@ fun SignInPage(factory: SignInUseCaseInputPortFactory, onSignedIn: () -> Unit) {
             val (result) = output
             result.fold(
                 {
-                    onSignedIn
+                    onSignedIn()
                 },
                 { throwable ->
                     loginError = throwable
