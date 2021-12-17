@@ -10,21 +10,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.uramnoil.serverist.presentation.SettingController
+import com.uramnoil.serverist.presentation.SettingViewModel
 
 @Composable
-fun SettingPage() {
-    val coroutineScope = rememberCoroutineScope()
-
+fun SettingPage(controller: SettingController, viewModel: SettingViewModel) {
     var accountId by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-
-    val controller by remember {
-        val controller = SettingController(coroutineScope.coroutineContext) {
-
-        }
-        mutableStateOf(controller)
-    }
 
     Column {
         Text("Account ID")
@@ -48,5 +40,15 @@ fun SettingPage() {
 @Preview
 @Composable
 private fun Preview() {
-    SettingPage()
+    val viewModel by remember {
+        mutableStateOf(SettingViewModel())
+    }
+
+    val controller by remember {
+        mutableStateOf(SettingController {
+
+        })
+    }
+
+    SettingPage(controller, viewModel)
 }
