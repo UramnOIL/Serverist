@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.compose.components.pages
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
@@ -8,7 +9,9 @@ import androidx.compose.runtime.*
 import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.presentation.EditServerController
 import com.uramnoil.serverist.presentation.EditServerViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditServerViewModel) {
@@ -18,13 +21,17 @@ fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditSe
     var description by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        viewModel.serverStateFlow.collect {
-            name = it.name
-            host = it.host ?: ""
-            port = it.port?.toUShort()
-            description = it.description
+        launch {
+            viewModel.serverStateFlow.collect {
+                name = it.name
+                host = it.host ?: ""
+                port = it.port?.toUShort()
+                description = it.description
+            }
         }
-        controller.findServer(id)
+        launch {
+            controller.findServer(id)
+        }
     }
 
     Column {
@@ -58,4 +65,11 @@ fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditSe
             Text("Delete")
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    val viewModel = EditServerViewModel(MutableSharedFlow())
+    EditServerPage(id = Uuid.randomUUID(), EditServerController({}, {}, {}), viewModel)
 }

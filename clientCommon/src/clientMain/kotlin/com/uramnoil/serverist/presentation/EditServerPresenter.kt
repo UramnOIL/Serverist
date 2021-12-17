@@ -4,13 +4,13 @@ import com.uramnoil.serverist.application.server.*
 import com.uramnoil.serverist.serverist.application.server.Server
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class EditServerViewModel(internal val mutableServerFlow: MutableStateFlow<Server>) {
-    val serverStateFlow: StateFlow<Server>
+class EditServerViewModel(internal val mutableServerFlow: MutableSharedFlow<Server>) {
+    val serverStateFlow: Flow<Server>
         get() = mutableServerFlow
 }
 
