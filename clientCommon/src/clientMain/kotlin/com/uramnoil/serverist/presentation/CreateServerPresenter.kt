@@ -1,7 +1,11 @@
 package com.uramnoil.serverist.presentation
 
-class CreateServerViewModel {
-    val mutable
-}
+import com.uramnoil.serverist.application.server.CreateServerUseCaseOutput
+import com.uramnoil.serverist.application.server.CreateServerUseCaseOutputPort
 
-class CreateServerPresenter
+class CreateServerViewModel
+
+class CreateServerPresenter(private val createServerViewModel: CreateServerViewModel) : CreateServerUseCaseOutputPort {
+    override fun handle(output: CreateServerUseCaseOutput) {
+    }
+}
