@@ -47,5 +47,15 @@ fun CreateServerPage(controller: CreateServerController, viewModel: CreateServer
 @Preview
 @Composable
 private fun Preview() {
-    CreateServerPage()
+    val viewModel by remember {
+        mutableStateOf(CreateServerViewModel())
+    }
+
+    val controller by remember {
+        mutableStateOf(CreateServerController {
+
+        })
+    }
+
+    CreateServerPage(controller, viewModel)
 }
