@@ -11,38 +11,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.benasher44.uuid.uuidFrom
-import com.uramnoil.serverist.application.OrderBy
-import com.uramnoil.serverist.application.Sort
-import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
-import com.uramnoil.serverist.application.server.FindAllServersUseCaseInputPort
-import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutputPort
-import com.uramnoil.serverist.presentation.FindServersPresenter
+import com.uramnoil.serverist.presentation.FindServersController
 import com.uramnoil.serverist.presentation.ServersViewModel
 import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Clock
-import kotlin.coroutines.CoroutineContext
-
-internal val serversViewModel = ServersViewModel()
 
 @Composable
-fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServersUseCaseOutputPort) -> FindAllServersUseCaseInputPort) {
-    val coroutineScope = rememberCoroutineScope()
-    val coroutineContext = coroutineScope.coroutineContext
-
-    val servers by serversViewModel.serversFlow.collectAsState()
-    val inputPort by remember {
-        val presenter = FindServersPresenter(serversViewModel, coroutineContext)
-        val inputPort = inputBuilder(coroutineContext, presenter)
-        mutableStateOf(inputPort)
-    }
-
-
+fun SearchServersPage(controller: FindServersController, viewModel: ServersViewModel) {
+    val servers by viewModel.serversFlow.collectAsState()
 
     Column {
         Box(Modifier.fillMaxWidth()) {
             Button(
                 {
-                    inputPort.execute(FindAllServersUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
+                    controller.findAllServers()
                 },
                 modifier = Modifier.align(Alignment.CenterEnd)
             ) {
@@ -66,7 +48,7 @@ fun SearchServersPage(inputBuilder: (CoroutineContext, outputPort: FindAllServer
 @Preview
 @Composable
 private fun Preview() {
-    LaunchedEffect(Unit) {
+    val viewModel by remember {
         val servers = (1..100).map {
             Server(
                 uuidFrom("50d078aa-405f-8715-7a87-bfe1def0a08d"),
@@ -78,11 +60,15 @@ private fun Preview() {
                 "hoge"
             )
         }
-        serversViewModel.serversMutableFlow.emit(servers)
+        val serversViewModel = ServersViewModel()
+        mutableStateOf(serversViewModel)
     }
 
-    SearchServersPage { coroutineContext, outputPort ->
-        FindAllServersUseCaseInputPort {
-        }
+    val controller by remember {
+        mutableStateOf(FindServersController {
+
+        })
     }
+
+    SearchServersPage(controller, viewModel)
 }
