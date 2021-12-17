@@ -41,6 +41,7 @@ fun AuthPage(controller: AuthController) {
     }
 }
 
+@Composable
 fun SignUp(signUp: (email: String, password: String) -> Unit) {
     var hasSignedIn by remember { mutableStateOf(false) }
     var loginError by remember { mutableStateOf<Throwable?>(null) }
