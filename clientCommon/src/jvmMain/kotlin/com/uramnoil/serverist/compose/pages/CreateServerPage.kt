@@ -7,18 +7,10 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import com.uramnoil.serverist.presentation.CreateServerController
+import com.uramnoil.serverist.presentation.CreateServerViewModel
 
 @Composable
-fun CreateServerPage() {
-    val coroutineScope = rememberCoroutineScope()
-    val controller by remember {
-        val controller = CreateServerController(coroutineScope.coroutineContext) {
-
-        }
-        mutableStateOf(controller)
-    }
-
-
+fun CreateServerPage(controller: CreateServerController, viewModel: CreateServerViewModel) {
     var name by remember { mutableStateOf("") }
     var host by remember { mutableStateOf("") }
     var port by remember { mutableStateOf<UShort?>(null) }
