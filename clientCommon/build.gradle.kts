@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    id("com.apollographql.apollo")
+    id("com.apollographql.apollo3")
     id("org.jetbrains.compose")
 }
 
@@ -14,6 +14,10 @@ kotlin {
         val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
         jvm("desktop") {
             attributes.attribute(isForClient, true)
+        }
+        js(IR) {
+            browser()
+            binaries.executable()
         }
     }
 
@@ -39,20 +43,16 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("com.apollographql.apollo:apollo-api:$apolloVersion")
-                implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
-                implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
+                implementation("com.apollographql.apollo3:apollo-api:$apolloVersion")
+                implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
             }
         }
 
         val commonTest by getting {
             dependencies {
-                // mockk
-                implementation("io.mockk:mockk:1.12.0")
 
                 // kotest
                 implementation("io.kotest:kotest-property:$kotestVersion")
-                implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
 
                 // ktor
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
@@ -91,9 +91,17 @@ kotlin {
             dependencies {
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.web.core)
+                implementation(compose.runtime)
+            }
+        }
     }
 }
 
 apollo {
+    packageName.set("com.uramnoil.serverist")
     generateKotlinModels.set(true)
 }

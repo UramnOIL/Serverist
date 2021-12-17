@@ -15,7 +15,7 @@ pluginManagement {
         id("org.jetbrains.dokka") version dokkaVersion
         id("com.github.johnrengelman.shadow") version "5.2.0"
         id("io.kotest.multiplatform") version "5.0.0.5"
-        id("com.apollographql.apollo") version apolloVersion
+        id("com.apollographql.apollo3") version apolloVersion
         id("org.jetbrains.compose") version composeJbVersion
     }
 }
