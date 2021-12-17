@@ -15,9 +15,6 @@ kotlin {
         jvm("desktop") {
             attributes.attribute(isForClient, true)
         }
-        jvm {
-            attributes.attribute(isForClient, true)
-        }
     }
 
     val coroutinesVersion: String by project
@@ -48,13 +45,6 @@ kotlin {
             }
         }
 
-        val clientMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(project(":application"))
-
-            }
-        }
         val commonTest by getting {
             dependencies {
                 // mockk
@@ -68,31 +58,36 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
-        val composeMain by creating {
-            dependsOn(clientMain)
+
+        val clientMain by creating {
+            dependsOn(commonMain)
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
+                implementation(project(":application"))
+
             }
         }
 
-        val jvmMain by getting {
-            dependsOn(composeMain)
+        val composeMain by creating {
+            dependsOn(clientMain)
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.desktop.currentOs)
-                implementation(compose.ui)
-                implementation(compose.uiTooling)
-                implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+                dependencies {
+                    implementation(compose.runtime)
+                    implementation(compose.foundation)
+                    implementation(compose.material)
+                    implementation(compose.runtime)
+                    implementation(compose.foundation)
+                    implementation(compose.material)
+                    implementation(compose.desktop.currentOs)
+                    implementation(compose.ui)
+                    implementation(compose.uiTooling)
+                    implementation("io.insert-koin:koin-core:$koinVersion")
+                    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+                }
             }
         }
 
         val desktopMain by getting {
-            dependsOn(jvmMain)
+            dependsOn(composeMain)
             dependencies {
             }
         }

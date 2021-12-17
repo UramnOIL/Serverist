@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.compose.pages
+package com.uramnoil.serverist.compose.components.pages
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
