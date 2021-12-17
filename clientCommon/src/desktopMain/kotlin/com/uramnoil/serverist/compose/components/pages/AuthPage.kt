@@ -28,13 +28,13 @@ fun AuthPage(controller: AuthController) {
             Component.SignUp -> {
                 SignUp(controller::signUp)
                 Button(onClick = { component = Component.SignIn }) {
-                    Text("Change to Sign In")
+                    Text("Switch to Sign In")
                 }
             }
             Component.SignIn -> {
                 SignIn(controller::signIn)
                 Button(onClick = { component = Component.SignUp }) {
-                    Text("Change to Sign Up")
+                    Text("Switch to Sign Up")
                 }
             }
         }
