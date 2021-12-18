@@ -18,6 +18,12 @@ pluginManagement {
         id("com.apollographql.apollo3") version apolloVersion
         id("org.jetbrains.compose") version composeJbVersion
     }
+
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
 }
 
 include(
@@ -34,4 +40,5 @@ include(
 include(
     ":clientCommon",
     ":backend",
+    ":web"
 )
