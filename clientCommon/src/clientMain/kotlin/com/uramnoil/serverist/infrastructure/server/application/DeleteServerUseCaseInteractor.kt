@@ -1,14 +1,13 @@
 package com.uramnoil.serverist.infrastructure.server.application
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.ApolloExperimental
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.annotations.ApolloExperimental
+
 import com.uramnoil.serverist.DeleteServerMutation
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseInput
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseInputPort
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseOutput
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseOutputPort
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -29,11 +28,11 @@ class DeleteServerUseCaseInteractor(
                     id = input.id.toString()
                 )
             }
-            val deleteServerResult = apolloClient.mutate(mutation).await()
+            val deleteServerResult = apolloClient.mutation(mutation).execute()
 
             deleteServerResult.errors?.run {
                 forEach {
-                    Napier.e(it.message)
+                    //Napier.e(it.message)
                 }
                 outputPort.handle(DeleteServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch

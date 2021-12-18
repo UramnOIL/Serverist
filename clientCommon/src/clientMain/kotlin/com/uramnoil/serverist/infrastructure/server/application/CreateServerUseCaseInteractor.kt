@@ -1,15 +1,13 @@
 package com.uramnoil.serverist.infrastructure.server.application
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.toInput
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Optional
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.CreateServerMutation
 import com.uramnoil.serverist.application.server.CreateServerUseCaseInput
 import com.uramnoil.serverist.application.server.CreateServerUseCaseInputPort
 import com.uramnoil.serverist.application.server.CreateServerUseCaseOutput
 import com.uramnoil.serverist.application.server.CreateServerUseCaseOutputPort
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -27,16 +25,16 @@ class CreateServerUseCaseInteractor(
             val mutation = input.run {
                 CreateServerMutation(
                     name,
-                    host.toInput(),
-                    port?.toInt().toInput(),
+                    Optional.presentIfNotNull(host),
+                    Optional.presentIfNotNull(port?.toInt()),
                     description
                 )
             }
-            val createServerResult = apolloClient.mutate(mutation).await()
+            val createServerResult = apolloClient.mutation(mutation).execute()
 
             createServerResult.errors?.run {
                 forEach {
-                    Napier.e(it.message)
+                    //Napi.e(it.message)
                 }
                 outputPort.handle(CreateServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch

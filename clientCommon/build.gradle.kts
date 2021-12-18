@@ -72,16 +72,6 @@ kotlin {
             dependencies {
                 dependencies {
                     implementation(compose.runtime)
-                    implementation(compose.foundation)
-                    implementation(compose.material)
-                    implementation(compose.runtime)
-                    implementation(compose.foundation)
-                    implementation(compose.material)
-                    implementation(compose.desktop.currentOs)
-                    implementation(compose.ui)
-                    implementation(compose.uiTooling)
-                    implementation("io.insert-koin:koin-core:$koinVersion")
-                    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
                 }
             }
         }
@@ -89,10 +79,15 @@ kotlin {
         val desktopMain by getting {
             dependsOn(composeMain)
             dependencies {
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.desktop.currentOs)
+                implementation(compose.ui)
             }
         }
 
         val jsMain by getting {
+            dependsOn(composeMain)
             dependencies {
                 implementation(compose.web.core)
                 implementation(compose.runtime)
@@ -103,5 +98,4 @@ kotlin {
 
 apollo {
     packageName.set("com.uramnoil.serverist")
-    generateKotlinModels.set(true)
 }

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.infrastructure.user.application
 
-import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo3.ApolloClient
 import com.uramnoil.serverist.application.user.FindUserByAccountIdUseCaseInput
 import com.uramnoil.serverist.application.user.FindUserByAccountIdUseCaseInputPort
 import com.uramnoil.serverist.application.user.FindUserByAccountIdUseCaseOutputPort

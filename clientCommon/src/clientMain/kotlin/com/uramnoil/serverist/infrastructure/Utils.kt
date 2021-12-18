@@ -8,10 +8,10 @@ import com.uramnoil.serverist.type.Sort as ApolloSort
 fun Sort.toApollo(): ApolloSort {
     return when (this) {
         Sort.Asc -> {
-            ApolloSort.ASC
+            ApolloSort.Asc
         }
         Sort.Desc -> {
-            ApolloSort.DESC
+            ApolloSort.Desc
         }
     }
 }
@@ -19,7 +19,7 @@ fun Sort.toApollo(): ApolloSort {
 fun OrderBy.toApollo(): com.uramnoil.serverist.type.OrderBy {
     return when (this) {
         OrderBy.CreatedAt -> {
-            ApolloOrderBy.CREATEDAT
+            ApolloOrderBy.CreatedAt
         }
     }
 }

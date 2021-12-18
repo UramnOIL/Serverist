@@ -1,8 +1,7 @@
 package com.uramnoil.serverist.infrastructure.server.application
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.ApolloExperimental
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.FindAllServersQuery
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
@@ -11,8 +10,6 @@ import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutput
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutputPort
 import com.uramnoil.serverist.infrastructure.toApollo
 import com.uramnoil.serverist.serverist.application.server.Server
-import com.uramnoil.serverist.type.PageRequest
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -29,17 +26,17 @@ class FindAllServersUseCaseInteractor(
         launch {
             val query = input.run {
                 FindAllServersQuery(
-                    page = PageRequest(limit, offset),
+                    //page = PageRequest(limit, offset),
                     sort = sort.toApollo(),
                     orderBy = orderBy.toApollo()
                 )
             }
-            val response = apolloClient.query(query).await()
+            val response = apolloClient.query(query).execute()
 
             // GraphQL Error
             response.errors?.run {
                 forEach {
-                    Napier.e(it.message)
+                    //Napier.e(it.message)
                 }
                 outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch

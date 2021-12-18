@@ -1,13 +1,11 @@
 package com.uramnoil.serverist.infrastructure.user.application
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloClient
 import com.uramnoil.serverist.UpdateUserMutation
 import com.uramnoil.serverist.application.user.UpdateUserUseCaseInput
 import com.uramnoil.serverist.application.user.UpdateUserUseCaseInputPort
 import com.uramnoil.serverist.application.user.UpdateUserUseCaseOutput
 import com.uramnoil.serverist.application.user.UpdateUserUseCaseOutputPort
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -27,16 +25,16 @@ class UpdateUserUseCaseInteractor(
             val mutation = input.run {
                 UpdateUserMutation(
                     accountId = accountId,
-                    name = name,
+                    userName = name,
                     description = description
                 )
             }
-            val response = apolloClient.mutate(mutation).await()
+            val response = apolloClient.mutation(mutation).execute()
 
             // Error
             response.errors?.run {
                 forEach {
-                    Napier.e(it.message)
+                    //Napier.e(it.message)
                 }
                 outputPort.handle(UpdateUserUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
             }
