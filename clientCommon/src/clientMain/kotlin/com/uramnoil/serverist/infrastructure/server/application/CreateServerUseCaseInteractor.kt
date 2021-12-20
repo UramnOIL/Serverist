@@ -16,8 +16,8 @@ import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateServerUseCaseInteractor(
-    private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
+    private val apolloClient: ApolloClient,
     private val outputPort: CreateServerUseCaseOutputPort,
 ) : CreateServerUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: CreateServerUseCaseInput) {

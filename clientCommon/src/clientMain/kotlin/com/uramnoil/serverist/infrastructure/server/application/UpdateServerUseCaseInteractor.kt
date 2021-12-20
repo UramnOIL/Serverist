@@ -15,8 +15,8 @@ import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UpdateServerUseCaseInteractor(
-    private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
+    private val apolloClient: ApolloClient,
     private val outputPort: UpdateServerUseCaseOutputPort,
 ) : UpdateServerUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: UpdateServerUseCaseInput) {
