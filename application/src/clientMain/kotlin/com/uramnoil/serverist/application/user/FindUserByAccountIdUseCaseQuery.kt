@@ -1,28 +1,30 @@
 package com.uramnoil.serverist.application.user
 
-/**
- *
- */
-data class FindUserByAccountIdQueryUseCaseInput(val accountId: String)
+import com.uramnoil.serverist.serverist.application.user.User
 
 /**
  *
  */
-interface FindUserByAccountIdQueryUseCaseInputPort {
-    fun execute(input: FindUserByAccountIdQueryUseCaseInput)
+data class FindUserByAccountIdUseCaseInput(val accountId: String)
+
+/**
+ *
+ */
+fun interface FindUserByAccountIdUseCaseInputPort {
+    fun execute(input: FindUserByAccountIdUseCaseInput)
 }
 
 /**
  *
  */
-data class FindUserByAccountIdQueryUseCaseOutput(val result: Result<User?>)
+data class FindUserByAccountIdUseCaseOutput(val result: Result<User?>)
 
 /**
  *
  */
-fun interface FindUserByAccountIdQueryUseCaseOutputPort {
+fun interface FindUserByAccountIdUseCaseOutputPort {
     /**
      *
      */
-    fun handle(output: FindUserByAccountIdQueryUseCaseOutput)
+    fun handle(output: FindUserByAccountIdUseCaseOutput)
 }

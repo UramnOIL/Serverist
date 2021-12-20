@@ -1,0 +1,55 @@
+mutation CreateServer($serverName: String!, $host: String, $port: Int, $description: String!) {
+    createServer(name: $serverName, host: $host, port: $port, description: $description)
+}
+
+mutation DeleteServer($id: UUID!) {
+    deleteServer(id: $id)
+}
+
+mutation UpdateServer($id: UUID!, $serverName: String!, $host: String, $port: Int, $description: String!) {
+    updateServer(id: $id, name: $serverName, host: $host, port: $port, description: $description)
+}
+
+query FindAllServers($sort: Sort!, $orderBy: OrderBy!) {
+    findServers(
+        sort: $sort
+        orderBy: $orderBy
+    ) {
+        id,
+        name,
+        ownerId,
+        host,
+        port,
+        description,
+    }
+}
+
+query FindServersByOwner($uuid: UUID!, $sort: Sort, $orderBy: OrderBy) {
+    findServersByOwner(
+        ownerId: $uuid
+        sort: $sort
+        orderBy: $orderBy
+    ) {
+        id,
+        name,
+        ownerId,
+        host,
+        port,
+        description,
+    }
+}
+
+mutation UpdateUser($userName: String!, $accountId: String!, $description: String!) {
+    updateUser(name: $userName, accountId: $accountId, description: $description) {
+        id
+    }
+}
+
+query FindUserById($id: UUID!) {
+    findUserById(id: $id) {
+        id,
+        accountId,
+        name,
+        description,
+    }
+}
