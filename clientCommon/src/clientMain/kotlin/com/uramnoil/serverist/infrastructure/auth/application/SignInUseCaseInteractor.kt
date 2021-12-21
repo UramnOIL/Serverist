@@ -21,10 +21,10 @@ import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 
 class SignInUseCaseInteractor(
+    private val coroutineContext: CoroutineContext,
     private val host: String,
     private val httpClient: HttpClient,
     private val outputPort: SignInUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext,
 ) : SignInUseCaseInputPort {
     @Serializable
     data class Credential(val email: String, val password: String)

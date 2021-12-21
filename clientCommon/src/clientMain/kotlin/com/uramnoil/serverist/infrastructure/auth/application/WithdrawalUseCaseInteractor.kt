@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class WithdrawalUseCaseInteractor(
+    private val coroutineContext: CoroutineContext,
     private val client: HttpClient,
     private val host: String,
     private val outputPort: WithdrawalUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext,
 ) : WithdrawalUseCaseInputPort {
     override fun execute(input: WithdrawalUseCaseInput) {
         CoroutineScope(coroutineContext).launch {

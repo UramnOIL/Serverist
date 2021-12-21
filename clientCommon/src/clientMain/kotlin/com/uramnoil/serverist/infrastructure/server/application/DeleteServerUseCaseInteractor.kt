@@ -16,8 +16,8 @@ import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeleteServerUseCaseInteractor(
-    private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
+    private val apolloClient: ApolloClient,
     private val outputPort: DeleteServerUseCaseOutputPort,
 ) : DeleteServerUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     @OptIn(ApolloExperimental::class)
