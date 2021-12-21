@@ -35,6 +35,10 @@ View層はInteractor等の実装に依存してはイケナイため、おそら
 Kotlin/JSとJetpack Compose for Webで作るSPAプロジェクト。
 ``compose.material``がfor Webに対応するまでは、``/clientCommon``とは別にこのプロジェクト内で全てのコンポーネントを作成する必要がある。
 
+=== `/webReact`
+
+Kotlin/JSとReactで作るSPAプロジェクト
+
 == 知見
 
 === Clean Architecture
