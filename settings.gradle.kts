@@ -40,5 +40,6 @@ include(
 include(
     ":clientCommon",
     ":backend",
-    ":web"
+    ":web",
+    ":webReact"
 )
