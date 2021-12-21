@@ -18,8 +18,8 @@ import kotlin.coroutines.CoroutineContext
 
 @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
 class FindAllServersUseCaseInteractor(
-    private val apolloClient: ApolloClient,
     coroutineContext: CoroutineContext,
+    private val apolloClient: ApolloClient,
     private val outputPort: FindAllServersUseCaseOutputPort
 ) : FindAllServersUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: FindAllServersUseCaseInput) {

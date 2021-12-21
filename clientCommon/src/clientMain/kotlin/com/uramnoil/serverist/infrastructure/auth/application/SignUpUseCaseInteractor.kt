@@ -18,10 +18,10 @@ import kotlin.coroutines.CoroutineContext
 
 
 class SignUpUseCaseInteractor(
+    private val coroutineContext: CoroutineContext,
     private val host: String,
     private val httpClient: HttpClient,
     private val outputPort: SignUpUseCaseOutputPort,
-    private val coroutineContext: CoroutineContext
 ) : SignUpUseCaseInputPort {
     @Serializable
     data class Credential(val email: String, val password: String)
