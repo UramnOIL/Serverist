@@ -30,7 +30,7 @@ Ktor + GraphQL + Exposedで構成。
 
 View層はInteractor等の実装に依存してはイケナイため、おそらくUIは別のサブプロジェクトで記述した方が管理がしやすい。
 
-=== `/web`
+=== `/webCompose`
 
 Kotlin/JSとJetpack Compose for Webで作るSPAプロジェクト。
 ``compose.material``がfor Webに対応するまでは、``/clientCommon``とは別にこのプロジェクト内で全てのコンポーネントを作成する必要がある。
