@@ -4,6 +4,37 @@ Kotlin + DDD × クリーンアーキテクチャで作るマイクラ用のサ�
 
 参考: https://minecraft.jp
 
+== ディレクトリ構成
+
+=== `/application`
+
+アプリケーション層
+
+クライアントサイドとサーバーサイドのインターフェースが定義されている。
+
+=== `/domain`
+
+ドメイン層
+
+サーバーサイドのみ利用
+
+=== `/backend`
+
+サーバーサイド
+
+Ktor + GraphQL + Exposedで構成。
+
+=== `/clientCommon`
+
+クライアントサイドのアプリケーション層の実装や、Jetpack Composeのコンポーネント(UI)が含まれる。
+
+View層はInteractor等の実装に依存してはイケナイため、おそらくUIは別のサブプロジェクトで記述した方が管理がしやすい。
+
+=== `/web`
+
+Kotlin/JSとJetpack Compose for Webで作るSPAプロジェクト。
+``compose.material``がfor Webに対応するまでは、``/clientCommon``とは別にこのプロジェクト内で全てのコンポーネントを作成する必要がある。
+
 == 知見
 
 === Clean Architecture
