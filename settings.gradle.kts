@@ -40,6 +40,6 @@ include(
 include(
     ":clientCommon",
     ":backend",
-    ":web",
+    ":webCompose",
     ":webReact"
 )
