@@ -7,7 +7,7 @@ import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQue
 import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 class FindUserByIdQueryUseCaseInteractor(

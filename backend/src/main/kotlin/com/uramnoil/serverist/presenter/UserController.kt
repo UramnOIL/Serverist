@@ -10,7 +10,7 @@ import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserComm
 import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.user.queries.FindUserByIdQueryUseCaseOutputPort
 import kotlinx.coroutines.currentCoroutineContext
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

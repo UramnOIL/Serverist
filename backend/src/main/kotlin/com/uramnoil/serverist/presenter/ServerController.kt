@@ -17,7 +17,7 @@ import com.uramnoil.serverist.serverist.application.server.queries.FindServersBy
 import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.application.server.services.ServerService
 import kotlinx.coroutines.currentCoroutineContext
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

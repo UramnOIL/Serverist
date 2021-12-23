@@ -9,7 +9,7 @@ import com.uramnoil.serverist.auth.infrastructure.application.WithdrawUseCaseInt
 import com.uramnoil.serverist.auth.infrastructure.domain.kernel.service.HashPasswordServiceImpl
 import com.uramnoil.serverist.presenter.AuthController
 import com.uramnoil.serverist.presenter.UserController
-import io.ktor.application.*
+import io.ktor.application.Application
 import org.slf4j.Logger
 import kotlin.coroutines.CoroutineContext
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository as AuthenticatedUserRepository

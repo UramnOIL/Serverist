@@ -6,7 +6,7 @@ import com.uramnoil.serverist.serverist.application.server.commands.DeleteServer
 import com.uramnoil.serverist.serverist.application.server.commands.DeleteServerCommandUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 class DeleteServerCommandUseCaseInteractor(

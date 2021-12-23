@@ -7,7 +7,7 @@ import com.uramnoil.serverist.serverist.application.user.commands.DeleteUserComm
 import com.uramnoil.serverist.serverist.application.user.commands.DeleteUserCommandUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 class DeleteUserCommandUseCaseInteractor(

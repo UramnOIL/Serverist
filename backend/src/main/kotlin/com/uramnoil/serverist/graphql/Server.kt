@@ -5,7 +5,7 @@ import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.serverist.application.OrderBy
 import com.uramnoil.serverist.serverist.application.Sort
-import java.util.*
+import java.util.UUID
 
 fun SchemaBuilder.serverSchema(controller: ServerController) {
     suspend fun checkOwner(userId: UUID, serverId: UUID) {

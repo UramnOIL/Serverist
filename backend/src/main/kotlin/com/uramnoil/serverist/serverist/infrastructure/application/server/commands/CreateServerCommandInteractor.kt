@@ -15,7 +15,7 @@ import com.uramnoil.serverist.serverist.infrastructure.toApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import com.uramnoil.serverist.domain.serverist.models.server.Server as DomainServer
 

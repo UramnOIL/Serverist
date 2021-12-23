@@ -8,10 +8,10 @@ import com.uramnoil.serverist.domain.serverist.models.server.Port
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseOutputPort
-import io.ktor.features.*
+import io.ktor.features.NotFoundException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 class UpdateServerCommandUseCaseInteractor(
