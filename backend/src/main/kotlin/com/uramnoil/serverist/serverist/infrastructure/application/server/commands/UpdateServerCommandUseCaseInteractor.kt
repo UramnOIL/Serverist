@@ -1,6 +1,10 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.commands
 
-import com.uramnoil.serverist.domain.serverist.models.server.*
+import com.uramnoil.serverist.domain.serverist.models.server.Description
+import com.uramnoil.serverist.domain.serverist.models.server.Host
+import com.uramnoil.serverist.domain.serverist.models.server.Id
+import com.uramnoil.serverist.domain.serverist.models.server.Name
+import com.uramnoil.serverist.domain.serverist.models.server.Port
 import com.uramnoil.serverist.domain.serverist.repositories.ServerRepository
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.server.commands.UpdateServerCommandUseCaseOutputPort

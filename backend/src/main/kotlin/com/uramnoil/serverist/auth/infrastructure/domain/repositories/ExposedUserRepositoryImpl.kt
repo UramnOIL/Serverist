@@ -5,8 +5,12 @@ import com.uramnoil.serverist.auth.infrastructure.toDomainAuthenticatedUser
 import com.uramnoil.serverist.domain.auth.authenticated.models.User
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository
 import com.uramnoil.serverist.domain.common.user.Id
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.update
 
 class ExposedUserRepositoryImpl : UserRepository {
     override suspend fun insert(user: User): Result<Unit> = kotlin.runCatching {

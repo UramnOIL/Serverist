@@ -1,7 +1,11 @@
 package com.uramnoil.serverist.serverist.infrastructure
 
 import com.uramnoil.serverist.domain.common.user.Id
-import com.uramnoil.serverist.domain.serverist.models.server.*
+import com.uramnoil.serverist.domain.serverist.models.server.CreatedAt
+import com.uramnoil.serverist.domain.serverist.models.server.Description
+import com.uramnoil.serverist.domain.serverist.models.server.Host
+import com.uramnoil.serverist.domain.serverist.models.server.Name
+import com.uramnoil.serverist.domain.serverist.models.server.Port
 import com.uramnoil.serverist.domain.serverist.models.user.AccountId
 import com.uramnoil.serverist.serverist.application.server.Server
 import com.uramnoil.serverist.serverist.application.user.User
