@@ -135,11 +135,13 @@ fun Application.productKoin() {
         val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
         val authController =
             buildAuthController(log, unauthenticatedUserRepository, authenticatedUserRepository, userController)
-        modules(module {
-            single { userController }
-            single { serverController }
-            single { authController }
-        })
+        modules(
+            module {
+                single { userController }
+                single { serverController }
+                single { authController }
+            }
+        )
     }
 }
 
@@ -153,7 +155,7 @@ fun Application.createMySqlConnection() {
         val port = property("database.port").getString()
 
         Database.connect(
-            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://$host:$port/$database?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()

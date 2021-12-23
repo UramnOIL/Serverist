@@ -47,7 +47,6 @@ fun CreateServerPage(controller: CreateServerController, viewModel: CreateServer
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -56,9 +55,10 @@ private fun Preview() {
     }
 
     val controller by remember {
-        mutableStateOf(CreateServerController {
-
-        })
+        mutableStateOf(
+            CreateServerController {
+            }
+        )
     }
 
     CreateServerPage(controller, viewModel)

@@ -12,7 +12,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class UpdateServerUseCaseInteractor(
     coroutineContext: CoroutineContext,
@@ -35,7 +34,7 @@ class UpdateServerUseCaseInteractor(
             // Error
             response.errors?.run {
                 forEach {
-                    //Napier.e(it.message)
+                    // Napier.e(it.message)
                 }
                 outputPort.handle(UpdateServerUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
             }

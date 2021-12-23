@@ -26,7 +26,7 @@ class SpringBootSendEmailService(
             from = this@SpringBootSendEmailService.from
             setTo(mailAddress)
             subject = "Serveristユーザー登録"
-            text = "$activateUrl?code=${activationCode}"
+            text = "$activateUrl?code=$activationCode"
         }
 
         return kotlin.runCatching {

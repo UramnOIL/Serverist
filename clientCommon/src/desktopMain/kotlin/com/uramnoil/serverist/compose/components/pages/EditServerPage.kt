@@ -61,7 +61,6 @@ fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditSe
             Text("Apply")
         }
 
-
         Button(
             onClick = {
                 controller.deleteServer(id)

@@ -40,7 +40,6 @@ fun SettingPage(controller: SettingController, viewModel: SettingViewModel) {
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -49,9 +48,10 @@ private fun Preview() {
     }
 
     val controller by remember {
-        mutableStateOf(SettingController {
-
-        })
+        mutableStateOf(
+            SettingController {
+            }
+        )
     }
 
     SettingPage(controller, viewModel)

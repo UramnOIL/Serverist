@@ -103,12 +103,14 @@ class UserTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findUserById(id: \"$uuid\") { name } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findUserById(id: \"$uuid\") { name } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 val content = response.content
                 content shouldNotBe null
@@ -125,23 +127,27 @@ class UserTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val updatedName = "UramnOIL"
                 val updatedAccountId = "uramnoil3"
                 val updatedDescription = "piyo"
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to "mutation { update(name:\"$updatedName\", accountId: \"$updatedAccountId\", description: \"$updatedDescription\") }"))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to "mutation { update(name:\"$updatedName\", accountId: \"$updatedAccountId\", description: \"$updatedDescription\") }"))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     val content = response.content
                     content shouldNotBe null

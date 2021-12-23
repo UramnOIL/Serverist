@@ -26,7 +26,7 @@ class FindAllServersUseCaseInteractor(
         launch {
             val query = input.run {
                 FindAllServersQuery(
-                    //page = PageRequest(limit, offset),
+                    // page = PageRequest(limit, offset),
                     sort = sort.toApollo(),
                     orderBy = orderBy.toApollo()
                 )
@@ -36,7 +36,7 @@ class FindAllServersUseCaseInteractor(
             // GraphQL Error
             response.errors?.run {
                 forEach {
-                    //Napier.e(it.message)
+                    // Napier.e(it.message)
                 }
                 outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch

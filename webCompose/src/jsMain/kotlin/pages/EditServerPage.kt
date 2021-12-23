@@ -81,7 +81,6 @@ fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditSe
             Text("Apply")
         }
 
-
         Button(
             attrs = {
                 onClick {

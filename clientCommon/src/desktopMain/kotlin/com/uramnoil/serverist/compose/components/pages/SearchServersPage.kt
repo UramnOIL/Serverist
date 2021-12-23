@@ -48,7 +48,6 @@ fun SearchServersPage(controller: FindServersController, viewModel: ServersViewM
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -69,9 +68,10 @@ private fun Preview() {
     }
 
     val controller by remember {
-        mutableStateOf(FindServersController {
-
-        })
+        mutableStateOf(
+            FindServersController {
+            }
+        )
     }
 
     SearchServersPage(controller, viewModel)

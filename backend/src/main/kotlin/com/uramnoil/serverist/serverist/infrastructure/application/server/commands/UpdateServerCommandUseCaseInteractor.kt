@@ -29,7 +29,7 @@ class UpdateServerCommandUseCaseInteractor(
         CoroutineScope(coroutineContext).launch {
             val findResult = repository.findById(Id(id))
             val updateResult = findResult.mapCatching { server ->
-                server ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: ${id})が見つかりませんでした。")
+                server ?: throw NotFoundException("UpdateServerCommandInteractor#excecute: サーバー(Id: $id)が見つかりませんでした。")
                 server.apply {
                     this.name = Name(name)
                     this.host = host?.let { Host(it) }

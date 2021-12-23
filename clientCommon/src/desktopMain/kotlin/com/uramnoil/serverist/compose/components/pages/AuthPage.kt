@@ -73,7 +73,7 @@ fun SignUp(signUp: (email: String, password: String) -> Unit) {
 
         Button(
             onClick = {
-                //inputPort.execute(SignInUseCaseInput(email, password))
+                // inputPort.execute(SignInUseCaseInput(email, password))
             },
             enabled = email.isNotEmpty() && password.isNotEmpty()
         ) {

@@ -10,7 +10,7 @@ interface HashPasswordService {
     /**
      * 生パスワードのハッシュ
      * @param password  生パスワード
-     * @return          ハッシュ済みパスワード
+     * @return ハッシュ済みパスワード
      */
     fun hash(password: Password): HashedPassword
 
@@ -18,6 +18,7 @@ interface HashPasswordService {
      * パスワードとハッシュ済みパスワードの評価
      */
     fun check(
-        password: Password, hashedPassword: HashedPassword
+        password: Password,
+        hashedPassword: HashedPassword
     ): Boolean
 }

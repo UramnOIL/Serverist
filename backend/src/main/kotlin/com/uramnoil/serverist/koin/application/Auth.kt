@@ -23,7 +23,6 @@ fun Application.buildAuthController(
 ): AuthController {
     val hashPasswordService = HashPasswordServiceImpl()
 
-
     val sendEmailService = environment.config.run {
         SpringBootSendEmailService(
             property("mail.host").getString(),

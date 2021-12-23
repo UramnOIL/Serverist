@@ -111,12 +111,14 @@ class ServerTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findServer(id: \"$uuid\") { id, name, ownerId, description, host, port, createdAt } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findServer(id: \"$uuid\") { id, name, ownerId, description, host, port, createdAt } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.content!! shouldBe """{"data":{"findServer":{"id":"$uuid","name":"TestServer1","ownerId":"$uuid","description":"description","host":"example.com","port":19132,"createdAt":${aCreatedAt.toEpochMilliseconds()}}}}"""
             }
@@ -130,12 +132,14 @@ class ServerTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findServersByOwner( ownerId: \"$uuid\") { ownerId } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findServersByOwner( ownerId: \"$uuid\") { ownerId } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.content!! shouldBe """{"data":{"findServersByOwner":[{"ownerId":"$uuid"}]}}"""
             }
@@ -150,24 +154,28 @@ class ServerTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val createName = "TestServer"
                 val createDescription = "piyo"
                 val createHost = "example.com"
                 val createPort: UShort = 19132u
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to """mutation { createServer(name: "$createName" host: "$createHost" port: $createPort description: "$createDescription") }"""))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to """mutation { createServer(name: "$createName" host: "$createHost" port: $createPort description: "$createDescription") }"""))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
 
@@ -192,24 +200,28 @@ class ServerTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val updatedName = "TestServer2"
                 val updatedDescription = "piyo"
                 val updatedHost = "hoge.example.com"
                 val updatedPort = 19133u
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to """mutation { updateServer(id: "$uuid" name: "$updatedName" host: "$updatedHost" port: $updatedPort description: "$updatedDescription") }"""))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to """mutation { updateServer(id: "$uuid" name: "$updatedName" host: "$updatedHost" port: $updatedPort description: "$updatedDescription") }"""))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     response.content!! shouldBe """{"data":{"updateServer":true}}"""
                 }

@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.application.user
 
-
 data class UpdateUserUseCaseInput(val accountId: String, val name: String, val description: String)
 
 /**

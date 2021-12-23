@@ -29,7 +29,6 @@ object Users : UUIDTable("users") {
     val description = varchar("description", 255)
 }
 
-
 fun ResultRow.toApplicationServer() = Server(
     this[Servers.id].value,
     this[Servers.createdAt].toKotlinInstant(),
@@ -49,7 +48,6 @@ fun ResultRow.toDomainServer() = DomainServer(
     port = this[Servers.port]?.let { Port(it) },
     description = Description(this[Servers.description])
 )
-
 
 fun ResultRow.toApplicationUser() = User(
     this[Users.id].value,

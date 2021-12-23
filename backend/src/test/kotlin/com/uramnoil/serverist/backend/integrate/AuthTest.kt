@@ -105,10 +105,12 @@ class AuthTest : FunSpec({
             val password = "abcd1234"
             val hashPasswordService = HashPasswordServiceImpl()
 
-            with(handleRequest(HttpMethod.Post, "/signup") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signup") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
                 val mail = greenMail.receivedMessages.firstOrNull()
@@ -190,10 +192,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     response.cookies["AUTH"] shouldNotBe null
                     response.content shouldBe """{"id":"$uuid"}"""
@@ -227,10 +231,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 with(handleRequest(HttpMethod.Post, "/withdrawal")) {
@@ -271,10 +277,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 with(handleRequest(HttpMethod.Post, "/logout")) {

@@ -30,15 +30,15 @@ class NameTest : FunSpec({
 
         test("空白文字") {
             shouldThrow<IllegalArgumentException> {
-                Name(" ")    //半角
+                Name(" ") // 半角
             }
 
             shouldThrow<IllegalArgumentException> {
-                Name("　")    //全角
+                Name("　") // 全角
             }
 
             shouldThrow<IllegalArgumentException> {
-                Name("   ")    //TAB
+                Name("   ") // TAB
             }
         }
 
@@ -50,7 +50,6 @@ class NameTest : FunSpec({
             shouldThrow<IllegalArgumentException> {
                 Name("hoge ")
             }
-
 
             shouldThrow<IllegalArgumentException> {
                 Name(" hoge ")

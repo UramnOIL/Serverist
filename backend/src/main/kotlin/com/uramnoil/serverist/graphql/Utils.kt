@@ -5,7 +5,6 @@ import com.uramnoil.serverist.AuthSession
 import com.uramnoil.serverist.exceptions.NoAuthorityException
 import java.util.UUID
 
-
 data class PageRequest(val limit: Int, val offset: Long)
 
 fun requireAuthSession(context: Context): NoAuthorityException? =

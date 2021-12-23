@@ -22,7 +22,6 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-
 class ServerController(
     private val service: ServerService,
     private val createServerCommandUserCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: CreateServerCommandUseCaseOutputPort) -> CreateServerCommandUseCaseInputPort,

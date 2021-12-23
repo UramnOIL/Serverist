@@ -18,7 +18,6 @@ import kotlinx.datetime.Instant
 import org.koin.ktor.ext.inject
 import java.util.UUID
 
-
 /**
  * GraphQL用のビルダ
  */

@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
-
 class SignUpUseCaseInteractor(
     private val coroutineContext: CoroutineContext,
     private val host: String,

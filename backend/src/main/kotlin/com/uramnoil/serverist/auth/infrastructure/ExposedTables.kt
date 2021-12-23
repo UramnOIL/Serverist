@@ -21,7 +21,6 @@ object AuthenticatedUsers : UUIDTable("authenticated_users") {
     val hashedPassword = char("hashed_password", 255)
 }
 
-
 fun ResultRow.toApplicationUnauthenticatedUser() = UnauthenticatedUser(
     this[UnauthenticatedUsers.id].value,
     this[UnauthenticatedUsers.email],
@@ -35,7 +34,6 @@ fun ResultRow.toDomainUnauthenticatedUser(): Result<User> = User.new(
     HashedPassword(this[UnauthenticatedUsers.hashedPassword]),
     ActivationCode(this[UnauthenticatedUsers.activateCode])
 )
-
 
 fun ResultRow.toApplicationAuthenticatedUser() = AuthenticatedUser(
     this[AuthenticatedUsers.id].value,
