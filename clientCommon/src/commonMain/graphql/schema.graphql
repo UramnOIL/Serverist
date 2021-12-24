@@ -2,11 +2,11 @@ mutation CreateServer($serverName: String!, $host: String, $port: Int, $descript
     createServer(name: $serverName, host: $host, port: $port, description: $description)
 }
 
-mutation DeleteServer($id: UUID!) {
+mutation DeleteServer($id: String!) {
     deleteServer(id: $id)
 }
 
-mutation UpdateServer($id: UUID!, $serverName: String!, $host: String, $port: Int, $description: String!) {
+mutation UpdateServer($id: String!, $serverName: String!, $host: String, $port: Int, $description: String!) {
     updateServer(id: $id, name: $serverName, host: $host, port: $port, description: $description)
 }
 
@@ -24,7 +24,7 @@ query FindAllServers($sort: Sort!, $orderBy: OrderBy!) {
     }
 }
 
-query FindServersByOwner($uuid: UUID!, $sort: Sort, $orderBy: OrderBy) {
+query FindServersByOwner($uuid: String!, $sort: Sort, $orderBy: OrderBy) {
     findServersByOwner(
         ownerId: $uuid
         sort: $sort
@@ -40,12 +40,10 @@ query FindServersByOwner($uuid: UUID!, $sort: Sort, $orderBy: OrderBy) {
 }
 
 mutation UpdateUser($userName: String!, $accountId: String!, $description: String!) {
-    updateUser(name: $userName, accountId: $accountId, description: $description) {
-        id
-    }
+    updateUser(name: $userName, accountId: $accountId, description: $description)
 }
 
-query FindUserById($id: UUID!) {
+query FindUserById($id: String!) {
     findUserById(id: $id) {
         id,
         accountId,

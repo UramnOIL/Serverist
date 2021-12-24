@@ -48,7 +48,7 @@ class CreateServerUseCaseInteractor(
             }
 
             val serversResult = runCatching {
-                uuidFrom(data.createServer as String)
+                uuidFrom(data.createServer)
             }
 
             outputPort.handle(CreateServerUseCaseOutput(serversResult))

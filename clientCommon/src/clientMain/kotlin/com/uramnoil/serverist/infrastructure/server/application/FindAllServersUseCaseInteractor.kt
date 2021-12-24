@@ -54,9 +54,9 @@ class FindAllServersUseCaseInteractor(
                 data.findServers.map {
                     it.run {
                         Server(
-                            id = uuidFrom(id as String),
+                            id = uuidFrom(id),
                             createdAt = Clock.System.now(), // FIXME: GraphQLの型を変更する
-                            ownerId = uuidFrom(ownerId as String),
+                            ownerId = uuidFrom(ownerId),
                             name = name,
                             host = host,
                             port = port,
