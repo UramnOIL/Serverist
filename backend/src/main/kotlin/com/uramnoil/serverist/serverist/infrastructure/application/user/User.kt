@@ -2,7 +2,7 @@ package com.uramnoil.serverist.serverist.infrastructure.application.user
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import java.util.*
+import java.util.UUID
 
 @Serializable
 data class User(

@@ -3,7 +3,7 @@ package com.uramnoil.serverist.graphql
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.uramnoil.serverist.presenter.UserController
-import java.util.*
+import java.util.UUID
 
 fun SchemaBuilder.userSchema(controller: UserController) {
     query("findUserById") {

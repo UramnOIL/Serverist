@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.uramnoil.serverist.presentation.CreateServerController
 import com.uramnoil.serverist.presentation.CreateServerViewModel
 
@@ -43,7 +47,6 @@ fun CreateServerPage(controller: CreateServerController, viewModel: CreateServer
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -52,9 +55,10 @@ private fun Preview() {
     }
 
     val controller by remember {
-        mutableStateOf(CreateServerController {
-
-        })
+        mutableStateOf(
+            CreateServerController {
+            }
+        )
     }
 
     CreateServerPage(controller, viewModel)

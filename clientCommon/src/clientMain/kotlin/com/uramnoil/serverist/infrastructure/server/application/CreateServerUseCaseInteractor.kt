@@ -13,7 +13,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateServerUseCaseInteractor(
     coroutineContext: CoroutineContext,
@@ -34,7 +33,7 @@ class CreateServerUseCaseInteractor(
 
             createServerResult.errors?.run {
                 forEach {
-                    //Napi.e(it.message)
+                    // Napi.e(it.message)
                 }
                 outputPort.handle(CreateServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
@@ -49,7 +48,7 @@ class CreateServerUseCaseInteractor(
             }
 
             val serversResult = runCatching {
-                uuidFrom(data.createServer as String)
+                uuidFrom(data.createServer)
             }
 
             outputPort.handle(CreateServerUseCaseOutput(serversResult))

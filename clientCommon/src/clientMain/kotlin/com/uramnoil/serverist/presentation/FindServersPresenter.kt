@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-
 class ServersViewModel {
     internal val serversMutableFlow = MutableStateFlow(listOf<Server>())
     val serversFlow: StateFlow<List<Server>>

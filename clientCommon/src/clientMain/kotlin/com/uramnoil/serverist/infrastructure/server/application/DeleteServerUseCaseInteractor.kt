@@ -2,7 +2,6 @@ package com.uramnoil.serverist.infrastructure.server.application
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.annotations.ApolloExperimental
-
 import com.uramnoil.serverist.DeleteServerMutation
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseInput
 import com.uramnoil.serverist.application.server.DeleteServerUseCaseInputPort
@@ -12,7 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeleteServerUseCaseInteractor(
@@ -32,7 +30,7 @@ class DeleteServerUseCaseInteractor(
 
             deleteServerResult.errors?.run {
                 forEach {
-                    //Napier.e(it.message)
+                    // Napier.e(it.message)
                 }
                 outputPort.handle(DeleteServerUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch

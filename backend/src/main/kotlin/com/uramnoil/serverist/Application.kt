@@ -10,15 +10,27 @@ import com.uramnoil.serverist.routing.routingAuth
 import com.uramnoil.serverist.routing.routingGraphQL
 import com.uramnoil.serverist.serverist.infrastructure.Servers
 import com.uramnoil.serverist.serverist.infrastructure.domain.repositories.ExposedServerRepository
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.features.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.application.log
+import io.ktor.auth.Authentication
+import io.ktor.auth.Principal
+import io.ktor.auth.session
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
 import io.ktor.features.ContentTransformationException
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.serialization.*
-import io.ktor.sessions.*
+import io.ktor.features.StatusPages
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.httpMethod
+import io.ktor.request.uri
+import io.ktor.response.respond
+import io.ktor.serialization.json
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
+import io.ktor.sessions.directorySessionStorage
+import io.ktor.sessions.get
+import io.ktor.sessions.sessions
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -32,7 +44,7 @@ import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 import java.io.File
-import java.util.*
+import java.util.UUID
 import com.uramnoil.serverist.auth.infrastructure.domain.repositories.ExposedUserRepository as ExposedUnauthenticatedUserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 import com.uramnoil.serverist.serverist.infrastructure.domain.repositories.ExposedUserRepository as ExposedServeristUserRepository
@@ -123,11 +135,13 @@ fun Application.productKoin() {
         val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
         val authController =
             buildAuthController(log, unauthenticatedUserRepository, authenticatedUserRepository, userController)
-        modules(module {
-            single { userController }
-            single { serverController }
-            single { authController }
-        })
+        modules(
+            module {
+                single { userController }
+                single { serverController }
+                single { authController }
+            }
+        )
     }
 }
 
@@ -141,7 +155,7 @@ fun Application.createMySqlConnection() {
         val port = property("database.port").getString()
 
         Database.connect(
-            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://$host:$port/$database?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()

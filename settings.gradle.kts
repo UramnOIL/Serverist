@@ -8,6 +8,7 @@ pluginManagement {
         val kotestVersion: String by settings
         val apolloVersion: String by settings
         val composeJbVersion: String by settings
+        val spotlessVersion: String by settings
 
         kotlin("jvm") version kotlinVersion
         kotlin("multiplatform") version kotlinVersion
@@ -17,6 +18,7 @@ pluginManagement {
         id("io.kotest.multiplatform") version "5.0.0.5"
         id("com.apollographql.apollo3") version apolloVersion
         id("org.jetbrains.compose") version composeJbVersion
+        id("com.diffplug.spotless") version spotlessVersion
     }
 
     repositories {

@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.lowerCase
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.*
+import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 
 class ExposedFindUserByNameQueryUseCaseInteractor(

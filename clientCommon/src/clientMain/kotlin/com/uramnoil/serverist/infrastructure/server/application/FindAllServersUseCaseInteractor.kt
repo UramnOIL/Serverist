@@ -26,7 +26,7 @@ class FindAllServersUseCaseInteractor(
         launch {
             val query = input.run {
                 FindAllServersQuery(
-                    //page = PageRequest(limit, offset),
+                    // page = PageRequest(limit, offset),
                     sort = sort.toApollo(),
                     orderBy = orderBy.toApollo()
                 )
@@ -36,7 +36,7 @@ class FindAllServersUseCaseInteractor(
             // GraphQL Error
             response.errors?.run {
                 forEach {
-                    //Napier.e(it.message)
+                    // Napier.e(it.message)
                 }
                 outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
@@ -54,9 +54,9 @@ class FindAllServersUseCaseInteractor(
                 data.findServers.map {
                     it.run {
                         Server(
-                            id = uuidFrom(id as String),
+                            id = uuidFrom(id),
                             createdAt = Clock.System.now(), // FIXME: GraphQLの型を変更する
-                            ownerId = uuidFrom(ownerId as String),
+                            ownerId = uuidFrom(ownerId),
                             name = name,
                             host = host,
                             port = port,

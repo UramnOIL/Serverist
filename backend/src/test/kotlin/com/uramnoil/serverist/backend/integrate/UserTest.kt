@@ -10,10 +10,16 @@ import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.ktor.application.*
-import io.ktor.config.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.application.Application
+import io.ktor.config.MapApplicationConfig
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.cookiesSession
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
@@ -21,7 +27,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
+import java.util.UUID
 
 class UserTest : FunSpec({
     val uuid = UUID.randomUUID()
@@ -97,12 +103,14 @@ class UserTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findUserById(id: \"$uuid\") { name } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findUserById(id: \"$uuid\") { name } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 val content = response.content
                 content shouldNotBe null
@@ -119,23 +127,27 @@ class UserTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val updatedName = "UramnOIL"
                 val updatedAccountId = "uramnoil3"
                 val updatedDescription = "piyo"
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to "mutation { update(name:\"$updatedName\", accountId: \"$updatedAccountId\", description: \"$updatedDescription\") }"))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to "mutation { update(name:\"$updatedName\", accountId: \"$updatedAccountId\", description: \"$updatedDescription\") }"))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     val content = response.content
                     content shouldNotBe null

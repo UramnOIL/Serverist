@@ -3,7 +3,7 @@ package com.uramnoil.serverist.infrastructure.user.application
 import com.uramnoil.serverist.application.user.FindAllUsersUseCaseInput
 import com.uramnoil.serverist.application.user.FindAllUsersUseCaseInputPort
 import com.uramnoil.serverist.application.user.FindAllUsersUseCaseOutputPort
-import io.ktor.client.*
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.coroutines.CoroutineContext

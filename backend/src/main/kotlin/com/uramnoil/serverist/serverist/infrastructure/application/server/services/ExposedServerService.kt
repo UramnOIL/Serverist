@@ -5,7 +5,7 @@ import com.uramnoil.serverist.serverist.infrastructure.Servers
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.*
+import java.util.UUID
 
 class ExposedServerService : ServerService {
     override suspend fun checkUserIsOwnerOfServer(ownerId: UUID, serverId: UUID): Result<Boolean> = kotlin.runCatching {

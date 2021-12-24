@@ -34,7 +34,7 @@ class UpdateUserUseCaseInteractor(
             // Error
             response.errors?.run {
                 forEach {
-                    //Napier.e(it.message)
+                    // Napier.e(it.message)
                 }
                 outputPort.handle(UpdateUserUseCaseOutput(Result.failure(RuntimeException("Error returned."))))
             }

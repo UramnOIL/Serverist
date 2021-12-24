@@ -1,19 +1,26 @@
 package com.uramnoil.serverist.presenter
 
 import com.uramnoil.serverist.AuthSession
-import com.uramnoil.serverist.auth.application.*
-import io.ktor.application.*
-import io.ktor.request.*
-import io.ktor.sessions.*
+import com.uramnoil.serverist.auth.application.ActivateUseCaseInputPort
+import com.uramnoil.serverist.auth.application.ActivateUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.SignInUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.SignUpUseCaseInputPort
+import com.uramnoil.serverist.auth.application.SignUpUseCaseOutputPort
+import com.uramnoil.serverist.auth.application.SingInUseCaseInputPort
+import com.uramnoil.serverist.auth.application.WithdrawUseCaseInputPort
+import com.uramnoil.serverist.auth.application.WithdrawUseCaseOutputPort
+import io.ktor.application.ApplicationCall
+import io.ktor.request.receive
+import io.ktor.sessions.get
+import io.ktor.sessions.sessions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.slf4j.Logger
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.ExperimentalTime
-
 
 class AuthController(
     private val log: Logger,

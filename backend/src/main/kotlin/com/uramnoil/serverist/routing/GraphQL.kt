@@ -9,13 +9,14 @@ import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
 import com.uramnoil.serverist.serverist.application.OrderBy
 import com.uramnoil.serverist.serverist.application.Sort
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.sessions.*
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.authenticate
+import io.ktor.sessions.get
+import io.ktor.sessions.sessions
 import kotlinx.datetime.Instant
 import org.koin.ktor.ext.inject
-import java.util.*
-
+import java.util.UUID
 
 /**
  * GraphQL用のビルダ

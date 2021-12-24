@@ -16,10 +16,16 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.ktor.application.*
-import io.ktor.config.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.application.Application
+import io.ktor.config.MapApplicationConfig
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.cookiesSession
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
@@ -27,7 +33,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
+import java.util.UUID
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 class AuthTest : FunSpec({
@@ -99,10 +105,12 @@ class AuthTest : FunSpec({
             val password = "abcd1234"
             val hashPasswordService = HashPasswordServiceImpl()
 
-            with(handleRequest(HttpMethod.Post, "/signup") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signup") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
                 val mail = greenMail.receivedMessages.firstOrNull()
@@ -184,10 +192,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     response.cookies["AUTH"] shouldNotBe null
                     response.content shouldBe """{"id":"$uuid"}"""
@@ -221,10 +231,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 with(handleRequest(HttpMethod.Post, "/withdrawal")) {
@@ -265,10 +277,12 @@ class AuthTest : FunSpec({
                 }
             }
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 with(handleRequest(HttpMethod.Post, "/logout")) {
