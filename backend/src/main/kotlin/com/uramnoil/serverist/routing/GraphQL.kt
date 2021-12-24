@@ -9,12 +9,12 @@ import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
 import com.uramnoil.serverist.serverist.application.OrderBy
 import com.uramnoil.serverist.serverist.application.Sort
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.sessions.*
-import kotlinx.datetime.Instant
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.authenticate
+import io.ktor.sessions.get
+import io.ktor.sessions.sessions
 import org.koin.ktor.ext.inject
-import java.util.*
 
 
 /**
@@ -35,16 +35,6 @@ fun Application.routingGraphQL() = install(GraphQL) {
     }
 
     schema {
-        stringScalar<UUID> {
-            deserialize = UUID::fromString
-            serialize = UUID::toString
-        }
-
-        longScalar<Instant> {
-            deserialize = { Instant.fromEpochMilliseconds(it) }
-            serialize = { it.toEpochMilliseconds() }
-        }
-
         type<PageRequest>()
         enum<Sort>()
         enum<OrderBy>()
