@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
-import com.benasher44.uuid.Uuid
 import com.uramnoil.serverist.auth.application.ActivateUseCaseInputPort
 import com.uramnoil.serverist.auth.application.ActivateUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
@@ -12,9 +11,10 @@ import com.uramnoil.serverist.domain.common.user.Id
 import com.uramnoil.serverist.presenter.UserController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository as AuthenticatedUserRepository
 import com.uramnoil.serverist.domain.auth.unauthenticated.repositories.UserRepository as UnauthenticatedUserRepository
@@ -26,12 +26,13 @@ class ActivateUseCaseInteractor(
     coroutineContext: CoroutineContext,
     private val outputPort: ActivateUseCaseOutputPort,
 ) : ActivateUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(code: Uuid) {
+    override fun execute(email: String, activationCode: Int) {
         launch {
             val result = runCatching {
                 // 検索ステップ
                 val row = newSuspendedTransaction {
-                    UnauthenticatedUsers.select { UnauthenticatedUsers.activateCode eq code }.firstOrNull()
+                    UnauthenticatedUsers.select { (UnauthenticatedUsers.email eq email) and (UnauthenticatedUsers.activateCode eq activationCode) }
+                        .firstOrNull()
                 }
                 val user = row?.toApplicationUnauthenticatedUser()
 
