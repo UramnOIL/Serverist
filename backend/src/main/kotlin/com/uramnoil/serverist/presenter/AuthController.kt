@@ -18,7 +18,6 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.slf4j.Logger
-import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.ExperimentalTime
 
@@ -40,7 +39,11 @@ class AuthController(
 
         CoroutineScope(coroutineContext).launch {
             val (email, password) = call.receive<EmailAndPassword>()
-            val activationCode = UUID.randomUUID()
+            val codeBuilder = StringBuilder()
+            repeat(6) {
+                codeBuilder.append((0..9).random())
+            }
+            val activationCode = codeBuilder.toString()
 
             signUpUseCaseInputPortFactory(coroutineContext, outputPort).execute(email, password, activationCode)
         }

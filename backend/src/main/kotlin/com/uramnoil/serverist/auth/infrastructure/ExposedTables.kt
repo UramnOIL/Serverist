@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.ResultRow
 object UnauthenticatedUsers : UUIDTable("unauthenticated_users") {
     val email = char("email", 255).uniqueIndex()
     val hashedPassword = char("hashed_password", 255)
-    val activateCode = char("activate_code", 6)
+    val activateCode = char("activation_code", 6)
 }
 
 object AuthenticatedUsers : UUIDTable("authenticated_users") {

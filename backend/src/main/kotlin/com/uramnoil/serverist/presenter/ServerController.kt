@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.presenter
 
-import com.uramnoil.serverist.serverist.application.OrderBy
-import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.application.OrderBy
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.serverist.application.server.Server
 import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.server.commands.CreateServerCommandUseCaseOutputPort

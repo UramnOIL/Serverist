@@ -9,7 +9,6 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 internal class SpringBootSendEmailServiceTest : FunSpec({
     val greenMail = GreenMail(ServerSetupTest.SMTP)
@@ -33,7 +32,7 @@ internal class SpringBootSendEmailServiceTest : FunSpec({
                 activateUrl = "http://localhost:8080/activate",
             )
 
-            val code = UUID.randomUUID()
+            val code = "123456"
             service.sendActivationEmail("hoge.com", code)
 
             withContext(Dispatchers.Default) {
