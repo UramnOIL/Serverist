@@ -194,7 +194,6 @@ class AuthTest : FunSpec({
             }) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.headers["AUTH"] shouldNotBe null
-                response.content shouldBe """{"id":"$uuid"}"""
             }
         }
     }
