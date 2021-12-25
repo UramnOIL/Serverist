@@ -270,7 +270,7 @@ class AuthTest : FunSpec({
                 }
             }
             var sessionId: String?
-            with(handleRequest(HttpMethod.Post, "/login") {
+            with(handleRequest(HttpMethod.Post, "/signin") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
             }) {
@@ -278,7 +278,7 @@ class AuthTest : FunSpec({
                 sessionId = response.headers["Auth"]
             }
             sessionId ?: error("サインイン失敗")
-            with(handleRequest(HttpMethod.Post, "/logout") {
+            with(handleRequest(HttpMethod.Post, "/signout") {
                 this.addHeader("Auth", sessionId!!)
             }) {
                 response.status() shouldBe HttpStatusCode.OK
