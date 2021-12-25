@@ -193,7 +193,7 @@ class AuthTest : FunSpec({
                 setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
             }) {
                 response.status() shouldBe HttpStatusCode.OK
-                response.headers["AUTH"] shouldNotBe null
+                response.headers["Auth"] shouldNotBe null
             }
         }
     }
@@ -228,11 +228,11 @@ class AuthTest : FunSpec({
                 setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
             }) {
                 response.status() shouldBe HttpStatusCode.OK
-                sessionId = response.headers["AUTH"]
+                sessionId = response.headers["Auth"]
             }
             sessionId ?: error("サインイン失敗")
             with(handleRequest(HttpMethod.Post, "/withdrawal") {
-                this.addHeader("AUTH", sessionId!!)
+                this.addHeader("Auth", sessionId!!)
             }) {
                 response.status() shouldBe HttpStatusCode.OK
             }
@@ -275,11 +275,11 @@ class AuthTest : FunSpec({
                 setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
             }) {
                 response.status() shouldBe HttpStatusCode.OK
-                sessionId = response.headers["AUTH"]
+                sessionId = response.headers["Auth"]
             }
             sessionId ?: error("サインイン失敗")
             with(handleRequest(HttpMethod.Post, "/logout") {
-                this.addHeader("AUTH", sessionId!!)
+                this.addHeader("Auth", sessionId!!)
             }) {
                 response.status() shouldBe HttpStatusCode.OK
             }

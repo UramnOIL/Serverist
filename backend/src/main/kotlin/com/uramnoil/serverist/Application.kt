@@ -89,7 +89,7 @@ fun Application.mainModule() {
 
     // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
-        header<AuthSession>("AUTH", directorySessionStorage(File(".sessions"), cached = true))
+        header<AuthSession>("Auth", directorySessionStorage(File(".sessions"), cached = true))
     }
 
     // CallLogging リクエストのロギング用
