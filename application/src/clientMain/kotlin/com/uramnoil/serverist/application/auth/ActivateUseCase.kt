@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.application.auth
 
 fun interface ActivateUseCaseInputPort {
-    fun execute(email: String, activationCode: Int)
+    fun execute(email: String, activationCode: String)
 }
 
 /**
