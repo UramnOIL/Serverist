@@ -16,10 +16,15 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.ktor.application.*
-import io.ktor.config.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.application.Application
+import io.ktor.config.MapApplicationConfig
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
@@ -27,7 +32,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
+import java.util.UUID
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 class AuthTest : FunSpec({
@@ -165,7 +170,7 @@ class AuthTest : FunSpec({
         }
     }
 
-    test("/login test") {
+    test("/signin test") {
         withTestApplication(
             moduleFunction = {
                 mailConfig()
@@ -183,15 +188,12 @@ class AuthTest : FunSpec({
                     it[AuthenticatedUsers.hashedPassword] = hashedPassword
                 }
             }
-            cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
-                    response.status() shouldBe HttpStatusCode.OK
-                    response.cookies["AUTH"] shouldNotBe null
-                    response.content shouldBe """{"id":"$uuid"}"""
-                }
+            with(handleRequest(HttpMethod.Post, "/signin") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+            }) {
+                response.status() shouldBe HttpStatusCode.OK
+                response.headers["Auth"] shouldNotBe null
             }
         }
     }
@@ -220,27 +222,30 @@ class AuthTest : FunSpec({
                     it[description] = "hoge"
                 }
             }
-            cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
-                    response.status() shouldBe HttpStatusCode.OK
-                }
-                with(handleRequest(HttpMethod.Post, "/withdrawal")) {
-                    response.status() shouldBe HttpStatusCode.OK
-                }
-
-                val row = transaction {
-                    AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
-                }
-
-                row.shouldBeNull()
+            var sessionId: String?
+            with(handleRequest(HttpMethod.Post, "/signin") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+            }) {
+                response.status() shouldBe HttpStatusCode.OK
+                sessionId = response.headers["Auth"]
             }
+            sessionId ?: error("サインイン失敗")
+            with(handleRequest(HttpMethod.Post, "/withdrawal") {
+                this.addHeader("Auth", sessionId!!)
+            }) {
+                response.status() shouldBe HttpStatusCode.OK
+            }
+
+            val row = transaction {
+                AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
+            }
+
+            row.shouldBeNull()
         }
     }
 
-    test("/logout test") {
+    test("/signout test") {
         withTestApplication(
             moduleFunction = {
                 mailConfig()
@@ -264,16 +269,19 @@ class AuthTest : FunSpec({
                     it[description] = "hoge"
                 }
             }
-            cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-                }) {
-                    response.status() shouldBe HttpStatusCode.OK
-                }
-                with(handleRequest(HttpMethod.Post, "/logout")) {
-                    response.status() shouldBe HttpStatusCode.OK
-                }
+            var sessionId: String?
+            with(handleRequest(HttpMethod.Post, "/signin") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+            }) {
+                response.status() shouldBe HttpStatusCode.OK
+                sessionId = response.headers["Auth"]
+            }
+            sessionId ?: error("サインイン失敗")
+            with(handleRequest(HttpMethod.Post, "/signout") {
+                this.addHeader("Auth", sessionId!!)
+            }) {
+                response.status() shouldBe HttpStatusCode.OK
             }
         }
     }

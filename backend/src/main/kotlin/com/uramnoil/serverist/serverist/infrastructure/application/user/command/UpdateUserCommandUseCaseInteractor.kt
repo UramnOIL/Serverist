@@ -10,7 +10,7 @@ import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserComm
 import com.uramnoil.serverist.serverist.application.user.commands.UpdateUserCommandUseCaseOutputPort
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 class UpdateUserCommandUseCaseInteractor(

@@ -5,12 +5,18 @@ import com.uramnoil.serverist.auth.application.AccountAlreadyExistsException
 import com.uramnoil.serverist.domain.common.exception.NotFoundException
 import com.uramnoil.serverist.domain.common.exception.UserNotFoundByIdException
 import com.uramnoil.serverist.presenter.AuthController
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.sessions.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.log
+import io.ktor.auth.authenticate
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.routing
+import io.ktor.sessions.clear
+import io.ktor.sessions.sessions
+import io.ktor.sessions.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
@@ -52,7 +58,7 @@ fun Application.routingAuth() = routing {
 
     authenticate("auth-session") {
         post("signout") {
-            call.sessions.clear("AUTH")
+            call.sessions.clear<AuthSession>()
             call.respond(HttpStatusCode.OK)
         }
     }

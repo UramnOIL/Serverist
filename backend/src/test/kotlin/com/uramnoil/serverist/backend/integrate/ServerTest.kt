@@ -9,16 +9,26 @@ import com.uramnoil.serverist.serverist.infrastructure.toJavaLocalDataTime
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.ktor.application.*
-import io.ktor.config.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.application.Application
+import io.ktor.config.MapApplicationConfig
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.cookiesSession
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
 import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
+import java.util.UUID
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 
 class ServerTest : FunSpec({
@@ -101,12 +111,14 @@ class ServerTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findServer(id: \"$uuid\") { id, name, ownerId, description, host, port, createdAt } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findServer(id: \"$uuid\") { id, name, ownerId, description, host, port, createdAt } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.content!! shouldBe """{"data":{"findServer":{"id":"$uuid","name":"TestServer1","ownerId":"$uuid","description":"description","host":"example.com","port":19132,"createdAt":${aCreatedAt.toEpochMilliseconds()}}}}"""
             }
@@ -120,12 +132,14 @@ class ServerTest : FunSpec({
                 mainModule()
             }
         ) {
-            with(handleRequest(HttpMethod.Post, "/graphql") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(
-                    Json.encodeToString(mapOf("query" to "query { findServersByOwner( ownerId: \"$uuid\") { ownerId } }"))
-                )
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/graphql") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(
+                        Json.encodeToString(mapOf("query" to "query { findServersByOwner( ownerId: \"$uuid\") { ownerId } }"))
+                    )
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.content!! shouldBe """{"data":{"findServersByOwner":[{"ownerId":"$uuid"}]}}"""
             }
@@ -140,24 +154,28 @@ class ServerTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val createName = "TestServer"
                 val createDescription = "piyo"
                 val createHost = "example.com"
                 val createPort: UShort = 19132u
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to """mutation { createServer(name: "$createName" host: "$createHost" port: $createPort description: "$createDescription") }"""))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to """mutation { createServer(name: "$createName" host: "$createHost" port: $createPort description: "$createDescription") }"""))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
 
@@ -182,24 +200,28 @@ class ServerTest : FunSpec({
             }
         ) {
             cookiesSession {
-                with(handleRequest(HttpMethod.Post, "/login") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/login") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("email" to anEmail, "password" to aPassword))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                 }
                 val updatedName = "TestServer2"
                 val updatedDescription = "piyo"
                 val updatedHost = "hoge.example.com"
                 val updatedPort = 19133u
-                with(handleRequest(HttpMethod.Post, "/graphql") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        Json.encodeToString(mapOf("query" to """mutation { updateServer(id: "$uuid" name: "$updatedName" host: "$updatedHost" port: $updatedPort description: "$updatedDescription") }"""))
-                    )
-                }) {
+                with(
+                    handleRequest(HttpMethod.Post, "/graphql") {
+                        addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        setBody(
+                            Json.encodeToString(mapOf("query" to """mutation { updateServer(id: "$uuid" name: "$updatedName" host: "$updatedHost" port: $updatedPort description: "$updatedDescription") }"""))
+                        )
+                    }
+                ) {
                     response.status() shouldBe HttpStatusCode.OK
                     response.content!! shouldBe """{"data":{"updateServer":true}}"""
                 }

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.auth.application
 
-import java.util.*
+import java.util.UUID
 
 /**
  * サインアップ用ユースケース

@@ -44,6 +44,8 @@ dependencies {
     implementation(project(":domain:auth"))
     implementation(project(":domain:serverist"))
 
+    implementation(project(":application", "serverJvmRuntimeElements"))
+
     // kotlin
     implementation(kotlin("stdlib", kotlinVersion))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
