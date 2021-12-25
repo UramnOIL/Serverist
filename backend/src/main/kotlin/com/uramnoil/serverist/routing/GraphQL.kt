@@ -14,9 +14,8 @@ import io.ktor.application.install
 import io.ktor.auth.authenticate
 import io.ktor.sessions.get
 import io.ktor.sessions.sessions
-import kotlinx.datetime.Instant
 import org.koin.ktor.ext.inject
-import java.util.UUID
+
 
 /**
  * GraphQL用のビルダ
@@ -36,16 +35,6 @@ fun Application.routingGraphQL() = install(GraphQL) {
     }
 
     schema {
-        stringScalar<UUID> {
-            deserialize = UUID::fromString
-            serialize = UUID::toString
-        }
-
-        longScalar<Instant> {
-            deserialize = { Instant.fromEpochMilliseconds(it) }
-            serialize = { it.toEpochMilliseconds() }
-        }
-
         type<PageRequest>()
         enum<Sort>()
         enum<OrderBy>()
