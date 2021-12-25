@@ -14,6 +14,7 @@ import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
+import io.ktor.sessions.clear
 import io.ktor.sessions.sessions
 import io.ktor.sessions.set
 import kotlinx.coroutines.CoroutineScope
@@ -57,7 +58,7 @@ fun Application.routingAuth() = routing {
 
     authenticate("auth-session") {
         post("signout") {
-            call.sessions.clear("AUTH")
+            call.sessions.clear<AuthSession>()
             call.respond(HttpStatusCode.OK)
         }
     }
