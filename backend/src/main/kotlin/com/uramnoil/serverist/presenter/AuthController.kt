@@ -81,7 +81,7 @@ class AuthController(
         outputPort: ActivateUseCaseOutputPort
     ) {
         @Serializable
-        data class EmailAndActivationCode(val email: String, val activationCode: Int)
+        data class EmailAndActivationCode(val email: String, val activationCode: String)
 
         CoroutineScope(coroutineContext).launch {
             val (email, activationCode) = call.receive<EmailAndActivationCode>()
