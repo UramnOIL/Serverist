@@ -3,7 +3,6 @@ package com.uramnoil.serverist.domain.auth.unauthenticated.models
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.HashedPassword
 
-
 class User private constructor(
     val id: Id,
     val email: Email,

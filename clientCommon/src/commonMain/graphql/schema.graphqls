@@ -1,0 +1,56 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+"Mutation object"
+type Mutation {
+    createServer(description: String!, host: String, name: String!, port: Int): String!
+    deleteServer(id: String!): Boolean!
+    updateServer(description: String!, host: String, id: String!, name: String!, port: Int): Boolean!
+    updateUser(accountId: String!, description: String!, name: String!): String
+}
+
+type PageRequest {
+    limit: Int!
+    offset: Long!
+}
+
+"Query object"
+type Query {
+    findServer(id: String!): Server
+    findServers(orderBy: OrderBy, sort: Sort): [Server!]!
+    findServersByOwner(orderBy: OrderBy, ownerId: String!, sort: Sort): [Server!]!
+    findUserById(id: String!): User
+}
+
+type Server {
+    createdAt: Long!
+    description: String!
+    host: String
+    id: String!
+    name: String!
+    ownerId: String!
+    port: Int
+}
+
+type User {
+    accountId: String!
+    description: String!
+    id: String!
+    name: String!
+}
+
+enum OrderBy {
+    CreatedAt
+}
+
+enum Sort {
+    Asc
+    Desc
+}
+
+"The Long scalar type represents a signed 64-bit numeric non-fractional value"
+scalar Long

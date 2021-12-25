@@ -9,7 +9,7 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.UUID
 
 internal class SpringBootSendEmailServiceTest : FunSpec({
     val greenMail = GreenMail(ServerSetupTest.SMTP)

@@ -1,11 +1,25 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    id("com.apollographql.apollo")
+    id("com.apollographql.apollo3")
+    id("org.jetbrains.compose")
+}
+
+repositories {
+    google()
 }
 
 kotlin {
-    jvm()
+    targets {
+        val isForClient = Attribute.of("com.uramnoil.serverist.jvm.is_for_client", Boolean::class.javaObjectType)
+        jvm("desktop") {
+            attributes.attribute(isForClient, true)
+        }
+        js(IR) {
+            browser()
+            binaries.executable()
+        }
+    }
 
     val coroutinesVersion: String by project
     val serializationVersion: String by project
@@ -15,11 +29,11 @@ kotlin {
     val ktorVersion: String by project
     val apolloVersion: String by project
     val kotestVersion: String by project
+    val koinVersion: String by project
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":domain:common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
@@ -29,40 +43,59 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("com.apollographql.apollo:apollo-api:$apolloVersion")
-                implementation("com.apollographql.apollo:apollo-runtime-kotlin:$apolloVersion")
-                implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
+                implementation("com.apollographql.apollo3:apollo-api:$apolloVersion")
+                implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
             }
         }
+
         val commonTest by getting {
             dependencies {
-                // mockk
-                implementation("io.mockk:mockk:1.12.0")
 
                 // kotest
                 implementation("io.kotest:kotest-property:$kotestVersion")
-                implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
 
                 // ktor
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
-        val jvmTest by getting {
+
+        val clientMain by creating {
+            dependsOn(commonMain)
             dependencies {
-                // mockk
-                implementation("io.mockk:mockk:1.12.0")
+                implementation(project(":application"))
 
-                // kotest
-                implementation("io.kotest:kotest-property:$kotestVersion")
-                implementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+            }
+        }
 
-                // ktor
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+        val composeMain by creating {
+            dependsOn(clientMain)
+            dependencies {
+                dependencies {
+                    implementation(compose.runtime)
+                }
+            }
+        }
+
+        val desktopMain by getting {
+            dependsOn(composeMain)
+            dependencies {
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.desktop.currentOs)
+                implementation(compose.ui)
+            }
+        }
+
+        val jsMain by getting {
+            dependsOn(composeMain)
+            dependencies {
+                implementation(compose.web.core)
+                implementation(compose.runtime)
             }
         }
     }
 }
 
 apollo {
-    generateKotlinModels.set(true)
+    packageName.set("com.uramnoil.serverist")
 }

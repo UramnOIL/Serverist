@@ -11,28 +11,28 @@ interface UserRepository {
     /**
      * 挿入
      * @param user  新規作成したいユーザ
-     * @return      データベース・通信系のエラー
+     * @return データベース・通信系のエラー
      */
     suspend fun insert(user: User): Result<Unit>
 
     /**
      * 更新
      * @param user  更新したいユーザ
-     * @return      データベース・通信系のエラー
+     * @return データベース・通信系のエラー
      */
     suspend fun update(user: User): Result<Unit>
 
     /**
      * 削除
      * @param user  削除したいユーザ
-     * @return      データベース・通信系のエラー
+     * @return データベース・通信系のエラー
      */
     suspend fun delete(user: User): Result<Unit>
 
     /**
      * Idで検索
      * @param id    目的のユーザのID
-     * @return      データベース・通信系のエラー
+     * @return データベース・通信系のエラー
      */
     suspend fun findById(id: Id): Result<User?>
 }

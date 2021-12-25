@@ -2,7 +2,6 @@ package com.uramnoil.serverist.application.server
 
 import com.benasher44.uuid.Uuid
 
-
 /**
  *
  */

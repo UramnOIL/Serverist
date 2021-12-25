@@ -15,7 +15,7 @@ import com.uramnoil.serverist.serverist.infrastructure.application.user.command.
 import com.uramnoil.serverist.serverist.infrastructure.application.user.command.DeleteUserCommandUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.command.UpdateUserCommandUseCaseInteractor
 import com.uramnoil.serverist.serverist.infrastructure.application.user.queries.FindUserByIdQueryUseCaseInteractor
-import io.ktor.application.*
+import io.ktor.application.Application
 
 data class Controllers(val userController: UserController, val serverController: ServerController)
 

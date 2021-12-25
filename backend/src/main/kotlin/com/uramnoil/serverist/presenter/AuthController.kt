@@ -22,7 +22,6 @@ import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.ExperimentalTime
 
-
 class AuthController(
     private val log: Logger,
     private val signUpUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: SignUpUseCaseOutputPort) -> SignUpUseCaseInputPort,
