@@ -10,7 +10,7 @@ import com.uramnoil.serverist.exceptions.InternalServerErrorException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.receive
 import io.ktor.client.request.post
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.HttpStatement
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -34,22 +34,22 @@ class SignUpUseCaseInteractor(
         val (email, password) = input
         CoroutineScope(coroutineContext).launch {
             val result = kotlin.runCatching {
-                val response = httpClient.post<HttpResponse>("$host/signup") {
+                val response = httpClient.post<HttpStatement>("$host/signup") {
                     method = HttpMethod.Post
                     contentType(ContentType.Application.Json)
                     body = Credential(email, password)
-                }
-
-                val content = response.receive<String>()
+                }.execute()
 
                 when (response.status) {
                     HttpStatusCode.OK -> {
-                        sessionId.sessionId = response.headers["Authk"]
+                        sessionId.sessionId = response.headers["Auth"]
                     }
                     HttpStatusCode.BadRequest -> {
+                        val content = response.receive<String>()
                         throw BadRequestException(content)
                     }
                     else -> {
+                        val content = response.receive<String>()
                         throw InternalServerErrorException(content)
                     }
                 }
