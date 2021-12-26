@@ -1,7 +1,5 @@
 package com.uramnoil.serverist.application.auth
 
-import com.benasher44.uuid.Uuid
-
 /**
  *
  */
@@ -11,7 +9,7 @@ data class ActivateUseCaseInput(val email: String, val activationCode: String)
  *
  */
 fun interface ActivateUseCaseInputPort {
-    fun execute(code: Uuid)
+    fun execute(input: ActivateUseCaseInput)
 }
 
 /**
