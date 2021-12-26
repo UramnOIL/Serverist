@@ -1,7 +1,16 @@
 package com.uramnoil.serverist.application.auth
 
+
+/**
+ *
+ */
+data class ActivateUseCaseInput(val email: String, val activationCode: String)
+
+/**
+ *
+ */
 fun interface ActivateUseCaseInputPort {
-    fun execute(email: String, activationCode: String)
+    fun execute(input: ActivateUseCaseInput)
 }
 
 /**
