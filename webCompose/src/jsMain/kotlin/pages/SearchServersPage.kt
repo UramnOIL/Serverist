@@ -3,7 +3,7 @@ package pages
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.uramnoil.serverist.presentation.FindServersController
+import com.uramnoil.serverist.presentation.SearchServersController
 import com.uramnoil.serverist.presentation.ServersViewModel
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
@@ -11,7 +11,7 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun SearchServersPage(controller: FindServersController, viewModel: ServersViewModel) {
+fun SearchServersPage(controller: SearchServersController, viewModel: ServersViewModel) {
     val servers by viewModel.serversFlow.collectAsState()
 
     Div {
