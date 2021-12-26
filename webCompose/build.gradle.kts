@@ -12,6 +12,7 @@ kotlin {
     }
 
     sourceSets {
+        val ktorVersion: String by project
         val napierVersion: String by project
 
         val jsMain by getting {
@@ -19,6 +20,8 @@ kotlin {
                 implementation(project(":clientCommon"))
                 implementation(compose.web.core)
                 implementation(compose.runtime)
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
 
                 implementation("io.github.aakira:napier:$napierVersion")
             }
