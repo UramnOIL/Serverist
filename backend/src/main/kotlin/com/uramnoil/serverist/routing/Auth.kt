@@ -47,7 +47,7 @@ fun Application.routingAuth() = routing {
                     }
 
                     call.sessions.set(AuthSession(id))
-                    call.respond(HttpStatusCode.OK)
+                    call.respond(HttpStatusCode.OK, id.toString())
                 }.invokeOnCompletion { _ ->
                     it.resume(Unit)
                 }
