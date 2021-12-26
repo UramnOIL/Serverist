@@ -12,11 +12,15 @@ kotlin {
     }
 
     sourceSets {
+        val napierVersion: String by project
+
         val jsMain by getting {
             dependencies {
                 implementation(project(":clientCommon"))
                 implementation(compose.web.core)
                 implementation(compose.runtime)
+
+                implementation("io.github.aakira:napier:$napierVersion")
             }
         }
     }
