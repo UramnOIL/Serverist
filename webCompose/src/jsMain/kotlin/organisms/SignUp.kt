@@ -11,6 +11,7 @@ import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
@@ -18,8 +19,18 @@ fun SignUp(signUp: (email: String, password: String) -> Unit, error: Throwable? 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    var isCorrectFormattedPassword by remember { mutableStateOf(false) }
+
+    val regex =
+        Regex("""^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!"#$%&'()*+,\-./:;<=>?\[\\\]^_`{|}~]{8,}$""")
+    isCorrectFormattedPassword = regex.matches(password)
+
     Div {
         H1 { Text("Sign Up") }
+
+        error?.run {
+            P { Text(message ?: "Unknown Error") }
+        }
 
         Div {
             Text("E-Mail")
@@ -37,6 +48,9 @@ fun SignUp(signUp: (email: String, password: String) -> Unit, error: Throwable? 
                     password = it.value
                 }
             }
+            if (!isCorrectFormattedPassword) {
+                P { Text("Incorrect password") }
+            }
         }
 
         Button(
@@ -44,10 +58,10 @@ fun SignUp(signUp: (email: String, password: String) -> Unit, error: Throwable? 
                 onClick {
                     signUp(email, password)
                 }
-                if (email.isNotEmpty() && password.isNotEmpty()) disabled()
+                if (!isCorrectFormattedPassword) disabled()
             },
         ) {
-            Text("Sign In")
+            Text("Sign Up")
         }
     }
 }

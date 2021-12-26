@@ -5,13 +5,19 @@ import com.uramnoil.serverist.application.auth.ActivateUseCaseInputPort
 import com.uramnoil.serverist.application.auth.ActivateUseCaseOutput
 import com.uramnoil.serverist.application.auth.ActivateUseCaseOutputPort
 import io.ktor.client.HttpClient
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpStatement
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
+
+@Serializable
+private class Credential(val email: String, val activationCode: String)
 
 class ActivateUseCaseInteractor(
     coroutineContext: CoroutineContext,
@@ -21,18 +27,20 @@ class ActivateUseCaseInteractor(
 ) : ActivateUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: ActivateUseCaseInput) {
         launch {
-            val (email, activationCode) = input
-            val response = httpClient.post<HttpStatement>("$host/activate") {
-                parameter("email", email)
-                parameter("activationCode", activationCode)
-            }.execute()
+            val result = runCatching {
+                val (email, activationCode) = input
+                val response = httpClient.post<HttpStatement>("$host/activate") {
+                    method = HttpMethod.Post
+                    contentType(ContentType.Application.Json)
+                    body = Credential(email, activationCode)
+                }.execute()
 
-            val result = when (response.status) {
-                HttpStatusCode.OK -> {
-                    Result.success(Unit)
-                }
-                else -> {
-                    Result.failure(IllegalArgumentException(""))
+                when (response.status) {
+                    HttpStatusCode.OK -> {
+                    }
+                    else -> {
+                        throw IllegalArgumentException("")
+                    }
                 }
             }
 

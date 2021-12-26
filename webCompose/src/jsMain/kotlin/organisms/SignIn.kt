@@ -19,8 +19,6 @@ fun SignIn(signIn: (email: String, password: String) -> Unit, error: Throwable? 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    var isCorrectFormattedPassword by remember { mutableStateOf(false) }
-
     Div {
         H1 { Text("Sign In") }
 
@@ -37,12 +35,8 @@ fun SignIn(signIn: (email: String, password: String) -> Unit, error: Throwable? 
             Input(InputType.Password) {
                 onInput {
                     password = it.value
-                    val regex =
-                        Regex("""^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!"#$%&'()*+,\-./:;<=>?\[\\\]^_`{|}~]{8,}$""")
-                    isCorrectFormattedPassword = regex.matches(password)
                 }
             }
-            if (!isCorrectFormattedPassword) Text("Incorrect password")
         }
 
         Button(
@@ -50,10 +44,10 @@ fun SignIn(signIn: (email: String, password: String) -> Unit, error: Throwable? 
                 onClick {
                     signIn(email, password)
                 }
-                if (password.isNotEmpty() && isCorrectFormattedPassword) disabled()
+                if (!(email.isNotEmpty() && password.isNotEmpty())) disabled()
             }
         ) {
-            Text("Sign Up")
+            Text("Sign In")
         }
     }
 }

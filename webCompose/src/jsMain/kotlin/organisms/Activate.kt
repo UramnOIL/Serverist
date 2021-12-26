@@ -34,12 +34,13 @@ fun Activate(activate: (email: String, activationCode: String) -> Unit, error: T
         Div {
 
             Text("Activation Code")
-            Input(InputType.Password) {
+            Input(InputType.Text) {
                 onInput {
                     if (it.value.length <= 6 && it.value.all { char -> char in '0'..'9' }) {
                         activationCode = it.value
                     }
                 }
+                value(activationCode)
             }
         }
 
