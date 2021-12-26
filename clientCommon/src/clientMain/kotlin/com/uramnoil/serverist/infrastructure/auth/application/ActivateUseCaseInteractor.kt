@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.infrastructure.auth.application
 
+import com.uramnoil.serverist.application.auth.ActivateUseCaseInput
 import com.uramnoil.serverist.application.auth.ActivateUseCaseInputPort
 import com.uramnoil.serverist.application.auth.ActivateUseCaseOutput
 import com.uramnoil.serverist.application.auth.ActivateUseCaseOutputPort
@@ -18,8 +19,9 @@ class ActivateUseCaseInteractor(
     private val host: String,
     private val outputPort: ActivateUseCaseOutputPort,
 ) : ActivateUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(email: String, activationCode: String) {
+    override fun execute(input: ActivateUseCaseInput) {
         launch {
+            val (email, activationCode) = input
             val response = httpClient.post<HttpStatement>("$host/activate") {
                 parameter("email", email)
                 parameter("activationCode", activationCode)
