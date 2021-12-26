@@ -11,7 +11,6 @@ import io.ktor.application.log
 import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
-import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.sessions.clear
@@ -101,7 +100,7 @@ fun Application.routingAuth() = routing {
     }
 
     // Email認証
-    get("/activate") {
+    post("/activate") {
         val coroutineContext = currentCoroutineContext()
 
         suspendCoroutine<Unit> { continuation ->

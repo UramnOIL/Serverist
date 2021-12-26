@@ -6,5 +6,5 @@ data class UnauthenticatedUser(
     val id: Uuid,
     val email: String,
     val hashedPassword: String,
-    val activationCode: Int
+    val activationCode: String
 )

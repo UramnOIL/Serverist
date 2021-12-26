@@ -65,8 +65,8 @@ class AuthTest : FunSpec({
             SchemaUtils.create(
                 ServeristUsers,
                 Servers,
+                UnauthenticatedUsers,
                 AuthenticatedUsers,
-                UnauthenticatedUsers
             )
         }
 
@@ -153,7 +153,10 @@ class AuthTest : FunSpec({
             unauthenticatedRow.shouldNotBeNull()
             val activationCode = unauthenticatedRow[UnauthenticatedUsers.activateCode]
 
-            with(handleRequest(HttpMethod.Get, "/activate?code=$activationCode")) {
+            with(handleRequest(HttpMethod.Post, "/activate") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(mapOf("email" to email, "activationCode" to activationCode)))
+            }) {
                 response.status() shouldBe HttpStatusCode.OK
             }
 

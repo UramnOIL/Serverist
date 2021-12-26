@@ -30,7 +30,6 @@ fun Application.buildAuthController(
             property("mail.user").getString(),
             property("mail.password").getString(),
             property("mail.from").getString(),
-            property("mail.activate_url").getString(),
         )
     }
 

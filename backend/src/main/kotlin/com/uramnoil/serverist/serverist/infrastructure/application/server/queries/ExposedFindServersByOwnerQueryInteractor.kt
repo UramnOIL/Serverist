@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.serverist.infrastructure.application.server.queries
 
-import com.uramnoil.serverist.serverist.application.OrderBy
-import com.uramnoil.serverist.serverist.application.Sort
+import com.uramnoil.serverist.application.OrderBy
+import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseInputPort
 import com.uramnoil.serverist.serverist.application.server.queries.FindServersByOwnerQueryUseCaseOutputPort
 import com.uramnoil.serverist.serverist.infrastructure.Servers

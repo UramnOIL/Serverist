@@ -26,7 +26,7 @@ class ActivateUseCaseInteractor(
     coroutineContext: CoroutineContext,
     private val outputPort: ActivateUseCaseOutputPort,
 ) : ActivateUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(email: String, activationCode: Int) {
+    override fun execute(email: String, activationCode: String) {
         launch {
             val result = runCatching {
                 // 検索ステップ

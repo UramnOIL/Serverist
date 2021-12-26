@@ -4,7 +4,6 @@ import com.uramnoil.serverist.auth.application.SendEmailService
 import com.uramnoil.serverist.auth.application.SignUpUseCaseInputPort
 import com.uramnoil.serverist.auth.application.SignUpUseCaseOutputPort
 import com.uramnoil.serverist.auth.infrastructure.AuthenticatedUsers
-import com.uramnoil.serverist.auth.infrastructure.UnauthenticatedUsers
 import com.uramnoil.serverist.domain.auth.kernel.model.Email
 import com.uramnoil.serverist.domain.auth.kernel.model.Password
 import com.uramnoil.serverist.domain.auth.kernel.services.HashPasswordService
@@ -26,11 +25,11 @@ class SignUpUseCaseInteractor(
     coroutineContext: CoroutineContext,
     private val outputPort: SignUpUseCaseOutputPort
 ) : SignUpUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
-    override fun execute(email: String, password: String, activationCode: UUID) {
+    override fun execute(email: String, password: String, activationCode: String) {
         launch {
             val result = runCatching {
                 val row = newSuspendedTransaction {
-                    AuthenticatedUsers.select { UnauthenticatedUsers.email eq email }.firstOrNull()
+                    AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
                 }
 
                 if (row != null) throw IllegalArgumentException("This email is already used.")
