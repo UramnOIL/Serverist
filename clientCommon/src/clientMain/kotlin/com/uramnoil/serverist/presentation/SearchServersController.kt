@@ -5,7 +5,7 @@ import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseInputPort
 
-class FindServersController(
+class SearchServersController(
     private val findAllServersUseCaseInputPort: FindAllServersUseCaseInputPort
 ) {
     fun findAllServers() {

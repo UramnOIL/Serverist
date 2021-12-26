@@ -15,13 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.benasher44.uuid.uuidFrom
-import com.uramnoil.serverist.presentation.FindServersController
+import com.uramnoil.serverist.presentation.SearchServersController
 import com.uramnoil.serverist.presentation.ServersViewModel
 import com.uramnoil.serverist.serverist.application.server.Server
 import kotlinx.datetime.Clock
 
 @Composable
-fun SearchServersPage(controller: FindServersController, viewModel: ServersViewModel) {
+fun SearchServersPage(controller: SearchServersController, viewModel: ServersViewModel) {
     val servers by viewModel.serversFlow.collectAsState()
 
     Column {
@@ -69,7 +69,7 @@ private fun Preview() {
 
     val controller by remember {
         mutableStateOf(
-            FindServersController {
+            SearchServersController {
             }
         )
     }
