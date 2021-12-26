@@ -1,5 +1,6 @@
 package com.uramnoil.serverist.infrastructure.auth.application
 
+import com.uramnoil.serverist.SessionId
 import com.uramnoil.serverist.application.auth.SignUpUseCaseInput
 import com.uramnoil.serverist.application.auth.SignUpUseCaseInputPort
 import com.uramnoil.serverist.application.auth.SignUpUseCaseOutput
@@ -21,6 +22,7 @@ import kotlin.coroutines.CoroutineContext
 
 class SignUpUseCaseInteractor(
     private val coroutineContext: CoroutineContext,
+    private val sessionId: SessionId,
     private val host: String,
     private val httpClient: HttpClient,
     private val outputPort: SignUpUseCaseOutputPort,
@@ -41,7 +43,9 @@ class SignUpUseCaseInteractor(
                 val content = response.receive<String>()
 
                 when (response.status) {
-                    HttpStatusCode.OK -> {}
+                    HttpStatusCode.OK -> {
+                        sessionId.sessionId = response.headers["Authk"]
+                    }
                     HttpStatusCode.BadRequest -> {
                         throw BadRequestException(content)
                     }
