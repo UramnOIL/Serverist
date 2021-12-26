@@ -80,18 +80,13 @@ class AuthController(
         coroutineContext: CoroutineContext,
         outputPort: ActivateUseCaseOutputPort
     ) {
-        val rowCode = call.request.queryParameters["code"] ?: kotlin.run {
-            outputPort.handle(Result.failure(IllegalArgumentException("`code` parameter is missing.")))
-            return
-        }
-        val codeResult = kotlin.runCatching { UUID.fromString(rowCode) }
+        @Serializable
+        data class EmailAndActivationCode(val email: String, val activationCode: Int)
 
-        val code = codeResult.getOrElse {
-            outputPort.handle(Result.failure(IllegalArgumentException("Invalid code.")))
-            return
+        CoroutineScope(coroutineContext).launch {
+            val (email, activationCode) = call.receive<EmailAndActivationCode>()
+            activateUseCaseInputPortFactory(coroutineContext, outputPort).execute(email, activationCode)
         }
-
-        activateUseCaseInputPortFactory(coroutineContext, outputPort).execute(code)
     }
 
     /**

@@ -27,9 +27,9 @@ import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import io.ktor.sessions.Sessions
-import io.ktor.sessions.cookie
 import io.ktor.sessions.directorySessionStorage
 import io.ktor.sessions.get
+import io.ktor.sessions.header
 import io.ktor.sessions.sessions
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -89,10 +89,7 @@ fun Application.mainModule() {
 
     // Sessions サーバセッション `.sessions`にセッション情報を保存
     install(Sessions) {
-        cookie<AuthSession>("AUTH", directorySessionStorage(File(".sessions"), cached = true)) {
-            cookie.path = "/"
-            cookie.maxAgeInSeconds = 1000
-        }
+        header<AuthSession>("Auth", directorySessionStorage(File(".sessions"), cached = true))
     }
 
     // CallLogging リクエストのロギング用
@@ -135,13 +132,11 @@ fun Application.productKoin() {
         val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
         val authController =
             buildAuthController(log, unauthenticatedUserRepository, authenticatedUserRepository, userController)
-        modules(
-            module {
-                single { userController }
-                single { serverController }
-                single { authController }
-            }
-        )
+        modules(module {
+            single { userController }
+            single { serverController }
+            single { authController }
+        })
     }
 }
 
@@ -155,7 +150,7 @@ fun Application.createMySqlConnection() {
         val port = property("database.port").getString()
 
         Database.connect(
-            url = "jdbc:mysql://$host:$port/$database?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()
