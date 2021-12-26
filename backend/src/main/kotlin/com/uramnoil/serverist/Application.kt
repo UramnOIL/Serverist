@@ -17,10 +17,13 @@ import io.ktor.application.log
 import io.ktor.auth.Authentication
 import io.ktor.auth.Principal
 import io.ktor.auth.session
+import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.ContentTransformationException
 import io.ktor.features.StatusPages
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.httpMethod
 import io.ktor.request.uri
@@ -45,6 +48,7 @@ import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 import java.io.File
 import java.util.UUID
+import kotlin.time.ExperimentalTime
 import com.uramnoil.serverist.auth.infrastructure.domain.repositories.ExposedUserRepository as ExposedUnauthenticatedUserRepository
 import com.uramnoil.serverist.serverist.infrastructure.Users as ServeristUsers
 import com.uramnoil.serverist.serverist.infrastructure.domain.repositories.ExposedUserRepository as ExposedServeristUserRepository
@@ -69,6 +73,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 /**
  * 本番環境用
  */
+@OptIn(ExperimentalTime::class)
 @Suppress("unused")
 fun Application.mainModule() {
     install(StatusPages) {
@@ -80,6 +85,15 @@ fun Application.mainModule() {
         exception<NoAuthorityException> {
             call.respond(HttpStatusCode.Forbidden)
         }
+    }
+
+    install(CORS)
+    {
+        method(HttpMethod.Options)
+        header(HttpHeaders.XForwardedProto)
+        host("localhost:8080")
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
     }
 
     // ContentNegotiation application/jsonをリクエストで使えるようにする
