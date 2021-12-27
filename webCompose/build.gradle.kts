@@ -20,10 +20,10 @@ kotlin {
                 implementation(project(":clientCommon"))
                 implementation(compose.web.core)
                 implementation(compose.runtime)
-                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation(libs.ktor.client.serialization)
+                implementation(libs.ktor.client.logging)
 
-                implementation("io.github.aakira:napier:$napierVersion")
+                implementation(libs.napier)
             }
         }
     }

@@ -19,9 +19,9 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
-                api("com.benasher44:uuid:$uuidVersion")
+                implementation(libs.kotlinx.coroutines)
+                api(libs.kotlinx.datatime)
+                api(libs.uuid)
             }
         }
         val commonTest by getting {
@@ -34,7 +34,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 val kotestVersion: String by project
-                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+                implementation(libs.kotest.runner.junit5)
             }
         }
     }

@@ -34,27 +34,23 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.serialization)
+                implementation(libs.kotlinx.datatime)
 
-                implementation("io.github.aakira:napier:$napierVersion")
 
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("com.apollographql.apollo3:apollo-api:$apolloVersion")
-                implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
+                implementation(libs.napier)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.json)
+                implementation(libs.ktor.client.serialization)
+                implementation(libs.apollo.api)
+                implementation(libs.apollo.runtime)
             }
         }
 
         val commonTest by getting {
             dependencies {
-
-                // kotest
-                implementation("io.kotest:kotest-property:$kotestVersion")
-
-                // ktor
+                implementation(libs.kotest.property)
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }

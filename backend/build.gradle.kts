@@ -6,7 +6,6 @@ plugins {
     id("com.github.johnrengelman.shadow")
     application
 }
-
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 }
@@ -29,17 +28,6 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersion: String by project
-    val coroutinesVersion: String by project
-    val serializationVersion: String by project
-    val ktorVersion: String by project
-    val logbackVersion: String by project
-    val kgraphqlVersion: String by project
-    val koinVersion: String by project
-    val exposedVersion: String by project
-    val springBootVersion: String by project
-    val kotestVersion: String by project
-
     implementation(project(":domain:common"))
     implementation(project(":domain:auth"))
     implementation(project(":domain:serverist"))
@@ -47,56 +35,54 @@ dependencies {
     implementation(project(":application", "serverJvmRuntimeElements"))
 
     // kotlin
-    implementation(kotlin("stdlib", kotlinVersion))
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
-    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", serializationVersion)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.serialization)
 
     // ktor
-    implementation("io.ktor", "ktor-server-netty", ktorVersion)
-    implementation("io.ktor", "ktor-auth", ktorVersion)
-    implementation("io.ktor", "ktor-server-sessions", ktorVersion)
-    implementation("io.ktor", "ktor-serialization", ktorVersion)
-    implementation("ch.qos.logback", "logback-classic", "1.2.6")
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.auth)
+    implementation(libs.ktor.server.sessions)
+    implementation(libs.ktor.serialization)
+    implementation(libs.logback)
 
     // kgraphql
-    implementation("com.apurebase", "kgraphql", kgraphqlVersion)
-    implementation("com.apurebase", "kgraphql-ktor", kgraphqlVersion)
-    implementation("ch.qos.logback", "logback-classic", logbackVersion)
+    implementation(libs.kgraphql)
+    implementation(libs.kgraphql.ktor)
 
     // koin
-    implementation("io.insert-koin", "koin-ktor", koinVersion)
+    implementation(libs.koin)
 
     // exposed
-    implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
-    implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
-    implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
-    implementation("org.jetbrains.exposed", "exposed-java-time", exposedVersion)
-    implementation("mysql", "mysql-connector-java", "8.0.20")
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.java.time)
+    implementation(libs.mysql)
 
     // springframework
-    implementation("org.springframework.boot", "spring-boot-starter-security", springBootVersion)
-    implementation("org.springframework.boot", "spring-boot-starter-mail", springBootVersion)
-    implementation("org.springframework.boot", "spring-boot-starter-data-redis", springBootVersion)
+    implementation(libs.springboot.starter.security)
+    implementation(libs.springboot.starter.mail)
+    implementation(libs.springboot.starter.data.redis)
 
     // test
 
     // mockk
-    testImplementation("io.mockk", "mockk", "1.12.0")
+    testImplementation("io.mockk:mockk:1.12.0")
 
     // kotest
-    testImplementation("io.kotest", "kotest-property", kotestVersion)
-    testImplementation("io.kotest", "kotest-runner-junit5-jvm", kotestVersion)
+    testImplementation(libs.kotest.property)
+    testImplementation(libs.kotest.runner.junit5)
 
     // ktor
-    testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
-    testImplementation("io.ktor", "ktor-server-test-host", ktorVersion)
+    testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.ktor.server.test.host)
 
     // in-memory database
-    testImplementation("com.h2database", "h2", "1.4.200")
+    testImplementation(libs.h2)
 
     // mail
 
-    testImplementation("com.icegreen", "greenmail", "1.6.5")
+    testImplementation("com.icegreen:greenmail:1.6.5")
 }
 
 project.setProperty("mainClassName", "io.ktor.server.netty.EngineMain")
@@ -106,4 +92,3 @@ tasks.shadowJar {
         attributes(Pair("Main-Class", "io.ktor.server.netty.EngineMain"))
     }
 }
-

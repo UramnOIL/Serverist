@@ -1,0 +1,85 @@
+[versions]
+# kotlin
+kotlin = "1.6.10"
+coroutines = "1.5.2-native-mt"
+serialization = "1.3.0"
+datetime = "0.2.0"
+dokka = "1.5.0"
+kotest = "4.6.3"
+kotest-plugin = "5.0.0.5"
+shadow = "5.2.0"
+# napier
+napier = "2.3.0"
+# ktor
+ktor = "1.6.5"
+kgraphql = "0.17.8"
+#apollo
+apollo = "3.0.0"
+# other
+logback = "1.2.1"
+koin = "3.1.4"
+exposed = "0.31.1"
+uuid = "0.3.0"
+# spring boot
+springboot = "2.5.1"
+# compose-jb
+composejb = "1.0.1-rc2"
+# spotless
+spotless = "6.0.5"
+mysql = "8.0.20"
+h2 = "1.4.200"
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+kotest = { id = "io.kotest.multiplatform", version.ref = "kotest-plugin" }
+# compose-jb
+composejb = { id = "org.jetbrains.compose", version.ref = "composejb" }
+# spotless
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+# apollo
+apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
+[libraries]
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+kotlinx-datatime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+# napier
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+# ktor
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-auth = { module = "io.ktor:ktor-auth", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "ktor" }
+kgraphql = { module = "com.apurebase:kgraphql", version.ref = "kgraphql" }
+kgraphql-ktor = { module = "com.apurebase:kgraphql-ktor", version.ref = "kgraphql" }
+# apollo
+apollo-api = { module = "com.apollographql.apollo3:apollo-api", version.ref = "apollo" }
+apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
+# other
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+koin = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+#database
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed" }
+mysql = { module = "mysql:mysql-connector-java", version.ref = "mysql" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+# spring boot
+springboot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "springboot" }
+springboot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "springboot" }
+springboot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springboot" }
+# test
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+kotestassertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+[bundles]

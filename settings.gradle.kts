@@ -1,4 +1,5 @@
 rootProject.name = "serverist"
+enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
     plugins {

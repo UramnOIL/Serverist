@@ -26,11 +26,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
-
-                api("com.benasher44:uuid:$uuidVersion")
+                implementation(libs.kotlinx.coroutines)
+                api(libs.kotlinx.datatime)
+                api(libs.uuid)
             }
         }
 
