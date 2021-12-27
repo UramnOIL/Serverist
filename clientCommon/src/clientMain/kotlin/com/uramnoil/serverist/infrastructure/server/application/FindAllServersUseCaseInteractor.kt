@@ -10,6 +10,7 @@ import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutput
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseOutputPort
 import com.uramnoil.serverist.infrastructure.toApollo
 import com.uramnoil.serverist.serverist.application.server.Server
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ class FindAllServersUseCaseInteractor(
             // GraphQL Error
             response.errors?.run {
                 forEach {
-                    // Napier.e(it.message)
+                    Napier.e(it.message)
                 }
                 outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
                 return@launch
