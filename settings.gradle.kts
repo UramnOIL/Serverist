@@ -37,12 +37,14 @@ include(
 )
 
 include(
-    ":application"
+    ":application",
 )
 
 include(
     ":clientCommon",
     ":backend",
     ":webCompose",
-    ":webReact"
+    ":webReact",
+    ":backend",
+    ":react"
 )
