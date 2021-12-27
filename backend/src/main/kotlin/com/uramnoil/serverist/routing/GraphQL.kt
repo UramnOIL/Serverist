@@ -16,7 +16,6 @@ import io.ktor.sessions.get
 import io.ktor.sessions.sessions
 import org.koin.ktor.ext.inject
 
-
 /**
  * GraphQL用のビルダ
  */

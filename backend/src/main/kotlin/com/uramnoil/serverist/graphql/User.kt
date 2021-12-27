@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 import java.util.UUID
 import com.uramnoil.serverist.serverist.application.user.User as ApplicationUser
 
-
 @Serializable
 private data class User(
     val id: String,
