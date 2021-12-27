@@ -70,6 +70,14 @@ kotlin {
             }
         }
 
+        val desktopTest by getting {
+            dependsOn(desktopMain)
+            dependencies {
+                implementation(libs.test.kotest.property)
+                implementation(libs.test.kotest.runner.junit5)
+            }
+        }
+
         val jsMain by getting {
             dependsOn(composeMain)
             dependencies {
