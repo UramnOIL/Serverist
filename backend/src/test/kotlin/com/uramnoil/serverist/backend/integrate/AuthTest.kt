@@ -104,10 +104,12 @@ class AuthTest : FunSpec({
             val password = "abcd1234"
             val hashPasswordService = HashPasswordServiceImpl()
 
-            with(handleRequest(HttpMethod.Post, "/signup") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signup") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 greenMail.waitForIncomingEmail(3000, 1).shouldBeTrue()
                 val mail = greenMail.receivedMessages.firstOrNull()
@@ -153,10 +155,12 @@ class AuthTest : FunSpec({
             unauthenticatedRow.shouldNotBeNull()
             val activationCode = unauthenticatedRow[UnauthenticatedUsers.activateCode]
 
-            with(handleRequest(HttpMethod.Post, "/activate") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "activationCode" to activationCode)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/activate") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "activationCode" to activationCode)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
             }
 
@@ -191,10 +195,12 @@ class AuthTest : FunSpec({
                     it[AuthenticatedUsers.hashedPassword] = hashedPassword
                 }
             }
-            with(handleRequest(HttpMethod.Post, "/signin") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signin") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 response.headers["Auth"] shouldNotBe null
             }
@@ -226,17 +232,21 @@ class AuthTest : FunSpec({
                 }
             }
             var sessionId: String?
-            with(handleRequest(HttpMethod.Post, "/signin") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signin") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 sessionId = response.headers["Auth"]
             }
             sessionId ?: error("サインイン失敗")
-            with(handleRequest(HttpMethod.Post, "/withdrawal") {
-                this.addHeader("Auth", sessionId!!)
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/withdrawal") {
+                    this.addHeader("Auth", sessionId!!)
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
             }
 
@@ -273,17 +283,21 @@ class AuthTest : FunSpec({
                 }
             }
             var sessionId: String?
-            with(handleRequest(HttpMethod.Post, "/signin") {
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signin") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody(Json.encodeToString(mapOf("email" to email, "password" to password)))
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
                 sessionId = response.headers["Auth"]
             }
             sessionId ?: error("サインイン失敗")
-            with(handleRequest(HttpMethod.Post, "/signout") {
-                this.addHeader("Auth", sessionId!!)
-            }) {
+            with(
+                handleRequest(HttpMethod.Post, "/signout") {
+                    this.addHeader("Auth", sessionId!!)
+                }
+            ) {
                 response.status() shouldBe HttpStatusCode.OK
             }
         }

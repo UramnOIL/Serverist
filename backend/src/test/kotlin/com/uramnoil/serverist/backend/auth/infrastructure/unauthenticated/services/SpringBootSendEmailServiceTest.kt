@@ -29,7 +29,6 @@ internal class SpringBootSendEmailServiceTest : FunSpec({
                 username = "",
                 password = "",
                 from = "test@serverist.com",
-                activateUrl = "http://localhost:8080/activate",
             )
 
             val code = "123456"
@@ -40,7 +39,7 @@ internal class SpringBootSendEmailServiceTest : FunSpec({
             }
 
             val messages = greenMail.receivedMessages
-            messages.first().let { GreenMailUtil.getBody(it) } shouldBe "http://localhost:8080/activate?code=$code"
+            messages.first().let { GreenMailUtil.getBody(it) } shouldBe "アクティベーションコード: $code"
         }
     }
 })
