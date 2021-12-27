@@ -25,33 +25,33 @@ class FindAllServersUseCaseInteractor(
 ) : FindAllServersUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
     override fun execute(input: FindAllServersUseCaseInput) {
         launch {
-            val query = input.run {
-                FindAllServersQuery(
-                    // page = PageRequest(limit, offset),
-                    sort = sort.toApollo(),
-                    orderBy = orderBy.toApollo()
-                )
-            }
-            val response = apolloClient.query(query).execute()
-
-            // GraphQL Error
-            response.errors?.run {
-                forEach {
-                    Napier.e(it.message)
+            val result = runCatching {
+                val query = input.run {
+                    FindAllServersQuery(
+                        // page = PageRequest(limit, offset),
+                        sort = sort.toApollo(),
+                        orderBy = orderBy.toApollo()
+                    )
                 }
-                outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
-                return@launch
-            }
+                val response = apolloClient.query(query).execute()
 
-            val data = response.data
+                // GraphQL Error
+                response.errors?.run {
+                    forEach {
+                        Napier.e(it.message)
+                    }
+                    outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
+                    return@launch
+                }
 
-            data ?: run {
-                // Data is null
-                outputPort.handle(FindAllServersUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
-                return@launch
-            }
+                val data = response.data
 
-            val serversResult = runCatching {
+                data ?: run {
+                    // Data is null
+                    outputPort.handle(FindAllServersUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
+                    return@launch
+                }
+
                 data.findServers.map {
                     it.run {
                         Server(
@@ -67,7 +67,7 @@ class FindAllServersUseCaseInteractor(
                 }
             }
 
-            outputPort.handle(FindAllServersUseCaseOutput(serversResult))
+            outputPort.handle(FindAllServersUseCaseOutput(result))
         }
     }
 }
