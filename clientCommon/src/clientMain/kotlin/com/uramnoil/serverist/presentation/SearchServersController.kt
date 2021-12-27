@@ -9,6 +9,6 @@ class SearchServersController(
     private val findAllServersUseCaseInputPort: FindAllServersUseCaseInputPort
 ) {
     fun findAllServers() {
-        findAllServersUseCaseInputPort.execute(FindAllServersUseCaseInput(100, 0, Sort.Asc, OrderBy.CreatedAt))
+        findAllServersUseCaseInputPort.execute(FindAllServersUseCaseInput(100, 0, Sort.Desc, OrderBy.CreatedAt))
     }
 }
