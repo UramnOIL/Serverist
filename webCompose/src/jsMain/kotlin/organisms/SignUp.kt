@@ -65,4 +65,3 @@ fun SignUp(signUp: (email: String, password: String) -> Unit, error: Throwable? 
         }
     }
 }
-

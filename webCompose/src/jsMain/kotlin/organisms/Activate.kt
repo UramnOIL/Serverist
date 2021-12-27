@@ -13,7 +13,6 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
-
 @Composable
 fun Activate(activate: (email: String, activationCode: String) -> Unit, error: Throwable? = null) {
     var email by remember { mutableStateOf("") }

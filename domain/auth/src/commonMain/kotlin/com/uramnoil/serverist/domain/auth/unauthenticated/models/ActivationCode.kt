@@ -1,6 +1,5 @@
 package com.uramnoil.serverist.domain.auth.unauthenticated.models
 
-
 data class ActivationCode(val value: String) {
     init {
         if (value.length != 6) {

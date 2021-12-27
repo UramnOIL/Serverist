@@ -13,7 +13,6 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
-
 @Composable
 fun SignIn(signIn: (email: String, password: String) -> Unit, error: Throwable? = null) {
     var email by remember { mutableStateOf("") }
