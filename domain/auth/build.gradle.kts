@@ -20,20 +20,20 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":domain:common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation(libs.kotlinx.coroutines)
             }
         }
         val commonTest by getting {
             dependencies {
                 val kotestVersion: String by project
-                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation(libs.test.kotest.assertions.core)
             }
         }
 
         val jvmTest by getting {
             dependencies {
                 val kotestVersion: String by project
-                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+                implementation(libs.test.kotest.runner.junit5)
             }
         }
     }

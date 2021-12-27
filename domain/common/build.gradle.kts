@@ -23,7 +23,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 val kotestVersion: String by project
-                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation(libs.test.kotest.assertions.core)
             }
         }
 
