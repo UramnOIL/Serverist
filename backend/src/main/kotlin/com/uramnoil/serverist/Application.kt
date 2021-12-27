@@ -17,13 +17,10 @@ import io.ktor.application.log
 import io.ktor.auth.Authentication
 import io.ktor.auth.Principal
 import io.ktor.auth.session
-import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.ContentTransformationException
 import io.ktor.features.StatusPages
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.httpMethod
 import io.ktor.request.uri
@@ -85,15 +82,9 @@ fun Application.mainModule() {
         exception<NoAuthorityException> {
             call.respond(HttpStatusCode.Forbidden)
         }
-    }
-
-    install(CORS)
-    {
-        method(HttpMethod.Options)
-        header(HttpHeaders.XForwardedProto)
-        host("localhost:8080")
-        allowCredentials = true
-        allowNonSimpleContentTypes = true
+        exception<Exception> {
+            call.respond("Error")
+        }
     }
 
     // ContentNegotiation application/jsonをリクエストで使えるようにする
@@ -145,11 +136,13 @@ fun Application.productKoin() {
         val (userController, serverController) = buildServeristControllers(serveristUserRepository, serverRepository)
         val authController =
             buildAuthController(log, unauthenticatedUserRepository, authenticatedUserRepository, userController)
-        modules(module {
-            single { userController }
-            single { serverController }
-            single { authController }
-        })
+        modules(
+            module {
+                single { userController }
+                single { serverController }
+                single { authController }
+            }
+        )
     }
 }
 
@@ -163,7 +156,7 @@ fun Application.createMySqlConnection() {
         val port = property("database.port").getString()
 
         Database.connect(
-            url = "jdbc:mysql://${host}:${port}/${database}?characterEncoding=utf8&useSSL=false",
+            url = "jdbc:mysql://$host:$port/$database?characterEncoding=utf8&useSSL=false",
             driver = com.mysql.cj.jdbc.Driver::class.qualifiedName!!,
             user = property("database.user").getString(),
             password = property("database.password").getString()
