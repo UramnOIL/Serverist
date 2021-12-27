@@ -31,7 +31,7 @@ class ExposedFindAllServersQueryUseCaseInteractor(
                             Sort.Asc -> SortOrder.ASC
                             Sort.Desc -> SortOrder.DESC
                         }
-                    ).limit(limit, offset = offset)
+                    ).limit(limit, offset = offset).toList()
                 }
                 rows.map(ResultRow::toApplicationServer)
             }
