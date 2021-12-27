@@ -11,7 +11,7 @@ shadow = "5.2.0"
 # napier
 napier = "2.3.0"
 # ktor
-ktor = "1.6.5"
+ktor = "1.6.7"
 kgraphql = "0.17.8"
 #apollo
 apollo = "3.0.0"
@@ -20,6 +20,8 @@ logback = "1.2.1"
 koin = "3.1.4"
 exposed = "0.31.1"
 uuid = "0.3.0"
+mockk = "1.12.0"
+greenmail = "1.6.5"
 # spring boot
 springboot = "2.5.1"
 # compose-jb
@@ -48,9 +50,9 @@ kotlinx-datatime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # napier
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 # ktor
+ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktor" }
+
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
-ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
@@ -79,7 +81,17 @@ springboot-starter-security = { module = "org.springframework.boot:spring-boot-s
 springboot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "springboot" }
 springboot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springboot" }
 # test
-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
-kotestassertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+test-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+test-ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+test-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+test-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+test-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+test-kotestassertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+test-greenmail = { module = "com.icegreen:greenmail", version.ref = "greenmail" }
+
 [bundles]
+ktor-server = ["ktor-server-netty", "ktor-server-sessions", "ktor-auth", "ktor-serialization"]
+ktor-client = ["ktor-client-core", "ktor-client-json", "ktor-client-serialization", "ktor-client-logging"]
+exposed = ["exposed-core", "exposed-dao", "exposed-jdbc", "exposed-java-time"]
+test-ktor-server = ["test-ktor-server-tests", "test-ktor-server-test-host"]

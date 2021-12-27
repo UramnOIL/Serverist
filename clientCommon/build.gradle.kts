@@ -21,16 +21,6 @@ kotlin {
         }
     }
 
-    val coroutinesVersion: String by project
-    val serializationVersion: String by project
-    val datetimeVersion: String by project
-
-    val napierVersion: String by project
-    val ktorVersion: String by project
-    val apolloVersion: String by project
-    val kotestVersion: String by project
-    val koinVersion: String by project
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -40,9 +30,7 @@ kotlin {
 
 
                 implementation(libs.napier)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.json)
-                implementation(libs.ktor.client.serialization)
+                implementation(libs.bundles.ktor.client)
                 implementation(libs.apollo.api)
                 implementation(libs.apollo.runtime)
             }
@@ -50,8 +38,8 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotest.property)
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                implementation(libs.test.kotest.property)
+                implementation(libs.test.ktor.client.mock)
             }
         }
 

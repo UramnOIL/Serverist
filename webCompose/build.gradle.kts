@@ -12,9 +12,6 @@ kotlin {
     }
 
     sourceSets {
-        val ktorVersion: String by project
-        val napierVersion: String by project
-
         val jsMain by getting {
             dependencies {
                 implementation(project(":clientCommon"))

@@ -39,10 +39,9 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     // ktor
-    implementation(libs.ktor.server.netty)
-    implementation(libs.ktor.auth)
-    implementation(libs.ktor.server.sessions)
-    implementation(libs.ktor.serialization)
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.bundles.ktor.server)
+
     implementation(libs.logback)
 
     // kgraphql
@@ -53,10 +52,7 @@ dependencies {
     implementation(libs.koin)
 
     // exposed
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.dao)
-    implementation(libs.exposed.jdbc)
-    implementation(libs.exposed.java.time)
+    implementation(libs.bundles.exposed)
     implementation(libs.mysql)
 
     // springframework
@@ -64,25 +60,18 @@ dependencies {
     implementation(libs.springboot.starter.mail)
     implementation(libs.springboot.starter.data.redis)
 
-    // test
-
-    // mockk
-    testImplementation("io.mockk:mockk:1.12.0")
-
     // kotest
-    testImplementation(libs.kotest.property)
-    testImplementation(libs.kotest.runner.junit5)
+    testImplementation(libs.test.kotest.property)
+    testImplementation(libs.test.kotest.runner.junit5)
 
     // ktor
-    testImplementation(libs.ktor.server.tests)
-    testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.bundles.test.ktor.server)
 
     // in-memory database
     testImplementation(libs.h2)
 
     // mail
-
-    testImplementation("com.icegreen:greenmail:1.6.5")
+    testImplementation(libs.test.greenmail)
 }
 
 project.setProperty("mainClassName", "io.ktor.server.netty.EngineMain")

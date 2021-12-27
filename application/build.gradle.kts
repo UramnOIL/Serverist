@@ -18,11 +18,6 @@ kotlin {
         }
     }
 
-    val coroutinesVersion: String by project
-    val serializationVersion: String by project
-    val datetimeVersion: String by project
-    val uuidVersion: String by project
-
     sourceSets {
         val commonMain by getting {
             dependencies {

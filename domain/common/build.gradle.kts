@@ -13,10 +13,6 @@ kotlin {
     }
 
     sourceSets {
-        val coroutinesVersion: String by project
-        val datetimeVersion: String by project
-        val uuidVersion: String by project
-
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines)
@@ -34,7 +30,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 val kotestVersion: String by project
-                implementation(libs.kotest.runner.junit5)
+                implementation(libs.test.kotest.runner.junit5)
             }
         }
     }
