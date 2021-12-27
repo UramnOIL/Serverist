@@ -36,13 +36,11 @@ import pages.SearchServersPage
 
 class AuthenticationInterceptor(private val sessionId: SessionId) : HttpInterceptor {
     override suspend fun intercept(request: HttpRequest, chain: HttpInterceptorChain): HttpResponse {
-        val newRequest = request.newBuilder()
-            .addHeader("Auth", sessionId.sessionId ?: "")
-            .build()
-
-        println(request.body)
-
-        return chain.proceed(newRequest)
+        val builder = request.newBuilder()
+        sessionId.sessionId?.let {
+            builder.addHeader("Auth", it)
+        }
+        return chain.proceed(builder.build())
     }
 }
 
@@ -56,7 +54,7 @@ const val host = "http://localhost:8080"
 fun main() {
     val sessionId = SessionId()
     val apolloClient = ApolloClient.Builder()
-        .httpServerUrl(host)
+        .httpServerUrl("http://localhost:8080/graphql")
         .addHttpInterceptor(AuthenticationInterceptor(sessionId))
         .build()
     val httpClient = HttpClient {
@@ -140,11 +138,16 @@ fun main() {
                     coroutineContext,
                     apolloClient
                 ) {
-                    it.result.onSuccess {
-                        coroutineScope.launch {
-                            mutableServersStateFlow.emit(it)
+                    it.result.fold(
+                        {
+                            coroutineScope.launch {
+                                mutableServersStateFlow.emit(it)
+                            }
+                        },
+                        {
+
                         }
-                    }
+                    )
                 }
                 SearchServersPage(SearchServersController(findAllServersUseCaseInputPort), serversViewModel)
             }
