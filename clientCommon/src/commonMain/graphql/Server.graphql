@@ -38,16 +38,3 @@ query FindServersByOwner($uuid: String!, $sort: Sort, $orderBy: OrderBy) {
         description,
     }
 }
-
-mutation UpdateUser($userName: String!, $accountId: String!, $description: String!) {
-    updateUser(name: $userName, accountId: $accountId, description: $description)
-}
-
-query FindUserById($id: String!) {
-    findUserById(id: $id) {
-        id,
-        accountId,
-        name,
-        description,
-    }
-}
