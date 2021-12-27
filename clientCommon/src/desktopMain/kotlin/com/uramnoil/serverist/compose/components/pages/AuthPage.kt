@@ -133,5 +133,5 @@ fun SignIn(signIn: (email: String, password: String) -> Unit) {
 @Preview
 @Composable
 private fun Preview() {
-    AuthPage(AuthController({}, {}))
+    AuthPage(AuthController({}, {}, {}))
 }
