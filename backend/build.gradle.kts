@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     // ktor
-    implementation(platform(libs.ktor.bom))
     implementation(libs.bundles.ktor.server)
 
     implementation(libs.logback)
