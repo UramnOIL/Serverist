@@ -44,10 +44,9 @@ class ServerController(
     ): Result<UUID> {
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = CreateServerCommandUseCaseOutputPort { result ->
+            createServerCommandUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            createServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+            }.execute(
                 ownerId,
                 name,
                 host,
@@ -67,10 +66,9 @@ class ServerController(
 
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = UpdateServerCommandUseCaseOutputPort { result ->
+            updateServerCommandUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            updateServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+            }.execute(
                 id,
                 name,
                 address,
@@ -86,10 +84,9 @@ class ServerController(
 
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = DeleteServerCommandUseCaseOutputPort { result ->
+            deleteServerCommandUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            deleteServerCommandUserCaseInputPortFactory(coroutineContext, outputPort).execute(uuid)
+            }.execute(uuid)
         }
     }
 
@@ -103,10 +100,9 @@ class ServerController(
 
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = FindServersByOwnerQueryUseCaseOutputPort { result ->
+            findByOwnerServerQueryUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            findByOwnerServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+            }.execute(
                 ownerId,
                 limit,
                 offset,
@@ -125,10 +121,9 @@ class ServerController(
 
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = FindAllServersQueryUseCaseOutputPort { result ->
+            findAllServerQueryUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            findAllServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(
+            }.execute(
                 limit,
                 offset,
                 sort,
@@ -142,10 +137,9 @@ class ServerController(
     ): Result<Server?> {
         val coroutineContext = currentCoroutineContext()
         return suspendCoroutine {
-            val outputPort = FindServerByIdQueryUseCaseOutputPort { result ->
+            findByIdServerQueryUserCaseInputPortFactory(coroutineContext) { result ->
                 it.resume(result)
-            }
-            findByIdServerQueryUserCaseInputPortFactory(coroutineContext, outputPort).execute(id)
+            }.execute(id)
         }
     }
 }

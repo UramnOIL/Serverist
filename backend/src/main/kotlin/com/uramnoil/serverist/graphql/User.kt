@@ -3,17 +3,9 @@ package com.uramnoil.serverist.graphql
 import com.apurebase.kgraphql.Context
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.uramnoil.serverist.presenter.UserController
-import kotlinx.serialization.Serializable
+import com.uramnoil.serverist.routing.User
 import java.util.UUID
 import com.uramnoil.serverist.serverist.application.user.User as ApplicationUser
-
-@Serializable
-private data class User(
-    val id: String,
-    val accountId: String,
-    val name: String,
-    val description: String
-)
 
 private fun ApplicationUser.toGraphQlModel() = User(id.toString(), accountId, name, description)
 

@@ -11,20 +11,33 @@ import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
 import io.ktor.application.Application
 import io.ktor.application.install
-import io.ktor.auth.authenticate
 import io.ktor.sessions.get
 import io.ktor.sessions.sessions
 import org.koin.ktor.ext.inject
+
+data class Server(
+    val id: String,
+    val createdAt: Long,
+    val ownerId: String,
+    val name: String,
+    val host: String?,
+    val port: Int?,
+    val description: String
+)
+
+data class User(
+    val id: String,
+    val accountId: String,
+    val name: String,
+    val description: String
+)
 
 /**
  * GraphQL用のビルダ
  */
 fun Application.routingGraphQL() = install(GraphQL) {
     playground = true
-
-    wrap {
-        authenticate("auth-session", optional = true, build = it)
-    }
+    endpoint = "/graphql"
 
     context { call ->
         // AuthSession所有時にコンテキストへ追加
@@ -35,6 +48,8 @@ fun Application.routingGraphQL() = install(GraphQL) {
 
     schema {
         type<PageRequest>()
+        type<Server>()
+        type<User>()
         enum<Sort>()
         enum<OrderBy>()
 

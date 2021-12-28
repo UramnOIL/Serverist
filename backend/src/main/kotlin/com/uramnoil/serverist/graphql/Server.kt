@@ -5,21 +5,10 @@ import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import com.uramnoil.serverist.application.OrderBy
 import com.uramnoil.serverist.application.Sort
 import com.uramnoil.serverist.presenter.ServerController
-import kotlinx.serialization.Serializable
+import com.uramnoil.serverist.routing.Server
 import java.util.UUID
 import java.util.UUID.fromString
 import com.uramnoil.serverist.serverist.application.server.Server as ApplicationServer
-
-@Serializable
-private data class Server(
-    val id: String,
-    val createdAt: Long,
-    val ownerId: String,
-    val name: String,
-    val host: String?,
-    val port: Int?,
-    val description: String
-)
 
 private fun ApplicationServer.toGraphQlModel() = Server(
     id = id.toString(),
@@ -47,7 +36,17 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
                 sort = sort ?: Sort.Asc,
                 orderBy = orderBy ?: OrderBy.CreatedAt
             )
-            result.getOrThrow().map { it.toGraphQlModel() }
+
+            println(result.exceptionOrNull()?.message)
+
+            result.getOrNull()?.forEach {
+                println(it.description)
+            }
+
+            result.getOrNull()?.map {
+                println(it.name)
+                it.toGraphQlModel()
+            } ?: listOf()
         }
     }
 
@@ -59,7 +58,8 @@ fun SchemaBuilder.serverSchema(controller: ServerController) {
                 sort = sort ?: Sort.Asc,
                 orderBy = orderBy ?: OrderBy.CreatedAt
             )
-            result.getOrThrow().map { it.toGraphQlModel() }
+            val servers = result.getOrNull() ?: listOf()
+            servers.map { it.toGraphQlModel() }
         }
     }
 
