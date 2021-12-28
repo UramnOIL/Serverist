@@ -109,7 +109,8 @@ fun main() {
                 val signInUseCaseInputPort = SignInUseCaseInteractor(
                     coroutineContext,
                     host,
-                    httpClient
+                    httpClient,
+                    sessionId,
                 ) {
                     it.result.fold(
                         {

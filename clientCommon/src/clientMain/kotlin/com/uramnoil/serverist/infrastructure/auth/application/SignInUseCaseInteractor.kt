@@ -1,6 +1,7 @@
 package com.uramnoil.serverist.infrastructure.auth.application
 
 import com.benasher44.uuid.uuidFrom
+import com.uramnoil.serverist.SessionId
 import com.uramnoil.serverist.application.auth.SignInUseCaseInput
 import com.uramnoil.serverist.application.auth.SignInUseCaseInputPort
 import com.uramnoil.serverist.application.auth.SignInUseCaseOutput
@@ -26,6 +27,7 @@ class SignInUseCaseInteractor(
     private val coroutineContext: CoroutineContext,
     private val host: String,
     private val httpClient: HttpClient,
+    private val sessionId: SessionId,
     private val outputPort: SignInUseCaseOutputPort,
 ) : SignInUseCaseInputPort {
     @Serializable
@@ -45,6 +47,7 @@ class SignInUseCaseInteractor(
             }.execute()
             val result = when (response.status) {
                 HttpStatusCode.OK -> {
+                    sessionId.sessionId = response.headers["Auth"]
                     val text = response.receive<String>()
                     Result.success(uuidFrom(text))
                 }
