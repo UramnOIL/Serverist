@@ -28,7 +28,6 @@ kotlin {
                 implementation(libs.kotlinx.serialization)
                 implementation(libs.kotlinx.datatime)
 
-
                 implementation(libs.napier)
                 implementation(libs.bundles.ktor.client)
                 implementation(libs.apollo.api)
@@ -47,7 +46,6 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(project(":application"))
-
             }
         }
 

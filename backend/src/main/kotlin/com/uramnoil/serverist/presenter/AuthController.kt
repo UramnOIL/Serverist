@@ -29,10 +29,10 @@ class AuthController(
     private val withdrawUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: WithdrawUseCaseOutputPort) -> WithdrawUseCaseInputPort,
 ) {
     @OptIn(ExperimentalTime::class)
-            /**
-             * サインアップ
-             * メール認証あり
-             */
+    /**
+     * サインアップ
+     * メール認証あり
+     */
     fun signUp(call: ApplicationCall, coroutineContext: CoroutineContext, outputPort: SignUpUseCaseOutputPort) {
         @Serializable
         data class EmailAndPassword(val email: String, val password: String)

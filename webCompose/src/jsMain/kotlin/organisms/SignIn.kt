@@ -9,7 +9,7 @@ import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
@@ -19,7 +19,7 @@ fun SignIn(signIn: (email: String, password: String) -> Unit, error: Throwable? 
     var password by remember { mutableStateOf("") }
 
     Div {
-        H1 { Text("Sign In") }
+        H2 { Text("Sign In") }
 
         Div {
             Text("E-Mail")

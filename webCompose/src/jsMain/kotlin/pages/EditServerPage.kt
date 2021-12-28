@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
@@ -40,7 +40,7 @@ fun EditServerPage(id: Uuid, controller: EditServerController, viewModel: EditSe
     }
 
     Div {
-        H1 { Text("Edit Server") }
+        H2 { Text("Edit Server") }
         Div {
             Text("Name")
             Input(InputType.Text) {

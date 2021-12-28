@@ -182,9 +182,9 @@ class ServerTest : FunSpec({
                 val row = transaction {
                     Servers.select {
                         (Servers.name eq createName) and
-                                (Servers.description eq createDescription) and
-                                (Servers.host eq createHost) and
-                                (Servers.port eq createPort)
+                            (Servers.description eq createDescription) and
+                            (Servers.host eq createHost) and
+                            (Servers.port eq createPort)
                     }.firstOrNull()
                 }
                 row.shouldNotBeNull()

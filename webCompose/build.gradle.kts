@@ -27,7 +27,6 @@ kotlin {
 }
 
 compose {
-
 }
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {

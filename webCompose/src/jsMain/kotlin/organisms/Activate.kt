@@ -9,7 +9,7 @@ import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
@@ -21,7 +21,7 @@ fun Activate(activate: (email: String, activationCode: String) -> Unit, error: T
     val isCorrectActivationCode = activationCode.length == 6
 
     Div {
-        H1 { Text("Activation") }
+        H2 { Text("Activation") }
 
         Div {
             Text("E-Mail")

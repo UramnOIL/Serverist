@@ -9,7 +9,7 @@ import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
@@ -26,7 +26,7 @@ fun SignUp(signUp: (email: String, password: String) -> Unit, error: Throwable? 
     isCorrectFormattedPassword = regex.matches(password)
 
     Div {
-        H1 { Text("Sign Up") }
+        H2 { Text("Sign Up") }
 
         error?.run {
             P { Text(message ?: "Unknown Error") }

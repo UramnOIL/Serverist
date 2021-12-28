@@ -7,7 +7,7 @@ import com.uramnoil.serverist.presentation.SearchServersController
 import com.uramnoil.serverist.presentation.ServersViewModel
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
@@ -15,7 +15,7 @@ fun SearchServersPage(controller: SearchServersController, viewModel: ServersVie
     val servers by viewModel.serversFlow.collectAsState()
 
     Div {
-        H1 { Text("Search servers") }
+        H2 { Text("Search servers") }
         Div {
             Button(
                 attrs = {
@@ -26,12 +26,14 @@ fun SearchServersPage(controller: SearchServersController, viewModel: ServersVie
             }
         }
 
-        servers.forEach {
-            Div {
-                Text(it.name)
+        Div {
+            servers.forEach {
                 Div {
-                    Text(it.host ?: "N/A")
-                    Text(it.port?.toString() ?: "N/A")
+                    Text(it.name)
+                    Div {
+                        Text(it.host ?: "N/A")
+                        Text(it.port?.toString() ?: "N/A")
+                    }
                 }
             }
         }
