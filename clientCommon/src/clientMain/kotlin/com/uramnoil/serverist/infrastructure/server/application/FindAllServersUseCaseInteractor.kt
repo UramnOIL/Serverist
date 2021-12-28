@@ -2,6 +2,7 @@ package com.uramnoil.serverist.infrastructure.server.application
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.annotations.ApolloExperimental
+import com.apollographql.apollo3.api.ApolloResponse
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.FindAllServersQuery
 import com.uramnoil.serverist.application.server.FindAllServersUseCaseInput
@@ -13,8 +14,9 @@ import com.uramnoil.serverist.serverist.application.server.Server
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
@@ -22,7 +24,7 @@ class FindAllServersUseCaseInteractor(
     coroutineContext: CoroutineContext,
     private val apolloClient: ApolloClient,
     private val outputPort: FindAllServersUseCaseOutputPort
-) : FindAllServersUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext) {
+) : FindAllServersUseCaseInputPort, CoroutineScope by CoroutineScope(coroutineContext + SupervisorJob()) {
     override fun execute(input: FindAllServersUseCaseInput) {
         launch {
             val result = runCatching {
@@ -33,41 +35,44 @@ class FindAllServersUseCaseInteractor(
                         orderBy = orderBy.toApollo()
                     )
                 }
-                val response = apolloClient.query(query).execute()
-
-                // GraphQL Error
-                response.errors?.run {
-                    forEach {
-                        Napier.e(it.message)
-                    }
-                    outputPort.handle(FindAllServersUseCaseOutput(Result.failure(RuntimeException("Errors returned."))))
-                    return@launch
-                }
-
-                val data = response.data
-
-                data ?: run {
-                    // Data is null
-                    outputPort.handle(FindAllServersUseCaseOutput(Result.failure(IllegalStateException("No data returned."))))
-                    return@launch
-                }
-
-                data.findServers.map {
-                    it.run {
-                        Server(
-                            id = uuidFrom(id),
-                            createdAt = Clock.System.now(), // FIXME: GraphQLの型を変更する
-                            ownerId = uuidFrom(ownerId),
-                            name = name,
-                            host = host,
-                            port = port,
-                            description = description
-                        )
-                    }
-                }
+                apolloClient.query(query).execute()
             }
 
-            outputPort.handle(FindAllServersUseCaseOutput(result))
+            outputPort.handle(FindAllServersUseCaseOutput(transform(result)))
         }
+    }
+
+    private fun transform(result: Result<ApolloResponse<FindAllServersQuery.Data>>): Result<List<Server>> {
+        val response = result.getOrElse { return Result.failure(it) }
+
+        response.errors?.run {
+            forEach {
+                Napier.e(it.message)
+            }
+            return Result.failure(RuntimeException("Errors returned."))
+        }
+
+        val data = response.data
+
+        data ?: run {
+            // Data is null
+            return Result.failure(IllegalStateException("No data returned."))
+        }
+
+        val servers = data.findServers.map {
+            it.run {
+                Server(
+                    id = uuidFrom(id),
+                    createdAt = Instant.fromEpochMilliseconds(createdAt as Long), // FIXME: GraphQLの型を変更する
+                    ownerId = uuidFrom(ownerId),
+                    name = name,
+                    host = host,
+                    port = port,
+                    description = description
+                )
+            }
+        }
+
+        return Result.success(servers)
     }
 }
