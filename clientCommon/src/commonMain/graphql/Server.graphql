@@ -15,12 +15,13 @@ query FindAllServers($sort: Sort!, $orderBy: OrderBy!) {
         sort: $sort
         orderBy: $orderBy
     ) {
-        id,
-        name,
-        ownerId,
-        host,
-        port,
-        description,
+        id
+        createdAt
+        name
+        ownerId
+        host
+        port
+        description
     }
 }
 
@@ -30,11 +31,12 @@ query FindServersByOwner($uuid: String!, $sort: Sort, $orderBy: OrderBy) {
         sort: $sort
         orderBy: $orderBy
     ) {
-        id,
-        name,
-        ownerId,
-        host,
-        port,
-        description,
+        id
+        createdAt
+        name
+        ownerId
+        host
+        port
+        description
     }
 }
