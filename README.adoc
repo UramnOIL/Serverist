@@ -54,7 +54,7 @@ NOTE: 本プロジェクトでは、``:application``サブプロジェクトで�
 
 https://qiita.com/UramnOIL/items/94daff83e1dc85283882
 
-==== サーバーサイド``The Clean Architecture``は難しい
+==== サーバーサイド「The Clean Architecture」は難しい
 
 　サーバーサイドでの厳密なクリーンアーキテクチャは、フレームワークが対応していない限りは実装が困難である。
 
