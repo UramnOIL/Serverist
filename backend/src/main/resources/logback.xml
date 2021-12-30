@@ -1,5 +1,5 @@
 <configuration>
-    <property name="logDir" value="/etc/serverist/log"/>
+    <property name="logDir" value="~/.serverist/log"/>
     <!-- コンソール出力用設定 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
