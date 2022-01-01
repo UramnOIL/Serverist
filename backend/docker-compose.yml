@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  serverist:
+    build: .
+    volumes:
+      - ./data/serverist/log:/var/lib/serverist
+
+  mailserver:
+    image: boky/postfix
+    environment:
+      ALLOWED_SENDER_DOMAINS: 'serverist.uramnoil.com'
+      RELAYHOST: Host that relays your msgs
+
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: serverist
+      MYSQL_USER: develop
+      MYSQL_PASSWORD: develop
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/var/lib/mysql
