@@ -7,3 +7,13 @@
 *.ipr
 *.iws
 /docker/**/data/
+
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
