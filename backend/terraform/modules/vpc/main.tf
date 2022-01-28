@@ -1,6 +1,6 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.1.0"
+  version = "3.11.4"
 
   name = "sample-vpc"
   cidr = "10.0.0.0/16"
@@ -10,8 +10,8 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
 
   enable_nat_gateway = true
-  single_nat_gateway = true    # 検証用なのでコストを抑えるためNATGatewayは１つにする
-  enable_vpn_gateway = false    # 今回必要ないためfalse
+  single_nat_gateway = true
+  enable_vpn_gateway = false
 
   tags = {
     Terraform   = "true"
