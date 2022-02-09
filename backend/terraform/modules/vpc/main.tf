@@ -1,3 +1,7 @@
+locals {
+  serverist_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.11.4"
@@ -5,9 +9,8 @@ module "vpc" {
   name = "sample-vpc"
   cidr = "10.0.0.0/16"
 
-  azs             = ["ap-northeast-3a", "ap-northeast-3b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+  azs            = ["ap-northeast-1a", "ap-northeast-1c", "ap-northeast-1d"]
+  public_subnets = merge(local.serverist_subnets)
 
   enable_nat_gateway = true
   single_nat_gateway = true

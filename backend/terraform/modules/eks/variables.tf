@@ -1,2 +1,8 @@
-variable "vpc_id" {}
-variable "private_subnets" {}
+variable "vpc_id" {
+  description = "AWS VPCのID"
+  type        = string
+}
+variable "subnets" {
+  description = "所属するサブネットのリスト"
+  type        = list(string)
+}
