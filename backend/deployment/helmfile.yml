@@ -1,0 +1,14 @@
+repositories:
+  # To use official "stable" charts a.k.a https://github.com/helm/charts/tree/master/stable
+  - name: stable
+    url: https://charts.helm.sh/stable
+  # To use official "incubator" charts a.k.a https://github.com/helm/charts/tree/master/incubator
+  - name: incubator
+    url: https://charts.helm.sh/incubator
+release:
+  - name: nginx-ingress-controller
+    chart: bitnami/nginx-ingress-controller
+    namespace: kube-system
+    version: 7.6.21
+    values:
+      - nginx-ingress-controller/values-{{`{{ .Environment.Name }}`}}.yaml
