@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: serverist
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: servierst
+    spec:
+      containers:
+        - name: backernd
+---
