@@ -73,3 +73,7 @@ https://qiita.com/UramnOIL/items/94daff83e1dc85283882
 　ViewModelを介さない独立したPresenterクラスの作成はViewの操作に手間がかかるため、OutputPortを無名オブジェクトかFun Interfaceを使って外部の変数をキャプチャすると記述が楽になる。
 
 　ViewModelを介した操作も、状態の変更のみではなく直接Viewを操作する場合で課題が残るので、今後解消していきたい。
+
+==== コンテキスト間の関係性の表現
+
+IDDDでは識別子を共有してもいいらしい。一文のみ
