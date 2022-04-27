@@ -36,7 +36,7 @@ class ActivateUseCaseInteractor(
                 }
                 val user = row?.toApplicationUnauthenticatedUser()
 
-                user ?: throw IllegalArgumentException("Illegal activation code")
+                require(user != null) { "Illegal activation code" }
 
                 // AuthenticatedUser作成ステップ
 

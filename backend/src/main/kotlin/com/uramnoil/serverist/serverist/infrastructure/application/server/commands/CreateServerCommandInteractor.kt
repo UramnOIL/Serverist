@@ -36,7 +36,7 @@ class CreateServerCommandInteractor(
             val findByIdResult = userRepository.findById(Id(ownerId))
 
             val result: Result<Server> = findByIdResult.mapCatching { user ->
-                user ?: throw IllegalArgumentException("id: ${ownerId}のユーザー見つかりませんでした。")
+                require(user != null) { "id: ${ownerId}のユーザー見つかりませんでした。" }
 
                 val server = DomainServer(
                     Id(UUID.randomUUID()),

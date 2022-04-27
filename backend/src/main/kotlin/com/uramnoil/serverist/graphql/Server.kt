@@ -22,7 +22,7 @@ private fun ApplicationServer.toGraphQlModel() = Server(
 
 fun SchemaBuilder.serverSchema(controller: ServerController) {
     suspend fun checkOwner(userId: UUID, serverId: UUID) {
-        require (!(!controller.checkUserIsOwnerOfServer(userId, serverId).getOrThrow())) { "権限がありません。" } 
+        require(!controller.checkUserIsOwnerOfServer(userId, serverId).getOrThrow()) { "権限がありません。" } 
     }
 
     query("findServersByOwner") {

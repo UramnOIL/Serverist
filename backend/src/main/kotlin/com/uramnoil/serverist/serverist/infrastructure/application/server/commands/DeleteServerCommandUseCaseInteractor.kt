@@ -17,7 +17,8 @@ class DeleteServerCommandUseCaseInteractor(
     override fun execute(id: UUID) {
         CoroutineScope(coroutineContext).launch {
             val findByIdResult = repository.findById(Id(id)).mapCatching {
-                it ?: throw IllegalArgumentException("id: ${id}のサーバーが見つかりませんでした。")
+                require(it != null) { "id: ${id}のサーバーが見つかりませんでした。" }
+                it
             }
             val deleteResult = findByIdResult.mapCatching {
                 repository.delete(it).getOrThrow()
