@@ -32,7 +32,7 @@ class SignUpUseCaseInteractor(
                     AuthenticatedUsers.select { AuthenticatedUsers.email eq email }.firstOrNull()
                 }
 
-                if (row != null) throw IllegalArgumentException("This email is already used.")
+                require (row == null) { "This email is already used." }
 
                 val newPassword = Password(password)
 

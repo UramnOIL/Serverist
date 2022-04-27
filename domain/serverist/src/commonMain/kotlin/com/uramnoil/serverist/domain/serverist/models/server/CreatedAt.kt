@@ -5,6 +5,6 @@ import kotlinx.datetime.Instant
 
 data class CreatedAt(val value: Instant) {
     init {
-        if (value > Clock.System.now()) throw IllegalArgumentException("Only the present or past can be substituted.")
+        require (value <= Clock.System.now()) { "Only the present or past can be substituted." }
     }
 }
