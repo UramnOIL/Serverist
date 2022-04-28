@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":backend:kernel"))
+    implementation(project(":backend:common"))
 
     // kotlin
     implementation(libs.kotlinx.coroutines)

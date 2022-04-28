@@ -54,5 +54,5 @@ include(
     "backend",
     "backend:auth",
     "backend:serverist",
-    "backend:kernel",
+    "backend:common",
 )

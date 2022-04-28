@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.kernel.domain.exception
+package com.uramnoil.serverist.common.domain.exception
 
 open class NotFoundException(message: String) : Exception(message)
 

@@ -28,6 +28,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":backend:common"))
+
     // kotlin
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.serialization)

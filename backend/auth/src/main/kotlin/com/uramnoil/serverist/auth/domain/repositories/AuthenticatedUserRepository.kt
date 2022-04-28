@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.domain.repositories
 
 import com.uramnoil.serverist.auth.domain.models.authenticated.AuthenticatedUser
-import com.uramnoil.serverist.domain.common.user.Id
+import com.uramnoil.serverist.common.domain.models.kernel.UserId
 
 /**
  * Authenticated User用のリポジトリ
@@ -31,8 +31,8 @@ interface AuthenticatedUserRepository {
 
     /**
      * Idで検索
-     * @param id    目的のユーザのID
+     * @param userId    目的のユーザのID
      * @return データベース・通信系のエラー
      */
-    suspend fun findById(id: Id): Result<AuthenticatedUser?>
+    suspend fun findById(userId: UserId): Result<AuthenticatedUser?>
 }

@@ -28,10 +28,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":domain:common"))
-    implementation(project(":domain:auth"))
-    implementation(project(":domain:serverist"))
-
     implementation(project(":application", "serverJvmRuntimeElements"))
 
     // kotlin
@@ -58,6 +54,9 @@ dependencies {
     implementation(libs.springboot.starter.security)
     implementation(libs.springboot.starter.mail)
     implementation(libs.springboot.starter.data.redis)
+    implementation("io.ktor:ktor-server-status-pages:2.0.0")
+    implementation("io.ktor:ktor-server-call-logging:2.0.0")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.0")
 
     // kotest
     testImplementation(libs.test.kotest.property)
