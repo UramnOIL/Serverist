@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.domain.serverist.models.user
 
-import com.uramnoil.serverist.domain.common.user.Id
+import com.uramnoil.serverist.kernel.domain.user.Id
 
 class User private constructor(
     val id: Id,
