@@ -48,3 +48,11 @@ include(
     ":backend",
     ":react"
 )
+
+include(
+    "composejb",
+    "backend",
+    "backend:auth",
+    "backend:serverist",
+    "backend:kernel",
+)
