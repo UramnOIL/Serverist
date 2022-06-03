@@ -12,12 +12,12 @@ class CreatedAtTest : FunSpec({
     context("正常系") {
         test("現在") {
             shouldNotThrow<IllegalArgumentException> {
-                com.uramnoil.serverist.serverist.domain.models.server.CreatedAt(Clock.System.now())
+                com.uramnoil.serverist.serverist.domain.models.server.DateTime(Clock.System.now())
             }
         }
         test("過去") {
             shouldNotThrow<IllegalArgumentException> {
-                com.uramnoil.serverist.serverist.domain.models.server.CreatedAt(
+                com.uramnoil.serverist.serverist.domain.models.server.DateTime(
                     Clock.System.now() - Duration.Companion.days(
                         1
                     )
@@ -29,7 +29,7 @@ class CreatedAtTest : FunSpec({
     context("異常系") {
         test("未来") {
             shouldThrow<IllegalArgumentException> {
-                com.uramnoil.serverist.serverist.domain.models.server.CreatedAt(
+                com.uramnoil.serverist.serverist.domain.models.server.DateTime(
                     Clock.System.now() + Duration.Companion.minutes(
                         1
                     )

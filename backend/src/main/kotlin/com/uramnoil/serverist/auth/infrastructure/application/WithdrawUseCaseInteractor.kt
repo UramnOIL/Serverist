@@ -1,6 +1,6 @@
 package com.uramnoil.serverist.auth.infrastructure.application
 
-import com.benasher44.uuid.Uuid
+import java.util.UUID
 import com.uramnoil.serverist.auth.application.WithdrawUseCaseInputPort
 import com.uramnoil.serverist.auth.application.WithdrawUseCaseOutputPort
 import com.uramnoil.serverist.domain.auth.authenticated.repositories.UserRepository

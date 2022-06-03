@@ -9,10 +9,10 @@ import com.uramnoil.serverist.auth.application.SignUpUseCaseOutputPort
 import com.uramnoil.serverist.auth.application.SingInUseCaseInputPort
 import com.uramnoil.serverist.auth.application.WithdrawUseCaseInputPort
 import com.uramnoil.serverist.auth.application.WithdrawUseCaseOutputPort
-import io.ktor.application.ApplicationCall
-import io.ktor.request.receive
-import io.ktor.sessions.get
-import io.ktor.sessions.sessions
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.request.receive
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
@@ -29,10 +29,10 @@ class AuthController(
     private val withdrawUseCaseInputPortFactory: (coroutineContext: CoroutineContext, outputPort: WithdrawUseCaseOutputPort) -> WithdrawUseCaseInputPort,
 ) {
     @OptIn(ExperimentalTime::class)
-    /**
-     * サインアップ
-     * メール認証あり
-     */
+            /**
+             * サインアップ
+             * メール認証あり
+             */
     fun signUp(call: ApplicationCall, coroutineContext: CoroutineContext, outputPort: SignUpUseCaseOutputPort) {
         @Serializable
         data class EmailAndPassword(val email: String, val password: String)

@@ -1,6 +1,6 @@
 package com.uramnoil.serverist
 
-import io.ktor.sessions.SessionStorage
+import io.ktor.server.sessions.SessionStorage
 import io.ktor.util.cio.toByteArray
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel

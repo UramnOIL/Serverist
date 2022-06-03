@@ -9,10 +9,10 @@ import com.uramnoil.serverist.graphql.serverSchema
 import com.uramnoil.serverist.graphql.userSchema
 import com.uramnoil.serverist.presenter.ServerController
 import com.uramnoil.serverist.presenter.UserController
-import io.ktor.application.Application
-import io.ktor.application.install
-import io.ktor.sessions.get
-import io.ktor.sessions.sessions
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
 import org.koin.ktor.ext.inject
 
 data class Server(

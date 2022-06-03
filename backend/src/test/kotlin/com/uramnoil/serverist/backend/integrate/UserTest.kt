@@ -10,8 +10,8 @@ import com.uramnoil.serverist.serverist.infrastructure.toApplicationUser
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.ktor.application.Application
-import io.ktor.config.MapApplicationConfig
+import io.ktor.server.application.Application
+import io.ktor.server.config.MapApplicationConfig
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod

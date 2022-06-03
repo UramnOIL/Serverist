@@ -9,8 +9,8 @@ import com.uramnoil.serverist.serverist.infrastructure.toJavaLocalDataTime
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.ktor.application.Application
-import io.ktor.config.MapApplicationConfig
+import io.ktor.server.application.Application
+import io.ktor.server.config.MapApplicationConfig
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -182,9 +182,9 @@ class ServerTest : FunSpec({
                 val row = transaction {
                     Servers.select {
                         (Servers.name eq createName) and
-                            (Servers.description eq createDescription) and
-                            (Servers.host eq createHost) and
-                            (Servers.port eq createPort)
+                                (Servers.description eq createDescription) and
+                                (Servers.host eq createHost) and
+                                (Servers.port eq createPort)
                     }.firstOrNull()
                 }
                 row.shouldNotBeNull()
