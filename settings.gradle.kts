@@ -30,13 +30,6 @@ pluginManagement {
 }
 
 include(
-    ":domain",
-    ":domain:common",
-    ":domain:auth",
-    ":domain:serverist",
-)
-
-include(
     ":application",
 )
 
