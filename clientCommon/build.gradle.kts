@@ -59,16 +59,7 @@ kotlin {
             }
         }
 
-        val clientMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(project(":application"))
-
-            }
-        }
-
         val composeMain by creating {
-            dependsOn(clientMain)
             dependencies {
                 dependencies {
                     implementation(compose.runtime)
