@@ -1,7 +1,7 @@
 package com.uramnoil.serverist.auth.domain.services
 
-import com.uramnoil.serverist.auth.domain.models.Password
-import com.uramnoil.serverist.auth.domain.models.HashedPassword
+import com.uramnoil.serverist.auth.domain.models.user.HashedPassword
+import com.uramnoil.serverist.auth.domain.models.user.Password
 
 /**
  * パスワードのハッシュと評価

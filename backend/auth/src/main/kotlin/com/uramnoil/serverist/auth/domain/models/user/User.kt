@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.auth.domain.models.authenticated
+package com.uramnoil.serverist.auth.domain.models.user
 
 import com.uramnoil.serverist.common.domain.models.kernel.UserId
 
@@ -9,10 +9,10 @@ import com.uramnoil.serverist.common.domain.models.kernel.UserId
  * @param email
  * @param hashedPassword
  */
-class AuthenticatedUser private constructor(
+class User private constructor(
     val userId: UserId,
-    var email: com.uramnoil.serverist.auth.domain.models.Email,
-    var hashedPassword: com.uramnoil.serverist.auth.domain.models.HashedPassword,
+    var email: Email,
+    var hashedPassword: HashedPassword,
 ) {
     companion object {
         /**
@@ -20,10 +20,10 @@ class AuthenticatedUser private constructor(
          */
         fun new(
             userId: UserId,
-            email: com.uramnoil.serverist.auth.domain.models.Email,
-            hashedPassword: com.uramnoil.serverist.auth.domain.models.HashedPassword,
+            email: Email,
+            hashedPassword: HashedPassword,
         ) = kotlin.runCatching {
-            AuthenticatedUser(
+            User(
                 userId,
                 email,
                 hashedPassword,

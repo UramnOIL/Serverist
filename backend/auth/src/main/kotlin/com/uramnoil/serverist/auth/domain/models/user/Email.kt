@@ -1,4 +1,4 @@
-package com.uramnoil.serverist.auth.domain.models
+package com.uramnoil.serverist.auth.domain.models.user
 
 /**
  * Email Value Object
