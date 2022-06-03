@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import com.benasher44.uuid.uuidFrom
 import com.uramnoil.serverist.presentation.SearchServersController
 import com.uramnoil.serverist.presentation.ServersViewModel
-import com.uramnoil.serverist.serverist.application.server.Server
+import com.uramnoil.serverist.application.server.Server
 import kotlinx.datetime.Clock
 
 @Composable

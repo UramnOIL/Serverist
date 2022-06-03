@@ -21,6 +21,16 @@ kotlin {
         }
     }
 
+    val coroutinesVersion: String by project
+    val serializationVersion: String by project
+    val datetimeVersion: String by project
+
+    val napierVersion: String by project
+    val ktorVersion: String by project
+    val apolloVersion: String by project
+    val kotestVersion: String by project
+    val koinVersion: String by project
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -42,15 +52,7 @@ kotlin {
             }
         }
 
-        val clientMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(project(":application"))
-            }
-        }
-
         val composeMain by creating {
-            dependsOn(clientMain)
             dependencies {
                 dependencies {
                     implementation(compose.runtime)
