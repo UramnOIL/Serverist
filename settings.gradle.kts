@@ -30,10 +30,6 @@ pluginManagement {
 }
 
 include(
-    ":application",
-)
-
-include(
     "client",
     "client:compose"
 )

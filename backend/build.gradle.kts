@@ -28,8 +28,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":application", "serverJvmRuntimeElements"))
-
     // kotlin
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.serialization)
