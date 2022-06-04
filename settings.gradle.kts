@@ -34,16 +34,11 @@ include(
 )
 
 include(
-    ":clientCommon",
-    ":backend",
-    ":webCompose",
-    ":webReact",
-    ":backend",
-    ":react"
+    "client",
+    "client:compose"
 )
 
 include(
-    "composejb",
     "backend",
     "backend:auth",
     "backend:serverist",
