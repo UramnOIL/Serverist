@@ -24,20 +24,21 @@ repositories {
 dependencies {
     val kotlinVersion: String by project
     val coroutinesVersion: String by project
-    val datetimeVersion: String by project
     val ktorVersion: String by project
     val logbackVersion: String by project
     val kgraphqlVersion: String by project
     val kodeinVersion: String by project
     val exposedVersion: String by project
     val springBootVersion: String by project
-    val uuidVersion: String by project
 
+    implementation(project(":domain:common"))
+    implementation(project(":domain:auth"))
+    implementation(project(":domain:user"))
+    implementation(project(":domain:server"))
     implementation(project(":application"))
 
     implementation(kotlin("stdlib:$kotlinVersion"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
 
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
@@ -61,8 +62,6 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("com.h2database:h2:1.4.200")
-
-    implementation("com.benasher44:uuid:${uuidVersion}")
 }
 
 tasks.withType<Jar> {
